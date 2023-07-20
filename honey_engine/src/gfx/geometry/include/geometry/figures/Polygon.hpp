@@ -19,7 +19,7 @@ public:
     bool isPointInside(const geometry::Point2Df& point) const;
 
     void setSize(const geometry::Size2Df& size) {};
-    const geometry::Size2Df& getSize() const { return m_size; };
+    const geometry::Size2Df getSize() const { return m_size; };
 
 public:
     void addPoint(const geometry::Point2Df point);

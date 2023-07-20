@@ -30,11 +30,12 @@ public:
     bool isPointInside(const geometry::Point2Df&) const override;
 
 public:
-    void setSize(const geometry::Size2Df& size) override;
-    const geometry::Size2Df& getSize() const override;
+    void setSize(const geometry::Size2Df& size);
+    const geometry::Size2Df getSize() const;
 
 private:
     geometry::Size2Df m_size;
+
 
 friend bool operator ==(const Rectangle& left, const Rectangle& right)
 {

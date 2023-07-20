@@ -31,7 +31,7 @@ geometry::Point2Df Polygon::getPoint(const std::size_t index) const
         std::advance(it, index);
         return *it;
     }
-    // LOG_WARNING << "Wrong point index: [" << index << "]. Return default point {0. 0}";
+    throw std::out_of_range("Given index is not correctly");
     return geometry::Point2Df();
 }
 

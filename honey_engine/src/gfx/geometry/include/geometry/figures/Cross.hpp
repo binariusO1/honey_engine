@@ -22,21 +22,22 @@ public:
     Cross(const float arm);
 
 public:
-    std::size_t getNumOfPoints() const;
-    geometry::Point2Df getCenterPoint() const;
-    geometry::Point2Df getPoint(const std::size_t index) const;
-    bool isPointInside(const geometry::Point2Df& point) const;
+    std::size_t getNumOfPoints() const override;
+    geometry::Point2Df getCenterPoint() const override;
+    geometry::Point2Df getPoint(const std::size_t index) const override;
+    const geometry::Size2Df getSize() const override;
 
-    void setSize(const geometry::Size2Df& size) {};
-    const geometry::Size2Df& getSize() const { return m_size; };
+    bool isPointInside(const geometry::Point2Df& point) const override;
 
 public:
-    void setSize(const float arm);
     float getArmLenght() const;
 
-private:
+    void setSize(const float arm);
     float m_arm;
-    geometry::Size2Df m_size{};
+private:
+    void setSize(const geometry::Size2Df& size) override;
+
+
 };
 
 } // namespace figures

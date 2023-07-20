@@ -7,35 +7,25 @@ namespace figures
 ////////////////////////////////////////////////////////////
 Rectangle::Rectangle()
 {
-    // LOG_MEMORY << LOG_CONSTRUCTOR;
-}
-
-
-////////////////////////////////////////////////////////////
-Rectangle::Rectangle(const float side)
-{
-#if RECTANGLE_ENABLE_DEBUG_MODE
-    LOG_MEMORY << LOG_CONSTRUCTOR;
-#endif
-    setSize({side, side});
 }
 
 
 ////////////////////////////////////////////////////////////
 Rectangle::~Rectangle()
 {
-#if RECTANGLE_ENABLE_DEBUG_MODE
-    LOG_MEMORY << LOG_DESTRUCTOR;
-#endif
+}
+
+
+////////////////////////////////////////////////////////////
+Rectangle::Rectangle(const float side)
+{
+    setSize({side, side});
 }
 
 
 ////////////////////////////////////////////////////////////
 Rectangle::Rectangle(const geometry::Size2Df& size)
 {
-#if RECTANGLE_ENABLE_DEBUG_MODE
-    LOG_MEMORY << LOG_COPY_CONSTRUCTOR;
-#endif
     setSize(size);
 }
 
@@ -43,24 +33,7 @@ Rectangle::Rectangle(const geometry::Size2Df& size)
 ////////////////////////////////////////////////////////////
 Rectangle::Rectangle(const Rectangle& copy)
 {
-#if RECTANGLE_ENABLE_DEBUG_MODE
-    LOG_MEMORY << LOG_COPY_CONSTRUCTOR;
-#endif
     m_size = copy.m_size;
-}
-
-
-////////////////////////////////////////////////////////////
-void Rectangle::setSize(const geometry::Size2Df& size)
-{
-    m_size = size;
-}
-
-
-////////////////////////////////////////////////////////////
-const geometry::Size2Df& Rectangle::getSize() const
-{
-    return m_size;
 }
 
 
@@ -93,7 +66,6 @@ geometry::Point2Df Rectangle::getPoint(const std::size_t index) const
             return geometry::Point2Df(0.0f, static_cast<float>(m_size.height));
         default:
             throw std::out_of_range("Given index is not correctly");
-            return geometry::Point2Df();
     }
 }
 
@@ -104,5 +76,21 @@ bool Rectangle::isPointInside(const geometry::Point2Df& point) const
     return (point.x >= 0.0f and point.x <= m_size.width) and (point.y >= 0.0f and point.y <= m_size.height);
 
 }
+
+
+////////////////////////////////////////////////////////////
+void Rectangle::setSize(const geometry::Size2Df& size)
+{
+    m_size = size;
+}
+
+
+////////////////////////////////////////////////////////////
+const geometry::Size2Df Rectangle::getSize() const
+{
+    return m_size;
+}
+
+
 } // namespace figures
 } // namespace geometry

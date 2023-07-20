@@ -2,14 +2,13 @@ cmake_minimum_required(VERSION 3.25)
 
 project(honey_engine)
 
-
 #=================================================================
 #	SET
 
 set(EXECUTABLE_NAME "honey_engine")
 set(TEST_NAME_UT "" CACHE STRING "")
 
-set(BUILD_UT OFF)
+set(BUILD_UT ON)
 set(SFML_LIB ON)
 set(GLEW_LIB OFF)
 set(FREEGLUT_LIB OFF)
@@ -19,7 +18,6 @@ set(FREETYPE_LIB ON)
 set( CMAKE_BUILD_TYPE Debug)
 set( CMAKE_CXX_STANDARD 20)
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
-
 
 #=================================================================
 #	FUNCTIONS
@@ -54,7 +52,7 @@ endfunction()
 #	SUBDIRECTORIES
 
 add_subdirectory(src)
-
+set_target_properties(math PROPERTIES LINKER_LANGUAGE CXX)
 
 #=================================================================
 #	LOGIC
@@ -76,21 +74,21 @@ if(SFML_LIB)
 
 	set(SFML_STATIC_LIBRARIES TRUE)
 	# set(SFML_DIR "libs/SFML-2.5.1/lib/cmake/SFML/")
-	set( SFML_DIR "D:/Projects/CPP/games/honey_engine/honey_engine/libs/SFML-2.5.1/lib/cmake/SFML")
+	set( SFML_DIR "D:/Projects/CPP/games/honey_engine/libs/SFML-2.5.1/lib/cmake/SFML")
 	set( SFML_LIBS sfml-system sfml-window sfml-graphics )
 	find_package(SFML 2.5.1 COMPONENTS system window graphics REQUIRED)
 	find_package(Threads REQUIRED)
 
-	target_link_libraries(button PUBLIC ${SFML_LIBS})
-	target_link_libraries(event PUBLIC ${SFML_LIBS})
-	target_link_libraries(sfml2 PUBLIC ${SFML_LIBS})
-	target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${SFML_LIBS})
+	# target_link_libraries(button PUBLIC ${SFML_LIBS})
+	# target_link_libraries(event PUBLIC ${SFML_LIBS})
+	# target_link_libraries(sfml2 PUBLIC ${SFML_LIBS})
+	# target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${SFML_LIBS})
 endif()
 
 if(GLEW_LIB)
 	message([Cmake] " GLEW_LIB= " ${GLEW_LIB})
 
-	# set( GLEW_DEST "D:/Projects/CPP/games/honey_engine/honey_engine/libs/glew-2.1.0")
+	# set( GLEW_DEST "D:/Projects/CPP/games/honey_engine/libs/glew-2.1.0")
 	# set( GLEW_LIBS glew32 )
 	# set( GLEW_STATIC TRUE )
 	# set( GLEWAPI TRUE )
@@ -101,7 +99,7 @@ if(FREEGLUT_LIB)
 
 	set( FREEGLUT_LIBS freeglut )
 	target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${FREEGLUT_LIBS})
-	list(APPEND CXX_FLAGS "-LD:/Projects/CPP/games/honey_engine/honey_engine/libs/freeglut-3.4.0/freeglut/lib")
+	list(APPEND CXX_FLAGS "-LD:/Projects/CPP/games/honey_engine/libs/freeglut-3.4.0/freeglut/lib")
 endif()
 
 if(GLFW_LIB)
@@ -110,7 +108,7 @@ if(GLFW_LIB)
 	set( GLFW_LIBS glfw3 )
 	target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${GLFW_LIBS})
 	# note: place into mingw folders /include and /lib also ( C:\mingw64_posix\x86_64-w64-mingw32\include )
-	# list(APPEND CXX_FLAGS "-LD:/Projects/CPP/games/honey_engine/honey_engine/libs/glfw-3.3.8/glfw/lib")
+	# list(APPEND CXX_FLAGS "-LD:/Projects/CPP/games/honey_engine/libs/glfw-3.3.8/glfw/lib")
 	
 	# list( APPEND CXX_FLAGS "-lglfw3")
 endif()

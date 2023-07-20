@@ -54,7 +54,7 @@ void StretchedHexagon::setSize(const geometry::Size2Df& size)
 
 
 ////////////////////////////////////////////////////////////
-const geometry::Size2Df& StretchedHexagon::getSize() const
+const geometry::Size2Df StretchedHexagon::getSize() const
 {
     return m_size;
 }

@@ -9,7 +9,8 @@
 //         \          /
 //          \        /
 //   (0,0)*  1      2
-///////////////////////////////////////
+////////////////////////////////////////
+
 namespace geometry
 {
 namespace figures
@@ -20,21 +21,22 @@ public:
     Hexagon(const float side);
 
 public:
-    std::size_t getNumOfPoints() const;
-    geometry::Point2Df getCenterPoint() const;
-    geometry::Point2Df getPoint(const std::size_t index) const;
-    bool isPointInside(const geometry::Point2Df& point) const;
+    std::size_t getNumOfPoints() const override;
+    geometry::Point2Df getCenterPoint() const override;
+    geometry::Point2Df getPoint(const std::size_t index) const override;
+    const geometry::Size2Df getSize() const override;
 
-    void setSize(const geometry::Size2Df& size) {};
-    const geometry::Size2Df& getSize() const { return m_size; };
+    bool isPointInside(const geometry::Point2Df& point) const override;
 
 public:
-    void setSize(const float side);
     float getSideLenght() const;
 
+    void setSide(const float side);
+
 private:
+    void setSize(const geometry::Size2Df& size) override;
+
     float m_side;
-    geometry::Size2Df m_size{};
 };
 
 } // namespace figures

@@ -30,7 +30,7 @@ public:
 
 public:
     void setSize(const geometry::Size2Df& size) override;
-    const geometry::Size2Df& getSize() const override;
+    const geometry::Size2Df getSize() const override;
 
 private:
     geometry::Size2Df m_size;

@@ -1,15 +1,8 @@
 #include "geometry/figures/Hexagon.hpp"
 
 #include "math/Constants.hpp"
+#include "math/Functions.hpp"
 
-namespace
-{
-template<typename T>
-T getAbsoluteValue(const T& val)
-{
-    return ((val < 0) ? (val * (-1)) : val);
-}
-} // namespace
 namespace geometry
 {
 namespace figures
@@ -17,21 +10,7 @@ namespace figures
 ////////////////////////////////////////////////////////////
 Hexagon::Hexagon(const float side)
 {
-    setSize(side);
-}
-
-
-////////////////////////////////////////////////////////////
-void Hexagon::setSize(const float side)
-{
-    m_side = side;
-}
-
-
-////////////////////////////////////////////////////////////
-float Hexagon::getSideLenght() const
-{
-    return m_side;
+    setSide(side);
 }
 
 
@@ -68,20 +47,53 @@ geometry::Point2Df Hexagon::getPoint(const std::size_t index) const
             return geometry::Point2Df( m_side * 0.5f , (m_side * MATH_SQRT3) );
         default:
             throw std::out_of_range("Given index is not correctly");
-            return geometry::Point2Df();
     }
+}
+
+
+////////////////////////////////////////////////////////////
+const geometry::Size2Df Hexagon::getSize() const
+{
+    return geometry::Size2Df{getPoint(3).x, getPoint(4).y};
 }
 
 
 ////////////////////////////////////////////////////////////
 bool Hexagon::isPointInside(const geometry::Point2Df& point) const
 {
-    float dx = getAbsoluteValue(point.x - getCenterPoint().x) / (m_side * 2.0f);
-    float dy = getAbsoluteValue(point.y - getCenterPoint().y) / (m_side * 2.0f);
+    float dx = math::getAbsoluteValue(point.x - getCenterPoint().x) / (m_side * 2.0f);
+    float dy = math::getAbsoluteValue(point.y - getCenterPoint().y) / (m_side * 2.0f);
     float a = 0.25f * MATH_SQRT3;
     bool status = (dy <= a) && (a * dx + 0.25f * dy <= 0.5f * a);
     
     return status;
 }
+
+
+////////////////////////////////////////////////////////////
+void Hexagon::setSide(const float side)
+{
+    m_side = side;
+}
+
+
+////////////////////////////////////////////////////////////
+float Hexagon::getSideLenght() const
+{
+    return m_side;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// PRIVATE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////
+void Hexagon::setSize(const geometry::Size2Df& size)
+{
+    throw std::logic_error("Function not inherited");
+}
+
 } // namespace figures
 } // namespace geometry
