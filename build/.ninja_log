@@ -1,0 +1,27 @@
+# ninja log v5
+14	66	7115832731242708	src/gfx/geometry/tests/ut/CMakeFiles/geometry_UT.dir/Point2dTests.cpp.obj	46c8a8b54e41a459
+16	78	7115832731382836	src/gfx/math/libmath.a	dc10b76cd40222dc
+8	609	7115832736557542	src/gfx/geometry/CMakeFiles/geometry.dir/src/Hexagon.cpp.obj	ad6abd6432b01956
+7	647	7115832736927875	src/gfx/geometry/CMakeFiles/geometry.dir/src/Cross.cpp.obj	ab09adde274c0562
+10	662	7115832737098033	src/gfx/geometry/CMakeFiles/geometry.dir/src/StretchedHexagon.cpp.obj	cb32b1242fda447e
+17	730	7115832737898757	src/main/CMakeFiles/honey_engine.dir/src/Main.cpp.obj	51f01638097f1604
+12	736	7115832737918777	src/gfx/geometry/CMakeFiles/geometry.dir/src/Transformable2d.cpp.obj	5b52fdfc27f41f9c
+9	765	7115832738128965	src/gfx/geometry/CMakeFiles/geometry.dir/src/Rectangle.cpp.obj	320c9ae2969e2cf
+13	778	7115832738359182	src/gfx/geometry/CMakeFiles/geometry.dir/src/Utils.cpp.obj	670f958048ff07f0
+9	804	7115832738639428	src/gfx/geometry/CMakeFiles/geometry.dir/src/Polygon.cpp.obj	c70909de387f871a
+730	824	7115832738819594	src/main/honey_engine.exe	c56c81b4c8cbdf31
+11	832	7115832738939705	src/gfx/geometry/CMakeFiles/geometry.dir/src/Transform.cpp.obj	8ec635a4aa4a1974
+832	884	7115832739460177	src/gfx/geometry/libgeometry.a	b573f1d108a90e16
+15	1953	7115832750129879	src/gfx/geometry/tests/ut/CMakeFiles/geometry_UT.dir/Transformable2dTests.cpp.obj	f0268fd35ace512c
+13	2030	7115832750890567	src/gfx/geometry/tests/ut/CMakeFiles/geometry_UT.dir/FiguresTests.cpp.obj	bd942586dd14331b
+18	2040	7115832751010683	UT/ut_main/CMakeFiles/ut_main.dir/ut_main.cpp.obj	880cfa207e7c431d
+648	2124	7115832751861442	libs/googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj	9c808e3c40b47d0b
+78	2267	7115832753282747	libs/googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.obj	922dbae1c4d793a1
+66	3363	7115832764192650	libs/googletest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.obj	562d2faa79292b8b
+610	7575	7115832806190750	libs/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj	8ad845ad48aa1aa9
+7576	10797	7115832838591018	lib/libgtest.a	ef129f6763ac6136
+10798	10829	7115832838910467	lib/libgtest_main.a	54e409a4ca90b964
+10798	11232	7115832842944127	lib/libgmock.a	28a50bbe031bf3e4
+11233	11262	7115832843244400	lib/libgmock_main.a	7ede8742a2cf0b75
+10829	14203	7115832872581057	src/gfx/geometry/tests/ut/geometry_UT.exe	c8b7a76786b00508
+11263	14888	7115832879425375	UT/ut_main/ut_main.exe	d473a5d06b6cfb2d
