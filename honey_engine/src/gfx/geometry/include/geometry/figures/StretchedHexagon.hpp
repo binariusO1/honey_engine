@@ -26,6 +26,7 @@ public:
     std::size_t getNumOfPoints() const override;
     geometry::Point2Df getCenterPoint() const override;
     geometry::Point2Df getPoint(const std::size_t index) const override;
+
     bool isPointInside(const geometry::Point2Df& point) const override;
 
 public:
@@ -34,6 +35,7 @@ public:
 
 private:
     geometry::Size2Df m_size;
+
 
 friend bool operator ==(const StretchedHexagon& left, const StretchedHexagon& right)
 {

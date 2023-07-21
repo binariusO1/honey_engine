@@ -33,10 +33,10 @@ public:
     float getArmLenght() const;
 
     void setSize(const float arm);
-    float m_arm;
+
 private:
     void setSize(const geometry::Size2Df& size) override;
-
+    float m_arm;
 
 };
 

@@ -4,6 +4,8 @@
 #include "log_stream/LogBuffer.hpp"
 #include "log_stream/LogSeverity.hpp"
 
+#define LOG_LEVEL common::log_stream::LogSeverity::debug
+
 namespace common
 {
 namespace log_stream
@@ -29,6 +31,8 @@ private:
     buffer_type buffer;
 
     LogSeverity logSeverity;
+
+    // common::log_stream::LogSeverity LOG_LEVEL{common::log_stream::LogSeverity::debug};
 };
 
 } // namespace log

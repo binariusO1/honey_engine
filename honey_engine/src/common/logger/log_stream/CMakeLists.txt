@@ -26,7 +26,6 @@ target_link_libraries(${MODULE_NAME}
 	PUBLIC
     	logger
 	PRIVATE
-		sys::config
 )
 
 

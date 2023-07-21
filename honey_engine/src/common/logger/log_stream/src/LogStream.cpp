@@ -4,7 +4,7 @@
 #include <iostream>
 #include <thread>
 #include "logger/Logger.hpp"
-#include "sys/config/Config.hpp"
+//#include "sys/config/Config.hpp"
 
 
 namespace
@@ -65,7 +65,7 @@ std::string getCurrentTime()
 
 bool couldShowLog(const common::log_stream::LogSeverity severity)
 {
-    switch (sys::Config::Get().dev.LOG_LEVEL())
+    switch (LOG_LEVEL)
     {
     case common::log_stream::LogSeverity::debug:
         if (severity == common::log_stream::LogSeverity::memory)
