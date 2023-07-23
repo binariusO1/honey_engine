@@ -10,7 +10,7 @@ target_link_libraries(${EXECUTABLE_NAME}
 		# gfx::gui
 		# gfx::render
 		# gfx::draw2d
-		# logger
+		logger
 		# gfx::scenes
 		# sys::config
 		# sys::resource

@@ -1,5 +1,6 @@
 add_subdirectory(common)
 # add_subdirectory(extern)
+add_subdirectory(engine)
 add_subdirectory(gfx)
 add_subdirectory(main)
 # add_subdirectory(sys)
