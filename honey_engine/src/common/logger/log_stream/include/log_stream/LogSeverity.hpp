@@ -19,7 +19,7 @@ inline const char* toString(const LogSeverity& logSeverity)
     {
         case LogSeverity::memory: return "MEM";
         case LogSeverity::debug: return "DBG";
-        case LogSeverity::error: return "ERROR!   ";
+        case LogSeverity::error: return "ERR";
         case LogSeverity::info: return "INF";
         case LogSeverity::warning: return "WRN";
         default: return "none";

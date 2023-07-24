@@ -139,8 +139,17 @@ void LogStream<LogFunction>::buildContext()
     {
         os << "\x1B[33m";
     }
-    os << std::this_thread::get_id() << "|" << currentTime << ':' << currentSeconds << '.' << currentMilliseconds << ' ' << '/' << toString(logSeverity) << '/' << streamFilename << ':' << streamLine << ' ' << "\033[0m";;
+    os << std::this_thread::get_id() << "|" << currentTime << ':' << currentSeconds << '.' << currentMilliseconds << ' ' << '/' << toString(logSeverity) << '/' << streamFilename << ':' << streamLine << ' ';
+    if (logSeverity == common::log_stream::LogSeverity::error)
+    {
+        os << "\x1B[31m";
+    }
+    else if(logSeverity == common::log_stream::LogSeverity::warning)
+    {
+        os << "\x1B[33m";
+    }
     buffer.setContext(os.str());
+    os << "\033[0m";
 }
 
 template class LogStream<Logger>;

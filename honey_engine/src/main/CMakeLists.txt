@@ -15,5 +15,5 @@ target_link_libraries(${EXECUTABLE_NAME}
 		# sys::config
 		# sys::resource
 		# utils
-		# opengl::gl_wrapper
+		opengl::gl_wrapper
 )

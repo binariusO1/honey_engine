@@ -34,7 +34,6 @@ int Window::createWindow(int width, int height, const char* name)
     int status = glfwInit();
 
     glfwSetErrorCallback(ErrorCallback);
-    LOG_DEBUG << width << " " << height << " " << name;
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -60,11 +59,12 @@ int Window::createWindow(int width, int height, const char* name)
 
     if (status == GL_FALSE)
     {
-        LOG_ERROR << "GLFW Error!n";
+        LOG_ERROR << "GLFW Error!";
     }
 
     glViewport(0, 0, width, height);
 
+    LOG_DEBUG << "Create window \"" << name << "\". Size: " << width << "x" << height;
     return status;
 }
 

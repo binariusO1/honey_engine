@@ -11,6 +11,8 @@
             transform
         math
         opengl
+            gl_wrapper
+                window
         stb
     engine
         control ?

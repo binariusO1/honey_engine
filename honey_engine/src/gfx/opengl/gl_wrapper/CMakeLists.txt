@@ -40,3 +40,5 @@ target_link_libraries(${MODULE_NAME}
 		stb
 		common::utils
 )
+
+add_ut_subdirectory(tests)
