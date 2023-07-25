@@ -35,8 +35,8 @@ target_link_libraries(${MODULE_NAME}
 		exception
 		geometry
 		gfx
-		opengl::glad
-		opengl::sfml2
+		render::glad
+		render::sfml2
 		# render
 		stb
 		common::utils

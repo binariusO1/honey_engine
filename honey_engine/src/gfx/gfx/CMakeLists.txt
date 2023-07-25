@@ -41,5 +41,5 @@ target_link_libraries(${MODULE_NAME}
 		geometry
 		# sys::config
 		# sys::input_stream
-		opengl::gl_wrapper
+		render::gl_wrapper
 )

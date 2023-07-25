@@ -1,4 +1,4 @@
-set(PRE_MODULE_NAME opengl)
+set(PRE_MODULE_NAME render)
 
 add_subdirectory(gl_wrapper)
 add_subdirectory(glad)

@@ -16,5 +16,5 @@ target_link_libraries(
 	PUBLIC
 		${GLFW_LIBS}
 		gtest_main
-		opengl::gl_wrapper
+		render::gl_wrapper
 )
