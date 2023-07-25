@@ -12,6 +12,6 @@ add_test_executable(ut_main
 
 target_link_libraries(
 	ut_main
-    gmock_main
-	gtest_main
+		gmock_main
+		gtest_main
 )

@@ -12,6 +12,6 @@ add_test_executable(${MODULE_NAME_UT}
 
 target_link_libraries(
 	${MODULE_NAME_UT}
-	gtest_main
-	common::utils
+		gtest_main
+		common::utils
 )

@@ -96,6 +96,7 @@ bool couldShowLog(const common::log_stream::LogSeverity severity)
             return false;
         }
         break;
+    case common::log_stream::LogSeverity::memory:
     default:
         break;
     }
@@ -133,23 +134,19 @@ void LogStream<LogFunction>::buildContext()
     auto currentMilliseconds = getCurrentMilliseconds();
     if (logSeverity == common::log_stream::LogSeverity::error)
     {
-        os << "\x1B[31m";
+        os << LOG_RED;
     }
     else if(logSeverity == common::log_stream::LogSeverity::warning)
     {
-        os << "\x1B[33m";
+        os << LOG_YELLOW;
+    }
+    else
+    {
+        os << LOG_WHITE;  
     }
     os << std::this_thread::get_id() << "|" << currentTime << ':' << currentSeconds << '.' << currentMilliseconds << ' ' << '/' << toString(logSeverity) << '/' << streamFilename << ':' << streamLine << ' ';
-    if (logSeverity == common::log_stream::LogSeverity::error)
-    {
-        os << "\x1B[31m";
-    }
-    else if(logSeverity == common::log_stream::LogSeverity::warning)
-    {
-        os << "\x1B[33m";
-    }
     buffer.setContext(os.str());
-    os << "\033[0m";
+    os << LOG_WHITE;
 }
 
 template class LogStream<Logger>;

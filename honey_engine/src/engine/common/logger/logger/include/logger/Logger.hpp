@@ -50,13 +50,13 @@ public:
 
 } // namespace common
 
-typedef common::log_stream::LogStream<common::Logger> logger;
+typedef ::common::log_stream::LogStream<::common::Logger> logger;
 
-#define LOG_MEMORY logger(common::log_stream::LogSeverity::memory, __FILE_NAME__, __LINE__).get()
-#define LOG_DEBUG logger(common::log_stream::LogSeverity::debug, __FILE_NAME__, __LINE__).get()
-#define LOG_ERROR logger(common::log_stream::LogSeverity::error, __FILE_NAME__, __LINE__).get()
-#define LOG_INFO logger(common::log_stream::LogSeverity::info, __FILE_NAME__, __LINE__).get()
-#define LOG_WARNING logger(common::log_stream::LogSeverity::warning, __FILE_NAME__, __LINE__).get()
+#define LOG_MEMORY logger(::common::log_stream::LogSeverity::memory, __FILE_NAME__, __LINE__).get()
+#define LOG_DEBUG logger(::common::log_stream::LogSeverity::debug, __FILE_NAME__, __LINE__).get()
+#define LOG_ERROR logger(::common::log_stream::LogSeverity::error, __FILE_NAME__, __LINE__).get()
+#define LOG_INFO logger(::common::log_stream::LogSeverity::info, __FILE_NAME__, __LINE__).get()
+#define LOG_WARNING logger(::common::log_stream::LogSeverity::warning, __FILE_NAME__, __LINE__).get()
 
 #define LOG_CONSTRUCTOR "\x1B[32m[constructor] \033[0m"
 #define LOG_COPY_CONSTRUCTOR "\x1B[33m[copy constructor] \033[0m"
@@ -65,8 +65,10 @@ typedef common::log_stream::LogStream<common::Logger> logger;
 #define LOG_MOVE_ASSIGNED "\x1B[36m[move] \033[0m"
 #define LOG_DESTRUCTOR "\x1B[91m[destructor] \033[0m"
 #define LOG_THIS_1 "\x1B[31m THIS <-- (1) \033[0m"
-#define LOG_THIS_2 "\x1B[32m THIS <-- (2) \033[0m"
+#define LOG_THIS_2 "\x1B[91m THIS <-- (2) \033[0m"
 #define LOG_THIS_3 "\x1B[33m THIS <-- (3) \033[0m"
+#define LOG_THIS_4 "\x1B[92m THIS <-- (4) \033[0m"
+#define LOG_THIS_5 "\x1B[32m THIS <-- (5) \033[0m"
 
 #define LOG_RED "\x1B[31m"
 #define LOG_BRIGHT_RED "\x1B[91m"
@@ -99,14 +101,3 @@ Bright White    97  107
 // printf("\x1B[31mTexting\033[0m\t\t");
 // printf("\033[3;42;30mTexting\033[0m\t\t");
 */
-
-#define BUTTON_PROPAGATOR_ENABLE_DEBUG_MODE 0
-#define BUTTON_TRANSITION_ENABLE_DEBUG_MODE 1
-#define BUTTON_ENABLE_DEBUG_MODE 0
-#define LAYER_ENABLE_DEBUG_MODE 0
-#define RECTANGLE_ENABLE_DEBUG_MODE 0
-#define RENDER_ENABLE_DEBUG_MODE 0
-#define SCENE_ENABLE_DEBUG_MODE 1
-#define SPRITE_ENABLE_DEBUG_MODE 0
-#define TEXT_ENABLE_DEBUG_MODE 0
-#define TEXTURE_DEBUG_MODE 0

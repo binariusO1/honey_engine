@@ -1,4 +1,6 @@
 add_subdirectory(audio)
 add_subdirectory(common)
 add_subdirectory(gfx)
+add_subdirectory(libs)
+add_subdirectory(sys)
 add_subdirectory(window)

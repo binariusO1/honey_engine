@@ -11,6 +11,8 @@ set(PUBLIC_HEADERS
 	include/${MODULE_NAME}/Timer.hpp
 	include/${MODULE_NAME}/TimeScheduler.hpp
 	include/${MODULE_NAME}/WorkerThread.hpp
+	include/task_utils/ITask.hpp
+	include/task_utils/ITaskMaster.hpp
 )
 
 add_library(${MODULE_NAME} ${INTERNAL_FILES} ${PUBLIC_HEADERS})

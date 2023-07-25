@@ -76,8 +76,8 @@ Chronometer::Chronometer(Chronometer& copy)
     : m_startTime{copy.m_endTime}
     , m_endTime{copy.m_endTime}
     , m_isRunning{copy.m_isRunning}
-    , m_ChronometerName{copy.m_ChronometerName}
     , m_id{++id}
+    , m_ChronometerName{copy.m_ChronometerName}
 {
     LOG_MEMORY << LOG_COPY_CONSTRUCTOR;
 }

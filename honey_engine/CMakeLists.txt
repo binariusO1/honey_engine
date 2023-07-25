@@ -2,14 +2,26 @@ cmake_minimum_required(VERSION 3.25)
 
 project(honey_engine)
 
+
 #=================================================================
 #	SET
 
 set(EXECUTABLE_NAME "honey_engine")
+
+message([Cmake] " CURRENT DIR= " ${CMAKE_CURRENT_SOURCE_DIR})
+set(SOURCES
+	src/engine/gfx/src/draw/Shape.cpp
+	src/engine/window/src/events/EventManager.cpp
+	src/engine/window/src/window/Window.cpp
+	src/main/src/Main.cpp
+)
+add_executable(${EXECUTABLE_NAME} ${SOURCES})
+
 set(TEST_NAME_UT "" CACHE STRING "")
 
-set(BUILD_UT ON)
-set(SFML_LIB ON)
+set(BUILD_UT $ENV{BUILD_UT})
+set(COVERAGE $ENV{COVERAGE})
+
 set(GLEW_LIB OFF)
 set(FREEGLUT_LIB OFF)
 set(GLFW_LIB ON)
@@ -18,6 +30,7 @@ set(FREETYPE_LIB ON)
 set( CMAKE_BUILD_TYPE Debug)
 set( CMAKE_CXX_STANDARD 20)
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
+
 
 #=================================================================
 #	FUNCTIONS
@@ -52,10 +65,10 @@ endfunction()
 #	SUBDIRECTORIES
 
 add_subdirectory(src)
-set_target_properties(math PROPERTIES LINKER_LANGUAGE CXX)
+
 
 #=================================================================
-#	LOGIC
+#	LIBS
 
 if(BUILD_UT)
 	message([Cmake] " BUILD_UT= " ${BUILD_UT})
@@ -68,22 +81,6 @@ if(BUILD_UT)
 	include(GoogleTest)
 	setup_tests_label(ut)
 	set(UT_LABELS ut)
-endif()
-
-if(SFML_LIB)
-	message([Cmake] " SFML_LIB= " ${SFML_LIB})
-
-	set(SFML_STATIC_LIBRARIES TRUE)
-	# set(SFML_DIR "libs/SFML-2.5.1/lib/cmake/SFML/")
-	set( SFML_DIR "D:/Projects/CPP/games/honey_engine/honey_engine/libs/SFML-2.5.1/lib/cmake/SFML")
-	set( SFML_LIBS sfml-system sfml-window sfml-graphics )
-	find_package(SFML 2.5.1 COMPONENTS system window graphics REQUIRED)
-	find_package(Threads REQUIRED)
-
-	# target_link_libraries(button PUBLIC ${SFML_LIBS})
-	# target_link_libraries(event PUBLIC ${SFML_LIBS})
-	# target_link_libraries(sfml2 PUBLIC ${SFML_LIBS})
-	# target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${SFML_LIBS})
 endif()
 
 if(GLEW_LIB)
@@ -110,8 +107,6 @@ if(GLFW_LIB)
 	target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${GLFW_LIBS})
 	# note: place into mingw folders /include and /lib also ( C:\mingw64_posix\x86_64-w64-mingw32\include )
 	# list(APPEND CXX_FLAGS "-LD:/Projects/CPP/games/honey_engine/honey_engine/libs/glfw-3.3.8/glfw/lib")
-	
-	# list( APPEND CXX_FLAGS "-lglfw3")
 endif()
 
 if(FREETYPE_LIB)
@@ -148,4 +143,16 @@ list(APPEND CXX_FLAGS "-Wno-old-style-cast" )
 list(APPEND CXX_FLAGS "-pthread" "-fasynchronous-unwind-tables" "-std=c++20" "-march=native")
 # list(APPEND CXX_FLAGS_DEBUG "-Wsuggest-final-types" "-Wsuggest-final-methods" "-Wsuggest-override")
 list(APPEND CXX_FLAGS_RELEASE "-O3")
+list(APPEND CXX_FLAGS_DEBUG "-g" "-O0")
+
+# disable second console after .exe starts
+list(APPEND CXX_FLAGS "-mwindows")
+
+# gcov options
+if(COVERAGE)
+	target_link_libraries(${EXECUTABLE_NAME} PUBLIC gcov)
+	list(APPEND CXX_FLAGS "--coverage")
+	list(APPEND CXX_FLAGS "-fprofile-arcs" "-ftest-coverage")
+endif()
+
 target_compile_options(${EXECUTABLE_NAME} PUBLIC ${CXX_FLAGS})
