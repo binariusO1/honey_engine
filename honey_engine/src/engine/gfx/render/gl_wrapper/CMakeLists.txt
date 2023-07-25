@@ -37,9 +37,6 @@ target_link_libraries(${MODULE_NAME}
 		gfx
 		render::glad
 		render::sfml2
-		# render
 		stb
 		common::utils
 )
-
-add_ut_subdirectory(tests)

@@ -34,7 +34,7 @@ set(PUBLIC_HEADERS
 )
 
 add_library(${MODULE_NAME} ${INTERNAL_FILES} ${PUBLIC_HEADERS})
-add_library(gfx::${MODULE_NAME} ALIAS ${MODULE_NAME})
+add_library(he::gfx::${MODULE_NAME} ALIAS ${MODULE_NAME})
 
 target_include_directories(${MODULE_NAME}
 	PUBLIC
