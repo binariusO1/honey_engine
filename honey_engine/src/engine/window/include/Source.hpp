@@ -3,6 +3,6 @@
 #include <glad/glad.h> // note: it must be higher than other gl libraries
 #include <GLFW/glfw3.h>
 
-namespace gl_wrapper
+namespace he::window
 {
-} // namespace gl_wrapper
+} // namespace he::window

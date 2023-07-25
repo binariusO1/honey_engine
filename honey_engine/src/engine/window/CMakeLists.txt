@@ -7,7 +7,7 @@ set(INTERNAL_FILES
 
 set(PUBLIC_HEADERS 
 	include/window/Window.hpp
-	include/Libraries.hpp
+	include/Source.hpp
 )
 
 add_library(${MODULE_NAME} ${INTERNAL_FILES} ${PUBLIC_HEADERS})
@@ -26,7 +26,6 @@ target_link_libraries(${MODULE_NAME}
     	logger
 	PUBLIC
 		exception
-		geometry
 		gfx
 		render::glad
 		render::sfml2

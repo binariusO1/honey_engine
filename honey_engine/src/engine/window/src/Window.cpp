@@ -1,4 +1,4 @@
-#include "gl_wrapper/window/Window.hpp"
+#include "window/Window.hpp"
 
 #include <memory>
 #include <thread>
@@ -14,7 +14,7 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 }
 } // namespace
 
-namespace gl_wrapper
+namespace he::window
 {
 ////////////////////////////////////////////////////////////
 Window::Window(int width, int height, const char* name) : window{nullptr} , m_Chronometer()
@@ -190,4 +190,4 @@ int Window::createWindow(int width, int height, const char* name)
     LOG_DEBUG << "Create window \"" << name << "\". Size: " << width << "x" << height;
     return 0;
 }
-} // namespace gl_wrapper
+} // namespace he::window

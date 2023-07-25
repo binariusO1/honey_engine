@@ -2,12 +2,14 @@
 
 #include <chrono>
 #include <memory>
-#include "Libraries.hpp"
+#include "Source.hpp"
 #include "geometry/Point2d.hpp"
 #include "sfml2/window/Event.hpp"
 #include "utils/Chronometer.hpp"
 
-namespace gl_wrapper
+namespace he
+{
+namespace window
 {
 class Window
 {
@@ -53,4 +55,5 @@ private:
 
     const std::chrono::microseconds SECOND{1000000};
 };
-} // namespace gl_wrapper
+} // namespace he
+} // namespace window
