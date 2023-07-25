@@ -1,3 +1,4 @@
+add_subdirectory(exception)
 add_subdirectory(geometry)
 add_subdirectory(gfx)
 add_subdirectory(math)

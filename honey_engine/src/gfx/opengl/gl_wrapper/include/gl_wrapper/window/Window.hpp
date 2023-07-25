@@ -12,20 +12,21 @@ namespace gl_wrapper
 class Window
 {
 public:
-    Window();
-
-    int createWindow(int, int, const char*);
-    void terminate();
+    Window(int, int, const char*);
+    ~Window();
 
     void clear();
-    GLFWwindow* getWindow() { return window; }
-    geometry::Point2Dd getCursorPos() const;
-    bool isWindowOpen();
     void closeWindow();
+    bool isWindowOpen();
+    void swapBuffers();
+    void terminate();
 
+    GLFWwindow* getWindow();
+    geometry::Point2Dd getCursorPos() const;
+
+    // note: WindowProcessInput.cpp
     void pollEvent();
     bool processInput(sfml2::Event&);
-    void swapBuffers();
 
 public:
     void guardFrame();
@@ -34,11 +35,17 @@ public:
     void endFrameGuard();
 
 public:
-    GLFWwindow* window;
-    static std::unique_ptr<sfml2::Event> currentEvent;
+
 
 private:
+    int createWindow(int, int, const char*);
+    // ->
     bool isMouseMoved();
+
+    GLFWwindow* window;
+    std::unique_ptr<sfml2::Event> currentEvent;
+    bool isWindowClosed{false};
+    // ->
     geometry::Point2Dd oldPos{};
     std::chrono::microseconds m_frameTimeLimit{0};
     utils::Chronometer m_Chronometer;

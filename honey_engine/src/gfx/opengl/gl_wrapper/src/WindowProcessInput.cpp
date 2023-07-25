@@ -34,7 +34,8 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
         event.type = sfml2::Event::EventType::MouseButtonReleased;
     }
 
-    gl_wrapper::Window::currentEvent = std::make_unique<sfml2::Event>(event);
+    // TODO (honey)
+    // gl_wrapper::Window::currentEvent = std::make_unique<sfml2::Event>(event);
 }
 
 bool checkPos(geometry::Point2Dd oldPos, geometry::Point2Dd newPos)
@@ -44,12 +45,15 @@ bool checkPos(geometry::Point2Dd oldPos, geometry::Point2Dd newPos)
 
 bool setStatus(sfml2::Event& event)
 {
+    // TODO (honey)
+    /*
     if(gl_wrapper::Window::currentEvent  != nullptr)
     {
         event = *gl_wrapper::Window::currentEvent;
         gl_wrapper::Window::currentEvent  = nullptr;
         return true;
     }
+    */
     return false;
 }
 } // namespace

@@ -11,8 +11,7 @@ int main()
     auto width = 1024;
     auto height = 768;
 
-    gl_wrapper::Window window;
-    window.createWindow(width, height, "honey engine");
+    gl_wrapper::Window window(width, height, "honey engine");
     window.terminate();
 }
 

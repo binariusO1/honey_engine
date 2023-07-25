@@ -32,6 +32,7 @@ target_link_libraries(${MODULE_NAME}
 	PRIVATE
     	logger
 	PUBLIC
+		exception
 		geometry
 		gfx
 		opengl::glad
