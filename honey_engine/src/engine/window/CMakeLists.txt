@@ -6,6 +6,9 @@ set(INTERNAL_FILES
 )
 
 set(PUBLIC_HEADERS 
+	include/window/Event.hpp
+	include/window/Keyboard.hpp
+	include/window/Mouse.hpp
 	include/window/Window.hpp
 	include/Source.hpp
 )

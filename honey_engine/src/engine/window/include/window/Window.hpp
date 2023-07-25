@@ -2,10 +2,10 @@
 
 #include <chrono>
 #include <memory>
-#include "Source.hpp"
 #include "geometry/Point2d.hpp"
-#include "sfml2/window/Event.hpp"
+#include "Source.hpp"
 #include "utils/Chronometer.hpp"
+#include "window/Event.hpp"
 
 namespace he
 {
@@ -28,7 +28,7 @@ public:
 
     // note: WindowProcessInput.cpp
     void pollEvent();
-    bool processInput(sfml2::Event&);
+    bool processInput(he::window::Event&);
 
 public:
     void guardFrame();
@@ -45,7 +45,7 @@ private:
     bool isMouseMoved();
 
     GLFWwindow* window;
-    std::unique_ptr<sfml2::Event> currentEvent;
+    std::unique_ptr<he::window::Event> currentEvent;
     bool isWindowClosed{false};
     // ->
     geometry::Point2Dd oldPos{};

@@ -1,4 +1,4 @@
-#include "gl_wrapper/window/Window.hpp"
+#include "window/Window.hpp"
 #include "logger/Logger.hpp"
 // #include "sys/config/Config.hpp"
 
@@ -14,28 +14,28 @@ geometry::Point2Dd getCursorPos(GLFWwindow* window)
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
-    sfml2::Event event{};
+    he::window::Event event{};
     geometry::Point2Dd position(getCursorPos(window));
     if (button == GLFW_MOUSE_BUTTON_LEFT)
     {
-        event.mouseButton = sfml2::Event::MouseButtonAction{sfml2::Mouse::Button::Left, position.x, position.y};
+        event.mouseButton = he::window::Event::MouseButtonAction{he::window::Mouse::Button::Left, position.x, position.y};
     }
     else if (button == GLFW_MOUSE_BUTTON_RIGHT)
     {
-        event.mouseButton = sfml2::Event::MouseButtonAction{sfml2::Mouse::Button::Right, position.x, position.y};
+        event.mouseButton = he::window::Event::MouseButtonAction{he::window::Mouse::Button::Right, position.x, position.y};
     }
 
     if (action == GLFW_PRESS)
     {
-        event.type = sfml2::Event::EventType::MouseButtonPressed;
+        event.type = he::window::Event::EventType::MouseButtonPressed;
     }
     else if(action == GLFW_RELEASE)
     {
-        event.type = sfml2::Event::EventType::MouseButtonReleased;
+        event.type = he::window::Event::EventType::MouseButtonReleased;
     }
 
     // TODO (honey)
-    // gl_wrapper::Window::currentEvent = std::make_unique<sfml2::Event>(event);
+    // gl_wrapper::Window::currentEvent = std::make_unique<he::window::Event>(event);
 }
 
 bool checkPos(geometry::Point2Dd oldPos, geometry::Point2Dd newPos)
@@ -43,7 +43,7 @@ bool checkPos(geometry::Point2Dd oldPos, geometry::Point2Dd newPos)
     return ((oldPos.x == newPos.x) and (oldPos.y == newPos.y));
 }
 
-bool setStatus(sfml2::Event& event)
+bool setStatus(he::window::Event& event)
 {
     // TODO (honey)
     /*
@@ -58,25 +58,27 @@ bool setStatus(sfml2::Event& event)
 }
 } // namespace
 
-namespace gl_wrapper
+namespace he
+{
+namespace window
 {
 void Window::pollEvent()
 {
     glfwPollEvents();
 }
 
-bool Window::processInput(sfml2::Event& event)
+bool Window::processInput(he::window::Event& event)
 {
-    event = sfml2::Event{}; // note: deleting event here will unblock key events flood
+    event = he::window::Event{}; // note: deleting event here will unblock key events flood
     bool status{false};
 
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
     status = setStatus(event);
     if (isMouseMoved() and not status)
     {
-        event.mouseMove = sfml2::Event::MouseMoveEvent{::getCursorPos(window).x, ::getCursorPos(window).y};
-        event.type = sfml2::Event::EventType::MouseMoved;
-        gl_wrapper::Window::currentEvent  = nullptr;
+        event.mouseMove = he::window::Event::MouseMoveEvent{::getCursorPos(window).x, ::getCursorPos(window).y};
+        event.type = he::window::Event::EventType::MouseMoved;
+        he::window::Window::currentEvent  = nullptr;
     }
 
     return status;
@@ -94,5 +96,5 @@ bool Window::isMouseMoved()
     }
     return false;
 }
-
-} // gl_wrapper
+} // namespace he
+} // namespace window
