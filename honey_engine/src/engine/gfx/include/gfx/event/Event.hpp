@@ -3,12 +3,6 @@
 #include <string>
 #include "gfx/render/OpenCloseState.hpp"
 
-
-
-
-
-
-
 namespace he
 {
 namespace gfx

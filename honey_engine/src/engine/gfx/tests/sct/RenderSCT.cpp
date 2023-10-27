@@ -50,7 +50,6 @@ public:
         while (window->isWindowOpen() and i > 0)
         {
             window->clear();
-        
             sceneManager->render(*render);
         
             window->swapBuffers();
@@ -220,13 +219,12 @@ TEST_F(RenderSCT, screenTestShapes_drawTextureBackground)
     display(timeToDisplay);
 } 
 
-TEST_F(RenderSCT, screenTestShapes_drawText)
+TEST_F(RenderSCT, screenTestText_drawText)
 {
     he::gfx::draw::Text text1("text2");
     text1.setString("Test text");
     std::shared_ptr<he::gfx::draw::IDrawable> text2 = std::make_shared<he::gfx::draw::Text>(text1);
     
-
     std::shared_ptr<he::gfx::render::Layer> layer1 = std::make_shared<he::gfx::render::Layer>("layer_1");
     he::gfx::render::DrawableList sprites{text2};
     layer1->addDrawables(sprites);
