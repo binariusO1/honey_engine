@@ -34,7 +34,6 @@ public:
 
 public:
     virtual const he::gfx::VertexArray2d& getVertexArray() const = 0;
-    virtual void setClosedVertexArray(bool) = 0;
 
 protected:
     friend class he::gfx::render::Render;

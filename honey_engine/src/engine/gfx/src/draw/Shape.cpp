@@ -167,9 +167,17 @@ unsigned int Shape::getTextureId() const
 
 
 ////////////////////////////////////////////////////////////
-void Shape::setClosedVertexArray(bool state)
+void Shape::closeVertexArray()
 {
-    m_closedVertexArray = state;
+    m_closedVertexArray = true;
+    updateVertexArray();
+}
+
+
+////////////////////////////////////////////////////////////
+void Shape::openVertexArray()
+{
+    m_closedVertexArray = false;
     updateVertexArray();
 }
 

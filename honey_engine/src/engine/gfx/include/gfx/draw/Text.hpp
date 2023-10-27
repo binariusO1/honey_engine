@@ -41,9 +41,6 @@ public:
 
     unsigned int getTextureId() const override { return 0; };
 
-public:
-    void setClosedVertexArray(bool) override {};
-
 private:
     const he::gfx::VertexArray2d& getVertexArray() const override { return m_vertexArray; };
     void draw(he::gfx::render::Render&, he::gfx::render::RenderSettings&) const override {};

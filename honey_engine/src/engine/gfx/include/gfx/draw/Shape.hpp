@@ -40,7 +40,8 @@ public:
 
 public:
     const he::gfx::VertexArray2d& getVertexArray() const override;
-    void setClosedVertexArray(bool) override;
+    void closeVertexArray();
+    void openVertexArray();
 
 protected:
     void setOriginPosition(const he::gfx::OriginPosition& originPosition);

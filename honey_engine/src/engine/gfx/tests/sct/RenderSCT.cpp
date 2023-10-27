@@ -108,48 +108,57 @@ TEST_F(RenderSCT, screenTestShapes_drawSamples)
 
     // initialize hexagons
     std::shared_ptr<he::gfx::geometry::figures::Figure> hex = std::make_shared<he::gfx::geometry::figures::Hexagon>(57.0);
-    std::shared_ptr<he::gfx::draw::IDrawable> hexagon1 = std::make_shared<he::gfx::draw::Shape>("hex1", hex);
-    hexagon1->setPosition({200.0, 0.0});
-    std::shared_ptr<he::gfx::draw::IDrawable> hexagon2 = std::make_shared<he::gfx::draw::Shape>("hex2", hex);
-    hexagon2->setColor(he::gfx::Color::Yellow);
-    hexagon2->setPosition({200.0, 100.0});
-    std::shared_ptr<he::gfx::draw::IDrawable> hexagon3 = std::make_shared<he::gfx::draw::Shape>("hex3", hex);
-    hexagon3->setColor(he::gfx::Color::Green);
-    hexagon3->setPosition({200.0, 200.0});
+    he::gfx::draw::Shape hex1("hex1", hex);
+    hex1.setPosition({200.0, 0.0});
+    hex1.closeVertexArray();
+    std::shared_ptr<he::gfx::draw::IDrawable> hexagon1 = std::make_shared<he::gfx::draw::Shape>(hex1);
 
-    he::gfx::draw::Shape hexagon4_("hex4", hex);
+    he::gfx::draw::Shape hex2("hex2", hex);
+    hex2.setPosition({200.0, 100.0});
+    hex2.setColor(he::gfx::Color::Yellow);
+    hex2.closeVertexArray();
+    std::shared_ptr<he::gfx::draw::IDrawable> hexagon2 = std::make_shared<he::gfx::draw::Shape>(hex2);
+
+    he::gfx::draw::Shape hex3("hex3", hex);
+    hex3.setPosition({200.0, 200.0});
+    hex3.setColor(he::gfx::Color::Green);
+    hex3.closeVertexArray();
+    std::shared_ptr<he::gfx::draw::IDrawable> hexagon3 = std::make_shared<he::gfx::draw::Shape>(hex3);
+
+    he::gfx::draw::Shape hex4("hex4", hex);
     std::shared_ptr<he::gfx::draw::IDrawable> hexagon4{nullptr};
-    if (dynamic_cast<he::gfx::draw::Shape*>(&hexagon4_) != nullptr)
+    if (dynamic_cast<he::gfx::draw::Shape*>(&hex4) != nullptr)
     {
-        hexagon4 = std::make_shared<he::gfx::draw::Shape>(hexagon4_);
-        hexagon4->setPosition({200.0, 300.0});
-        hexagon4->setColor(he::gfx::Color::Cyan);
+        hex4.setPosition({200.0, 300.0});
+        hex4.setColor(he::gfx::Color::Cyan);
+        hex4.closeVertexArray();
+        hexagon4 = std::make_shared<he::gfx::draw::Shape>(hex4);
     }
 
-    he::gfx::draw::Shape hexagon5_("hex5", hex, he::gfx::Color::Blue, {200.0, 400.0}, he::gfx::OriginPosition::leftDown);
+    he::gfx::draw::Shape hex5("hex5", hex, he::gfx::Color::Blue, {200.0, 400.0}, he::gfx::OriginPosition::leftDown);
+    hex5.closeVertexArray();
     std::shared_ptr<he::gfx::draw::IDrawable> hexagon5{nullptr};
-    if (dynamic_cast<he::gfx::draw::Shape*>(&hexagon4_) != nullptr)
+    if (dynamic_cast<he::gfx::draw::Shape*>(&hex4) != nullptr)
     {
-        hexagon5 = std::make_shared<he::gfx::draw::Shape>(hexagon5_);
+        hexagon5 = std::make_shared<he::gfx::draw::Shape>(hex5);
     }
 
-    std::shared_ptr<he::gfx::draw::IDrawable> hexagon6 = std::make_shared<he::gfx::draw::Shape>("hex6", hex);
-    hexagon6->setColor(he::gfx::Color::Magenta);
-    hexagon6->setPosition({200.0, 500.0});
-    std::shared_ptr<he::gfx::draw::IDrawable> hexagon7 = std::make_shared<he::gfx::draw::Shape>("hex7", hex);
-    hexagon7->setColor(he::gfx::Color::Red);
-    hexagon7->setPosition({200.0, 600.0});
+    he::gfx::draw::Shape hex6("hex6", hex);
+    hex6.setColor(he::gfx::Color::Magenta);
+    hex6.setPosition({200.0, 500.0});
+    hex6.closeVertexArray();
+    std::shared_ptr<he::gfx::draw::IDrawable> hexagon6 = std::make_shared<he::gfx::draw::Shape>(hex6);
+
+    he::gfx::draw::Shape hex7("hex7", hex);
+    hex7.setColor(he::gfx::Color::Red);
+    hex7.setPosition({200.0, 600.0});
+    hex7.closeVertexArray();
+    std::shared_ptr<he::gfx::draw::IDrawable> hexagon7 = std::make_shared<he::gfx::draw::Shape>(hex7);
 
     std::shared_ptr<he::gfx::render::Layer> layer2 = std::make_shared<he::gfx::render::Layer>("layer_2");
     he::gfx::render::DrawableList hexagons{hexagon1, hexagon2, hexagon3, hexagon4, hexagon5, hexagon6, hexagon7};
     layer2->addDrawables(hexagons);
-    hexagon1->setClosedVertexArray(true);
-    hexagon2->setClosedVertexArray(true);
-    hexagon3->setClosedVertexArray(true);
-    hexagon4->setClosedVertexArray(true);
-    hexagon5->setClosedVertexArray(true);
-    hexagon6->setClosedVertexArray(true);
-    hexagon7->setClosedVertexArray(true);
+
     const he::gfx::render::RenderSettings renderSettings2{       
         he::libs::gl::DrawType::Static,
         he::libs::gl::ConnectionType::LineStrip,
