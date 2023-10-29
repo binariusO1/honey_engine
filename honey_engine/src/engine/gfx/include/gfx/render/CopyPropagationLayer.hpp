@@ -28,6 +28,9 @@ public:
     void removeDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>&);
     he::gfx::draw::IDrawable& drawable(const std::string&);
 
+public:
+    void process_event(const he::window::Event&) override;
+
 private:
     DrawableMap m_uniqueDrawables{};
     PropagationSettings m_propagationSettings{};

@@ -46,6 +46,9 @@ public:
     void render(gfx::render::IRender&) override;
 
 public:
+    void process_event(const he::window::Event&) override;
+
+public:
     const std::string getName() override;
 
 protected:

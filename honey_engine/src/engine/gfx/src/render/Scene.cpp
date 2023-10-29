@@ -95,6 +95,19 @@ void Scene::render(gfx::render::IRender& render)
 
 
 ////////////////////////////////////////////////////////////
+void Scene::process_event(const he::window::Event& event)
+{
+    for (const auto& layer : m_layers)
+    {
+        if (layer.second->isVisible())
+        {
+            layer.second->process_event(event);
+        }
+    }
+}
+
+
+////////////////////////////////////////////////////////////
 const std::string Scene::getName()
 {
     return m_context.name;

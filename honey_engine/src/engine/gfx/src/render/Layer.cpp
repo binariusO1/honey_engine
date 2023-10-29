@@ -134,6 +134,15 @@ he::gfx::draw::IDrawable& Layer::drawable(const std::string& name)
     }
 }
 
+
+////////////////////////////////////////////////////////////
+void Layer::process_event(const he::window::Event& event)
+{
+    for (auto it = m_uniqueListeners.begin(); it != m_uniqueListeners.end(); ++it)
+    {
+        it->second->process_event(event);
+    }
+}
 } // namespace render
 } // namespace gfx
 } // namespace he

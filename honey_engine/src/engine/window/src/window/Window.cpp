@@ -19,6 +19,8 @@ namespace he
 {
 namespace window
 {
+
+
 ////////////////////////////////////////////////////////////
 Window::Window(int width, int height, const char* name, WindowState state) 
 : m_window{nullptr} 
@@ -33,6 +35,7 @@ Window::Window(int width, int height, const char* name, WindowState state)
     }
     glfwSetWindowUserPointer(m_window, this);
     m_glfwWrapper = std::make_shared<he::window::GlfwWrapper>(m_window);
+    enableEvents();
 }
 
 
@@ -191,8 +194,8 @@ void Window::enableEvents()
 void Window::disableEvents()
 {
     m_glfwWrapper->setKeyCallback(nullptr);
-
     m_glfwWrapper->setMouseButtonCallback(nullptr);
+    m_glfwWrapper->setScrollCallback(nullptr);
 }
 
 

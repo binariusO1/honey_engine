@@ -32,8 +32,12 @@ public:
     void removeDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>&);
     he::gfx::draw::IDrawable& drawable(const std::string&);
 
+public:
+    void process_event(const he::window::Event&) override;
+
 protected:
     DrawableMap m_uniqueDrawables;
+    EventInputListenerMap m_uniqueListeners;
     LayersMap m_layers;
 };
 } // namespace render

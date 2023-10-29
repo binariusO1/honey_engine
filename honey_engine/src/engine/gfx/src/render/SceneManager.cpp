@@ -96,6 +96,10 @@ void SceneManager::addTransitionTable(const SceneTransitionTable& transitionTabl
 void SceneManager::process_event(const he::window::Event& event)
 {
     m_stateMachine->process_event<he::window::Event>(event);
+    if (m_currentScene->isOpen())
+    {
+        m_currentScene->process_event(event);
+    }
 }
 
 

@@ -5,6 +5,7 @@
 #include "exception/invalid_initialization.hpp"
 #include "gfx/render/IRenderable.hpp"
 #include "gfx/render/VisibilityState.hpp"
+#include "window/events/IEventInputListener.hpp"
 
 namespace he
 {
@@ -14,7 +15,7 @@ namespace render
 {
 class ILayer;
 
-class ILayer : public IRenderable
+class ILayer : public IRenderable , public he::window::IEventInputListener
 {
 public:
     ILayer() = default;

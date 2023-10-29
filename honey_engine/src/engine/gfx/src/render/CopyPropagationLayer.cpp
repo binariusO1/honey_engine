@@ -45,6 +45,16 @@ void CopyPropagationLayer::render(gfx::render::IRender& render)
 
 
 ////////////////////////////////////////////////////////////
+void CopyPropagationLayer::process_event(const he::window::Event& event)
+{
+    for (auto it = m_uniqueDrawables.begin(); it != m_uniqueDrawables.end(); ++it)
+    {
+        LOG_WARNING << "Not implemented";
+    }
+}
+
+
+////////////////////////////////////////////////////////////
 void CopyPropagationLayer::setRenderSettings(const he::gfx::render::RenderSettings& renderSettings)
 {
     m_renderSettings = renderSettings;

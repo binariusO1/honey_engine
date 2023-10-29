@@ -15,7 +15,8 @@ namespace render
 {
 using DrawableList = std::vector<std::shared_ptr<he::gfx::draw::IDrawable>>;
 using DrawableMap = std::map<std::string, std::shared_ptr<he::gfx::draw::IDrawable>>;
-class BaseLayer;
+using EventInputListenerList = std::vector<std::shared_ptr<he::window::IEventInputListener>>;
+using EventInputListenerMap = std::map<std::string, std::shared_ptr<he::window::IEventInputListener>>;
 using LayersList = std::vector<std::shared_ptr<he::gfx::render::ILayer>>;
 using LayersMap = std::map<std::string, std::shared_ptr<he::gfx::render::ILayer>>;
 
@@ -36,6 +37,9 @@ public:
 public:
     virtual void render(gfx::render::IRender&) = 0;
     virtual void setRenderSettings(const he::gfx::render::RenderSettings&) = 0;
+
+public:
+    virtual void process_event(const he::window::Event&) = 0;
 
 protected:
     ILayer::ContextLayer m_context;

@@ -104,7 +104,7 @@ TEST_F(SceneManagerTests, whenRender_thenChangeOpenCloseState_shouldRenderFurthe
     ASSERT_EQ(sut->getCurrentScene()->getName(), scenePtr2->getName());
 }
 
-TEST_F(SceneManagerTests, whenRender_thenChangeOpenCloseStateToClose_shouldThrowException)
+TEST_F(SceneManagerTests, whenRender_thenChangeOpenStateToClose_shouldThrowException)
 {
     EXPECT_CALL(*sceneMock1, open());
     EXPECT_CALL(*sceneMock1, getName()).WillRepeatedly(Return("Main Menu"));

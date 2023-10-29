@@ -22,6 +22,7 @@ public:
     MOCK_METHOD(bool, isVisible, (), (const override));
     MOCK_METHOD(void, render, (gfx::render::IRender&), (override));
     MOCK_METHOD(void, setRenderSettings, (const he::gfx::render::RenderSettings&), (override));
+    MOCK_METHOD(void, process_event, (const he::window::Event&), (override));
     MOCK_METHOD(const std::string, getName, (), (const));
 };
 } // namespace render

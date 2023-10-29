@@ -61,7 +61,7 @@ public:
 
     std::unique_ptr<he::window::Window> window;
     std::unique_ptr<he::gfx::render::IRender> render;
-    std::unique_ptr<he::gfx::render::SceneManager> sceneManager{nullptr};
+    std::shared_ptr<he::gfx::render::SceneManager> sceneManager{nullptr};
 };
 
 TEST_F(InteractiveSCT, buttonTest)
@@ -70,6 +70,19 @@ TEST_F(InteractiveSCT, buttonTest)
 
 TEST_F(InteractiveSCT, eventTest)
 {
+    std::shared_ptr<he::gfx::render::Layer> layer1 = std::make_shared<he::gfx::render::Layer>("layer_1");
+    he::gfx::render::DrawableList sprites{};
+    layer1->addDrawables(sprites);
+
+    std::shared_ptr<he::gfx::render::Scene> scene1 = std::make_shared<he::gfx::render::Scene>("scene_1");
+    scene1->addLayer(layer1);
+    he::gfx::render::SceneTransitionTable transitionTable{{scene1, nullptr, nullptr, nullptr, nullptr}};
+    sceneManager = std::make_shared<he::gfx::render::SceneManager>(transitionTable);    
+
+    std::shared_ptr<he::window::IEventInputListener> sceneListener = std::shared_ptr<he::gfx::render::SceneManager>(sceneManager);
+    window->addEventInputListener(sceneListener.get());
+
+    display(600*10);
 }
 
 TEST_F(InteractiveSCT, menuTest)
