@@ -3,6 +3,7 @@ set(MODULE_NAME_UT ${MODULE_NAME}_UT)
 message([Cmake] " add_test_executable " ${TEST_NAME2} )
 
 set(SOURCES
+	ButtonTests.cpp
 	FiguresTests.cpp
 	ImageTests.cpp
 	LayerTests.cpp

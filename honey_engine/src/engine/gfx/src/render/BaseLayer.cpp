@@ -1,6 +1,7 @@
 #include "gfx/render/BaseLayer.hpp"
 
 #include "logger/Logger.hpp"
+
 namespace he
 {
 namespace gfx
