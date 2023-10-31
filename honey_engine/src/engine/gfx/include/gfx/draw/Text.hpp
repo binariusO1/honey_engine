@@ -25,6 +25,7 @@ public:
 
 public:
     void setString(const std::string& string);
+    const std::string& getString() const;
     void setFont(const text::Font& font);
 
 public:
@@ -48,6 +49,7 @@ private:
 private:
     he::gfx::VertexArray2d m_vertexArray{};
     IDrawable::Context m_context;
+    std::string m_string; 
 };
 } // namespace draw
 } // namespace gfx

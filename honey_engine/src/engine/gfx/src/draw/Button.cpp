@@ -1,5 +1,6 @@
 #include "gfx/draw/Button.hpp"
 
+#include "gfx/draw/Text.hpp"
 #include "gfx/render/Render.hpp"
 #include "logger/Logger.hpp"
 
@@ -17,19 +18,34 @@ Button::Button(const std::string& name, const std::shared_ptr<he::gfx::render::I
 
 
 ////////////////////////////////////////////////////////////
+Button::Button(const Button& copy)
+    : m_text{copy.m_text ? std::make_unique<gfx::draw::Text>(*copy.m_text) : nullptr}
+    , Sprite(copy)
+{
+}
+
+
+////////////////////////////////////////////////////////////
 void Button::process_event(const he::window::Event& event)
 {
     //
 }
 
 
-////////////////////////////////////////////////////////////
-void Button::draw(const he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings) const
+//////////////////////////////////////////////////////////////////////
+void Button::setText(const std::string& text)
 {
-    if (not Shape::getVertexArray().empty())
+    if (m_text == nullptr)
     {
-        render.drawVertex(Shape::getVertexArray(), getTextureId(), getColor(), renderSettings);
+        const std::string buttonTextName = m_context.name + "_text";
+        m_text = std::make_unique<gfx::draw::Text>(buttonTextName);
+        m_text->setColor({gfx::Color::White});
+
+        // TODO
+        // m_text->setPosition({m_position.x + m_origin.x, m_position.y + m_origin.y});
+        // updateTextPosition();
     }
+    m_text->setString(text);
 }
 } // namespace draw
 } // namespace gfx

@@ -30,7 +30,7 @@ public:
 protected:
     void draw(const he::gfx::render::Render&, const he::gfx::render::RenderSettings&) const override;
 
-private:
+protected:
     void updateTextureCoords();
     std::shared_ptr<he::gfx::render::ITexture>  m_texture{nullptr};
     bool m_isFilledByColor{false};

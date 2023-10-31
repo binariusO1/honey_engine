@@ -75,6 +75,8 @@ TEST_F(InteractiveSCT, eventTest)
     std::shared_ptr<he::gfx::render::Texture> texture1 = std::make_shared<he::gfx::render::Texture>();
     texture1->createEmpty(textureSize);
     he::gfx::draw::Button button1("Button1", texture1);
+    button1.setColor(he::gfx::Color::Blue);
+    button1.setText("Click me");
     std::shared_ptr<he::gfx::draw::IDrawable> but1 = std::make_shared<he::gfx::draw::Button>(button1);
 
     std::shared_ptr<he::gfx::render::Layer> layer1 = std::make_shared<he::gfx::render::Layer>("layer_1");
