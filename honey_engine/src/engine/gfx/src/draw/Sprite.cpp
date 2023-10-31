@@ -41,12 +41,36 @@ void Sprite::setPosition(const he::gfx::geometry::Point2Df& position)
 
 
 ////////////////////////////////////////////////////////////
-void Sprite::draw(he::gfx::render::Render& render, he::gfx::render::RenderSettings& renderSettings) const
+void Sprite::draw(const he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings) const
 {
     if (not Shape::getVertexArray().empty())
     {
-        render.drawVertex(Shape::getVertexArray(), getTextureId(), getColor(), renderSettings);
+        if (m_isFilledByColor)
+        {
+            render.drawVertexPrimitive(Shape::getVertexArray(), getTextureId(), getColor(), renderSettings);
+        }
+        else
+        {
+            render.drawVertex(Shape::getVertexArray(), getTextureId(), getColor(), renderSettings);
+        }
     }
+}
+
+
+////////////////////////////////////////////////////////////
+void Sprite::setColor(const he::gfx::Color& color)
+{
+    m_context.color = color;
+    m_isFilledByColor = true;
+    updateVertexArray();
+}
+
+
+////////////////////////////////////////////////////////////
+void Sprite::unsetColor()
+{
+    m_isFilledByColor = false;
+    updateVertexArray();
 }
 
 

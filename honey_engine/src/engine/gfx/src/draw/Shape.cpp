@@ -183,12 +183,11 @@ void Shape::openVertexArray()
 
 
 ////////////////////////////////////////////////////////////
-void Shape::draw(he::gfx::render::Render& render, he::gfx::render::RenderSettings& renderSettings) const
+void Shape::draw(const he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings) const
 {
     if (not getVertexArray().empty())
     {
-        renderSettings.isPrimitive = true;
-        render.drawVertex(getVertexArray(), getTextureId(), getColor(), renderSettings);
+        render.drawVertexPrimitive(getVertexArray(), getTextureId(), getColor(), renderSettings);
     }
 }
 
@@ -215,6 +214,7 @@ void Shape::setOriginPosition(const he::gfx::OriginPosition& originPosition)
     }
 }
 
+
 ////////////////////////////////////////////////////////////
 void Shape::updateVertexArray()
 {
@@ -226,7 +226,7 @@ void Shape::updateVertexArray()
         {
             auto point = m_figure->getPoint(i);
             transformPoint(point);
-            // TODO: remove 1200, 800
+            // TODO: remove 1200, 800 - screen width and height
             convertPixelPointToVertexPoint(point, 1200, 800);
             m_vertexArray.push_back({point, m_context.color});
         }

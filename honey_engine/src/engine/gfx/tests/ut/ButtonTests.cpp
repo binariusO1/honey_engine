@@ -1,10 +1,11 @@
 #include <gtest/gtest.h>
-#include "gfx/render/Button.hpp"
+#include "gfx/draw/Button.hpp"
+#include "graphic/TextureMock.hpp"
 #include "logger/Logger.hpp"
 
 using namespace ::testing;
 
-namespace he::gfx::render
+namespace he::gfx::draw
 {
 class ButtonTests : public testing::Test
 {
@@ -14,13 +15,14 @@ public:
 
     void createSut()
     {
-        sut = std::make_unique<he::gfx::render::Button>("button1");
+        sut = std::make_unique<he::gfx::draw::Button>("button1", textureMock);
     }
 
-    std::unique_ptr<he::gfx::render::Button> sut;
+    std::unique_ptr<he::gfx::draw::Button> sut;
+    std::shared_ptr<he::gfx::render::TextureMock> textureMock = std::make_shared<he::gfx::render::TextureMock>();
 };
 
 TEST_F(ButtonTests, whenCreate_shouldCreateWithoutError)
 {
 }
-} // namespace he::gfx::render
+} // namespace he::gfx::draw

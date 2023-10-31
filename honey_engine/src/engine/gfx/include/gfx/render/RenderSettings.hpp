@@ -14,7 +14,6 @@ struct RenderSettings
     he::libs::gl::DrawType drawType{he::libs::gl::DrawType::Static};
     he::libs::gl::ConnectionType prymitiveType{he::libs::gl::ConnectionType::TriangleFan};
     bool polygonMode{false};
-    bool isPrimitive{false};
 }; 
 } // namespace render
 } // namespace gfx

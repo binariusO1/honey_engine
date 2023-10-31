@@ -19,6 +19,7 @@ set(SOURCES
 
 if(COVERAGE)
 	list(APPEND SOURCES 
+		../../src/draw/Button.cpp
 		../../src/draw/Shape.cpp
 		../../src/draw/Sprite.cpp
 		../../src/draw/Text.cpp

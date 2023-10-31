@@ -24,18 +24,6 @@ Texture::Texture() : m_glWrapper{std::make_shared<he::libs::gl::GlWrapper>()}
 
 
 ////////////////////////////////////////////////////////////
-bool Texture::create(const geometry::Size2Dpxl& size)
-{
-    if (not createEmpty(size))
-    {
-        LOG_WARNING << "Unable to create Texture";
-        return false;
-    }
-    return true;
-}
-
-
-////////////////////////////////////////////////////////////
 Texture::Texture(const std::string& filepath) : m_glWrapper{std::make_shared<he::libs::gl::GlWrapper>()}
 {
     Image image(filepath);

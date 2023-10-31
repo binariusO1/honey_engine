@@ -37,7 +37,7 @@ public:
 
 protected:
     friend class he::gfx::render::Render;
-    virtual void draw(he::gfx::render::Render&, he::gfx::render::RenderSettings&) const = 0;
+    virtual void draw(const he::gfx::render::Render&, const he::gfx::render::RenderSettings&) const = 0;
 
 public:
     struct Context

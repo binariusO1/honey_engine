@@ -69,8 +69,7 @@ TEST_F(RenderSCT, screenTestShapes_drawSamples)
     const he::gfx::render::RenderSettings renderSettings1{       
         he::libs::gl::DrawType::Static,
         he::libs::gl::ConnectionType::TriangleFan,
-        false,
-        true};
+        false};
     // initialize rectangles
     std::shared_ptr<he::gfx::geometry::figures::Figure> rect = std::make_shared<he::gfx::geometry::figures::Rectangle>(he::gfx::geometry::Size2Df{200.0, 100.0});
     he::gfx::draw::Shape shape1("rect1", rect);
@@ -161,8 +160,7 @@ TEST_F(RenderSCT, screenTestShapes_drawSamples)
     const he::gfx::render::RenderSettings renderSettings2{       
         he::libs::gl::DrawType::Static,
         he::libs::gl::ConnectionType::LineStrip,
-        false,
-        true};
+        false};
 
     // initialize cross
     std::shared_ptr<he::gfx::geometry::figures::Figure> cross = std::make_shared<he::gfx::geometry::figures::Cross>(50.0);
@@ -176,7 +174,7 @@ TEST_F(RenderSCT, screenTestShapes_drawSamples)
     //initialize texture drawable
     const he::gfx::geometry::Size2Dpxl textureSize(200, 100);
     std::shared_ptr<he::gfx::render::Texture> texture1 = std::make_shared<he::gfx::render::Texture>();
-    texture1->create(textureSize);
+    texture1->createEmpty(textureSize);
     std::shared_ptr<he::gfx::draw::IDrawable> sprite1 = std::make_shared<he::gfx::draw::Sprite>("sprite1", texture1);
     sprite1->setPosition({540.0, 0.0});
     std::shared_ptr<he::gfx::render::Texture> texture2 = std::make_shared<he::gfx::render::Texture>("data\\test\\container.png");

@@ -19,7 +19,6 @@ Render::Render()
     , m_renderSettings{
         he::libs::gl::DrawType::Static,
         he::libs::gl::ConnectionType::TriangleFan,
-        false,
         false
     }
     , m_primitiveShaderProgram{"d:\\Projects\\CPP\\games\\honey_engine\\data\\gfx\\render\\shaders\\shader_primitive2d.vs", "d:\\Projects\\CPP\\games\\honey_engine\\data\\gfx\\render\\shaders\\shader_primitive2d.fs"}
@@ -49,33 +48,57 @@ void Render::draw(he::gfx::draw::IDrawable& drawable, he::gfx::render::RenderSet
 }
 
 
+////////////////////////////////////////////////////////////
+void Render::drawVertex(
+    const he::gfx::VertexArray2d& vertexArray, 
+    const unsigned int textureId,
+    const he::gfx::Color color, 
+    const he::gfx::render::RenderSettings& renderSettings) const
+{
+
+    drawVertexArray(vertexArray, textureId, color, renderSettings);
+}
+
+
+////////////////////////////////////////////////////////////
+void Render::drawVertexPrimitive(
+    const he::gfx::VertexArray2d& vertexArray, 
+    const unsigned int textureId,
+    const he::gfx::Color color, 
+    const he::gfx::render::RenderSettings& renderSettings) const
+{
+    drawVertexArray(vertexArray, textureId, color, renderSettings, true);
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // PRIVATE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 ////////////////////////////////////////////////////////////
-void Render::drawVertex(
+void Render::drawVertexArray(
     const he::gfx::VertexArray2d& vertexArray, 
     const unsigned int textureId,
     const he::gfx::Color color, 
-    const he::gfx::render::RenderSettings& renderSettings)
+    const he::gfx::render::RenderSettings& renderSettings,
+    const bool isPrimitive) const
 {
-    int shaderId = 0;
-    if (renderSettings.isPrimitive)
-    {
-        shaderId = m_primitiveShaderProgram.getId();
-    }
-    else
-    {
-        shaderId = m_textureShaderProgram.getId();
-    }
     auto size = sizeof(he::gfx::Vertex2d);
     const void* dataPointer = static_cast<const void*>(vertexArray.data());
     m_glWrapper->setupDraw(size, vertexArray.size(), dataPointer, renderSettings.drawType);
     std::uint8_t colorArray[4] = {color.r, color.g, color.b, color.a};
-    m_glWrapper->draw(0, vertexArray.size(), colorArray, textureId, renderSettings.prymitiveType, shaderId, renderSettings.polygonMode, renderSettings.isPrimitive);
+
+    if (isPrimitive)
+    {
+        m_glWrapper->drawPrimitive(0, vertexArray.size(), colorArray, textureId, renderSettings.prymitiveType, m_primitiveShaderProgram.getId(), renderSettings.polygonMode);
+    }
+    else
+    {
+        m_glWrapper->draw(0, vertexArray.size(), colorArray, textureId, renderSettings.prymitiveType, m_textureShaderProgram.getId(), renderSettings.polygonMode);
+    }
 }
+
 } // namespace render
 } // namespace gfx
 } // namespace he

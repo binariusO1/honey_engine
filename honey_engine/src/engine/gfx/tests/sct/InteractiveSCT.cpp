@@ -5,6 +5,7 @@
 #include "gfx/geometry/figures/Cross.hpp"
 #include "gfx/geometry/figures/Hexagon.hpp"
 #include "gfx/geometry/figures/Rectangle.hpp"
+#include "gfx/draw/Button.hpp"
 #include "gfx/draw/Shape.hpp"
 #include "gfx/draw/Sprite.hpp"
 #include "gfx/draw/Text.hpp"
@@ -70,8 +71,14 @@ TEST_F(InteractiveSCT, buttonTest)
 
 TEST_F(InteractiveSCT, eventTest)
 {
+    const he::gfx::geometry::Size2Dpxl textureSize(200, 100);
+    std::shared_ptr<he::gfx::render::Texture> texture1 = std::make_shared<he::gfx::render::Texture>();
+    texture1->createEmpty(textureSize);
+    he::gfx::draw::Button button1("Button1", texture1);
+    std::shared_ptr<he::gfx::draw::IDrawable> but1 = std::make_shared<he::gfx::draw::Button>(button1);
+
     std::shared_ptr<he::gfx::render::Layer> layer1 = std::make_shared<he::gfx::render::Layer>("layer_1");
-    he::gfx::render::DrawableList sprites{};
+    he::gfx::render::DrawableList sprites{but1};
     layer1->addDrawables(sprites);
 
     std::shared_ptr<he::gfx::render::Scene> scene1 = std::make_shared<he::gfx::render::Scene>("scene_1");

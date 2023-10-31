@@ -67,7 +67,7 @@ TEST_F(TextureTests, whenCreate_shouldCreateWithoutError)
     expectedDelete();
 
     createSut();
-    sut->create(imageSize);
+    sut->createEmpty(imageSize);
     ASSERT_EQ(sut->getSize(), imageSize);
 }
 
@@ -76,6 +76,6 @@ TEST_F(TextureTests, whenCreateAndSizeIsNull_shouldReturnFalse)
     const he::gfx::geometry::Size2Dpxl imageSize(0, 100);
     EXPECT_CALL(*glWrapperMock, generateTextureId(_)).Times(0);
     createSut();
-    ASSERT_EQ(sut->create(imageSize), false);
+    ASSERT_EQ(sut->createEmpty(imageSize), false);
 }
 } // namespace he::gfx::render

@@ -25,7 +25,6 @@ public:
     ~Texture() override;
 
 public:
-    bool create(const geometry::Size2Dpxl&);
     bool create(const geometry::Size2Dpxl&, const std::uint8_t*) override;
     bool createEmpty(const he::gfx::geometry::Size2Dpxl& size) override;
     void setSmooth(bool) override;

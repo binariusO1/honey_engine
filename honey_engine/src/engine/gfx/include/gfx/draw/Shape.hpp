@@ -48,7 +48,7 @@ protected:
     void updateVertexArray();
 
 protected:
-    void draw(he::gfx::render::Render&, he::gfx::render::RenderSettings&) const override;
+    void draw(const he::gfx::render::Render&, const he::gfx::render::RenderSettings&) const override;
 
 protected:
     const std::shared_ptr<he::gfx::geometry::figures::Figure> m_figure{nullptr};

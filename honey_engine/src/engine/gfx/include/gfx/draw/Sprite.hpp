@@ -23,12 +23,17 @@ public:
     unsigned int getTextureId() const;
     void setPosition(const he::gfx::geometry::Point2Df& position);
 
+public:
+    void setColor(const he::gfx::Color& color) override;
+    void unsetColor();
+
 protected:
-    void draw(he::gfx::render::Render&, he::gfx::render::RenderSettings&) const override;
+    void draw(const he::gfx::render::Render&, const he::gfx::render::RenderSettings&) const override;
 
 private:
     void updateTextureCoords();
     std::shared_ptr<he::gfx::render::ITexture>  m_texture{nullptr};
+    bool m_isFilledByColor{false};
 };
 } // namespace draw
 } // namespace gfx

@@ -6,6 +6,7 @@ set(INTERNAL_FILES
 	src/graphic/Image.cpp
 	src/graphic/Texture.cpp
 	# src/VertexArray2d.cpp
+	src/draw/Button.cpp
 	src/draw/Shape.cpp
 	src/draw/Sprite.cpp
 	src/draw/Text.cpp
@@ -18,7 +19,6 @@ set(INTERNAL_FILES
 	src/geometry/figures/Transformable2d.cpp
 	src/geometry/figures/Utils.cpp
 	src/render/BaseLayer.cpp
-	src/render/Button.cpp
 	src/render/Layer.cpp
 	src/render/CopyPropagationLayer.cpp
 	src/render/Render.cpp
@@ -27,6 +27,7 @@ set(INTERNAL_FILES
 	)
 
 set(PUBLIC_HEADERS 
+    include/gfx/draw/Button.hpp
 	include/gfx/draw/IDrawable.hpp
 	include/gfx/draw/Shape.hpp
 	include/gfx/draw/Sprite.hpp
@@ -55,7 +56,6 @@ set(PUBLIC_HEADERS
     include/gfx/graphic/ITexture.hpp
     include/gfx/graphic/Texture.hpp
     include/gfx/render/BaseLayer.hpp
-    include/gfx/render/Button.hpp
     include/gfx/render/ILayer.hpp
     include/gfx/render/IRender.hpp
     include/gfx/render/IRenderable.hpp

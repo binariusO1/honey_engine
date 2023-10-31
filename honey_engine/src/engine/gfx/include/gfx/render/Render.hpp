@@ -39,7 +39,21 @@ public:
         const he::gfx::VertexArray2d& vertex, 
         const unsigned int textureId,
         const he::gfx::Color color, 
-        const he::gfx::render::RenderSettings& renderSettings);
+        const he::gfx::render::RenderSettings& renderSettings) const;
+
+    void drawVertexPrimitive(
+        const he::gfx::VertexArray2d& vertex, 
+        const unsigned int textureId,
+        const he::gfx::Color color, 
+        const he::gfx::render::RenderSettings& renderSettings) const;
+
+private:
+    void drawVertexArray(
+        const he::gfx::VertexArray2d& vertex, 
+        const unsigned int textureId,
+        const he::gfx::Color color, 
+        const he::gfx::render::RenderSettings& renderSettings,
+        const bool isPrimitive = false) const;
 
 private:
     std::unique_ptr<he::libs::gl::IGlWrapper> m_glWrapper{nullptr};
