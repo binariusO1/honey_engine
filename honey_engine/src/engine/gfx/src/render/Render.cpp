@@ -16,7 +16,7 @@ namespace render
 ////////////////////////////////////////////////////////////
 Render::Render()
     : m_glWrapper{std::make_unique<he::libs::gl::GlWrapper>()} 
-    , m_renderSettings{
+    , m_defaultRenderSettings{
         he::libs::gl::DrawType::Static,
         he::libs::gl::ConnectionType::TriangleFan,
         false
@@ -28,21 +28,14 @@ Render::Render()
 
 
 ////////////////////////////////////////////////////////////
-void Render::setRenderSettings(const he::gfx::render::RenderSettings& renderSettings)
+void Render::draw(const he::gfx::draw::IDrawable& drawable)
 {
-    m_renderSettings = renderSettings;
+    draw(drawable, m_defaultRenderSettings);
 }
 
 
 ////////////////////////////////////////////////////////////
-void Render::draw(he::gfx::draw::IDrawable& drawable)
-{
-    draw(drawable, m_renderSettings);
-}
-
-
-////////////////////////////////////////////////////////////
-void Render::draw(he::gfx::draw::IDrawable& drawable, he::gfx::render::RenderSettings& renderSettings)
+void Render::draw(const he::gfx::draw::IDrawable& drawable, const he::gfx::render::RenderSettings& renderSettings)
 {
     drawable.draw(*this, renderSettings);
 }

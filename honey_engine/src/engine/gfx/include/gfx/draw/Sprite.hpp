@@ -28,7 +28,7 @@ public:
     void unsetColor();
 
 protected:
-    void draw(const he::gfx::render::Render&, const he::gfx::render::RenderSettings&) const override;
+    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) const override;
 
 protected:
     void updateTextureCoords();

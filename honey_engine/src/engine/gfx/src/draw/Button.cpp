@@ -25,6 +25,17 @@ Button::Button(const Button& copy)
 }
 
 
+//////////////////////////////////////////////////////////////////////
+void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings)
+{
+    Sprite::draw(render, renderSettings); 
+    if (m_text != nullptr)
+    {
+        render.draw(*m_text, renderSettings);
+    }
+}
+
+
 ////////////////////////////////////////////////////////////
 void Button::process_event(const he::window::Event& event)
 {

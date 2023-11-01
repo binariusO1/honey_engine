@@ -28,11 +28,8 @@ public:
     Render& operator=(const Render&) = delete;
 
 public:
-    void setRenderSettings(const he::gfx::render::RenderSettings&) override;
-
-public:
-    void draw(he::gfx::draw::IDrawable&) override;
-    void draw(he::gfx::draw::IDrawable&, he::gfx::render::RenderSettings&) override;
+    void draw(const he::gfx::draw::IDrawable&) override;
+    void draw(const he::gfx::draw::IDrawable&, const he::gfx::render::RenderSettings&) override;
 
 public:
     void drawVertex(
@@ -57,7 +54,7 @@ private:
 
 private:
     std::unique_ptr<he::libs::gl::IGlWrapper> m_glWrapper{nullptr};
-    he::gfx::render::RenderSettings m_renderSettings{};
+    he::gfx::render::RenderSettings m_defaultRenderSettings{};
     he::libs::gl::Shader m_textureShaderProgram;
     he::libs::gl::Shader m_primitiveShaderProgram;
 };

@@ -18,6 +18,9 @@ public:
     ~Button() = default;
 
 public:
+    void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings);
+
+public:
     void process_event(const he::window::Event&) override;
 
 public:

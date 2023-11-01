@@ -183,7 +183,7 @@ void Shape::openVertexArray()
 
 
 ////////////////////////////////////////////////////////////
-void Shape::draw(const he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings) const
+void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings) const
 {
     if (not getVertexArray().empty())
     {

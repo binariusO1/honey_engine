@@ -15,9 +15,8 @@ public:
     RenderMock() = default;
     ~RenderMock() override = default;
 
-    MOCK_METHOD(void, setRenderSettings, (const he::gfx::render::RenderSettings&), (override));
-    MOCK_METHOD(void, draw, (he::gfx::draw::IDrawable&), (override));
-    MOCK_METHOD(void, draw, (he::gfx::draw::IDrawable&, he::gfx::render::RenderSettings&), (override));
+    MOCK_METHOD(void, draw, (const he::gfx::draw::IDrawable&), (override));
+    MOCK_METHOD(void, draw, (const he::gfx::draw::IDrawable&, const he::gfx::render::RenderSettings&), (override));
 };
 } // namespace render
 } // namespace gfx

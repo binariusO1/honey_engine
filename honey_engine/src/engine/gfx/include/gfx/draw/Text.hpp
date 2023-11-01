@@ -44,7 +44,7 @@ public:
 
 private:
     const he::gfx::VertexArray2d& getVertexArray() const override { return m_vertexArray; };
-    void draw(const he::gfx::render::Render&, const he::gfx::render::RenderSettings&) const override {};
+    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) const override;
 
 private:
     he::gfx::VertexArray2d m_vertexArray{};
