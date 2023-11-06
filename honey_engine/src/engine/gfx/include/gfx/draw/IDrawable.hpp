@@ -26,7 +26,7 @@ public:
 public:
     virtual void setColor(const he::gfx::Color&) = 0;
     virtual void setPosition(const he::gfx::geometry::Point2Df&) = 0;
-    virtual he::gfx::Color getColor() const = 0;
+    virtual he::gfx::Color getColor() const = 0; //TODO: const
     virtual const std::string getName() const = 0;
     virtual const he::gfx::geometry::Point2Df& getPosition() const = 0;
 

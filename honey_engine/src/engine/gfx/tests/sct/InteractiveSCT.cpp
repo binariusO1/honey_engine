@@ -27,6 +27,8 @@ constexpr int defaultWindowWidth{1200};
 constexpr int defaultWindowHeight{800};
 constexpr std::size_t timeToDisplay{150};
 } // namespace
+
+
 namespace  he
 {
 class InteractiveSCT : public testing::Test
@@ -76,7 +78,8 @@ TEST_F(InteractiveSCT, eventTest)
     texture1->createEmpty(textureSize);
     he::gfx::draw::Button button1("Button1", texture1);
     button1.setColor(he::gfx::Color::Blue);
-    button1.setText("Click me");
+    button1.setText("Quit");
+    button1.setPosition({574, 350});
     std::shared_ptr<he::gfx::draw::IDrawable> but1 = std::make_shared<he::gfx::draw::Button>(button1);
 
     std::shared_ptr<he::gfx::render::Layer> layer1 = std::make_shared<he::gfx::render::Layer>("layer_1");

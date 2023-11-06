@@ -98,6 +98,7 @@ if(FREEGLUT_LIB)
 	set( FREEGLUT_LIBS freeglut )
 	target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${FREEGLUT_LIBS})
 	list(APPEND CXX_FLAGS "-LD:/Projects/CPP/games/honey_engine/honey_engine/libs/freeglut-3.4.0/freeglut/lib")
+
 endif()
 
 if(GLFW_LIB)
@@ -107,6 +108,7 @@ if(GLFW_LIB)
 	target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${GLFW_LIBS})
 	# note: place into mingw folders /include and /lib also ( C:\mingw64_posix\x86_64-w64-mingw32\include )
 	# list(APPEND CXX_FLAGS "-LD:/Projects/CPP/games/honey_engine/honey_engine/libs/glfw-3.3.8/glfw/lib")
+
 endif()
 
 if(FREETYPE_LIB)
@@ -117,25 +119,27 @@ if(FREETYPE_LIB)
 	# set( FREETYPE_INCLUDE_DIR_ft2build 	"D:/Projects/CPP/games/honey_engine/honey_engine/libs/freetype-2.12.1/freetype/include/freetype2" )
 	# set ( FREETYPE_DIR "D:/Projects/CPP/games/honey_engine/honey_engine/libs/freetype-2.12.1/freetype" )
 	# find_package(Freetype REQUIRED)
+	# target_include_directories(${EXECUTABLE_NAME} PRIVATE ${FREETYPE_INCLUDE_DIRS})
+
+	# list(APPEND CXX_FLAGS "-ID:/Projects/CPP/games/honey_engine/honey_engine/libs/freetype-2.12.1/freetype/include")
+	# list(APPEND CXX_FLAGS "-LD:/Projects/CPP/games/honey_engine/honey_engine/libs/freetype-2.12.1/freetype/lib")
 
 	set( FREETYPE_LIBS freetype )
 	target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${FREETYPE_LIBS})
-	# target_include_directories(${EXECUTABLE_NAME} PRIVATE ${FREETYPE_INCLUDE_DIRS})
 
 endif()
 
 
 #=================================================================
 #	END
-# list(APPEND CXX_DIR "-ID:/Projects/CPP/games/honey_engine/honey_engine/libs/freetype-2.12.1/freetype/include")
 # list(APPEND CXX_DIR "-ID:/Projects/CPP/games/honey_engine/honey_engine/libs/freeglut-3.4.0/freeglut/include")
 # target_include_directories(${EXECUTABLE_NAME} PUBLIC ${CXX_DIR})
 
-list( APPEND CXX_FLAGS "-lglut32")
-list( APPEND CXX_FLAGS "-lglfw3")
-list( APPEND CXX_FLAGS "-lfreeglut" "-lopengl32" )
-list( APPEND CXX_FLAGS "-lgdi32")
-list( APPEND CXX_FLAGS "-lfreetype")
+list(APPEND CXX_FLAGS "-lglut32")
+list(APPEND CXX_FLAGS "-lglfw3")
+list(APPEND CXX_FLAGS "-lfreeglut" "-lopengl32" )
+list(APPEND CXX_FLAGS "-lgdi32")
+list(APPEND CXX_FLAGS "-lfreetype")
 
 list(APPEND CXX_FLAGS "-Wunused-function" "-Wunused-label" "-Wunused-value" "-Wunused-variable" "-Wunused-const-variable=1")
 list(APPEND CXX_FLAGS "-Wswitch-default" "-Wswitch-enum" "-Wextra" "-Werror" "-Wall")

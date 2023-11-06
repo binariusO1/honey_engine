@@ -26,6 +26,8 @@ constexpr int defaultWindowWidth{1200};
 constexpr int defaultWindowHeight{800};
 constexpr std::size_t timeToDisplay{150};
 } // namespace
+
+
 namespace  he
 {
 class RenderSCT : public testing::Test

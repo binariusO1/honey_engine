@@ -5,6 +5,7 @@ message([Cmake] " add_test_executable " ${TEST_NAME2} )
 set(SOURCES
 	ButtonTests.cpp
 	FiguresTests.cpp
+	FontTests.cpp
 	ImageTests.cpp
 	LayerTests.cpp
 	Point2dTests.cpp
@@ -44,7 +45,7 @@ if(COVERAGE)
 	)
 endif()
 
-set( GLFW_LIBS glfw3 )
+set( FREETYPE_LIBS freetype )
 
 target_link_libraries(
 	${MODULE_NAME_UT}
@@ -55,6 +56,7 @@ target_link_libraries(
 		gtest_main
 		gmock
 		he::gfx
+		${FREETYPE_LIBS}
 )
 
 # coverage

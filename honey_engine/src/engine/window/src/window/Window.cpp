@@ -160,7 +160,7 @@ int Window::createWindow(int widthWin, int heightWin, const char* name)
     }
 
     glViewport(0, 0, width, height);
-    LOG_DEBUG << "Create window: \"" << name << "\", size: " << width << "x" << height;
+    LOG_INFO << "Create window: \"" << name << "\", size: " << width << "x" << height;
     m_windowSize.width = width;
     m_windowSize.height = height;
     return 0;

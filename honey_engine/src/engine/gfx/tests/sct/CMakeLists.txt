@@ -11,6 +11,7 @@ add_test_executable(${MODULE_NAME_SCT}
 )
 
 set( GLFW_LIBS glfw3 )
+set( FREETYPE_LIBS freetype )
 
 target_link_libraries(
 	${MODULE_NAME_SCT}
@@ -21,4 +22,5 @@ target_link_libraries(
 		GTest::gmock_main
 		he::gfx
 		he::window
+		${FREETYPE_LIBS}
 )

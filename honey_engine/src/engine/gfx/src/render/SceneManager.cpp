@@ -22,7 +22,7 @@ SceneManager::SceneManager(const SceneTransitionTable& transitionTable) : m_stat
     }
     addTransitionTable(transitionTable);
     m_currentScene->open();
-    LOG_DEBUG << "Current scene is: " << m_currentScene->getName();
+    LOG_INFO << "Current scene is: " << m_currentScene->getName();
 }
 
 

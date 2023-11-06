@@ -5,6 +5,7 @@
 
 namespace 
 {
+    // TODO make this function common not inside thic .cpp file
 void convertPixelPointToVertexPoint(he::gfx::geometry::Point2Df& point, const int screenWidth, const int screenHeight)
 {
     const float SCREEN_SCALE = 2.0f;

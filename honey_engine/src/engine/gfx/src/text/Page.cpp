@@ -1,36 +1,91 @@
 #include "gfx/text/Page.hpp"
 
+#include "exception/invalid_initialization.hpp"
 #include "gfx/Color.hpp"
-#include "gfx/graphics/Image.hpp"
+#include "gfx/geometry/Size2d.hpp"
+#include "gfx/graphic/Image.hpp"
 #include "logger/Logger.hpp"
 
+namespace he
+{
 namespace gfx
 {
-namespace resources
+namespace text
 {
 //////////////////////////////////////////////////////////////////////
-Page::Page(bool smooth) : nextRow(3)
+Page::Page(bool smooth) : m_nextRow(3)
 {
-    // Make sure that the texture is initialized by default
-    gfx::resources::Image image;
-    image.create({128, 128}, gfx::Color(255, 255, 255, 0));
+    gfx::render::Image image({128, 128}, gfx::Color::White);
 
-    // Reserve a 2x2 white square for texturing underlines
+    // Note: Reserve a 2x2 white square for texturing underlines
     for (std::size_t i = 0; i < 2; ++i)
     {
         for (std::size_t j = 0; j < 2; ++j)
         {
-            image.setPixel({static_cast<int>(i), static_cast<int>(j)}, gfx::Color(255, 255, 255, 255));
+            image.setPixel(geometry::Size2Dpxl{static_cast<uint16_t>(i), static_cast<uint16_t>(j)}, gfx::Color(255, 255, 255, 255));
         }
     }
 
-    // Create the texture
-    if (not texture.loadFromImage(image))
+    try
     {
-        LOG_ERROR << "Failed to load font page texture";
+        m_texture = std::make_shared<he::gfx::render::Texture>(image);
     }
-    texture.setSmooth(smooth);
+    catch(const std::exception& e)
+    {
+        throw he::common::invalid_initialization("Failed to load font page texture");
+    }
+
+    m_texture->setSmooth(smooth);
 }
 
-} // namespace resources
+
+//////////////////////////////////////////////////////////////////////
+const std::shared_ptr<he::gfx::render::Texture> Page::getTexture() const
+{
+    return m_texture;
+}
+
+
+//////////////////////////////////////////////////////////////////////
+const GlyphTable& Page::getGlyphTable() const
+{
+    return m_glyphs;
+}
+
+
+//////////////////////////////////////////////////////////////////////
+void Page::addGlyph(const std::uint64_t key, const gfx::text::Glyph& glyph)
+{
+    m_glyphs.emplace(key, glyph);
+}
+
+
+//////////////////////////////////////////////////////////////////////
+std::vector<Row>& Page::getRows()
+{
+    return m_rows;
+}
+
+
+//////////////////////////////////////////////////////////////////////
+void Page::addRow(const unsigned int rowHeight)
+{
+    m_rows.emplace_back(getNextRow(), rowHeight);
+}
+
+
+//////////////////////////////////////////////////////////////////////
+const unsigned int Page::getNextRow() const
+{
+    return m_nextRow;
+}
+
+
+//////////////////////////////////////////////////////////////////////
+void Page::setRow(const unsigned int row)
+{
+    m_nextRow = row;
+}
+} // namespace text
 } // namespace gfx
+} // namespace he

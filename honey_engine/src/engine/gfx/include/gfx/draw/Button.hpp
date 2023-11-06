@@ -18,13 +18,17 @@ public:
     ~Button() = default;
 
 public:
-    void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings);
+    void setPosition(const geometry::Point2Df&);
+    void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) const override;
 
 public:
     void process_event(const he::window::Event&) override;
 
 public:
     void setText(const std::string&);
+
+private:
+    void setTextPosition(const geometry::Point2Df& point);
 
 private:
     std::unique_ptr<Text> m_text{nullptr};

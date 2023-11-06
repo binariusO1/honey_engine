@@ -26,13 +26,21 @@ Button::Button(const Button& copy)
 
 
 //////////////////////////////////////////////////////////////////////
-void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings)
+void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) const
 {
     Sprite::draw(render, renderSettings); 
     if (m_text != nullptr)
     {
         render.draw(*m_text, renderSettings);
     }
+}
+
+
+//////////////////////////////////////////////////////////////////////
+void Button::setPosition(const geometry::Point2Df& point)
+{
+    setTextPosition(point);
+    Shape::setPosition(point);
 }
 
 
@@ -51,12 +59,25 @@ void Button::setText(const std::string& text)
         const std::string buttonTextName = m_context.name + "_text";
         m_text = std::make_unique<gfx::draw::Text>(buttonTextName);
         m_text->setColor({gfx::Color::White});
-
+        m_text->setPosition({m_position.x + m_origin.x, m_position.y + m_origin.y});
         // TODO
-        // m_text->setPosition({m_position.x + m_origin.x, m_position.y + m_origin.y});
         // updateTextPosition();
+        m_text->setOriginInCenter();
     }
     m_text->setString(text);
+}
+
+
+//////////////////////////////////////////////////////////////////////
+void Button::setTextPosition(const geometry::Point2Df& point)
+{
+    if (m_text)
+    {
+        auto textPosition = m_text->getPosition();
+        auto textPosCorrectionX = textPosition.x - getPosition().x;
+        auto textPosCorrectionY = textPosition.y - getPosition().y;
+        m_text->setPosition({point.x + textPosCorrectionX, point.y + textPosCorrectionY});
+    }
 }
 } // namespace draw
 } // namespace gfx

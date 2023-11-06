@@ -2,10 +2,9 @@ set(MODULE_NAME gfx)
 
 set(INTERNAL_FILES 
 	src/text/Font.cpp
-	# src/text/Page.cpp
+	src/text/Page.cpp
 	src/graphic/Image.cpp
 	src/graphic/Texture.cpp
-	# src/VertexArray2d.cpp
 	src/draw/Button.cpp
 	src/draw/Shape.cpp
 	src/draw/Sprite.cpp
@@ -72,8 +71,8 @@ set(PUBLIC_HEADERS
     include/gfx/render/SceneManager.hpp
     include/gfx/render/VisibilityState.hpp
     include/gfx/text/Font.hpp
-    # include/gfx/text/Glyph.hpp
-    # include/gfx/text/Page.hpp
+    include/gfx/text/Glyph.hpp
+    include/gfx/text/Page.hpp
     include/gfx/Color.hpp
     include/gfx/Color.inl
     include/gfx/ColorBasic.hpp

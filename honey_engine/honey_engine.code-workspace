@@ -72,7 +72,8 @@
 			"cinttypes": "cpp",
 			"typeinfo": "cpp",
 			"variant": "cpp",
-			"cassert": "cpp"
+			"cassert": "cpp",
+			"filesystem": "cpp"
 		},
 		"C_Cpp.errorSquiggles": "enabledIfIncludesResolve"
 	}
