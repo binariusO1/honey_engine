@@ -1,6 +1,6 @@
 set(MODULE_NAME_UT ${MODULE_NAME}_UT)
 
-message([Cmake] " add_test_executable " ${TEST_NAME2} )
+message([Cmake] " add_test_executable " ${MODULE_NAME_UT} )
 
 set(SOURCES
 	ButtonTests.cpp
@@ -8,6 +8,7 @@ set(SOURCES
 	FontTests.cpp
 	ImageTests.cpp
 	LayerTests.cpp
+	PageTests.cpp
 	Point2dTests.cpp
 	SceneTests.cpp
 	SceneManagerTests.cpp
@@ -26,6 +27,8 @@ if(COVERAGE)
 		../../src/draw/Text.cpp
 		../../src/graphic/Image.cpp
 		../../src/graphic/Texture.cpp
+		../../src/graphic/Texture.cpp
+		../../src/text/Page.cpp
 	)
 endif()
 
@@ -59,7 +62,7 @@ target_link_libraries(
 		${FREETYPE_LIBS}
 )
 
-# coverage
+
 if (COVERAGE)
 	list(APPEND CXX_FLAGS_COVERAGE "-std=c++11" "-Wno-deprecated-register")
 	list(APPEND CXX_FLAGS_COVERAGE "-O0" "-g")

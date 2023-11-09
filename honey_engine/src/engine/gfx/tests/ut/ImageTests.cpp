@@ -20,7 +20,7 @@ public:
 
     void createSut()
     {
-        const geometry::Size2Dpxl size({10, 10});
+        const geometry::Size2Dpxl size({2, 2});
 
         sut = std::make_unique<he::gfx::render::Image>(size, color);
     }
@@ -29,7 +29,7 @@ public:
 
 TEST_F(ImageTests, whenCreateAndSizeIsNull_shouldThrowException)
 {
-    const he::gfx::geometry::Size2Dpxl imageSize(0, 100);
+    const he::gfx::geometry::Size2Dpxl imageSize(0, 10);
     EXPECT_THROW((he::gfx::render::Image(imageSize, color)), he::common::invalid_initialization);
 }
 

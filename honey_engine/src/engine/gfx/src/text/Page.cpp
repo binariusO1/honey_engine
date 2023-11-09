@@ -1,10 +1,8 @@
 #include "gfx/text/Page.hpp"
 
-#include "exception/invalid_initialization.hpp"
 #include "gfx/Color.hpp"
 #include "gfx/geometry/Size2d.hpp"
 #include "gfx/graphic/Image.hpp"
-#include "logger/Logger.hpp"
 
 namespace he
 {
@@ -13,78 +11,101 @@ namespace gfx
 namespace text
 {
 //////////////////////////////////////////////////////////////////////
-Page::Page(bool smooth) : m_nextRow(3)
+Page::Page() : m_texture{std::make_shared<he::gfx::render::Texture>()}
 {
-    gfx::render::Image image({128, 128}, gfx::Color::White);
+}
 
-    // Note: Reserve a 2x2 white square for texturing underlines
-    for (std::size_t i = 0; i < 2; ++i)
-    {
-        for (std::size_t j = 0; j < 2; ++j)
-        {
-            image.setPixel(geometry::Size2Dpxl{static_cast<uint16_t>(i), static_cast<uint16_t>(j)}, gfx::Color(255, 255, 255, 255));
-        }
-    }
 
-    try
-    {
-        m_texture = std::make_shared<he::gfx::render::Texture>(image);
-    }
-    catch(const std::exception& e)
-    {
-        throw he::common::invalid_initialization("Failed to load font page texture");
-    }
+//////////////////////////////////////////////////////////////////////
+void Page::createTextureWithSmooth()
+{
+    createTexture();
+    m_texture->setSmooth(true);
+}
 
-    m_texture->setSmooth(smooth);
+
+//////////////////////////////////////////////////////////////////////
+void Page::createTextureWithoutSmooth()
+{
+    createTexture();
+    m_texture->setSmooth(false);
 }
 
 
 //////////////////////////////////////////////////////////////////////
 const std::shared_ptr<he::gfx::render::Texture> Page::getTexture() const
 {
-    return m_texture;
+    return std::static_pointer_cast<he::gfx::render::Texture>(m_texture);
 }
 
 
 //////////////////////////////////////////////////////////////////////
 const GlyphTable& Page::getGlyphTable() const
 {
-    return m_glyphs;
+    return m_glyphTable;
 }
 
 
 //////////////////////////////////////////////////////////////////////
-void Page::addGlyph(const std::uint64_t key, const gfx::text::Glyph& glyph)
-{
-    m_glyphs.emplace(key, glyph);
-}
-
-
-//////////////////////////////////////////////////////////////////////
-std::vector<Row>& Page::getRows()
+const std::vector<Row>& Page::getRows() const
 {
     return m_rows;
 }
 
 
 //////////////////////////////////////////////////////////////////////
-void Page::addRow(const unsigned int rowHeight)
+const unsigned int Page::getPositionOfNextRow() const
 {
-    m_rows.emplace_back(getNextRow(), rowHeight);
+    return m_positionOfNextRow;
 }
 
 
 //////////////////////////////////////////////////////////////////////
-const unsigned int Page::getNextRow() const
+void Page::addGlyph(const std::uint64_t key, const gfx::text::Glyph& glyph)
 {
-    return m_nextRow;
+    m_glyphTable.emplace(key, glyph);
 }
 
 
 //////////////////////////////////////////////////////////////////////
-void Page::setRow(const unsigned int row)
+void Page::addRowHeight(const unsigned int rowHeight)
 {
-    m_nextRow = row;
+    m_positionOfNextRow += rowHeight;
+    m_rows.emplace_back(0, m_positionOfNextRow, rowHeight);
+}
+
+
+//////////////////////////////////////////////////////////////////////
+bool Page::setWidthForRow(const size_t rowIndex, const unsigned int width)
+{
+    if (rowIndex < m_rows.size())
+    {
+        m_rows.at(rowIndex).width = width;
+        return true;
+    }
+    return false;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// PRIVATE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////
+void Page::createTexture()
+{
+    gfx::render::Image image({128, 128}, gfx::Color::White);
+
+    // Note: Reserve a 2x2 white square for texturing underlines
+    for (std::uint16_t i = 0; i < 2; ++i)
+    {
+        for (std::uint16_t j = 0; j < 2; ++j)
+        {
+            image.setPixel(geometry::Size2Dpxl{i, j}, gfx::Color::White);
+        }
+    }
+    m_texture->create(image.getSize(), image.getData());
 }
 } // namespace text
 } // namespace gfx

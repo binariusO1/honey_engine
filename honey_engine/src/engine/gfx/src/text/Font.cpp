@@ -1,7 +1,9 @@
 #include "gfx/text/Font.hpp"
 
 #include <cmath>
+#include <optional>
 #include "gfx/geometry/Line.hpp"
+#include "gfx/geometry/Size2d.hpp"
 #include "gfx/text/Glyph.hpp"
 #include "exception/invalid_initialization.hpp"
 #include "logger/Logger.hpp"
@@ -424,12 +426,13 @@ Glyph Font::loadGlyph(const std::uint32_t codePoint, const unsigned int characte
 ////////////////////////////////////////////////////////////
 geometry::Line<float> Font::findGlyphRect(Page& page, const geometry::Size2Dui& size) const
 {
-    // Note: Find the line that fits well the glyph
-    Row* row = nullptr;
-    float bestRatio = 0;
-    for (auto it = page.getRows().begin(); it != page.getRows().end() and not row; ++it)
+    bool isRowFound{false};
+    size_t index = 0;
+    const std::vector<Row>& pagesRows = page.getRows();
+
+    for (index ; index < pagesRows.size() ; ++index)
     {
-        float ratio = static_cast<float>(size.height) / static_cast<float>(it->height);
+        float ratio = static_cast<float>(size.height) / static_cast<float>(pagesRows[index].height);   
         // Ignore rows that are either too small or too high
         if ((ratio < 0.7f) or (ratio > 1.f))
         {
@@ -437,27 +440,24 @@ geometry::Line<float> Font::findGlyphRect(Page& page, const geometry::Size2Dui& 
         }
 
         // Check if there's enough horizontal space left in the row
-        if (size.width > page.getTexture()->getSize().width - it->width)
+        if (size.width > page.getTexture()->getSize().width - pagesRows[index].width)
         {
             continue;
         }
 
         // Make sure that this new row is the best found so far
-        if (ratio < bestRatio)
+        if (ratio < 0)
         {
             continue;
         }
-
-        // The current row passed all the tests: we can select it
-        row = &*it;
-        bestRatio = ratio;
+        isRowFound = true;
+        break;
     }
 
-    // If we didn't find a matching row, create a new one (10% taller than the glyph)
-    if (not row)
+    if (not isRowFound)
     {
         unsigned int rowHeight = size.height + size.height / 10;
-        while ((page.getNextRow() + rowHeight >= page.getTexture()->getSize().height) || (size.width >= page.getTexture()->getSize().width))
+        while ((page.getPositionOfNextRow() + rowHeight >= page.getTexture()->getSize().height) || (size.width >= page.getTexture()->getSize().width))
         {
             // Not enough space: resize the texture if possible
             geometry::Size2D textureSize{page.getTexture()->getSize().width, page.getTexture()->getSize().height};
@@ -484,17 +484,14 @@ geometry::Line<float> Font::findGlyphRect(Page& page, const geometry::Size2Dui& 
             }
         }
 
-        // We can now create the new row
-        page.addRow(rowHeight);
-        page.setRow(page.getNextRow()+ rowHeight);
-        row = &page.getRows().back();
+        index = pagesRows.size();
+        page.addRowHeight(rowHeight);
     }
 
-    // Find the glyph's rectangle on the selected row
-    geometry::Line<float> rect{{static_cast<float>(row->width), static_cast<float>(row->top)}, {static_cast<float>(size.width), static_cast<float>(size.height)}};
+    geometry::Line<float> rect{{static_cast<float>(pagesRows[index].width), static_cast<float>(pagesRows[index].top)}, {static_cast<float>(size.width), static_cast<float>(size.height)}};
 
-    // Update the row informations
-    row->width += size.width;
+    auto widthToSet = page.getRows()[index].width + size.width;
+    page.setWidthForRow(index, widthToSet);
 
     return rect;
 }
@@ -556,11 +553,18 @@ void Font::glyphToBitmap(FT_Bitmap& bitmap, const FT_Pos weight, const bool bold
 ////////////////////////////////////////////////////////////
 he::gfx::text::Page& Font::loadPage(const unsigned int characterSize) const
 {
-    auto it = m_pages.try_emplace(characterSize, m_isSmooth);
-    if(it.second)
+    if (m_pages.find(characterSize) == m_pages.end())
     {
-        return it.first->second;
+        he::gfx::text::Page page;
+        page.createTextureWithSmooth();
+        auto it = m_pages.try_emplace(characterSize, page);
+
+        if(it.second)
+        {
+            return it.first->second;
+        }
     }
+
     return m_pages.at(characterSize);
 }
 
