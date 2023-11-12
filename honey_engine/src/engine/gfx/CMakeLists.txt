@@ -2,6 +2,7 @@ set(MODULE_NAME gfx)
 
 set(INTERNAL_FILES 
 	src/text/Font.cpp
+	src/text/FontHandles.cpp
 	src/text/FreeType2Wrapper.cpp
 	src/text/Page.cpp
 	src/graphic/Image.cpp
@@ -72,6 +73,7 @@ set(PUBLIC_HEADERS
     include/gfx/render/SceneManager.hpp
     include/gfx/render/VisibilityState.hpp
     include/gfx/text/Font.hpp
+    include/gfx/text/FontHandles.hpp
     include/gfx/text/FreeType2Wrapper.hpp
     include/gfx/text/Glyph.hpp
     include/gfx/text/IFont.hpp

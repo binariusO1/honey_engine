@@ -11,18 +11,15 @@ if(NOT COVERAGE)
 			${SCT_LABELS}
 	)
 
-	set( GLFW_LIBS glfw3 )
-	set( FREETYPE_LIBS freetype )
-
 	target_link_libraries(
 		${MODULE_NAME_SCT}
 		PRIVATE
 			he::render_mocks
 		PUBLIC
-			${GLFW_LIBS}
+			glfw3
 			GTest::gmock_main
 			he::gfx
 			he::window
-			${FREETYPE_LIBS}
+			freetype
 	)
 endif()

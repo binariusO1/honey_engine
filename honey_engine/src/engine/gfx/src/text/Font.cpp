@@ -4,32 +4,22 @@
 #include <optional>
 #include "gfx/geometry/Line.hpp"
 #include "gfx/geometry/Size2d.hpp"
+#include "gfx/graphic/Texture.hpp"
 #include "gfx/text/Glyph.hpp"
-#include "exception/invalid_initialization.hpp"
+#include "gfx/text/FontHandles.hpp"
+#include "gfx/text/FreeType2Wrapper.hpp"
 #include "logger/Logger.hpp"
-
-const char* projectPath = "D:\\Projects\\CPP\\games\\honey_engine\\";
-const char* loadFontErr = "Unable to load font!";
 
 namespace
 {
+const char* projectPath = "D:\\Projects\\CPP\\games\\honey_engine\\";
+const char* loadFontErr = "Unable to load font!";
+
 //////////////////////////////////////////////////////////////////////
 std::string getAbsolutePath(const std::filesystem::path& filepath)
 {
     std::string path = filepath.string().c_str();
     return projectPath + path;
-}
-
-
-//////////////////////////////////////////////////////////////////////
-bool checkFilePath(const std::filesystem::path& filepath)
-{
-    if (not filepath.empty() and filepath.string().c_str()[0] == '\\')
-    {
-        return true;
-    }
-    LOG_WARNING << "Wrong filepath: " << filepath;
-    return false;
 }
 
 
@@ -50,48 +40,57 @@ std::uint64_t combine(float outlineThickness, bool bold, std::uint32_t index)
     return (static_cast<std::uint64_t>(reinterpret<std::uint32_t>(outlineThickness)) << 32) |
            (static_cast<std::uint64_t>(bold) << 31) | index;
 }
-} // namespace
 
+
+} // namespace
 
 
 namespace he::gfx::text
 {
-class FontHandles;
-
-
 //////////////////////////////////////////////////////////////////////
-Font::Font()
+Font::Font() : m_freeType2Wrapper{std::make_shared<gfx::text::FreeType2Wrapper>()}
 {
-    const char * defaultFontPath = "\\data\\gfx\\fonts\\calibri.ttf";
-    if (not loadFromFile(defaultFontPath))
-    {
-        throw he::common::invalid_initialization(loadFontErr);
-    }
-}
-
-
-//////////////////////////////////////////////////////////////////////
-Font::Font(const std::string& filepath)
-{
-    if (not loadFromFile(filepath))
-    {
-        throw he::common::invalid_initialization(loadFontErr);
-    }
 }
 
 
 ////////////////////////////////////////////////////////////
+Font::Font(const Font& copy) 
+    : m_fontHandles(copy.m_fontHandles)
+    , m_isSmooth(copy.m_isSmooth)
+    , m_info(copy.m_info)
+    , m_pages(copy.m_pages)
+    , m_pixelBuffer(copy.m_pixelBuffer)
+    , m_freeType2Wrapper{copy.m_freeType2Wrapper}
+{
+}
+
+////////////////////////////////////////////////////////////
 bool Font::loadFromFile(const std::filesystem::path& filepath)
 {
-    if (checkFilePath(filepath))
+    if (checkFilePathString(filepath))
     {
         const std::string& absolutePath = getAbsolutePath(filepath);
+
         if (initializeFreeType(absolutePath))
         {
             return true;
         }
     }
-    LOG_ERROR << loadFontErr;
+
+    LOG_ERROR << "Failed to create the font. Error code: " << m_freeType2Wrapper->getErrorDesc();
+    return false;
+}
+
+
+////////////////////////////////////////////////////////////
+bool Font::setCharacterSize(const unsigned int characterSize) const
+{
+    if (trySetCharacterSize(characterSize))
+    {   
+        return true;
+    }
+
+    LOG_WARNING << "Failed to set font size to: " << characterSize;
     return false;
 }
 
@@ -108,15 +107,14 @@ const float Font::getUnderlinePosition(const unsigned int characterSize) const
 {
     auto face = m_fontHandles ? m_fontHandles->face.get() : nullptr;
 
-    if (face and setCurrentSize(characterSize))
+    if (face and trySetCharacterSize(characterSize))
     {
         // Note: Return a fixed position if font is a bitmap font
-        if ( not FT_IS_SCALABLE(face))
+        if (not m_freeType2Wrapper->isScalable(face))
         {
             return static_cast<float>(characterSize) / 10.f;
         }
-
-        return -static_cast<float>(FT_MulFix(face->underline_position, face->size->metrics.y_scale)) /
+        return -static_cast<float>(m_freeType2Wrapper->multiplierFix(face->underline_position, face->size->metrics.y_scale)) /
                static_cast<float>(1 << 6);
     }
     else
@@ -127,63 +125,19 @@ const float Font::getUnderlinePosition(const unsigned int characterSize) const
 
 
 ////////////////////////////////////////////////////////////
-bool Font::setCurrentSize(const unsigned int characterSize) const
-{
-    // Note:
-    /*
-        // FT_Set_Pixel_Sizes is an expensive function, so we must call it
-        // only when necessary to avoid killing performances
-
-        // m_fontHandles and m_fontHandles->face are checked to be non-null before calling this method
-    */
-    auto face = m_fontHandles->face.get();
-    FT_UShort currentSize = face->size->metrics.x_ppem;
-
-    if (currentSize != characterSize)
-    {
-        FT_Error result = FT_Set_Pixel_Sizes(face, 0, characterSize);
-
-        if (result == FT_Err_Invalid_Pixel_Size)
-        {
-            // Note: In the case of bitmap fonts, resizing can fail if the requested size is not available
-            if (not FT_IS_SCALABLE(face))
-            {
-                LOG_WARNING << "Failed to set bitmap font size to: " << characterSize;
-                LOG_DEBUG << "Available sizes are: ";
-                std::string aSize{};
-                for (std::size_t i = 0; i < face->num_fixed_sizes; ++i)
-                {
-                    const long size = (face->available_sizes[i].y_ppem + 32) >> 6;
-                    aSize += size;
-                }
-                LOG_ERROR << aSize;
-            }
-            else
-            {
-                LOG_WARNING << "Failed to set font size to: " << characterSize;
-            }
-        }
-        return result == FT_Err_Ok;
-    }
-
-    return true;
-}
-
-
-////////////////////////////////////////////////////////////
 const float Font::getUnderlineThickness(const unsigned int characterSize) const
 {
     auto face = m_fontHandles ? m_fontHandles->face.get() : nullptr;
 
-    if (face and setCurrentSize(characterSize))
+    if (face and trySetCharacterSize(characterSize))
     {
         // Note: Return a fixed thickness if font is a bitmap font
-        if (not FT_IS_SCALABLE(face))
+        if (not m_freeType2Wrapper->isScalable(face))
         {
             return static_cast<float>(characterSize) / 14.f;
         }
 
-        return static_cast<float>(FT_MulFix(face->underline_thickness, face->size->metrics.y_scale)) /
+        return static_cast<float>(m_freeType2Wrapper->multiplierFix(face->underline_thickness, face->size->metrics.y_scale)) /
                static_cast<float>(1 << 6);
     }
     else
@@ -200,7 +154,8 @@ const Glyph& Font::getGlyph(const std::uint32_t codePoint, const unsigned int ch
     const GlyphTable& glyphs = page.getGlyphTable();
 
     // Note: Build the key by combining the glyph index (based on code point), bold flag, and outline thickness
-    const std::uint64_t key = combine(outlineThickness, bold, FT_Get_Char_Index(m_fontHandles ? m_fontHandles->face.get() : nullptr, codePoint));
+    auto fontHandles = m_fontHandles ? m_fontHandles->face.get() : nullptr;
+    const std::uint64_t key = combine(outlineThickness, bold,  m_freeType2Wrapper->getCharIndex(fontHandles, codePoint));
 
     if (auto it = glyphs.find(key); it != glyphs.end())
     {
@@ -220,7 +175,7 @@ float Font::getLineSpacing(unsigned int characterSize) const
 {
     auto face = m_fontHandles ? m_fontHandles->face.get() : nullptr;
 
-    if (face and setCurrentSize(characterSize))
+    if (face and trySetCharacterSize(characterSize))
     {
         return static_cast<float>(face->size->metrics.height) / static_cast<float>(1 << 6);
     }
@@ -234,42 +189,38 @@ float Font::getLineSpacing(unsigned int characterSize) const
 ////////////////////////////////////////////////////////////
 float Font::getKerning(std::uint32_t first, std::uint32_t second, unsigned int characterSize, bool bold) const
 {
-    // Special case where first or second is 0 (null character)
-    if (first == 0 || second == 0)
-        return 0.f;
-
+    auto areCodePointsNonZero = (first != 0 and second != 0);
     auto face = m_fontHandles ? m_fontHandles->face.get() : nullptr;
 
-    if (face && setCurrentSize(characterSize))
+    if (face and trySetCharacterSize(characterSize) and areCodePointsNonZero)
     {
-        // Convert the characters to indices
-        FT_UInt index1 = FT_Get_Char_Index(face, first);
-        FT_UInt index2 = FT_Get_Char_Index(face, second);
+        FT_UInt index1 = m_freeType2Wrapper->getCharIndex(face, first);
+        FT_UInt index2 = m_freeType2Wrapper->getCharIndex(face, second);
 
-        // Retrieve position compensation deltas generated by FT_LOAD_FORCE_AUTOHINT flag
+        // Note: Retrieve position compensation deltas generated by FT_LOAD_FORCE_AUTOHINT flag
         auto firstRsbDelta  = static_cast<float>(getGlyph(first, characterSize, bold).rsbDelta);
         auto secondLsbDelta = static_cast<float>(getGlyph(second, characterSize, bold).lsbDelta);
-
-        // Get the kerning vector if present
         FT_Vector kerning;
         kerning.x = kerning.y = 0;
-        if (FT_HAS_KERNING(face))
+
+        if (m_freeType2Wrapper->hasKerning(face))
         {
-            FT_Get_Kerning(face, index1, index2, FT_KERNING_UNFITTED, &kerning);
+            m_freeType2Wrapper->getKerning(face, index1, index2, FT_KERNING_UNFITTED, &kerning);
         }
 
-        // X advance is already in pixels for bitmap fonts
-        if (!FT_IS_SCALABLE(face))
+        // Note: X advance is already in pixels for bitmap fonts
+        if (not m_freeType2Wrapper->isScalable(face))
+        {
             return static_cast<float>(kerning.x);
+        }
 
-        // Combine kerning with compensation deltas and return the X advance
-        // Flooring is required as we use FT_KERNING_UNFITTED flag which is not quantized in 64 based grid
+        // Note: Combine kerning with compensation deltas and return the X advance
+        // Note: Flooring is required as we use FT_KERNING_UNFITTED flag which is not quantized in 64 based grid
         return std::floor(
             (secondLsbDelta - firstRsbDelta + static_cast<float>(kerning.x) + 32) / static_cast<float>(1 << 6));
     }
     else
     {
-        LOG_WARNING << "Invalid font!";
         return 0.f;
     }
 }
@@ -281,6 +232,56 @@ float Font::getKerning(std::uint32_t first, std::uint32_t second, unsigned int c
 
 
 ////////////////////////////////////////////////////////////
+bool Font::trySetCharacterSize(const unsigned int newCharacterSize) const
+{
+    // Note:
+    /*
+        // FT_Set_Pixel_Sizes is an expensive function, so we must call it
+        // only when necessary to avoid killing performances
+
+        // m_fontHandles and m_fontHandles->face are checked to be non-null before calling this method
+    */
+
+    if (not m_fontHandles)
+    {
+        return false;
+    }
+
+    auto face = m_fontHandles->face.get();
+    FT_UShort currentSize = face->size->metrics.x_ppem;
+
+    if (currentSize != newCharacterSize)
+    {
+        int result = m_freeType2Wrapper->setPixelSizes(face, 0, newCharacterSize);
+
+        if (result == FT_Err_Invalid_Pixel_Size)
+        {
+            // Note: In the case of bitmap fonts, resizing can fail if the requested size is not available
+            if (not m_freeType2Wrapper->isScalable(face))
+            {
+                LOG_WARNING << "Failed to set bitmap";
+
+                std::string aSize{};
+                for (std::size_t i = 0; i < face->num_fixed_sizes; ++i)
+                {
+                    const long size = (face->available_sizes[i].y_ppem + 32) >> 6;
+                    aSize.append(std::to_string(size));
+                    aSize.append(", ");
+                }
+
+                if (not aSize.empty())
+                {
+                    LOG_DEBUG << "Available sizes are: {" << aSize << "}";
+                }
+            }
+        }
+        return result == FT_Err_Ok;
+    }
+    return true;
+}
+
+
+////////////////////////////////////////////////////////////
 Glyph Font::loadGlyph(const std::uint32_t codePoint, const unsigned int characterSize, const bool bold, const float outlineThickness) const
 {
     Glyph glyph;
@@ -289,8 +290,9 @@ Glyph Font::loadGlyph(const std::uint32_t codePoint, const unsigned int characte
     {
         return glyph;
     }
+
     auto face = m_fontHandles->face.get();
-    auto currentSize = not setCurrentSize(characterSize);
+    auto currentSize = not trySetCharacterSize(characterSize);
 
     if (not face and not currentSize)
     {
@@ -299,14 +301,15 @@ Glyph Font::loadGlyph(const std::uint32_t codePoint, const unsigned int characte
 
     // Note: Load the glyph corresponding to the code point
     FT_Int32 flags = FT_LOAD_TARGET_NORMAL | FT_LOAD_FORCE_AUTOHINT;
+
     if (outlineThickness != 0)
     {
         flags |= FT_LOAD_NO_BITMAP;
     }
 
-    auto ftLoadedChar = FT_Load_Char(face, codePoint, flags);
+    auto ftLoadedChar = m_freeType2Wrapper->loadChar(face, codePoint, flags);
     FT_Glyph glyphDesc;
-    auto ftGlyphDesc = FT_Get_Glyph(face->glyph, &glyphDesc);
+    auto ftGlyphDesc = m_freeType2Wrapper->getGlyph(face->glyph, &glyphDesc);
 
     if (ftLoadedChar != 0 or ftGlyphDesc != 0)
     {
@@ -316,8 +319,7 @@ Glyph Font::loadGlyph(const std::uint32_t codePoint, const unsigned int characte
     FT_Pos weight  = 1 << 6;
     bool outline = (glyphDesc->format == FT_GLYPH_FORMAT_OUTLINE);
     applyBoldAndOutline(glyphDesc, weight, bold, outline, outlineThickness);
-
-    FT_Glyph_To_Bitmap(&glyphDesc, FT_RENDER_MODE_NORMAL, nullptr, 1);
+    m_freeType2Wrapper->glyphToBitmap(&glyphDesc, FT_RENDER_MODE_NORMAL, nullptr, 1);
     auto       bitmapGlyph = reinterpret_cast<FT_BitmapGlyph>(glyphDesc);
     FT_Bitmap& bitmap      = bitmapGlyph->bitmap;
 
@@ -325,6 +327,7 @@ Glyph Font::loadGlyph(const std::uint32_t codePoint, const unsigned int characte
 
     // Note: Compute the glyph's advance offset
     glyph.advance = static_cast<float>(bitmapGlyph->root.advance.x >> 16);
+
     if (bold)
     {
         glyph.advance += static_cast<float>(weight) / static_cast<float>(1 << 6);       
@@ -380,6 +383,7 @@ Glyph Font::loadGlyph(const std::uint32_t codePoint, const unsigned int characte
 
         // Extract the glyph's pixels from the bitmap
         const std::uint8_t* pixels = bitmap.buffer;
+    
         if (bitmap.pixel_mode == FT_PIXEL_MODE_MONO)
         {
             // Pixels are 1 bit monochrome values
@@ -417,9 +421,23 @@ Glyph Font::loadGlyph(const std::uint32_t codePoint, const unsigned int characte
         page.getTexture()->update(m_pixelBuffer.data(), {w, h}, {x, y});
     }
 
-    FT_Done_Glyph(glyphDesc);
+    m_freeType2Wrapper->doneGlyph(glyphDesc);
 
     return glyph;
+}
+
+
+//////////////////////////////////////////////////////////////////////
+bool Font::checkFilePathString(const std::filesystem::path& filepath)
+{
+    if (not filepath.empty() and filepath.string().c_str()[0] == '\\')
+    {
+        return true;
+    }
+    
+    LOG_WARNING << "Wrong filepath: " << filepath;
+    m_freeType2Wrapper->setErrorCode(1001);
+    return false;
 }
 
 
@@ -506,19 +524,19 @@ void Font::applyBoldAndOutline(FT_Glyph& glyphDesc, const FT_Pos weight, const b
         if (bold)
         {
             auto outlineGlyph = reinterpret_cast<FT_OutlineGlyph>(glyphDesc);
-            FT_Outline_Embolden(&outlineGlyph->outline, weight);
+            m_freeType2Wrapper->outlineEmbolden(&outlineGlyph->outline, weight);
         }
 
         if (outlineThickness != 0.f)
         {
             auto stroker = m_fontHandles->stroker.get();
 
-            FT_Stroker_Set(stroker,
+            m_freeType2Wrapper->strokerSet(stroker,
                            static_cast<FT_Fixed>(outlineThickness * static_cast<float>(1 << 6)),
                            FT_STROKER_LINECAP_ROUND,
                            FT_STROKER_LINEJOIN_ROUND,
                            0);
-            FT_Glyph_Stroke(&glyphDesc, stroker, true);
+            m_freeType2Wrapper->glyphStroke(&glyphDesc, stroker, true);
         }
     }  
 }
@@ -539,7 +557,7 @@ void Font::glyphToBitmap(FT_Bitmap& bitmap, const FT_Pos weight, const bool bold
     {
         if (bold)
         {
-            FT_Bitmap_Embolden(m_fontHandles->library.get(), &bitmap, weight, weight);
+            m_freeType2Wrapper->bitmapEmbolden(m_fontHandles->library.get(), &bitmap, weight, weight);
         }
 
         if (outlineThickness != 0)
@@ -572,7 +590,6 @@ he::gfx::text::Page& Font::loadPage(const unsigned int characterSize) const
 ////////////////////////////////////////////////////////////
 bool Font::initializeFreeType(const std::string& path)
 {
-    // Note: Cleanup the previous resources
     cleanup();
 
     // Note: 
@@ -581,15 +598,15 @@ bool Font::initializeFreeType(const std::string& path)
         global manager that would create a lot of issues regarding creation and destruction order.
     */
 
-    auto fontHandles = std::make_unique<FontHandles>();
+    auto fontHandles = std::make_unique<FontHandles>(*m_freeType2Wrapper);
 
     if (fontHandles->initFreeType() and fontHandles->loadFontFace(path) and fontHandles->loadStoker() and fontHandles->setUnicodeChar())
     {
         m_fontHandles = std::move(fontHandles);
-        m_info = m_fontHandles->face->family_name ? m_fontHandles->face->family_name : std::string();
+        m_info = m_fontHandles->face->family_name ? m_fontHandles->face->family_name : "";
         return true;
     }
-    LOG_WARNING << "Freetype not initialized!";
+
     return false;
 }
 
@@ -599,65 +616,7 @@ void Font::cleanup()
 {
     // Note: Drop ownership of shared FreeType pointers
     m_fontHandles.reset();
-
     m_pages.clear();
     std::vector<std::uint8_t>().swap(m_pixelBuffer);
-}
-
-
-////////////////////////////////////////////////////////////
-bool Font::FontHandles::initFreeType()
-{
-    FT_Library ftLibrary;
-    if (FT_Init_FreeType(&ftLibrary) != 0)
-    {
-        LOG_WARNING << "Failed to initialize FreeType";
-        return false;
-    }
-    library.reset(ftLibrary);
-    return true;
-}
-
-
-////////////////////////////////////////////////////////////
-bool Font::FontHandles::loadFontFace(const std::string& path)
-{
-    // Note: Load the new font face from the specified file
-    FT_Face ftFace;
-    if (FT_New_Face(library.get(), path.c_str(), 0, &ftFace) != 0)
-    {
-        LOG_WARNING << "Failed to create the font face";
-        return false;
-    }
-    face.reset(ftFace);
-    return true;    
-}
-
-
-////////////////////////////////////////////////////////////
-bool Font::FontHandles::loadStoker()
-{
-    // Note: Load the stroker that will be used to outline the font
-    FT_Stroker ftStroker;
-    if (FT_Stroker_New(library.get(), &ftStroker) != 0)
-    {
-        LOG_WARNING << "Failed to create the stroker";
-        return false;
-    }
-    stroker.reset(ftStroker);
-    return true;    
-}
-
-
-////////////////////////////////////////////////////////////
-bool Font::FontHandles::setUnicodeChar()
-{
-    // Note: Select the unicode character map
-    if (FT_Select_Charmap(face.get(), FT_ENCODING_UNICODE) != 0)
-    {
-        LOG_WARNING << "Failed to set the Unicode character set";
-        return false;
-    }
-    return true;
 }
 } // namespace he::gfx::text

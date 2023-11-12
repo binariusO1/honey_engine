@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include "gfx/geometry/Line.hpp"
+#include "gfx/graphic/Texture.hpp"
 #include "gfx/render/Render.hpp"
 #include "logger/Logger.hpp"
 
@@ -272,6 +273,7 @@ void Text::computeTextStyle()
     float         maxY     = 0.f;
 
     std::uint32_t prevChar = 0;
+
     for (std::size_t i = 0; i < m_string.size(); ++i)
     {
         std::uint32_t curChar = m_string[i];

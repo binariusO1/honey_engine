@@ -3,7 +3,6 @@
 #include <memory>
 #include "gfx/geometry/Vector2d.hpp"
 #include "gfx/graphic/ITexture.hpp"
-#include "libs/gl/GlWrapper.hpp"
 
 namespace he
 {

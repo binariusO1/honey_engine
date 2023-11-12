@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <filesystem>
 #include <vector>
 #include "gfx/geometry/Size2d.hpp"

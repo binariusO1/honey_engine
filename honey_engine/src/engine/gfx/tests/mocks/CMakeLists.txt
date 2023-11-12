@@ -1,10 +1,13 @@
 set(MODULE_NAME_MOCKS render_mocks)
 
 set(PUBLIC_HEADERS
+	include/graphic/TextureMock.hpp
     include/render/LayerMock.hpp
     include/render/RenderMock.hpp
     include/render/SceneMock.hpp
     include/render/SceneStateMachineMock.hpp
+	include/text/FreeType2Mock.hpp
+	include/text/FontMock.hpp
 )
 
 set(INTERNAL_FILES
@@ -28,4 +31,5 @@ target_link_libraries(${MODULE_NAME_MOCKS}
     PRIVATE
 		he::gfx
 		he::window
+		freetype
 )

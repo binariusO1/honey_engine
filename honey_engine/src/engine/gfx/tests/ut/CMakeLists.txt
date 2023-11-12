@@ -14,6 +14,7 @@ set(SOURCES
 	SceneManagerTests.cpp
 	ShapeTests.cpp
 	SpriteTests.cpp
+	TextFixture.hpp
 	TextureTests.cpp
 	TextTests.cpp
 	Transformable2dTests.cpp
@@ -48,8 +49,6 @@ if(COVERAGE)
 	)
 endif()
 
-set( FREETYPE_LIBS freetype )
-
 target_link_libraries(
 	${MODULE_NAME_UT}
 	PRIVATE
@@ -59,7 +58,7 @@ target_link_libraries(
 		gtest_main
 		gmock
 		he::gfx
-		${FREETYPE_LIBS}
+		freetype
 )
 
 

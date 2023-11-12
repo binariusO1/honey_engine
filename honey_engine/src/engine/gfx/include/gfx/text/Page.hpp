@@ -1,14 +1,20 @@
 #pragma once
 
+#include <memory>
 #include <unordered_map>
 #include <vector>
-#include "gfx/graphic/Texture.hpp"
+// #include "gfx/graphic/Texture.hpp"
 #include "gfx/text/Glyph.hpp"
 
 namespace he
 {
 namespace gfx
 {
+namespace render
+{
+class ITexture;
+class Texture;
+} // namespace render
 namespace text
 {
 using GlyphTable = std::unordered_map<std::uint64_t, gfx::text::Glyph>; // Note: Table mapping a codepoint to its glyph
@@ -45,8 +51,8 @@ protected:
     std::shared_ptr<he::gfx::render::ITexture> m_texture{nullptr}; // Note: Texture containing the pixels of the glyphs
 
 private:
-    GlyphTable m_glyphTable;            // Note: Table mapping code points to their corresponding glyph
-    std::vector<Row> m_rows;            // Note: List containing the position of all the existing rows
+    GlyphTable m_glyphTable{};            // Note: Table mapping code points to their corresponding glyph
+    std::vector<Row> m_rows{};            // Note: List containing the position of all the existing rows
     unsigned int m_positionOfNextRow{3};   // Note: position of the next new row in the texture
 
 };

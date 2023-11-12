@@ -73,14 +73,16 @@ typedef ::common::log_stream::LogStream<::common::Logger> logger;
 #define LOG_BRIGHT_BLUE "\x1B[94m"
 #define LOG_WHITE "\033[0m"
 #define LOG_YELLOW "\x1B[33m"
+#define LOG_LIGHT_YELLOW "\x1B[93m"
 
-#define LOG_RED "\x1B[31m"
 #define LOG_THIS_1 LOG_DEBUG << LOG_RED << "THIS <-- (1)" << LOG_WHITE
 #define LOG_THIS_2 LOG_DEBUG << LOG_BRIGHT_RED << "THIS <-- (2)" << LOG_WHITE
-#define LOG_THIS_3 LOG_DEBUG << LOG_GREEN << "THIS <-- (3)" << LOG_WHITE
-#define LOG_THIS_4 LOG_DEBUG << LOG_BRIGHT_GREEN << "THIS <-- (4)" << LOG_WHITE
-#define LOG_THIS_5 LOG_DEBUG << LOG_BLUE << "THIS <-- (5)" << LOG_WHITE
-#define LOG_THIS_6 LOG_DEBUG << LOG_BRIGHT_BLUE << "THIS <-- (6)" << LOG_WHITE
+#define LOG_THIS_3 LOG_DEBUG << LOG_YELLOW << "THIS <-- (3)" << LOG_WHITE
+#define LOG_THIS_4 LOG_DEBUG << LOG_LIGHT_YELLOW << "THIS <-- (4)" << LOG_WHITE
+#define LOG_THIS_5 LOG_DEBUG << LOG_BRIGHT_GREEN << "THIS <-- (5)" << LOG_WHITE
+#define LOG_THIS_6 LOG_DEBUG << KIG_GREEN << "THIS <-- (6)" << LOG_WHITE
+#define LOG_THIS_7 LOG_DEBUG << LOG_BLUE << "THIS <-- (7)" << LOG_WHITE
+#define LOG_THIS_8 LOG_DEBUG << LOG_BRIGHT_BLUE << "THIS <-- (8)" << LOG_WHITE
 
 /*
 Name            FG  BG

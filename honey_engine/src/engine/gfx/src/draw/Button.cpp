@@ -60,6 +60,7 @@ void Button::setText(const std::string& text)
         m_text = std::make_unique<gfx::draw::Text>(buttonTextName);
         m_text->setColor({gfx::Color::White});
         m_text->setPosition({m_position.x + m_origin.x, m_position.y + m_origin.y});
+        m_text->setFont("\\data\\gfx\\fonts\\calibri.ttf");
         // TODO
         // updateTextPosition();
         m_text->setOriginInCenter();

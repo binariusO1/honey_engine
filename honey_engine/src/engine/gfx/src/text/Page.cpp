@@ -3,6 +3,7 @@
 #include "gfx/Color.hpp"
 #include "gfx/geometry/Size2d.hpp"
 #include "gfx/graphic/Image.hpp"
+#include "gfx/graphic/Texture.hpp"
 
 namespace he
 {
