@@ -3,6 +3,8 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <unordered_map>
+#include <vector>
 #include "gfx/draw/IDrawable.hpp"
 #include "gfx/render/ILayer.hpp"
 
@@ -14,11 +16,10 @@ namespace gfx
 namespace render
 {
 using DrawableList = std::vector<std::shared_ptr<he::gfx::draw::IDrawable>>;
-using DrawableMap = std::map<std::string, std::shared_ptr<he::gfx::draw::IDrawable>>;
 using EventInputListenerList = std::vector<std::shared_ptr<he::window::IEventInputListener>>;
 using EventInputListenerMap = std::map<std::string, std::shared_ptr<he::window::IEventInputListener>>;
 using LayersList = std::vector<std::shared_ptr<he::gfx::render::ILayer>>;
-using LayersMap = std::map<std::string, std::shared_ptr<he::gfx::render::ILayer>>;
+using LayersMap = std::unordered_map<std::string, std::shared_ptr<he::gfx::render::ILayer>>;
 
 class BaseLayer : public ILayer
 {

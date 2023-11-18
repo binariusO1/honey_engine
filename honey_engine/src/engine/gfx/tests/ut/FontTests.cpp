@@ -9,9 +9,6 @@ namespace  he::gfx::text
 {
 namespace
 {
-const char* t_fontCalibriPath = "\\data\\gfx\\fonts\\calibri.ttf";
-
-
 } // namespace
 
 class FontTestsWrapper : public Font
@@ -34,7 +31,7 @@ public:
 };
 
 
-class FontTests : public testing::Test
+class FontTests : public testing::Test , public text::TextFixture
 {
 public:
     FontTests() = default;
@@ -123,6 +120,7 @@ public:
     std::unique_ptr<he::gfx::text::Font> sut;
     std::shared_ptr<he::gfx::text::FreeType2Mock> freeTypeMock = std::make_shared<he::gfx::text::FreeType2Mock>();
 };
+
 
 TEST_F(FontTests, copyConstructor_whenCopyObject_shouldCopyWithoutError)
 {

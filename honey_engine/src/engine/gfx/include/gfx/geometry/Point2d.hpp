@@ -23,7 +23,7 @@ public:
     T y;
 
 friend std::ostream& operator<< (std::ostream& os, const geometry::Point2d<T>& point) {
-    os << "{" << point.x << ", " << point.y << "}";
+    os << "[" << point.x << ", " << point.y << "]";
     return os;
 }  
 };

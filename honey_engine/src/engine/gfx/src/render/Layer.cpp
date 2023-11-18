@@ -1,4 +1,5 @@
 #include "gfx/render/Layer.hpp"
+#include <algorithm>
 #include "logger/Logger.hpp"
 
 namespace he
@@ -22,10 +23,11 @@ Layer::~Layer()
 ////////////////////////////////////////////////////////////
 void Layer::render(gfx::render::IRender& render)
 {
-    for (auto it = m_uniqueDrawables.begin(); it != m_uniqueDrawables.end(); ++it)
+    for (const auto& item : m_uniqueDrawables)
     {
-        render.draw(*(it->second), m_renderSettings);
+        render.draw(*item);
     }
+
     for (const auto& layer : m_layers)
     {
         layer.second->render(render);
@@ -75,6 +77,7 @@ void Layer::addLayers(const LayersList& layers)
 void Layer::removeLayer(const std::shared_ptr<he::gfx::render::ILayer>& layer)
 {
     auto it = m_layers.find(layer->getName());
+
     if (it != m_layers.end())
     {
         m_layers.erase(it);
@@ -85,37 +88,36 @@ void Layer::removeLayer(const std::shared_ptr<he::gfx::render::ILayer>& layer)
 ////////////////////////////////////////////////////////////
 void Layer::addDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>& drawable)
 {
-    auto result = m_uniqueDrawables.insert({drawable->getName(), drawable});
-    if (not result.second)
-    {
-        LOG_ERROR << "Unable to add drawable: " << drawable->getName() << ". Key is already exists";
-        return;
-    }
+    m_uniqueDrawables.push_back(drawable);
 }
 
 
 ////////////////////////////////////////////////////////////
 void Layer::addDrawables(const DrawableList& drawables)
 {
-    for (const auto& drawable : drawables)
+    auto sum = m_uniqueDrawables.size() + drawables.size();
+
+    if (m_uniqueDrawables.capacity() < sum)
     {
-        auto result = m_uniqueDrawables.insert({drawable->getName(), drawable});
-        if (not result.second)
-        {
-            LOG_ERROR << "Unable to add drawable: " << drawable->getName() << ". Key is already exists";
-            return;
-        }
+        m_uniqueDrawables.reserve(sum);
     }
+
+    m_uniqueDrawables.insert(m_uniqueDrawables.end(), drawables.begin(), drawables.end());
 }
 
 
 ////////////////////////////////////////////////////////////
 void Layer::removeDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>& drawable)
 {
-    auto it = m_uniqueDrawables.find(drawable->getName());
-    if (it != m_uniqueDrawables.end())
+    auto it = std::find(m_uniqueDrawables.begin(), m_uniqueDrawables.end(), drawable);
+
+    if (it != m_uniqueDrawables.end()) 
     {
         m_uniqueDrawables.erase(it);
+    } 
+    else 
+    {
+        LOG_DEBUG << "Element not found.";
     }
 }
 
@@ -123,15 +125,14 @@ void Layer::removeDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>& draw
 ////////////////////////////////////////////////////////////
 he::gfx::draw::IDrawable& Layer::drawable(const std::string& name)
 {
-    auto it = m_uniqueDrawables.find(name);
-    if (it != m_uniqueDrawables.end())
+    for (auto& item : m_uniqueDrawables)
     {
-        return *(it->second);
+        if (item->getName() == name)
+        {
+            return *item;
+        }
     }
-    else
-    {
-        throw he::common::invalid_initialization("Cannot get object. Key does not found");
-    }
+    throw he::common::invalid_initialization("Cannot get object. Key does not found");
 }
 
 

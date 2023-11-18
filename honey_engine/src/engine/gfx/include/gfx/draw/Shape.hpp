@@ -3,7 +3,7 @@
 #include <memory>
 #include "gfx/Vertex.hpp"
 #include "gfx/draw/IDrawable.hpp"
-#include "gfx/geometry/figures/Figure.hpp"
+#include "gfx/geometry/figures/Rectangle.hpp"
 #include "gfx/geometry/transform/Transformable2d.hpp"
 
 namespace he
@@ -17,6 +17,7 @@ class Shape : public IDrawable , protected he::gfx::geometry::transform::Transfo
 {
 public:
     Shape(const std::string&, const std::shared_ptr<he::gfx::geometry::figures::Figure>&);
+    Shape(const std::string&, const he::gfx::geometry::figures::Rectangle&);
     Shape(const std::string&, 
             const std::shared_ptr<he::gfx::geometry::figures::Figure>&, 
             const he::gfx::Color&, 

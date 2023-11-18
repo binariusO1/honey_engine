@@ -1,6 +1,5 @@
 #pragma once
 
-#include <filesystem>
 #include "gfx/geometry/Size2d.hpp"
 #include "gfx/text/IFont.hpp"
 #include "gfx/text/IFreeType2Wrapper.hpp"
@@ -29,14 +28,14 @@ public:
     ~Font() override = default;
 
 public:
-    bool loadFromFile(const std::filesystem::path& filepath);
+    bool loadFromFile(const std::filesystem::path& filepath) override;
     bool setCharacterSize(const unsigned int characterSize) const;
     const std::shared_ptr<he::gfx::render::Texture> getTexture(const unsigned int characterSize) const override;
-    const float getUnderlinePosition(const unsigned int characterSize) const;
-    const float getUnderlineThickness(const unsigned int) const;
-    const Glyph& getGlyph(const std::uint32_t codePoint, const unsigned int characterSize, const bool bold, const float outlineThickness = 0) const;
-    float getLineSpacing(unsigned int characterSize) const;
-    float getKerning(std::uint32_t first, std::uint32_t second, unsigned int characterSize, bool bold) const;
+    const float getUnderlinePosition(const unsigned int characterSize) const override;
+    const float getUnderlineThickness(const unsigned int) const override;
+    const Glyph& getGlyph(const std::uint32_t codePoint, const unsigned int characterSize, const bool bold, const float outlineThickness = 0) const override;
+    float getLineSpacing(unsigned int characterSize) const override;
+    float getKerning(std::uint32_t first, std::uint32_t second, unsigned int characterSize, bool bold) const override;
 
 private:
     bool trySetCharacterSize(const unsigned int newCharacterSize) const;

@@ -1,5 +1,6 @@
 #include "gfx/render/CopyPropagationLayer.hpp"
 
+#include <algorithm>
 #include "logger/Logger.hpp"
 
 namespace he
@@ -25,21 +26,21 @@ CopyPropagationLayer::~CopyPropagationLayer()
 ////////////////////////////////////////////////////////////
 void CopyPropagationLayer::render(gfx::render::IRender& render)
 {
-    for (auto it = m_uniqueDrawables.begin(); it != m_uniqueDrawables.end(); ++it)
+    for (const auto& item : m_uniqueDrawables)
     {
         auto numX = m_propagationSettings.distanceX > 1 ? m_propagationSettings.numberOfElementsX : 1;
         auto numY = m_propagationSettings.distanceY > 1 ? m_propagationSettings.numberOfElementsY : 1;
-        auto startingPosition = it->second->getPosition();
+        auto startingPosition = item->getPosition();
         for (std::size_t i = 0 ; i < numX; ++i)
         {
             auto xPosition = startingPosition.x + (m_propagationSettings.distanceX*i);
             for (std::size_t i = 0 ; i < numY ; ++i)
             {
-                it->second->setPosition({xPosition, startingPosition.y + (m_propagationSettings.distanceY*i)});
-                render.draw(*(it->second), m_renderSettings);
+                item->setPosition({xPosition, startingPosition.y + (m_propagationSettings.distanceY*i)});
+                render.draw(*item, m_renderSettings);
             }
         }
-        it->second->setPosition(startingPosition);
+        item->setPosition(startingPosition);
     }
 }
 
@@ -64,37 +65,36 @@ void CopyPropagationLayer::setRenderSettings(const he::gfx::render::RenderSettin
 ////////////////////////////////////////////////////////////
 void CopyPropagationLayer::addDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>& drawable)
 {
-    auto result = m_uniqueDrawables.insert({drawable->getName(), drawable});
-    if (not result.second)
-    {
-        LOG_ERROR << "Unable to add drawable: " << drawable->getName() << ". Key is already exists";
-        return;
-    }
+    m_uniqueDrawables.push_back(drawable);
 }
 
 
 ////////////////////////////////////////////////////////////
 void CopyPropagationLayer::addDrawables(const DrawableList& drawables)
 {
-    for (const auto& drawable : drawables)
+    auto sum = m_uniqueDrawables.size() + drawables.size();
+
+    if (m_uniqueDrawables.capacity() < sum)
     {
-        auto result = m_uniqueDrawables.insert({drawable->getName(), drawable});
-        if (not result.second)
-        {
-            LOG_ERROR << "Unable to add drawable: " << drawable->getName() << ". Key is already exists";
-            return;
-        }
+        m_uniqueDrawables.reserve(sum);
     }
+
+    m_uniqueDrawables.insert(m_uniqueDrawables.end(), drawables.begin(), drawables.end());
 }
 
 
 ////////////////////////////////////////////////////////////
 void CopyPropagationLayer::removeDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>& drawable)
 {
-    auto it = m_uniqueDrawables.find(drawable->getName());
-    if (it != m_uniqueDrawables.end())
+    auto it = std::find(m_uniqueDrawables.begin(), m_uniqueDrawables.end(), drawable);
+
+    if (it != m_uniqueDrawables.end()) 
     {
         m_uniqueDrawables.erase(it);
+    } 
+    else 
+    {
+        LOG_DEBUG << "Element not found.";
     }
 }
 
@@ -102,15 +102,14 @@ void CopyPropagationLayer::removeDrawable(const std::shared_ptr<he::gfx::draw::I
 ////////////////////////////////////////////////////////////
 he::gfx::draw::IDrawable& CopyPropagationLayer::drawable(const std::string& name)
 {
-    auto it = m_uniqueDrawables.find(name);
-    if (it != m_uniqueDrawables.end())
+    for (auto& item : m_uniqueDrawables)
     {
-        return *(it->second);
+        if (item->getName() == name)
+        {
+            return *item;
+        }
     }
-    else
-    {
-        throw he::common::invalid_initialization("Cannot get object. Key does not found");
-    }
+    throw he::common::invalid_initialization("Cannot get object. Key does not found");
 }
 
 } // namespace render

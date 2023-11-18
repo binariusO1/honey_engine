@@ -38,6 +38,15 @@ Shape::Shape(const std::string& name, const std::shared_ptr<he::gfx::geometry::f
 
 
 ////////////////////////////////////////////////////////////
+Shape::Shape(const std::string& name, const he::gfx::geometry::figures::Rectangle& rectangle)
+    : m_figure{std::make_shared<he::gfx::geometry::figures::Rectangle>(rectangle)}
+    , m_context(name)
+{
+    updateVertexArray();
+}
+
+
+////////////////////////////////////////////////////////////
 Shape::Shape(const std::string& name, 
             const std::shared_ptr<he::gfx::geometry::figures::Figure>& figure, 
             const he::gfx::Color& color, 

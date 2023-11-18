@@ -20,7 +20,7 @@ public:
 };
 
 
-class PageTests : public testing::Test
+class PageTests : public testing::Test , public text::TextFixture
 {
 public:
     PageTests() = default;

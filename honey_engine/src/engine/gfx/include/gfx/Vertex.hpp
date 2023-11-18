@@ -20,9 +20,19 @@ public:
     Vertex(const T& pos, const Color& col, const T& tCoords) : position(pos) , color(col) , texCoords(tCoords) {} 
 
 public:
-    T                       position;
-    Color                   color{Color::White};
-    T                       texCoords;
+    T position;
+    Color color{Color::White};
+    T texCoords;
+
+friend std::ostream& operator<< (std::ostream& os, const gfx::Vertex<T>& vertex) {
+    os << "{" << vertex.position << 
+        ", [" << static_cast<int>(vertex.color.r) << ", " 
+                << static_cast<int>(vertex.color.g) << ", " 
+                << static_cast<int>(vertex.color.b) << ", " 
+                << static_cast<int>(vertex.color.b) <<  "], " 
+                << vertex.texCoords << "}";
+    return os;
+}  
 };
 
 using Vertex2d = Vertex<he::gfx::geometry::Point2Df>;

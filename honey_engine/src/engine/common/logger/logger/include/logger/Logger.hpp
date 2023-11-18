@@ -12,6 +12,7 @@ namespace log_stream
 enum class LogSeverity;
 }
 
+// TODO
 // log to file
 /*
 template<class charT>

@@ -32,7 +32,7 @@ public:
     void process_event(const he::window::Event&) override;
 
 private:
-    DrawableMap m_uniqueDrawables{};
+    DrawableList m_uniqueDrawables{};
     PropagationSettings m_propagationSettings{};
 };
 } // namespace render

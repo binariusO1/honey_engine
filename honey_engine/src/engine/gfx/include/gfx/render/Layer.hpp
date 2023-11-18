@@ -29,6 +29,7 @@ public:
 public:
     void addDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>&);
     void addDrawables(const DrawableList&);
+    // TODO add funtion which is add shape, text as template and convert to idrawable (after checking)
     void removeDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>&);
     he::gfx::draw::IDrawable& drawable(const std::string&);
 
@@ -36,7 +37,7 @@ public:
     void process_event(const he::window::Event&) override;
 
 protected:
-    DrawableMap m_uniqueDrawables;
+    DrawableList m_uniqueDrawables;
     EventInputListenerMap m_uniqueListeners;
     LayersMap m_layers;
 };

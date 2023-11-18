@@ -7,6 +7,8 @@ if(NOT COVERAGE)
 		SOURCES
 			InteractiveSCT.cpp
 			RenderSCT.cpp
+			RenderFixture.hpp
+			TextSCT.cpp
 		LABELS
 			${SCT_LABELS}
 	)

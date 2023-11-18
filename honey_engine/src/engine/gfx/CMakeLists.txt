@@ -79,6 +79,7 @@ set(PUBLIC_HEADERS
     include/gfx/text/IFont.hpp
     include/gfx/text/IFreeType2Wrapper.hpp
     include/gfx/text/Page.hpp
+    include/gfx/text/Style.hpp
     include/gfx/Color.hpp
     include/gfx/Color.inl
     include/gfx/ColorBasic.hpp

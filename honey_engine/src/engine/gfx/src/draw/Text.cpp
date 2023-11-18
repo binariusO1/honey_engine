@@ -1,9 +1,9 @@
 #include "gfx/draw/Text.hpp"
 
 #include <cmath>
-#include "gfx/geometry/Line.hpp"
 #include "gfx/graphic/Texture.hpp"
 #include "gfx/render/Render.hpp"
+#include "gfx/text/Font.hpp"
 #include "logger/Logger.hpp"
 
 namespace
@@ -46,15 +46,13 @@ namespace he::gfx::draw
 //////////////////////////////////////////////////////////////////////
 Text::Text(const std::string& name) : m_context(name) , m_font{std::make_shared<gfx::text::Font>()}
 {
-    m_characterSize = 30;
-    updateVertexArray();
 }
 
 
 //////////////////////////////////////////////////////////////////////
 Text::Text(const Text& copy)
     : m_string{copy.m_string}
-    , m_font{copy.m_font ? std::make_shared<gfx::text::Font>(*copy.m_font) : nullptr}
+    , m_font{copy.m_font}
     , m_letterSpacingFactor{copy.m_letterSpacingFactor}
     , m_lineSpacingFactor{copy.m_lineSpacingFactor}
     , m_context{copy.m_context}
@@ -66,7 +64,6 @@ Text::Text(const Text& copy)
     , m_vertexArray{copy.m_vertexArray}
     , m_outlineVertices{copy.m_outlineVertices}
     , m_fontTextureId{copy.m_fontTextureId}
-    , m_originInCenter{copy.m_originInCenter}
     , Transformable2d{copy}
 {
 }
@@ -79,8 +76,11 @@ Text::~Text() = default;
 //////////////////////////////////////////////////////////////////////
 void Text::setString(const std::string& string)
 {
-    m_string = string;
-    updateVertexArray(); 
+    if (m_string != string)
+    {
+        m_string = string;
+        updateVertexArray(); 
+    }
 }
 
 
@@ -96,7 +96,7 @@ void Text::setFont(const text::Font& font)
 {
     if (m_font.get() != &font)
     {
-        m_font = std::make_shared<gfx::text::Font>(font);
+        createNewFont(font);
         updateVertexArray();
     }
 }
@@ -105,7 +105,7 @@ void Text::setFont(const text::Font& font)
 ////////////////////////////////////////////////////////////
 void Text::setFont(const std::filesystem::path& filepath)
 {
-    m_font = std::make_shared<gfx::text::Font>();
+    createNewFont(text::Font());
     m_font->loadFromFile(filepath);
     updateVertexArray();
 }
@@ -122,7 +122,6 @@ void Text::setColor(const he::gfx::Color& color)
         {
             m_vertexArray[i].color = color;
         }
-        updateVertexArray();
     }
 }
 
@@ -149,18 +148,15 @@ const he::gfx::VertexArray2d& Text::getVertexArray() const
 
 
 ////////////////////////////////////////////////////////////
-void Text::setStyle(const std::uint32_t style)
+void Text::setStyle(const text::Style style)
 {
-    if (m_style != style)
-    {
-        m_style = style;
-        updateVertexArray();
-    }
+    m_style = style;
+    updateVertexArray();
 }
 
 
 ////////////////////////////////////////////////////////////
-const std::uint32_t Text::getStyle() const
+const text::Style Text::getStyle() const
 {
     return m_style;
 }
@@ -170,7 +166,9 @@ const std::uint32_t Text::getStyle() const
 void Text::setOrigin(const geometry::Point2Df& point)
 {
     Transformable2d::setOrigin(point);
+    updateVertexArray();
 }
+
 
 ////////////////////////////////////////////////////////////
 void Text::setOriginInCenter()
@@ -182,7 +180,6 @@ void Text::setOriginInCenter()
 ////////////////////////////////////////////////////////////
 void Text::setPosition(const he::gfx::geometry::Point2Df& point)
 { 
-            LOG_DEBUG << LOG_BRIGHT_BLUE << point << LOG_WHITE;
     Transformable2d::setPosition(point);
     updateVertexArray();
 };
@@ -195,41 +192,116 @@ const he::gfx::geometry::Point2Df& Text::getPosition() const
 };
 
 
+////////////////////////////////////////////////////////////
+geometry::Line<float> Text::getLocalBounds() const
+{
+    return m_bounds;
+}
+
+
+////////////////////////////////////////////////////////////
+const he::gfx::geometry::Point2Df& Text::getOrigin() const
+{ 
+    return Transformable2d::getOrigin(); 
+}
+
+
+////////////////////////////////////////////////////////////
+void Text::setRotation(const he::gfx::geometry::Angle& rotation)
+{
+    m_rotation = rotation;
+    updateVertexArray();
+}
+
+
+////////////////////////////////////////////////////////////
+const he::gfx::geometry::Angle& Text::getRotation() const
+{ 
+    return Transformable2d::getRotation(); 
+}
+
+
+////////////////////////////////////////////////////////////
+void Text::setCharacterSize(const unsigned int characterSize)
+{
+    if (m_characterSize != characterSize)
+    {
+        m_characterSize = characterSize;
+        updateVertexArray();
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// PROTECTED
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////
+void Text::createNewFont(const text::Font& font)
+{
+    m_font = std::make_shared<gfx::text::Font>(font);
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // PRIVATE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+//////////////////////////////////////////////////////////////////////
+void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) const
+{
+    auto newRenderSettings = renderSettings;
+    newRenderSettings.prymitiveType = he::libs::gl::ConnectionType::Triangles;
+
+    if (m_font)
+    {
+        if (m_outlineThickness != 0.0)
+        {
+            render.drawVertex(m_outlineVertices, getTextureId(), m_context.color, newRenderSettings);
+        }
+
+        if (not getVertexArray().empty())
+        {
+            render.drawVertex(m_vertexArray, getTextureId(), m_context.color, newRenderSettings);
+        }
+    }
+}
+
+
 ////////////////////////////////////////////////////////////
 void Text::updateVertexArray()
 {
-    if (not m_font or m_string.empty() or m_characterSize == 0)
+    if (not m_font or m_characterSize == 0)
     {
         return;
     }
 
-    auto fontTextureId = m_font->getTexture(m_characterSize)->getTextureId();
+    auto texture = m_font->getTexture(m_characterSize);
 
-    m_fontTextureId = fontTextureId;
+    if (not texture)
+    {
+        return;
+    }
+
+    m_fontTextureId = texture->getTextureId();;
     m_vertexArray.clear();
     m_outlineVertices.clear();
  
     computeTextStyle();
+    LOG_DEBUG << LOG_BLUE << "computeTextStyle() end" << LOG_WHITE;
 
+    auto textureSize = texture->getSize();
     for (std::size_t i = 0 ; i < m_vertexArray.size() ; ++i)
     {
-        if (m_originInCenter)
-        {
-            setOriginInCenter();
-        }
-
         auto point = m_vertexArray[i].position;
         auto texturePoint = m_vertexArray[i].texCoords;
-        LOG_DEBUG << LOG_BRIGHT_BLUE << texturePoint << LOG_WHITE;
+ 
         transformPoint(point);
         // TODO: remove 1200, 800 - screen width and height
         convertPixelPointToVertexPoint(point, 1200, 800);
-        convertPixelPointToVertexPointTexture(texturePoint, m_font->getTexture(m_characterSize)->getSize());
+        convertPixelPointToVertexPointTexture(texturePoint, textureSize);
         m_vertexArray[i].position = point;
         m_vertexArray[i].texCoords = texturePoint;
     }
@@ -239,12 +311,12 @@ void Text::updateVertexArray()
 //////////////////////////////////////////////////////////////////////
 void Text::computeTextStyle()
 {
-    LOG_DEBUG << LOG_BLUE << "computeTextStyle()" << LOG_WHITE;
+    LOG_DEBUG << LOG_BLUE << "computeTextStyle() start" << LOG_WHITE;
     // Note: Compute values related to the text style
-    bool  isBold             = m_style & Bold;
-    bool  isUnderlined       = m_style & Underlined;
-    bool  isStrikeThrough    = m_style & StrikeThrough;
-    float italicShear        = (m_style & Italic) ? geometry::degrees(12).asRadians() : 0.f;
+    bool  isBold             = m_style & text::FontStyle::Bold;
+    bool  isUnderlined       = m_style & text::FontStyle::Underlined;
+    bool  isStrikeThrough    = m_style & text::FontStyle::StrikeThrough;
+    float italicShear        = (m_style & text::FontStyle::Italic) ? geometry::degrees(12).asRadians() : 0.f;
     float underlineOffset    = m_font->getUnderlinePosition(m_characterSize);
     float underlineThickness = m_font->getUnderlineThickness(m_characterSize);
 
@@ -255,22 +327,21 @@ void Text::computeTextStyle()
         We reuse the underline thickness as the thickness of the strike through as well
     */
     geometry::Line<float> xBounds = m_font->getGlyph(U'x', m_characterSize, isBold).bounds;
-    // was // float     strikeThroughOffset = xBounds.top + xBounds.height / 2.f;
-    float     strikeThroughOffset = xBounds.p1.y + xBounds.p2.y / 2.f;
+    float strikeThroughOffset = xBounds.p1.y + xBounds.p2.y / 2.f; // note: was xBounds.top + xBounds.height
 
-    // Precompute the variables needed by the algorithm
+    // Note: Precompute the variables needed by the algorithm
     float whitespaceWidth = m_font->getGlyph(U' ', m_characterSize, isBold).advance;
     float letterSpacing   = (whitespaceWidth / 3.f) * (m_letterSpacingFactor - 1.f);
     whitespaceWidth += letterSpacing;
     float lineSpacing = m_font->getLineSpacing(m_characterSize) * m_lineSpacingFactor;
-    float x           = 0.f;
-    auto  y           = static_cast<float>(m_characterSize);
+    float x = 0.f;
+    auto  y = static_cast<float>(m_characterSize);
 
-    // Create one quad for each character
-    auto          minX     = static_cast<float>(m_characterSize);
-    auto          minY     = static_cast<float>(m_characterSize);
-    float         maxX     = 0.f;
-    float         maxY     = 0.f;
+    // Note: Create one quad for each character
+    auto minX = static_cast<float>(m_characterSize);
+    auto minY = static_cast<float>(m_characterSize);
+    float maxX = 0.f;
+    float maxY = 0.f;
 
     std::uint32_t prevChar = 0;
 
@@ -278,17 +349,16 @@ void Text::computeTextStyle()
     {
         std::uint32_t curChar = m_string[i];
 
-        // Skip the \r char to avoid weird graphical issues
+        // Note: Skip the \r char to avoid weird graphical issues
         if (curChar == U'\r')
         {
             continue;
         }
 
-        // Apply the kerning offset
         x += m_font->getKerning(prevChar, curChar, m_characterSize, isBold);
 
-        // If we're using the underlined style and there's a new line, draw a line
-        if (isUnderlined && (curChar == U'\n' && prevChar != U'\n'))
+        // Note: If we're using the underlined style and there's a new line, draw a line
+        if (isUnderlined and (curChar == U'\n' and prevChar != U'\n'))
         {
             addLine(m_vertexArray, m_context.color, x, y, underlineOffset, underlineThickness);
             if (m_outlineThickness != 0)
@@ -297,8 +367,8 @@ void Text::computeTextStyle()
             }
         }
 
-        // If we're using the strike through style and there's a new line, draw a line across all characters
-        if (isStrikeThrough && (curChar == U'\n' && prevChar != U'\n'))
+        // Note: If we're using the strike through style and there's a new line, draw a line across all characters
+        if (isStrikeThrough and (curChar == U'\n' and prevChar != U'\n'))
         {
             addLine(m_vertexArray, m_context.color, x, y, strikeThroughOffset, underlineThickness);
             if (m_outlineThickness != 0)
@@ -310,10 +380,10 @@ void Text::computeTextStyle()
 
         prevChar = curChar;
 
-        // Handle special characters
-        if ((curChar == U' ') || (curChar == U'\n') || (curChar == U'\t'))
+        // Note: Handle special characters
+        if ((curChar == U' ') or (curChar == U'\n') or (curChar == U'\t'))
         {
-            // Update the current bounds (min coordinates)
+            // Note: Update the current bounds (min coordinates)
             minX = std::min(minX, x);
             minY = std::min(minY, y);
 
@@ -351,10 +421,10 @@ void Text::computeTextStyle()
         // Extract the current glyph's description
         const gfx::text::Glyph& glyph = m_font->getGlyph(curChar, m_characterSize, isBold);
 
-        // Add the glyph to the vertices // 0 instead of y because we want bottom line equal to position y
+        // Note: Add the glyph to the vertices // 0 instead of y because we want bottom line equal to position y
         addGlyphQuad(m_vertexArray, geometry::Point2Df(x, 0), m_context.color, glyph, italicShear);
 
-        // Update the current bounds
+        // Note: Update the current bounds
         float left   = glyph.bounds.p1.x;
         float top    = glyph.bounds.p1.y;
         float right  = glyph.bounds.p1.x + glyph.bounds.p2.x;
@@ -365,10 +435,11 @@ void Text::computeTextStyle()
         minY = std::min(minY, y + top);
         maxY = std::max(maxY, y + bottom);
 
-        // Advance to the next character
+        // Note: Advance to the next character
         x += glyph.advance + letterSpacing;
     }
-    // If we're using outline, update the current bounds
+
+    // Note: If we're using outline, update the current bounds
     if (m_outlineThickness != 0)
     {
         float outline = std::abs(std::ceil(m_outlineThickness));
@@ -378,8 +449,8 @@ void Text::computeTextStyle()
         maxY += outline;
     }
 
-    // If we're using the underlined style, add the last line
-    if (isUnderlined && (x > 0))
+    // Note: If we're using the underlined style, add the last line
+    if (isUnderlined and (x > 0))
     {
         addLine(m_vertexArray, m_context.color, x, y, underlineOffset, underlineThickness);
 
@@ -388,8 +459,9 @@ void Text::computeTextStyle()
             addLine(m_outlineVertices, m_outlineColor, x, y, underlineOffset, underlineThickness, m_outlineThickness);
         }
     }
-    // If we're using the strike through style, add the last line across all characters
-    if (isStrikeThrough && (x > 0))
+
+    // Note: If we're using the strike through style, add the last line across all characters
+    if (isStrikeThrough and (x > 0))
     {
         addLine(m_vertexArray, m_context.color, x, y, strikeThroughOffset, underlineThickness);
 
@@ -399,43 +471,12 @@ void Text::computeTextStyle()
         }
     }
     // Update the bounding rectangle
-    m_bounds.p1.x   = minX;
-    m_bounds.p1.y    = minY;
-    m_bounds.p2.x  = maxX - minX;
+    m_bounds.p1.x = minX;
+    m_bounds.p1.y = minY;
+    m_bounds.p2.x = maxX - minX;
     m_bounds.p2.y = maxY - minY;
 
     return;
-}
-
-
-//////////////////////////////////////////////////////////////////////
-void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) const
-{
-            auto newRS = renderSettings;
-            newRS.prymitiveType = he::libs::gl::ConnectionType::Triangles;
-    if (m_font)
-    {
-        if (m_outlineThickness != 0.0)
-        {
-            render.drawVertex(m_outlineVertices, getTextureId(), m_context.color, newRS);
-        }
-
-        if (not getVertexArray().empty())
-        {
-            if (not m_geometryNeedUpdate)
-            {
-            LOG_DEBUG << LOG_BRIGHT_BLUE << "m_vertexArray.size(): " << m_vertexArray.size() << LOG_WHITE;
-            for (size_t i = 0 ; i < m_vertexArray.size() ; ++i)
-            {
-                LOG_DEBUG << "vertex: [" << i << "], x: " << m_vertexArray[i].position.x << ", y: " << m_vertexArray[i].position.y <<
-                " text x: " << m_vertexArray[i].texCoords.x << ", y: " << m_vertexArray[i].texCoords.y;
-            }
-            m_geometryNeedUpdate  = true;
-            }
-
-            render.drawVertex(m_vertexArray, getTextureId(), m_context.color, newRS);
-        }
-    }
 }
 
 
@@ -463,8 +504,8 @@ void Text::addLine(gfx::VertexArray2d& vertices, const gfx::Color& color,
 
 void Text::addGlyphQuad(gfx::VertexArray2d& vertices, const geometry::Point2Df& position, const gfx::Color& color, const gfx::text::Glyph& glyph, float italicShear)
 {
-
-    LOG_DEBUG << "addGlyphQuad()" << LOG_WHITE << "position: " << position << "glyph: "; 
+    /*
+    LOG_DEBUG << LOG_BRIGHT_BLUE << "addGlyphQuad()" << LOG_WHITE << "position: " << position << "glyph: "; 
     LOG_DEBUG << "glyph.bounds.p1.x: " << glyph.bounds.p1.x
     << ", glyph.bounds.p1.y: " << glyph.bounds.p1.y
     << ", glyph.bounds.p2.x: " << glyph.bounds.p2.x
@@ -473,6 +514,7 @@ void Text::addGlyphQuad(gfx::VertexArray2d& vertices, const geometry::Point2Df& 
     << ", glyph.textureRect.p1.y: " << glyph.textureRect.p1.y
     << ", glyph.textureRect.p2.x: " << glyph.textureRect.p2.x
     << ", glyph.textureRect.p2.y: " << glyph.textureRect.p2.y;
+    */
 
     float padding = 1.0;
 
