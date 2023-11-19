@@ -193,13 +193,22 @@ void Shape::openVertexArray()
 
 
 ////////////////////////////////////////////////////////////
-void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings) const
+void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings)
 {
     if (not getVertexArray().empty())
     {
         render.drawVertexPrimitive(getVertexArray(), getTextureId(), getColor(), renderSettings);
     }
 }
+
+
+////////////////////////////////////////////////////////////
+void Shape::update()
+{
+    // todo add m_vertexArrayNeedUpdate
+    updateVertexArray();
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // PRIVATE

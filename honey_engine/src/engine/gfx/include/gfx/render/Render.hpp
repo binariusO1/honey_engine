@@ -28,8 +28,8 @@ public:
     Render& operator=(const Render&) = delete;
 
 public:
-    void draw(const he::gfx::draw::IDrawable&) override;
-    void draw(const he::gfx::draw::IDrawable&, const he::gfx::render::RenderSettings&) override;
+    void draw(he::gfx::draw::IDrawable&) override;
+    void draw(he::gfx::draw::IDrawable&, const he::gfx::render::RenderSettings&) override;
 
 public:
     void drawVertex(

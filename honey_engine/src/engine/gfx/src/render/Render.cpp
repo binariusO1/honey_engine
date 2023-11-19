@@ -28,14 +28,14 @@ Render::Render()
 
 
 ////////////////////////////////////////////////////////////
-void Render::draw(const he::gfx::draw::IDrawable& drawable)
+void Render::draw(he::gfx::draw::IDrawable& drawable)
 {
     draw(drawable, m_defaultRenderSettings);
 }
 
 
 ////////////////////////////////////////////////////////////
-void Render::draw(const he::gfx::draw::IDrawable& drawable, const he::gfx::render::RenderSettings& renderSettings)
+void Render::draw(he::gfx::draw::IDrawable& drawable, const he::gfx::render::RenderSettings& renderSettings)
 {
     drawable.draw(*this, renderSettings);
 }

@@ -20,8 +20,8 @@ public:
     virtual ~IRender() = default;
 
 public:
-    virtual void draw(const he::gfx::draw::IDrawable&) = 0;
-    virtual void draw(const he::gfx::draw::IDrawable&, const he::gfx::render::RenderSettings&) = 0;
+    virtual void draw(he::gfx::draw::IDrawable&) = 0;
+    virtual void draw(he::gfx::draw::IDrawable&, const he::gfx::render::RenderSettings&) = 0;
 };
 } // namespace render
 } // namespace gfx

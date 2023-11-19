@@ -2,7 +2,6 @@
 #include "TextFixture.hpp"
 #include "gfx/draw/Text.hpp"
 #include "gfx/text/Font.hpp"
-#include "gfx/render/Render.hpp"
 #include "graphic/TextureMock.hpp"
 #include "text/FontMock.hpp"
 
@@ -93,12 +92,13 @@ TEST_F(TextTests, copyConstructor_whenCopyObject_shouldCopyWithoutError)
     // TODO
 }
 
-TEST_F(TextTests, setString_whenCharacterSizeIsNotSet_shouldNotSetStringAndNotUpdateVertexArray)
+TEST_F(TextTests, setString_whenCharacterSizeIsNotSet_shouldSetStringAndNotUpdateVertexArray)
 {   
-    EXPECT_CALL(*fontMock, getCharacterSize()).Times(1).WillOnce(Return(0));
+    EXPECT_CALL(*fontMock, getCharacterSize()).WillOnce(Return(0));
 
     createSut();
     sut->setString(t_string1);
+    sut->update();
 
     ASSERT_EQ(sut->getString(), t_string1);
 }
@@ -106,8 +106,7 @@ TEST_F(TextTests, setString_whenCharacterSizeIsNotSet_shouldNotSetStringAndNotUp
 TEST_F(TextTests, setString_whenSetNewString_shouldSetString)
 {
     EXPECT_CALL(*fontMock, setCharacterSize(t_characterSize)).WillRepeatedly(Return(true));
-    expectedUpdateVertexArray(2);
-    
+
     createSut();
     sut->setCharacterSize(t_characterSize);
     sut->setString(t_string1);
@@ -118,7 +117,6 @@ TEST_F(TextTests, setString_whenSetNewString_shouldSetString)
 TEST_F(TextTests, setString_whenSetSecondNewString_shouldSetNewString)
 {
     EXPECT_CALL(*fontMock, setCharacterSize(t_characterSize)).WillRepeatedly(Return(true));
-    expectedUpdateVertexArray(3);
 
     createSut();
     sut->setCharacterSize(t_characterSize);
@@ -128,32 +126,32 @@ TEST_F(TextTests, setString_whenSetSecondNewString_shouldSetNewString)
     ASSERT_EQ(sut->getString(), t_string2);
 }
 
-TEST_F(TextTests, setString_whenSetSeconSameString_shouldNotSetStringAndNotUpdateVertexArraysecondTime)
+TEST_F(TextTests, setString_whenSetSeconSameString_shouldNotSetStringAndNotUpdateVertexArraySecondTime)
 {
     EXPECT_CALL(*fontMock, setCharacterSize(t_characterSize)).WillRepeatedly(Return(true));
-    expectedUpdateVertexArray(3);
+    expectedUpdateVertexArray();
 
     createSut();
     sut->setCharacterSize(t_characterSize);
     sut->setFont(t_defaultFont);
     sut->setString(t_string1);
+    sut->update();
     sut->setString(t_string1);
+    sut->update();
 }
 
-TEST_F(TextTests, setFont_whenSetFont_shouldSetFontAndUpdateVertexArray)
+TEST_F(TextTests, setFont_whenSetFont_shouldSetFont)
 {
     EXPECT_CALL(*fontMock, setCharacterSize(t_characterSize)).WillRepeatedly(Return(true));
-    expectedUpdateVertexArray(2);
 
     createSut();
     sut->setCharacterSize(t_characterSize);
     sut->setFont(t_defaultFont);
 }
 
-TEST_F(TextTests, setColor_whenSetColorToBlack_shouldSetColorAndUpdateVertexArray)
+TEST_F(TextTests, setColor_whenSetColorToBlack_shouldSetColorAndNotUpdateVertexArray)
 {
     EXPECT_CALL(*fontMock, setCharacterSize(t_characterSize)).WillRepeatedly(Return(true));
-    expectedUpdateVertexArray(2);
 
     createSut();
     sut->setCharacterSize(t_characterSize);
@@ -169,7 +167,6 @@ TEST_F(TextTests, setColor_whenSetColorToBlack_shouldSetColorAndUpdateVertexArra
 TEST_F(TextTests, setStyle_whenSetStyle_shouldSetAndGetProperValue)
 {
     EXPECT_CALL(*fontMock, setCharacterSize(t_characterSize)).WillRepeatedly(Return(true));
-    expectedUpdateVertexArray(2);
 
     createSut();
     sut->setCharacterSize(t_characterSize);
@@ -181,7 +178,6 @@ TEST_F(TextTests, setStyle_whenSetStyle_shouldSetAndGetProperValue)
 TEST_F(TextTests, setOrigin_whenSetOrigin_shouldSetProperValue)
 {
     EXPECT_CALL(*fontMock, setCharacterSize(t_characterSize)).WillRepeatedly(Return(true));
-    expectedUpdateVertexArray(2);
 
     createSut();
     sut->setCharacterSize(t_characterSize);
@@ -193,7 +189,6 @@ TEST_F(TextTests, setOrigin_whenSetOrigin_shouldSetProperValue)
 TEST_F(TextTests, setOriginInCenter_whenSetOrigin_shouldSetProperValue)
 {
     EXPECT_CALL(*fontMock, setCharacterSize(t_characterSize)).WillRepeatedly(Return(true));
-    expectedUpdateVertexArray(3);
 
     createSut();
     sut->setCharacterSize(t_characterSize);
@@ -211,7 +206,6 @@ TEST_F(TextTests, setPosition_whenSetPosition_shouldSetPosition)
 {
     he::gfx::geometry::Point2Df point{123, 20};
     EXPECT_CALL(*fontMock, setCharacterSize(t_characterSize)).WillRepeatedly(Return(true));
-    expectedUpdateVertexArray(3);
 
     createSut();
     sut->setCharacterSize(t_characterSize);

@@ -37,7 +37,7 @@ public:
     void setFont(const std::filesystem::path& filepath);
     void setStyle(const text::Style style);
     const text::Style getStyle() const;
-    void setCharacterSize(const unsigned int); // todo to delete m_characterSize (and whole argument on font side)
+    void setCharacterSize(const unsigned int);
     geometry::Line<float> getLocalBounds() const;
 
 public:
@@ -54,11 +54,11 @@ public:
 
     unsigned int getTextureId() const override;
     const he::gfx::VertexArray2d& getVertexArray() const override;
+    void update();
 
 private:
-    void updateVertexArray(); // zrobic to uaktualnianianie sie jeden raz, nawet zdjeciem consta z draw...
+    void updateVertexArray();
     void computeTextStyle();
-    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) const override;
     void addLine(gfx::VertexArray2d& vertices, const gfx::Color& color,
              float            lineLength,
              float            lineTop,
@@ -66,8 +66,10 @@ private:
              float            thickness,
              float            outlineThickness = 0);
     void addGlyphQuad(gfx::VertexArray2d& vertices, const geometry::Point2Df& position, const gfx::Color& color, const gfx::text::Glyph& glyph, float italicShear);
+    void updateLocalBounds(he::gfx::geometry::Line<float>);
     
 protected:
+    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;
     virtual void createNewFont(const text::Font& font);
 
 protected:
@@ -85,6 +87,7 @@ private:
     gfx::Color                              m_outlineColor{Color::Black};                //!< Text outline color
     float                                   m_letterSpacingFactor{1.f};                  //!< Spacing factor between letters
     float                                   m_lineSpacingFactor{1.f};                    //!< Spacing factor between lines
+    bool m_vertexArrayNeedUpdate{false};
 };
 } // namespace draw
 } // namespace gfx

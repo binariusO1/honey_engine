@@ -36,8 +36,8 @@ public:
     virtual const he::gfx::VertexArray2d& getVertexArray() const = 0;
 
 protected:
-    friend class he::gfx::render::Render;
-    virtual void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) const = 0;
+    friend class he::gfx::render::Render; // remove friend and move draw to public
+    virtual void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) = 0;
 
 public:
     struct Context

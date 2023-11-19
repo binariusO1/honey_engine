@@ -43,13 +43,14 @@ public:
     const he::gfx::VertexArray2d& getVertexArray() const override;
     void closeVertexArray();
     void openVertexArray();
+    void update();
 
 protected:
     void setOriginPosition(const he::gfx::OriginPosition& originPosition);
     void updateVertexArray();
 
 protected:
-    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) const override;
+    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;
 
 protected:
     const std::shared_ptr<he::gfx::geometry::figures::Figure> m_figure{nullptr};

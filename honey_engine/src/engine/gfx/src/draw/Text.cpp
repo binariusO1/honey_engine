@@ -78,7 +78,7 @@ void Text::setString(const std::string& string)
     if (m_string != string)
     {
         m_string = string;
-        updateVertexArray(); 
+        m_vertexArrayNeedUpdate = true;
     }
 }
 
@@ -96,7 +96,7 @@ void Text::setFont(const text::Font& font)
     if (m_font.get() != &font)
     {
         createNewFont(font);
-        updateVertexArray();
+        m_vertexArrayNeedUpdate = true;
     }
 }
 
@@ -106,7 +106,7 @@ void Text::setFont(const std::filesystem::path& filepath)
 {
     createNewFont(text::Font());
     m_font->loadFromFile(filepath);
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -150,7 +150,7 @@ const he::gfx::VertexArray2d& Text::getVertexArray() const
 void Text::setStyle(const text::Style style)
 {
     m_style = style;
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -165,7 +165,7 @@ const text::Style Text::getStyle() const
 void Text::setOrigin(const geometry::Point2Df& point)
 {
     Transformable2d::setOrigin(point);
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -180,7 +180,7 @@ void Text::setOriginInCenter()
 void Text::setPosition(const he::gfx::geometry::Point2Df& point)
 { 
     Transformable2d::setPosition(point);
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 };
 
 
@@ -209,7 +209,7 @@ const he::gfx::geometry::Point2Df& Text::getOrigin() const
 void Text::setRotation(const he::gfx::geometry::Angle& rotation)
 {
     m_rotation = rotation;
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -230,7 +230,18 @@ void Text::setCharacterSize(const unsigned int characterSize)
 
     if (m_font->setCharacterSize(characterSize))
     {
+        m_vertexArrayNeedUpdate = true;
+    }
+}
+
+
+////////////////////////////////////////////////////////////
+void Text::update()
+{
+    if (m_vertexArrayNeedUpdate)
+    {
         updateVertexArray();
+        m_vertexArrayNeedUpdate = false;
     }
 }
 
@@ -253,22 +264,25 @@ void Text::createNewFont(const text::Font& font)
 
 
 //////////////////////////////////////////////////////////////////////
-void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) const
+void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings)
 {
     auto newRenderSettings = renderSettings;
     newRenderSettings.prymitiveType = he::libs::gl::ConnectionType::Triangles;
 
-    if (m_font)
+    if (m_vertexArrayNeedUpdate)
     {
-        if (m_outlineThickness != 0.0)
-        {
-            render.drawVertex(m_outlineVertices, getTextureId(), m_context.color, newRenderSettings);
-        }
+        updateVertexArray();
+        m_vertexArrayNeedUpdate = false;
+    }
 
-        if (not getVertexArray().empty())
-        {
-            render.drawVertex(m_vertexArray, getTextureId(), m_context.color, newRenderSettings);
-        }
+    if (m_outlineThickness != 0.0)
+    {
+        render.drawVertex(m_outlineVertices, getTextureId(), m_context.color, newRenderSettings);
+    }
+
+    if (not getVertexArray().empty())
+    {
+        render.drawVertex(m_vertexArray, getTextureId(), m_context.color, newRenderSettings);
     }
 }
 
@@ -276,8 +290,9 @@ void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& 
 ////////////////////////////////////////////////////////////
 void Text::updateVertexArray()
 {
-    if (not m_font or m_font->getCharacterSize() == 0)
+    if (m_font->getCharacterSize() == 0)
     {
+        LOG_WARNING << "Cannot update vertex array. Character size is zero";
         return;
     }
 
@@ -288,7 +303,7 @@ void Text::updateVertexArray()
         return;
     }
 
-    m_fontTextureId = texture->getTextureId();;
+    m_fontTextureId = texture->getTextureId();
     m_vertexArray.clear();
     m_outlineVertices.clear();
  
@@ -475,13 +490,21 @@ void Text::computeTextStyle()
             addLine(m_outlineVertices, m_outlineColor, x, y, strikeThroughOffset, underlineThickness, m_outlineThickness);
         }
     }
-    // Update the bounding rectangle
-    m_bounds.p1.x = minX;
-    m_bounds.p1.y = minY;
-    m_bounds.p2.x = maxX - minX;
-    m_bounds.p2.y = maxY - minY;
+
+    // Note: Update the bounding rectangle
+    updateLocalBounds({{minX, minY}, {maxX, maxY}});
 
     return;
+}
+
+
+//////////////////////////////////////////////////////////////////////
+void Text::updateLocalBounds(he::gfx::geometry::Line<float> bounds)
+{
+    m_bounds.p1.x = bounds.p1.x;
+    m_bounds.p1.y = bounds.p1.y;
+    m_bounds.p2.x = bounds.p2.x - bounds.p1.x;
+    m_bounds.p2.y = bounds.p2.y - bounds.p1.y;
 }
 
 

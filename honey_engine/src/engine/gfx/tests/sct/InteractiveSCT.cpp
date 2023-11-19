@@ -94,7 +94,7 @@ TEST_F(InteractiveSCT, eventTest)
     std::shared_ptr<he::window::IEventInputListener> sceneListener = std::shared_ptr<he::gfx::render::SceneManager>(sceneManager);
     window->addEventInputListener(sceneListener.get());
 
-    display(600*10);
+    display(60*10);
 }
 
 TEST_F(InteractiveSCT, menuTest)

@@ -26,7 +26,7 @@ Button::Button(const Button& copy)
 
 
 //////////////////////////////////////////////////////////////////////
-void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) const
+void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings)
 {
     Sprite::draw(render, renderSettings); 
     if (m_text != nullptr)
@@ -61,8 +61,7 @@ void Button::setText(const std::string& text)
         m_text->setColor({gfx::Color::White});
         m_text->setPosition({m_position.x + m_origin.x, m_position.y + m_origin.y});
         m_text->setFont("\\data\\gfx\\fonts\\calibri.ttf");
-        // TODO
-        // updateTextPosition();
+        m_text->setCharacterSize(40);
         m_text->setOriginInCenter();
     }
     m_text->setString(text);

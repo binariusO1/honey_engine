@@ -19,7 +19,7 @@ public:
 
 public:
     void setPosition(const geometry::Point2Df&);
-    void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) const override;
+    void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) override;
 
 public:
     void process_event(const he::window::Event&) override;
