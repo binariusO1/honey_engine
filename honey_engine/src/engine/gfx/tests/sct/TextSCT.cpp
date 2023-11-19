@@ -53,6 +53,32 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInDefaultPosition)
     display(200);
 }
 
+TEST_F(TextSCT, textDraw_shouldDrawTextInDefaultPositionAfterSetNewCharacterSize)
+{
+    createCustomScreen();
+    setDaultTextObject();
+
+    auto textBounds = t_text1->getLocalBounds();
+    he::gfx::geometry::figures::Rectangle backgroundRectangle(he::gfx::geometry::Size2Df{textBounds.p2.x*2, textBounds.p2.y*2});
+    he::gfx::geometry::figures::Rectangle boundsRectangle(he::gfx::geometry::Size2Df{textBounds.p2.x, textBounds.p2.y});
+    he::gfx::draw::Shape shape1("backgroundRectangle", backgroundRectangle);
+    he::gfx::draw::Shape shape2("boundsRectangle", boundsRectangle);
+    shape1.setColor(gfx::Color::Red);
+    shape2.setColor(gfx::Color::Black);
+
+    addDrawableToMainLayer(std::make_shared<he::gfx::draw::Shape>(shape1));
+    addDrawableToMainLayer(std::make_shared<he::gfx::draw::Shape>(shape2));
+    addDrawableToMainLayer(t_text1);
+
+    display(50);
+    t_text1->setCharacterSize(0);
+    display(50);
+    t_text1->setCharacterSize(20);
+    display(50);
+    t_text1->setCharacterSize(40);
+    display(50);
+}
+
 TEST_F(TextSCT, textDraw_shouldDrawTextInMovedPosition)
 {
     createCustomScreen();

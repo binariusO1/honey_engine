@@ -22,7 +22,7 @@ public:
         m_freeType2Wrapper = ptr;
     }
 
-    he::gfx::text::Page& loadPage(const unsigned int) const override
+    he::gfx::text::Page& loadPage() const override
     {
         return page;
     }
@@ -223,7 +223,8 @@ TEST_F(FontTests, getUnderlinePosition_afterInitFreeTypeWhenIsNotScalable_should
     createSut();
     sut->loadFromFile(t_fontCalibriPath);
     sut->setCharacterSize(12);
-    ASSERT_NE(sut->getUnderlinePosition(12), 0.f);
+
+    ASSERT_NE(sut->getUnderlinePosition(), 0.f);
 }
 
 TEST_F(FontTests, getUnderlinePosition_afterInitFreeTypeWhenIsScalable_shouldReturnNonZeroValue)
@@ -235,14 +236,15 @@ TEST_F(FontTests, getUnderlinePosition_afterInitFreeTypeWhenIsScalable_shouldRet
     createSut();
     sut->loadFromFile(t_fontCalibriPath);
     sut->setCharacterSize(12);
-    ASSERT_FLOAT_EQ(sut->getUnderlinePosition(12), 0.f);
+
+    ASSERT_FLOAT_EQ(sut->getUnderlinePosition(), 0.f);
 }
 
 TEST_F(FontTests, getUnderlinePosition_whenFreeTypeIsNotInitialized_shouldReturnZeroValue)
 {
     createSut();
 
-    ASSERT_FLOAT_EQ(sut->getUnderlinePosition(12), 0.f);
+    ASSERT_FLOAT_EQ(sut->getUnderlinePosition(), 0.f);
 }
 
 
@@ -254,7 +256,8 @@ TEST_F(FontTests, getUnderlineThickness_afterInitFreeTypeWhenIsNotScalable_shoul
     createSut();
     sut->loadFromFile(t_fontCalibriPath);
     sut->setCharacterSize(12);
-    ASSERT_NE(sut->getUnderlineThickness(12), 0.f);
+
+    ASSERT_NE(sut->getUnderlineThickness(), 0.f);
 }
 
 TEST_F(FontTests, getUnderlineThickness_afterInitFreeTypeWhenIsScalable_shouldReturnNonZeroValue)
@@ -266,14 +269,15 @@ TEST_F(FontTests, getUnderlineThickness_afterInitFreeTypeWhenIsScalable_shouldRe
     createSut();
     sut->loadFromFile(t_fontCalibriPath);
     sut->setCharacterSize(12);
-    ASSERT_FLOAT_EQ(sut->getUnderlineThickness(12), 0.f);
+
+    ASSERT_FLOAT_EQ(sut->getUnderlineThickness(), 0.f);
 }
 
 TEST_F(FontTests, getUnderlineThickness_whenFreeTypeIsNotInitialized_shouldReturnZeroValue)
 {
     createSut();
 
-    ASSERT_FLOAT_EQ(sut->getUnderlineThickness(12), 0.f);
+    ASSERT_FLOAT_EQ(sut->getUnderlineThickness(), 0.f);
 }
 
 TEST_F(FontTests, getLineSpacing_afterInitFreeType_shouldReturnNonZeroValue)
@@ -283,14 +287,15 @@ TEST_F(FontTests, getLineSpacing_afterInitFreeType_shouldReturnNonZeroValue)
     createSut();
     sut->loadFromFile(t_fontCalibriPath);
     sut->setCharacterSize(12);
-    ASSERT_FLOAT_EQ(sut->getLineSpacing(12), 0.f);
+
+    ASSERT_FLOAT_EQ(sut->getLineSpacing(), 0.f);
 }
 
 TEST_F(FontTests, getLineSpacing_whenFreeTypeIsNotInitialized_shouldReturnZeroValue)
 {
     createSut();
 
-    ASSERT_FLOAT_EQ(sut->getLineSpacing(12), 0.f);
+    ASSERT_FLOAT_EQ(sut->getLineSpacing(), 0.f);
 }
 
 TEST_F(FontTests, getGlyph_whenGetGlyphFromEmptyGlyphTable_shouldReturnNewGlyph)
@@ -303,7 +308,8 @@ TEST_F(FontTests, getGlyph_whenGetGlyphFromEmptyGlyphTable_shouldReturnNewGlyph)
     createSut();
     sut->loadFromFile(t_fontCalibriPath);
     sut->setCharacterSize(12);
-    auto glyph = sut->getGlyph(12, 12, true, 1);
+
+    auto glyph = sut->getGlyph(12, true, 1);
 
     ASSERT_FLOAT_EQ(glyph.advance, 0.f);
     ASSERT_EQ(glyph.lsbDelta, 0);
@@ -318,7 +324,8 @@ TEST_F(FontTests, getGlyph_whenGetGlyphFromNonEmptyGlyphTable_shouldReturnGlyph)
     createSutWithGlyph();
     sut->loadFromFile(t_fontCalibriPath);
     sut->setCharacterSize(12);
-    auto glyph = sut->getGlyph(12, 12, true, 1);
+
+    auto glyph = sut->getGlyph(12, true, 1);
 
     ASSERT_FLOAT_EQ(glyph.advance, t_glyph1.advance);
     ASSERT_EQ(glyph.lsbDelta, t_glyph1.lsbDelta);
@@ -329,7 +336,7 @@ TEST_F(FontTests, getKerning_whenFreeTypeIsNotInitialized_shouldReturnZeroValue)
 {
     createSut();
 
-    ASSERT_FLOAT_EQ(sut->getKerning(1, 2, 12, false), 0.f);
+    ASSERT_FLOAT_EQ(sut->getKerning(1, 2, false), 0.f);
 }
 
 TEST_F(FontTests, getKerning_whenFreeTypeIsInitialized_shouldReturnNonZeroValue)
@@ -344,7 +351,7 @@ TEST_F(FontTests, getKerning_whenFreeTypeIsInitialized_shouldReturnNonZeroValue)
     sut->loadFromFile(t_fontCalibriPath);
     sut->setCharacterSize(12);
 
-    ASSERT_NE(sut->getKerning(1, 2, 12, false), 0.f);
+    ASSERT_NE(sut->getKerning(1, 2, false), 0.f);
 }
 
 
@@ -356,7 +363,7 @@ TEST_F(FontTests, getKerning_whenFreeTypeIsInitializedAndOneCodePointIsEqualZero
     sut->loadFromFile(t_fontCalibriPath);
     sut->setCharacterSize(12);
 
-    ASSERT_FLOAT_EQ(sut->getKerning(1, 0, 12, false), 0.f);
+    ASSERT_FLOAT_EQ(sut->getKerning(1, 0, false), 0.f);
 }
 
 } // namespace he::gfx::text

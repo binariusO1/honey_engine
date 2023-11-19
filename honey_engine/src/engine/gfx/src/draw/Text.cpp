@@ -58,7 +58,6 @@ Text::Text(const Text& copy)
     , m_context{copy.m_context}
     , m_outlineColor{copy.m_outlineColor}
     , m_outlineThickness{copy.m_outlineThickness}
-    , m_characterSize{copy.m_characterSize}
     , m_style{copy.m_style}
     , m_bounds{copy.m_bounds}
     , m_vertexArray{copy.m_vertexArray}
@@ -136,7 +135,7 @@ he::gfx::Color Text::getColor() const
 ////////////////////////////////////////////////////////////
 unsigned int Text::getTextureId() const
 {
-    return m_font->getTexture(m_characterSize)->getTextureId();
+    return m_font->getTexture()->getTextureId();
 }
 
 
@@ -224,9 +223,13 @@ const he::gfx::geometry::Angle& Text::getRotation() const
 ////////////////////////////////////////////////////////////
 void Text::setCharacterSize(const unsigned int characterSize)
 {
-    if (m_characterSize != characterSize)
+    if (characterSize == 0)
     {
-        m_characterSize = characterSize;
+        return;
+    }
+
+    if (m_font->setCharacterSize(characterSize))
+    {
         updateVertexArray();
     }
 }
@@ -273,12 +276,12 @@ void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& 
 ////////////////////////////////////////////////////////////
 void Text::updateVertexArray()
 {
-    if (not m_font or m_characterSize == 0)
+    if (not m_font or m_font->getCharacterSize() == 0)
     {
         return;
     }
 
-    auto texture = m_font->getTexture(m_characterSize);
+    auto texture = m_font->getTexture();
 
     if (not texture)
     {
@@ -317,8 +320,8 @@ void Text::computeTextStyle()
     bool  isUnderlined       = m_style & text::FontStyle::Underlined;
     bool  isStrikeThrough    = m_style & text::FontStyle::StrikeThrough;
     float italicShear        = (m_style & text::FontStyle::Italic) ? geometry::degrees(12).asRadians() : 0.f;
-    float underlineOffset    = m_font->getUnderlinePosition(m_characterSize);
-    float underlineThickness = m_font->getUnderlineThickness(m_characterSize);
+    float underlineOffset    = m_font->getUnderlinePosition();
+    float underlineThickness = m_font->getUnderlineThickness();
 
     // Note:
     /*
@@ -326,20 +329,22 @@ void Text::computeTextStyle()
         We use the center point of the lowercase 'x' glyph as the reference
         We reuse the underline thickness as the thickness of the strike through as well
     */
-    geometry::Line<float> xBounds = m_font->getGlyph(U'x', m_characterSize, isBold).bounds;
+    geometry::Line<float> xBounds = m_font->getGlyph(U'x', isBold).bounds;
     float strikeThroughOffset = xBounds.p1.y + xBounds.p2.y / 2.f; // note: was xBounds.top + xBounds.height
 
     // Note: Precompute the variables needed by the algorithm
-    float whitespaceWidth = m_font->getGlyph(U' ', m_characterSize, isBold).advance;
-    float letterSpacing   = (whitespaceWidth / 3.f) * (m_letterSpacingFactor - 1.f);
+    float whitespaceWidth = m_font->getGlyph(U' ', isBold).advance;
+    float letterSpacing = (whitespaceWidth / 3.f) * (m_letterSpacingFactor - 1.f);
     whitespaceWidth += letterSpacing;
-    float lineSpacing = m_font->getLineSpacing(m_characterSize) * m_lineSpacingFactor;
+    float lineSpacing = m_font->getLineSpacing() * m_lineSpacingFactor;
+    auto characterSize = m_font->getCharacterSize();
+
     float x = 0.f;
-    auto  y = static_cast<float>(m_characterSize);
+    auto  y = static_cast<float>(characterSize);
 
     // Note: Create one quad for each character
-    auto minX = static_cast<float>(m_characterSize);
-    auto minY = static_cast<float>(m_characterSize);
+    auto minX = static_cast<float>(characterSize);
+    auto minY = static_cast<float>(characterSize);
     float maxX = 0.f;
     float maxY = 0.f;
 
@@ -355,7 +360,7 @@ void Text::computeTextStyle()
             continue;
         }
 
-        x += m_font->getKerning(prevChar, curChar, m_characterSize, isBold);
+        x += m_font->getKerning(prevChar, curChar, isBold);
 
         // Note: If we're using the underlined style and there's a new line, draw a line
         if (isUnderlined and (curChar == U'\n' and prevChar != U'\n'))
@@ -412,14 +417,14 @@ void Text::computeTextStyle()
         // Apply the outline
         if (m_outlineThickness != 0)
         {
-            const gfx::text::Glyph& glyph = m_font->getGlyph(curChar, m_characterSize, isBold, m_outlineThickness);
+            const gfx::text::Glyph& glyph = m_font->getGlyph(curChar, isBold, m_outlineThickness);
 
             // Add the outline glyph to the vertices
             addGlyphQuad(m_outlineVertices, geometry::Point2Df(x, y), m_outlineColor, glyph, italicShear);
         }
 
         // Extract the current glyph's description
-        const gfx::text::Glyph& glyph = m_font->getGlyph(curChar, m_characterSize, isBold);
+        const gfx::text::Glyph& glyph = m_font->getGlyph(curChar, isBold);
 
         // Note: Add the glyph to the vertices // 0 instead of y because we want bottom line equal to position y
         addGlyphQuad(m_vertexArray, geometry::Point2Df(x, 0), m_context.color, glyph, italicShear);

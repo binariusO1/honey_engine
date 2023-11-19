@@ -85,7 +85,6 @@ private:
     gfx::Color                              m_outlineColor{Color::Black};                //!< Text outline color
     float                                   m_letterSpacingFactor{1.f};                  //!< Spacing factor between letters
     float                                   m_lineSpacingFactor{1.f};                    //!< Spacing factor between lines
-    unsigned int m_characterSize{20};       ///< Base size of characters, in pixels
 };
 } // namespace draw
 } // namespace gfx
