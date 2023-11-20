@@ -57,6 +57,7 @@ protected:
     he::gfx::VertexArray2d m_vertexArray{};
     IDrawable::Context m_context;
     bool m_closedVertexArray{false};
+    bool m_vertexArrayNeedUpdate{false};
 };
 } // namespace draw
 } // namespace gfx

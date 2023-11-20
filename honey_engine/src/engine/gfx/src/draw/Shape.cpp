@@ -33,7 +33,7 @@ Shape::Shape(const std::string& name, const std::shared_ptr<he::gfx::geometry::f
     : m_figure{figure}
     , m_context(name)
 {
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -42,7 +42,7 @@ Shape::Shape(const std::string& name, const he::gfx::geometry::figures::Rectangl
     : m_figure{std::make_shared<he::gfx::geometry::figures::Rectangle>(rectangle)}
     , m_context(name)
 {
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -67,7 +67,7 @@ Shape::~Shape() = default;
 
 
 ////////////////////////////////////////////////////////////
-bool Shape::isPointInside(const geometry::Point2Df& point)
+bool Shape::isPointInside(const geometry::Point2Df& point)// todo const
 {
     he::gfx::geometry::Point2Df pointToCheck{point};
     inverseTransformPoint(pointToCheck);
@@ -79,7 +79,7 @@ bool Shape::isPointInside(const geometry::Point2Df& point)
 void Shape::setColor(const he::gfx::Color& color)
 {
     m_context.color = color;
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -87,7 +87,7 @@ void Shape::setColor(const he::gfx::Color& color)
 void Shape::setOrigin(const he::gfx::geometry::Point2Df& origin)
 {
     Transformable2d::setOrigin(origin);
-    updateVertexArray();
+
     if (origin == he::gfx::geometry::Point2Df{0.0, 0.0})
     {
          m_context.originPosition = he::gfx::OriginPosition::leftDown;
@@ -100,6 +100,8 @@ void Shape::setOrigin(const he::gfx::geometry::Point2Df& origin)
     {
          m_context.originPosition = he::gfx::OriginPosition::any;
     }
+
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -107,7 +109,7 @@ void Shape::setOrigin(const he::gfx::geometry::Point2Df& origin)
 void Shape::setOriginInCenter()
 {
     setOrigin({m_figure->getCenterPoint().x , m_figure->getCenterPoint().y});
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
     m_context.originPosition = he::gfx::OriginPosition::center;
 }
 
@@ -115,7 +117,7 @@ void Shape::setOriginInCenter()
 void Shape::setPosition(const he::gfx::geometry::Point2Df& position)
 {
     Transformable2d::setPosition(position);
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -123,7 +125,7 @@ void Shape::setPosition(const he::gfx::geometry::Point2Df& position)
 void Shape::setRotation(const he::gfx::geometry::Angle& angle)
 {
     Transformable2d::setRotation(angle);
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -172,7 +174,7 @@ const he::gfx::VertexArray2d& Shape::getVertexArray() const
 ////////////////////////////////////////////////////////////
 unsigned int Shape::getTextureId() const
 {
-    return 0;
+    return 0;// todo
 }
 
 
@@ -180,7 +182,7 @@ unsigned int Shape::getTextureId() const
 void Shape::closeVertexArray()
 {
     m_closedVertexArray = true;
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -188,13 +190,15 @@ void Shape::closeVertexArray()
 void Shape::openVertexArray()
 {
     m_closedVertexArray = false;
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 }
 
 
 ////////////////////////////////////////////////////////////
 void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings)
 {
+    update();
+
     if (not getVertexArray().empty())
     {
         render.drawVertexPrimitive(getVertexArray(), getTextureId(), getColor(), renderSettings);
@@ -205,8 +209,11 @@ void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderS
 ////////////////////////////////////////////////////////////
 void Shape::update()
 {
-    // todo add m_vertexArrayNeedUpdate
-    updateVertexArray();
+    if (m_vertexArrayNeedUpdate)
+    {
+        updateVertexArray();
+        m_vertexArrayNeedUpdate = false;
+    }
 }
 
 

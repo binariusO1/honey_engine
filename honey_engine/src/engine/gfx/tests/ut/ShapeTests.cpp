@@ -27,10 +27,10 @@ public:
         std::make_shared<he::gfx::geometry::figures::Rectangle>(he::gfx::geometry::Size2Df(100.0, 100.0));
 };
 
-TEST_F(ShapeTests, whenCreate_shouldUpdateVertexArray)
+TEST_F(ShapeTests, whenCreate_shouldNotUpdateVertexArray)
 {
     createSut();
-    ASSERT_EQ(sut->getVertexArray().empty(), false);
+    ASSERT_EQ(sut->getVertexArray().empty(), true);
 }
 
 TEST_F(ShapeTests, whenSetColor_thenGetSameValue)

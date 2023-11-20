@@ -29,11 +29,14 @@ public:
 
 protected:
     void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;
-
+    void update();
+    
 protected:
     void updateTextureCoords();
+
     std::shared_ptr<he::gfx::render::ITexture>  m_texture{nullptr};
     bool m_isFilledByColor{false};
+    bool m_textureCoordsNeedUpdate{false};
 };
 } // namespace draw
 } // namespace gfx

@@ -17,7 +17,7 @@ Sprite::Sprite(const std::string& name, const std::shared_ptr<he::gfx::render::I
     : Shape(name, std::make_shared<he::gfx::geometry::figures::Rectangle>(he::gfx::geometry::Size2Df{static_cast<float>(texture->getSize().width), static_cast<float>(texture->getSize().height)}))
 { 
     m_texture = texture;
-    updateTextureCoords();
+    m_textureCoordsNeedUpdate = true;
 }
 
 
@@ -36,13 +36,15 @@ unsigned int Sprite::getTextureId() const
 void Sprite::setPosition(const he::gfx::geometry::Point2Df& position)
 {
     Shape::setPosition(position);
-    updateTextureCoords();
+    m_textureCoordsNeedUpdate = true;
 }
 
 
 ////////////////////////////////////////////////////////////
 void Sprite::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings)
 {
+    update();
+
     if (not Shape::getVertexArray().empty())
     {
         if (m_isFilledByColor)
@@ -62,7 +64,7 @@ void Sprite::setColor(const he::gfx::Color& color)
 {
     m_context.color = color;
     m_isFilledByColor = true;
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -70,7 +72,20 @@ void Sprite::setColor(const he::gfx::Color& color)
 void Sprite::unsetColor()
 {
     m_isFilledByColor = false;
-    updateVertexArray();
+    m_vertexArrayNeedUpdate = true;
+}
+
+
+////////////////////////////////////////////////////////////
+void Sprite::update()
+{
+    Shape::update();
+
+    if (m_textureCoordsNeedUpdate)
+    {
+        updateTextureCoords();
+        m_textureCoordsNeedUpdate = false;
+    }
 }
 
 

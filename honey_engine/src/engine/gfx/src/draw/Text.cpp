@@ -269,11 +269,7 @@ void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& 
     auto newRenderSettings = renderSettings;
     newRenderSettings.prymitiveType = he::libs::gl::ConnectionType::Triangles;
 
-    if (m_vertexArrayNeedUpdate)
-    {
-        updateVertexArray();
-        m_vertexArrayNeedUpdate = false;
-    }
+    update();
 
     if (m_outlineThickness != 0.0)
     {
