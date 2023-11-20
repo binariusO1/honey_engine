@@ -238,11 +238,8 @@ void Text::setCharacterSize(const unsigned int characterSize)
 ////////////////////////////////////////////////////////////
 void Text::update()
 {
-    if (m_vertexArrayNeedUpdate)
-    {
-        updateVertexArray();
-        m_vertexArrayNeedUpdate = false;
-    }
+    updateVertexArray();
+    m_vertexArrayNeedUpdate = false;
 }
 
 
@@ -269,7 +266,10 @@ void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& 
     auto newRenderSettings = renderSettings;
     newRenderSettings.prymitiveType = he::libs::gl::ConnectionType::Triangles;
 
-    update();
+    if (m_vertexArrayNeedUpdate)
+    {
+        update();
+    }
 
     if (m_outlineThickness != 0.0)
     {

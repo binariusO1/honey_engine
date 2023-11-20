@@ -197,7 +197,10 @@ void Shape::openVertexArray()
 ////////////////////////////////////////////////////////////
 void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings)
 {
-    update();
+    if (m_vertexArrayNeedUpdate)
+    {
+        update();
+    }
 
     if (not getVertexArray().empty())
     {
@@ -209,11 +212,8 @@ void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderS
 ////////////////////////////////////////////////////////////
 void Shape::update()
 {
-    if (m_vertexArrayNeedUpdate)
-    {
-        updateVertexArray();
-        m_vertexArrayNeedUpdate = false;
-    }
+    updateVertexArray();
+    m_vertexArrayNeedUpdate = false;
 }
 
 

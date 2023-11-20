@@ -43,7 +43,10 @@ void Sprite::setPosition(const he::gfx::geometry::Point2Df& position)
 ////////////////////////////////////////////////////////////
 void Sprite::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings)
 {
-    update();
+    if (m_vertexArrayNeedUpdate)
+    {
+        update();
+    }
 
     if (not Shape::getVertexArray().empty())
     {
@@ -81,11 +84,8 @@ void Sprite::update()
 {
     Shape::update();
 
-    if (m_textureCoordsNeedUpdate)
-    {
-        updateTextureCoords();
-        m_textureCoordsNeedUpdate = false;
-    }
+    updateTextureCoords();
+    m_textureCoordsNeedUpdate = false;
 }
 
 

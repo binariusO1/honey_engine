@@ -77,7 +77,6 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInDefaultPositionAfterSetNewCharacterSize
     addDrawableToMainLayer(shape2);
     addDrawableToMainLayer(t_text1);
 
-
     display(displayTime);
     t_text1->setString("character size 0");
     t_text1->setCharacterSize(0);
