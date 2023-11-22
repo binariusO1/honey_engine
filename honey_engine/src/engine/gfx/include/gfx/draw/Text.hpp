@@ -2,10 +2,9 @@
 
 #include <filesystem>
 #include "gfx/geometry/Line.hpp"
-#include "gfx/draw/Drawable.hpp"
+#include "gfx/draw/IShape.hpp"
 #include "gfx/text/Style.hpp"
 #include "gfx/Vertex.hpp"
-#include "gfx/geometry/transform/Transformable2d.hpp"
 
 namespace he
 {
@@ -19,7 +18,7 @@ struct Glyph;
 } // namespace text
 namespace draw
 {
-class Text : public Drawable , protected he::gfx::geometry::transform::Transformable2d
+class Text : public draw::IShape
 {
 public:
     Text(const std::string& name);
@@ -54,7 +53,9 @@ public:
     void update();
 
 private:
-    void updateVertexArray();
+    void updateVertexArray() override;
+
+private:
     void computeTextStyle();
     void addLine(gfx::VertexArray2d& vertices, const gfx::Color& color,
              float            lineLength,
@@ -73,18 +74,15 @@ protected:
     std::shared_ptr<gfx::text::IFont> m_font{nullptr};
 
 private:
-    Drawable::Context m_context;
     std::string m_string;
     he::gfx::geometry::Line<float> m_bounds;
     unsigned int m_fontTextureId{0};
     text::Style m_style{gfx::text::FontStyle::Regular};             //!< Text style (see Style enum)
-    gfx::VertexArray2d m_vertexArray{};        //!< Vertex array containing the fill geometry
     gfx::VertexArray2d m_outlineVertices{}; //!< Vertex array containing the outline geometry
     float m_outlineThickness{0.f};                     //!< Thickness of the text's outline
-    gfx::Color                              m_outlineColor{Color::Black};                //!< Text outline color
-    float                                   m_letterSpacingFactor{1.f};                  //!< Spacing factor between letters
-    float                                   m_lineSpacingFactor{1.f};                    //!< Spacing factor between lines
-    bool m_vertexArrayNeedUpdate{false};
+    gfx::Color m_outlineColor{Color::Black};                //!< Text outline color
+    float m_letterSpacingFactor{1.f};                  //!< Spacing factor between letters
+    float m_lineSpacingFactor{1.f};                    //!< Spacing factor between lines
 };
 } // namespace draw
 } // namespace gfx

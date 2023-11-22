@@ -36,6 +36,15 @@ IShape::IShape(const std::string& name) : m_context(name)
 
 
 ////////////////////////////////////////////////////////////
+IShape::IShape(const IShape& copy)
+    : m_vertexArray{copy.m_vertexArray}
+    , m_context{copy.m_context}
+    , m_vertexArrayNeedUpdate{copy.m_vertexArrayNeedUpdate}
+{
+}
+
+
+////////////////////////////////////////////////////////////
 IShape::~IShape() = default;
 
 

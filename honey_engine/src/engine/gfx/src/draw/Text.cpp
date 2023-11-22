@@ -44,7 +44,7 @@ void convertPixelPointToVertexPointTexture(he::gfx::geometry::Point2Df& point, c
 namespace he::gfx::draw
 {
 //////////////////////////////////////////////////////////////////////
-Text::Text(const std::string& name) : m_context(name) , m_font{std::make_shared<gfx::text::Font>()}
+Text::Text(const std::string& name) : m_font{std::make_shared<gfx::text::Font>()} , IShape(name)
 {
 }
 
@@ -55,14 +55,13 @@ Text::Text(const Text& copy)
     , m_font{copy.m_font}
     , m_letterSpacingFactor{copy.m_letterSpacingFactor}
     , m_lineSpacingFactor{copy.m_lineSpacingFactor}
-    , m_context{copy.m_context}
     , m_outlineColor{copy.m_outlineColor}
     , m_outlineThickness{copy.m_outlineThickness}
     , m_style{copy.m_style}
     , m_bounds{copy.m_bounds}
-    , m_vertexArray{copy.m_vertexArray}
     , m_outlineVertices{copy.m_outlineVertices}
     , m_fontTextureId{copy.m_fontTextureId}
+    , IShape(copy)
 {
 }
 
@@ -112,27 +111,19 @@ void Text::setFont(const std::filesystem::path& filepath)
 ////////////////////////////////////////////////////////////
 void Text::setColor(const he::gfx::Color& color)
 {
-    if (color != m_context.color)
-    {
-        m_context.color = color;
-    
-        for (std::size_t i = 0; i < m_vertexArray.size(); ++i)
-        {
-            m_vertexArray[i].color = color;
-        }
-    }
+    IShape::setColor(color);
 }
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::Color Text::getColor() const
 {
-    return m_context.color;
+    return IShape::getColor();
 }
 
 
 ////////////////////////////////////////////////////////////
-const unsigned int Text::getTextureId() const
+const unsigned int Text::getTextureId() const // move to new interface (similar to Sprite) and inherit with Sprite
 {
     return m_font->getTexture()->getTextureId();
 }
@@ -141,7 +132,7 @@ const unsigned int Text::getTextureId() const
 ////////////////////////////////////////////////////////////
 const he::gfx::VertexArray2d& Text::getVertexArray() const
 {
-    return m_vertexArray;
+    return IShape::getVertexArray();
 }
 
 
@@ -163,8 +154,7 @@ const text::Style Text::getStyle() const
 ////////////////////////////////////////////////////////////
 void Text::setOrigin(const geometry::Point2Df& point)
 {
-    Transformable2d::setOrigin(point);
-    m_vertexArrayNeedUpdate = true;
+    IShape::setOrigin(point);
 }
 
 
@@ -178,16 +168,15 @@ void Text::setOriginInCenter()
 ////////////////////////////////////////////////////////////
 void Text::setPosition(const he::gfx::geometry::Point2Df& point)
 { 
-    Transformable2d::setPosition(point);
-    m_vertexArrayNeedUpdate = true;
-};
+    IShape::setPosition(point);
+}
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::geometry::Point2Df& Text::getPosition() const
 { 
-    return Transformable2d::getPosition();
-};
+    return IShape::getPosition();
+}
 
 
 ////////////////////////////////////////////////////////////
@@ -200,22 +189,21 @@ geometry::Line<float> Text::getLocalBounds() const
 ////////////////////////////////////////////////////////////
 const he::gfx::geometry::Point2Df& Text::getOrigin() const
 { 
-    return Transformable2d::getOrigin(); 
+    return IShape::getOrigin();
 }
 
 
 ////////////////////////////////////////////////////////////
 void Text::setRotation(const he::gfx::geometry::Angle& rotation)
 {
-    m_rotation = rotation;
-    m_vertexArrayNeedUpdate = true;
+    IShape::setRotation(rotation);
 }
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::geometry::Angle& Text::getRotation() const
 { 
-    return Transformable2d::getRotation(); 
+    return IShape::getRotation();
 }
 
 
@@ -237,8 +225,7 @@ void Text::setCharacterSize(const unsigned int characterSize)
 ////////////////////////////////////////////////////////////
 void Text::update()
 {
-    updateVertexArray();
-    m_vertexArrayNeedUpdate = false;
+    IShape::update();
 }
 
 
@@ -265,10 +252,7 @@ void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& 
     auto newRenderSettings = renderSettings;
     newRenderSettings.prymitiveType = he::libs::gl::ConnectionType::Triangles;
 
-    if (m_vertexArrayNeedUpdate)
-    {
-        update();
-    }
+    checkIfVertexArrayNeedUpdateThenUpdate();
 
     if (m_outlineThickness != 0.0)
     {

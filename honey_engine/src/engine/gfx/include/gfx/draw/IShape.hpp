@@ -17,6 +17,7 @@ class IShape : public Drawable , protected he::gfx::geometry::transform::Transfo
 {
 protected:
     IShape(const std::string&);
+    IShape(const IShape&);
 
 public:
     ~IShape() override;
@@ -47,7 +48,6 @@ protected:
 protected:
     he::gfx::VertexArray2d m_vertexArray{};
     Drawable::Context m_context;
-    bool m_closedVertexArray{false};
     bool m_vertexArrayNeedUpdate{false};
 };
 } // namespace draw
