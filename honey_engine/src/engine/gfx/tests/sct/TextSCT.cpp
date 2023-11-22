@@ -127,6 +127,8 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInMovedPosition)
     t_text1->setPosition({defaultWindowWidth/2.f, defaultWindowHeight/2.f});
     shapeBoundsRectangle.setPosition({defaultWindowWidth/2.f, defaultWindowHeight/2.f});
     shapeBackgroundRectangle.setPosition({defaultWindowWidth/2.f, defaultWindowHeight/2.f});
+    shapeBackgroundRectangle.update();
+    shapeBoundsRectangle.update();
 
     addDrawableToMainLayer(std::make_shared<he::gfx::draw::Shape>(shapeQuartRectangle));
     addDrawableToMainLayer(std::make_shared<he::gfx::draw::Shape>(shapeBackgroundRectangle));

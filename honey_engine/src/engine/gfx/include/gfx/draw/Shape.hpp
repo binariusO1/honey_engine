@@ -2,9 +2,8 @@
 
 #include <memory>
 #include "gfx/Vertex.hpp"
-#include "gfx/draw/Drawable.hpp"
+#include "gfx/draw/IShape.hpp"
 #include "gfx/geometry/figures/Rectangle.hpp"
-#include "gfx/geometry/transform/Transformable2d.hpp"
 
 namespace he
 {
@@ -13,7 +12,7 @@ namespace gfx
 namespace draw
 {
 
-class Shape : public Drawable , protected he::gfx::geometry::transform::Transformable2d
+class Shape : public IShape
 {
 public:
     Shape(const std::string&, const std::shared_ptr<he::gfx::geometry::figures::Figure>&);
@@ -39,7 +38,7 @@ public:
     void setRotation(const he::gfx::geometry::Angle& angle) override;
     const he::gfx::geometry::Angle& getRotation() const override;
     bool isPointInside(const geometry::Point2Df& point);
-    void setOriginInCenter();
+    void setOriginInCenter() override;
 
 public:
     void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;
@@ -55,10 +54,7 @@ protected:
 
 protected:
     const std::shared_ptr<he::gfx::geometry::figures::Figure> m_figure{nullptr};
-    he::gfx::VertexArray2d m_vertexArray{};
-    Drawable::Context m_context;
     bool m_closedVertexArray{false};
-    bool m_vertexArrayNeedUpdate{false};
 };
 } // namespace draw
 } // namespace gfx

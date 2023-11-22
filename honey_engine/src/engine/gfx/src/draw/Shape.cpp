@@ -29,9 +29,9 @@ namespace gfx
 namespace draw
 {
 ////////////////////////////////////////////////////////////
-Shape::Shape(const std::string& name, const std::shared_ptr<he::gfx::geometry::figures::Figure>& figure)
-    : m_figure{figure}
-    , m_context(name)
+Shape::Shape(const std::string& name, const std::shared_ptr<he::gfx::geometry::figures::Figure>& figure) 
+    : IShape(name)
+    , m_figure{figure}
 {
     m_vertexArrayNeedUpdate = true;
 }
@@ -39,8 +39,8 @@ Shape::Shape(const std::string& name, const std::shared_ptr<he::gfx::geometry::f
 
 ////////////////////////////////////////////////////////////
 Shape::Shape(const std::string& name, const he::gfx::geometry::figures::Rectangle& rectangle)
-    : m_figure{std::make_shared<he::gfx::geometry::figures::Rectangle>(rectangle)}
-    , m_context(name)
+    : IShape(name)
+    , m_figure{std::make_shared<he::gfx::geometry::figures::Rectangle>(rectangle)}
 {
     m_vertexArrayNeedUpdate = true;
 }
@@ -52,13 +52,13 @@ Shape::Shape(const std::string& name,
             const he::gfx::Color& color, 
             const he::gfx::geometry::Point2Df& position,
             const he::gfx::OriginPosition& originPosition)
-    : m_figure{figure}
-    , m_context(name)
+    : IShape(name)
+    , m_figure{figure}
 {
-    m_context.color = color;
+    setColor(color);
     m_context.originPosition = originPosition;
     setPosition(position);
-    setOriginPosition(originPosition);
+    IShape::setOriginPosition(originPosition);
 }
 
 
@@ -78,15 +78,14 @@ bool Shape::isPointInside(const geometry::Point2Df& point)// todo const
 ////////////////////////////////////////////////////////////
 void Shape::setColor(const he::gfx::Color& color)
 {
-    m_context.color = color;
-    m_vertexArrayNeedUpdate = true;
+    IShape::setColor(color);
 }
 
 
 ////////////////////////////////////////////////////////////
 void Shape::setOrigin(const he::gfx::geometry::Point2Df& origin)
 {
-    Transformable2d::setOrigin(origin);
+    IShape::setOrigin(origin);
 
     if (origin == he::gfx::geometry::Point2Df{0.0, 0.0})
     {
@@ -100,7 +99,6 @@ void Shape::setOrigin(const he::gfx::geometry::Point2Df& origin)
     {
          m_context.originPosition = he::gfx::OriginPosition::any;
     }
-
     m_vertexArrayNeedUpdate = true;
 }
 
@@ -116,58 +114,56 @@ void Shape::setOriginInCenter()
 ////////////////////////////////////////////////////////////
 void Shape::setPosition(const he::gfx::geometry::Point2Df& position)
 {
-    Transformable2d::setPosition(position);
-    m_vertexArrayNeedUpdate = true;
+    IShape::setPosition(position);
 }
 
 
 ////////////////////////////////////////////////////////////    
 void Shape::setRotation(const he::gfx::geometry::Angle& angle)
 {
-    Transformable2d::setRotation(angle);
-    m_vertexArrayNeedUpdate = true;
+    IShape::setRotation(angle);
 }
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::Color Shape::getColor() const
 {
-    return m_context.color;
+    return IShape::getColor();
 }
 
 
 ////////////////////////////////////////////////////////////
 const std::string Shape::getName() const
 {
-    return m_context.name;
+    return IShape::getName();
 }
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::geometry::Point2Df& Shape::getOrigin() const
 {
-    return Transformable2d::getOrigin();
+    return IShape::getOrigin();
 }
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::geometry::Point2Df& Shape::getPosition() const
 {
-    return Transformable2d::getPosition();
+    return IShape::getPosition();
 }
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::geometry::Angle& Shape::getRotation() const
 {
-    return Transformable2d::getRotation();
+    return IShape::getRotation();
 }
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::VertexArray2d& Shape::getVertexArray() const
 {
-    return m_vertexArray;
+    return IShape::getVertexArray();
 }
 
 
@@ -205,33 +201,13 @@ void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderS
 ////////////////////////////////////////////////////////////
 void Shape::update()
 {
-    updateVertexArray();
-    m_vertexArrayNeedUpdate = false;
+    return IShape::update();
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // PRIVATE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////
-void Shape::setOriginPosition(const he::gfx::OriginPosition& originPosition)
-{
-    switch (originPosition)
-    {
-    case he::gfx::OriginPosition::any:
-        break;
-    case he::gfx::OriginPosition::leftDown:
-        setOrigin({0.0, 0.0});
-        break;
-    case he::gfx::OriginPosition::center:
-        setOriginInCenter();
-        break;
-    default:
-        break;
-    }
-}
 
 
 ////////////////////////////////////////////////////////////

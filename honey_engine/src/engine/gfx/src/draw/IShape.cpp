@@ -31,7 +31,6 @@ namespace draw
 ////////////////////////////////////////////////////////////
 IShape::IShape(const std::string& name) : m_context(name)
 {
-    m_vertexArrayNeedUpdate = true;
 }
 
 
