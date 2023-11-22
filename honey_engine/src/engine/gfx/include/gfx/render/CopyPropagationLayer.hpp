@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include "gfx/draw/Shape.hpp"
 #include "gfx/render/BaseLayer.hpp"
 #include "gfx/render/PropagationSettings.hpp"
 #include "gfx/render/RenderSettings.hpp"
@@ -12,6 +13,7 @@ namespace gfx
 {
 namespace render
 {
+
 class CopyPropagationLayer final : public BaseLayer
 {
 public:
@@ -23,16 +25,16 @@ public:
     void setRenderSettings(const he::gfx::render::RenderSettings&) override;
     
 public:
-    void addDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>&);
-    void addDrawables(const DrawableList&);
-    void removeDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>&);
-    he::gfx::draw::IDrawable& drawable(const std::string&);
+    void addDrawable(const std::shared_ptr<he::gfx::draw::Shape>&); //todo addShape
+    void addDrawables(const ShapeList&);
+    void removeDrawable(const std::shared_ptr<he::gfx::draw::Shape>&);
+    he::gfx::draw::Shape& drawable(const std::string&);
 
 public:
     void process_event(const he::window::Event&) override;
 
 private:
-    DrawableList m_uniqueDrawables{};
+    ShapeList m_uniqueDrawables{};
     PropagationSettings m_propagationSettings{};
 };
 } // namespace render

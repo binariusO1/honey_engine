@@ -2,8 +2,7 @@
 
 #include <filesystem>
 #include "gfx/geometry/Line.hpp"
-#include "gfx/draw/IDrawable.hpp"
-#include "gfx/geometry/transform/Transformable2d.hpp"
+#include "gfx/draw/IShape.hpp"
 #include "gfx/text/Style.hpp"
 #include "gfx/Vertex.hpp"
 
@@ -19,11 +18,8 @@ struct Glyph;
 } // namespace text
 namespace draw
 {
-class Text : public IDrawable , protected he::gfx::geometry::transform::Transformable2d
+class Text : public IShape , protected he::gfx::geometry::transform::Transformable2d
 {
-public:
-
-
 public:
     Text(const std::string& name);
     Text(const Text& copy);
@@ -46,13 +42,13 @@ public:
     void setOriginInCenter() override;
     void setPosition(const he::gfx::geometry::Point2Df&) override;
     void setRotation(const he::gfx::geometry::Angle&) override;
-    he::gfx::Color getColor() const override;
+    const he::gfx::Color getColor() const override;
     const std::string getName() const override { return m_context.name; };
     const he::gfx::geometry::Point2Df& getOrigin() const override;
     const he::gfx::geometry::Point2Df& getPosition() const override;
     const he::gfx::geometry::Angle& getRotation() const override;
 
-    unsigned int getTextureId() const override;
+    const unsigned int getTextureId() const;
     const he::gfx::VertexArray2d& getVertexArray() const override;
     void update();
 
@@ -76,7 +72,7 @@ protected:
     std::shared_ptr<gfx::text::IFont> m_font{nullptr};
 
 private:
-    IDrawable::Context m_context;
+    IShape::Context m_context;
     std::string m_string;
     he::gfx::geometry::Line<float> m_bounds;
     unsigned int m_fontTextureId{0};

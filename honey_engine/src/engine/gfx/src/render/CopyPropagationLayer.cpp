@@ -63,14 +63,14 @@ void CopyPropagationLayer::setRenderSettings(const he::gfx::render::RenderSettin
 
 
 ////////////////////////////////////////////////////////////
-void CopyPropagationLayer::addDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>& drawable)
+void CopyPropagationLayer::addDrawable(const std::shared_ptr<he::gfx::draw::Shape>& drawable)
 {
     m_uniqueDrawables.push_back(drawable);
 }
 
 
 ////////////////////////////////////////////////////////////
-void CopyPropagationLayer::addDrawables(const DrawableList& drawables)
+void CopyPropagationLayer::addDrawables(const ShapeList& drawables)
 {
     auto sum = m_uniqueDrawables.size() + drawables.size();
 
@@ -84,7 +84,7 @@ void CopyPropagationLayer::addDrawables(const DrawableList& drawables)
 
 
 ////////////////////////////////////////////////////////////
-void CopyPropagationLayer::removeDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>& drawable)
+void CopyPropagationLayer::removeDrawable(const std::shared_ptr<he::gfx::draw::Shape>& drawable)
 {
     auto it = std::find(m_uniqueDrawables.begin(), m_uniqueDrawables.end(), drawable);
 
@@ -100,7 +100,7 @@ void CopyPropagationLayer::removeDrawable(const std::shared_ptr<he::gfx::draw::I
 
 
 ////////////////////////////////////////////////////////////
-he::gfx::draw::IDrawable& CopyPropagationLayer::drawable(const std::string& name)
+he::gfx::draw::Shape& CopyPropagationLayer::drawable(const std::string& name)
 {
     for (auto& item : m_uniqueDrawables)
     {

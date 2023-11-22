@@ -88,7 +88,12 @@ void Layer::removeLayer(const std::shared_ptr<he::gfx::render::ILayer>& layer)
 ////////////////////////////////////////////////////////////
 void Layer::addDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>& drawable)
 {
-    m_uniqueDrawables.push_back(drawable);
+    auto it = m_uniqueKeys.emplace(drawable->getName());
+
+    if (it.second)
+    {
+        m_uniqueDrawables.push_back(drawable);
+    }
 }
 
 
@@ -102,18 +107,31 @@ void Layer::addDrawables(const DrawableList& drawables)
         m_uniqueDrawables.reserve(sum);
     }
 
-    m_uniqueDrawables.insert(m_uniqueDrawables.end(), drawables.begin(), drawables.end());
+    std::for_each(drawables.begin(), drawables.end(), [&](const std::shared_ptr<he::gfx::draw::IDrawable>& drawable) 
+    { 
+        auto it = m_uniqueKeys.emplace(drawable->getName());
+
+        if (it.second)
+        {
+            m_uniqueDrawables.push_back(drawable);
+        }
+    });
 }
 
 
 ////////////////////////////////////////////////////////////
 void Layer::removeDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>& drawable)
 {
+    if (not m_uniqueKeys.erase(drawable->getName()))
+    {
+        return;
+    }
+
     auto it = std::find(m_uniqueDrawables.begin(), m_uniqueDrawables.end(), drawable);
 
     if (it != m_uniqueDrawables.end()) 
     {
-        m_uniqueDrawables.erase(it);
+        m_uniqueDrawables.erase(it);       
     } 
     else 
     {
@@ -123,16 +141,9 @@ void Layer::removeDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>& draw
 
 
 ////////////////////////////////////////////////////////////
-he::gfx::draw::IDrawable& Layer::drawable(const std::string& name)
+he::gfx::render::DrawableList& Layer::drawableList()
 {
-    for (auto& item : m_uniqueDrawables)
-    {
-        if (item->getName() == name)
-        {
-            return *item;
-        }
-    }
-    throw he::common::invalid_initialization("Cannot get object. Key does not found");
+    return m_uniqueDrawables;
 }
 
 

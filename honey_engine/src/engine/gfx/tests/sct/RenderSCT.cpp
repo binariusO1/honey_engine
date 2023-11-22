@@ -166,7 +166,7 @@ TEST_F(RenderSCT, screenTestShapes_drawSamples)
 
     // initialize cross
     std::shared_ptr<he::gfx::geometry::figures::Figure> cross = std::make_shared<he::gfx::geometry::figures::Cross>(50.0);
-    std::shared_ptr<he::gfx::draw::IDrawable> cross1 = std::make_shared<he::gfx::draw::Shape>("cross1", cross);
+    std::shared_ptr<he::gfx::draw::Shape> cross1 = std::make_shared<he::gfx::draw::Shape>("cross1", cross);
     cross1->setPosition({320.0, 0.0});
 
     he::gfx::PropagationSettings propagationSettings{2, 7, 105.0, 100.0};
@@ -177,10 +177,10 @@ TEST_F(RenderSCT, screenTestShapes_drawSamples)
     const he::gfx::geometry::Size2Dpxl textureSize(200, 100);
     std::shared_ptr<he::gfx::render::Texture> texture1 = std::make_shared<he::gfx::render::Texture>();
     texture1->createEmpty(textureSize);
-    std::shared_ptr<he::gfx::draw::IDrawable> sprite1 = std::make_shared<he::gfx::draw::Sprite>("sprite1", texture1);
+    std::shared_ptr<he::gfx::draw::Shape> sprite1 = std::make_shared<he::gfx::draw::Sprite>("sprite1", texture1);
     sprite1->setPosition({540.0, 0.0});
     std::shared_ptr<he::gfx::render::Texture> texture2 = std::make_shared<he::gfx::render::Texture>("data\\test\\container.png");
-    std::shared_ptr<he::gfx::draw::IDrawable> sprite2 = std::make_shared<he::gfx::draw::Sprite>("sprite2", texture2);
+    std::shared_ptr<he::gfx::draw::Shape> sprite2 = std::make_shared<he::gfx::draw::Sprite>("sprite2", texture2);
     sprite2->setPosition({540.0, 100.0});
 
     std::shared_ptr<he::gfx::render::Layer> layer4 = std::make_shared<he::gfx::render::Layer>("layer_4");

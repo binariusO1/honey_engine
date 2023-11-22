@@ -126,7 +126,7 @@ TEST_F(TextTests, setString_whenSetSecondNewString_shouldSetNewString)
     ASSERT_EQ(sut->getString(), t_string2);
 }
 
-TEST_F(TextTests, setString_whenSetSeconSameString_shouldNotSetStringAndNotUpdateVertexArraySecondTime)
+TEST_F(TextTests, setString_whenSetSeconSameString_shouldNotSetStringAndShouldUpdateVertexArrayOnce)
 {
     EXPECT_CALL(*fontMock, setCharacterSize(t_characterSize)).WillRepeatedly(Return(true));
     expectedUpdateVertexArray();
@@ -135,7 +135,6 @@ TEST_F(TextTests, setString_whenSetSeconSameString_shouldNotSetStringAndNotUpdat
     sut->setCharacterSize(t_characterSize);
     sut->setFont(t_defaultFont);
     sut->setString(t_string1);
-    sut->update();
     sut->setString(t_string1);
     sut->update();
 }

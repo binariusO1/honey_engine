@@ -2,7 +2,7 @@
 
 #include <memory>
 #include "gfx/Vertex.hpp"
-#include "gfx/draw/IDrawable.hpp"
+#include "gfx/draw/IShape.hpp"
 #include "gfx/geometry/figures/Rectangle.hpp"
 #include "gfx/geometry/transform/Transformable2d.hpp"
 
@@ -13,7 +13,7 @@ namespace gfx
 namespace draw
 {
 
-class Shape : public IDrawable , protected he::gfx::geometry::transform::Transformable2d
+class Shape : public IShape , protected he::gfx::geometry::transform::Transformable2d
 {
 public:
     Shape(const std::string&, const std::shared_ptr<he::gfx::geometry::figures::Figure>&);
@@ -26,21 +26,25 @@ public:
     ~Shape() override;
 
 public:
-    bool isPointInside(const geometry::Point2Df& point);
     void setColor(const he::gfx::Color& color) override;
-    void setOrigin(const he::gfx::geometry::Point2Df& origin) override;
-    void setOriginInCenter() override;
     void setPosition(const he::gfx::geometry::Point2Df& position) override;
-    void setRotation(const he::gfx::geometry::Angle& angle) override;
-    he::gfx::Color getColor() const override;
-    const std::string getName() const override;
-    const he::gfx::geometry::Point2Df& getOrigin() const override;
+    const he::gfx::Color getColor() const override;
     const he::gfx::geometry::Point2Df& getPosition() const override;
-    const he::gfx::geometry::Angle& getRotation() const override;
-    unsigned int getTextureId() const override;
+    const std::string getName() const override;
+    const he::gfx::VertexArray2d& getVertexArray() const override;
 
 public:
-    const he::gfx::VertexArray2d& getVertexArray() const override;
+    void setOrigin(const he::gfx::geometry::Point2Df& origin) override;
+    const he::gfx::geometry::Point2Df& getOrigin() const override;
+    void setRotation(const he::gfx::geometry::Angle& angle) override;
+    const he::gfx::geometry::Angle& getRotation() const override;
+    bool isPointInside(const geometry::Point2Df& point);
+    void setOriginInCenter() override;
+
+public:
+    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;
+
+public:
     void closeVertexArray();
     void openVertexArray();
     void update();
@@ -50,12 +54,9 @@ protected:
     void updateVertexArray();
 
 protected:
-    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;
-
-protected:
     const std::shared_ptr<he::gfx::geometry::figures::Figure> m_figure{nullptr};
     he::gfx::VertexArray2d m_vertexArray{};
-    IDrawable::Context m_context;
+    IShape::Context m_context;
     bool m_closedVertexArray{false};
     bool m_vertexArrayNeedUpdate{false};
 };

@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <vector>
 #include "gfx/draw/IDrawable.hpp"
+#include "gfx/draw/Shape.hpp"
 #include "gfx/render/ILayer.hpp"
 
 
@@ -20,6 +21,7 @@ using EventInputListenerList = std::vector<std::shared_ptr<he::window::IEventInp
 using EventInputListenerMap = std::map<std::string, std::shared_ptr<he::window::IEventInputListener>>;
 using LayersList = std::vector<std::shared_ptr<he::gfx::render::ILayer>>;
 using LayersMap = std::unordered_map<std::string, std::shared_ptr<he::gfx::render::ILayer>>;
+using ShapeList = std::vector<std::shared_ptr<he::gfx::draw::Shape>>;
 
 class BaseLayer : public ILayer
 {

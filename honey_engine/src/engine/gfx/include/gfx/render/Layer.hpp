@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include "gfx/draw/IDrawable.hpp"
 #include "gfx/render/BaseLayer.hpp"
 #include "gfx/render/RenderSettings.hpp"
@@ -31,13 +32,14 @@ public:
     void addDrawables(const DrawableList&);
     // TODO add funtion which is add shape, text as template and convert to idrawable (after checking)
     void removeDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>&);
-    he::gfx::draw::IDrawable& drawable(const std::string&);
+    he::gfx::render::DrawableList& drawableList();
 
 public:
     void process_event(const he::window::Event&) override;
 
 protected:
-    DrawableList m_uniqueDrawables;
+    DrawableList m_uniqueDrawables; 
+    std::set<std::string> m_uniqueKeys;
     EventInputListenerMap m_uniqueListeners;
     LayersMap m_layers;
 };

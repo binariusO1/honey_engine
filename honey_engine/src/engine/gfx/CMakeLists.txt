@@ -30,6 +30,7 @@ set(INTERNAL_FILES
 set(PUBLIC_HEADERS 
     include/gfx/draw/Button.hpp
 	include/gfx/draw/IDrawable.hpp
+	include/gfx/draw/IShape.hpp
 	include/gfx/draw/Shape.hpp
 	include/gfx/draw/Sprite.hpp
 	include/gfx/draw/Text.hpp

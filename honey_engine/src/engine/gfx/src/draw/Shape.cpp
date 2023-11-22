@@ -130,7 +130,7 @@ void Shape::setRotation(const he::gfx::geometry::Angle& angle)
 
 
 ////////////////////////////////////////////////////////////
-he::gfx::Color Shape::getColor() const
+const he::gfx::Color Shape::getColor() const
 {
     return m_context.color;
 }
@@ -172,13 +172,6 @@ const he::gfx::VertexArray2d& Shape::getVertexArray() const
 
 
 ////////////////////////////////////////////////////////////
-unsigned int Shape::getTextureId() const
-{
-    return 0;// todo
-}
-
-
-////////////////////////////////////////////////////////////
 void Shape::closeVertexArray()
 {
     m_closedVertexArray = true;
@@ -204,7 +197,7 @@ void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderS
 
     if (not getVertexArray().empty())
     {
-        render.drawVertexPrimitive(getVertexArray(), getTextureId(), getColor(), renderSettings);
+        render.drawVertexPrimitive(getVertexArray(), 0, getColor(), renderSettings);
     }
 }
 

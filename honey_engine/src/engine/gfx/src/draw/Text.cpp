@@ -63,7 +63,6 @@ Text::Text(const Text& copy)
     , m_vertexArray{copy.m_vertexArray}
     , m_outlineVertices{copy.m_outlineVertices}
     , m_fontTextureId{copy.m_fontTextureId}
-    , Transformable2d{copy}
 {
 }
 
@@ -126,14 +125,14 @@ void Text::setColor(const he::gfx::Color& color)
 
 
 ////////////////////////////////////////////////////////////
-he::gfx::Color Text::getColor() const
+const he::gfx::Color Text::getColor() const
 {
     return m_context.color;
 }
 
 
 ////////////////////////////////////////////////////////////
-unsigned int Text::getTextureId() const
+const unsigned int Text::getTextureId() const
 {
     return m_font->getTexture()->getTextureId();
 }
