@@ -19,10 +19,10 @@ class Figure;
 namespace draw
 {
 
-class IShape : public IDrawable
+class Drawable : public IDrawable
 {
 public:
-    virtual ~IShape() override = default;
+    virtual ~Drawable() override = default;
 
 public:
     virtual void setColor(const he::gfx::Color&) = 0;

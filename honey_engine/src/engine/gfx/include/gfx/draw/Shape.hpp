@@ -2,7 +2,7 @@
 
 #include <memory>
 #include "gfx/Vertex.hpp"
-#include "gfx/draw/IShape.hpp"
+#include "gfx/draw/Drawable.hpp"
 #include "gfx/geometry/figures/Rectangle.hpp"
 #include "gfx/geometry/transform/Transformable2d.hpp"
 
@@ -13,7 +13,7 @@ namespace gfx
 namespace draw
 {
 
-class Shape : public IShape , protected he::gfx::geometry::transform::Transformable2d
+class Shape : public Drawable , protected he::gfx::geometry::transform::Transformable2d
 {
 public:
     Shape(const std::string&, const std::shared_ptr<he::gfx::geometry::figures::Figure>&);
@@ -56,7 +56,7 @@ protected:
 protected:
     const std::shared_ptr<he::gfx::geometry::figures::Figure> m_figure{nullptr};
     he::gfx::VertexArray2d m_vertexArray{};
-    IShape::Context m_context;
+    Drawable::Context m_context;
     bool m_closedVertexArray{false};
     bool m_vertexArrayNeedUpdate{false};
 };

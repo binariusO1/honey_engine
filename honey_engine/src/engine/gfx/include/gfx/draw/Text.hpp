@@ -2,9 +2,10 @@
 
 #include <filesystem>
 #include "gfx/geometry/Line.hpp"
-#include "gfx/draw/IShape.hpp"
+#include "gfx/draw/Drawable.hpp"
 #include "gfx/text/Style.hpp"
 #include "gfx/Vertex.hpp"
+#include "gfx/geometry/transform/Transformable2d.hpp"
 
 namespace he
 {
@@ -18,7 +19,7 @@ struct Glyph;
 } // namespace text
 namespace draw
 {
-class Text : public IShape , protected he::gfx::geometry::transform::Transformable2d
+class Text : public Drawable , protected he::gfx::geometry::transform::Transformable2d
 {
 public:
     Text(const std::string& name);
@@ -72,7 +73,7 @@ protected:
     std::shared_ptr<gfx::text::IFont> m_font{nullptr};
 
 private:
-    IShape::Context m_context;
+    Drawable::Context m_context;
     std::string m_string;
     he::gfx::geometry::Line<float> m_bounds;
     unsigned int m_fontTextureId{0};
