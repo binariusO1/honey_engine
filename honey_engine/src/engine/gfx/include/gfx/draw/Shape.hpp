@@ -39,7 +39,7 @@ public:
     void setRotation(const he::gfx::geometry::Angle& angle) override;
     const he::gfx::geometry::Angle& getRotation() const override;
     bool isPointInside(const geometry::Point2Df& point);
-    void setOriginInCenter() override;
+    void setOriginInCenter();
 
 public:
     void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;

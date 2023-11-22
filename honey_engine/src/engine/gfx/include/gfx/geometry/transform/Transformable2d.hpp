@@ -20,7 +20,6 @@ public:
 public:
     void move(const geometry::Vector2Df& offset) override;
     void setOrigin(const Point2Df& origin) override;
-    void setOriginInCenter() override {};
     void setRotation(const geometry::Angle& angle) override;
     void setScale(const geometry::Vector2Df& factors) override;
     void setPosition(const Point2Df& position) override;

@@ -40,7 +40,7 @@ public:
 public:
     void setColor(const he::gfx::Color&) override;
     void setOrigin(const he::gfx::geometry::Point2Df&) override;
-    void setOriginInCenter() override;
+    void setOriginInCenter();
     void setPosition(const he::gfx::geometry::Point2Df&) override;
     void setRotation(const he::gfx::geometry::Angle&) override;
     const he::gfx::Color getColor() const override;
