@@ -48,7 +48,7 @@ Shape::~Shape() = default;
 
 
 ////////////////////////////////////////////////////////////
-bool Shape::isPointInside(const geometry::Point2Df& point)// todo const
+bool Shape::isPointInside(const geometry::Point2Df& point)
 {
     he::gfx::geometry::Point2Df pointToCheck{point};
     inverseTransformPoint(pointToCheck);

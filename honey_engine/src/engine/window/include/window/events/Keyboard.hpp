@@ -134,7 +134,7 @@ public:
 
     };
 
-    // TODO: FUTURE: HONEY
+    // TODO: FUTURE: HONEY , pozostalosc ze starego projektu
     // static bool iskeyPressed(Key key);
     // static void setVirtualKeyboardVisible(bool visible);
 };

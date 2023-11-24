@@ -24,7 +24,7 @@ public:
         HorizontalWheel ///< The horizontal mouse wheel
     };
 
-    // TODO: FUTURE: HONEY
+    // TODO: FUTURE: HONEY , pozostalosc ze starego projektu
     // static bool isButtonPressed(Button button);
     // static Vector2i getPosition();
     // static Vector2i getPosition(const Window& relativeTo);
