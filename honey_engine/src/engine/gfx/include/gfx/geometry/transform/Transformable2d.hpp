@@ -15,6 +15,7 @@ class Transformable2d : public ITransformable
 {
 public:
     Transformable2d() = default;
+    Transformable2d(const Transformable2d&) = default;
     ~Transformable2d() override;
 
 public:

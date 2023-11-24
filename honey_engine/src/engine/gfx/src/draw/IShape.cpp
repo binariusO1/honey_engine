@@ -39,6 +39,7 @@ IShape::IShape(const IShape& copy)
     : m_vertexArray{copy.m_vertexArray}
     , m_context{copy.m_context}
     , m_vertexArrayNeedUpdate{copy.m_vertexArrayNeedUpdate}
+    , geometry::transform::Transformable2d(copy)
 {
 }
 

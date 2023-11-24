@@ -1,7 +1,6 @@
 #include "gfx/draw/Shape.hpp"
 
 #include "gfx/render/Render.hpp"
-#include "logger/Logger.hpp"
 
 namespace 
 {
@@ -17,9 +16,7 @@ void convertPixelPointToVertexPoint(he::gfx::geometry::Point2Df& point, const in
         float y = (point.y / static_cast<float>(screenHeight)*SCREEN_SCALE) + OFFSET_ORIGIN_SCREEN;
         point.x = x;
         point.y = y;
-        return;
     }
-    LOG_WARNING << "No convert. Window width or height is equal to 0!";
 }
 } // namespace
 namespace he
@@ -29,7 +26,7 @@ namespace gfx
 namespace draw
 {
 ////////////////////////////////////////////////////////////
-Shape::Shape(const std::string& name, const std::shared_ptr<he::gfx::geometry::figures::Figure>& figure) 
+Shape::Shape(const std::string& name, const geometry::figures::Figure& figure)    
     : IShape(name)
     , m_figure{figure}
 {
@@ -38,27 +35,11 @@ Shape::Shape(const std::string& name, const std::shared_ptr<he::gfx::geometry::f
 
 
 ////////////////////////////////////////////////////////////
-Shape::Shape(const std::string& name, const he::gfx::geometry::figures::Rectangle& rectangle)
-    : IShape(name)
-    , m_figure{std::make_shared<he::gfx::geometry::figures::Rectangle>(rectangle)}
+Shape::Shape(const Shape& copy)
+    : IShape(copy)
+    , m_figure{copy.m_figure}
+    , m_closedVertexArray{copy.m_closedVertexArray}
 {
-    m_vertexArrayNeedUpdate = true;
-}
-
-
-////////////////////////////////////////////////////////////
-Shape::Shape(const std::string& name, 
-            const std::shared_ptr<he::gfx::geometry::figures::Figure>& figure, 
-            const he::gfx::Color& color, 
-            const he::gfx::geometry::Point2Df& position,
-            const he::gfx::OriginPosition& originPosition)
-    : IShape(name)
-    , m_figure{figure}
-{
-    setColor(color);
-    m_context.originPosition = originPosition;
-    setPosition(position);
-    IShape::setOriginPosition(originPosition);
 }
 
 
@@ -71,7 +52,7 @@ bool Shape::isPointInside(const geometry::Point2Df& point)// todo const
 {
     he::gfx::geometry::Point2Df pointToCheck{point};
     inverseTransformPoint(pointToCheck);
-    return m_figure->isPointInside(pointToCheck);
+    return m_figure.isPointInside(pointToCheck);
 }
 
 
@@ -91,7 +72,7 @@ void Shape::setOrigin(const he::gfx::geometry::Point2Df& origin)
     {
          m_context.originPosition = he::gfx::OriginPosition::leftDown;
     }
-    else if(origin == he::gfx::geometry::Point2Df{m_figure->getCenterPoint().x , m_figure->getCenterPoint().y})
+    else if(origin == he::gfx::geometry::Point2Df{m_figure.getCenterPoint().x , m_figure.getCenterPoint().y})
     {
          m_context.originPosition = he::gfx::OriginPosition::center;
     }
@@ -106,7 +87,7 @@ void Shape::setOrigin(const he::gfx::geometry::Point2Df& origin)
 ////////////////////////////////////////////////////////////
 void Shape::setOriginInCenter()
 {
-    setOrigin({m_figure->getCenterPoint().x , m_figure->getCenterPoint().y});
+    setOrigin({m_figure.getCenterPoint().x , m_figure.getCenterPoint().y});
     m_vertexArrayNeedUpdate = true;
     m_context.originPosition = he::gfx::OriginPosition::center;
 }
@@ -201,7 +182,15 @@ void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderS
 ////////////////////////////////////////////////////////////
 void Shape::update()
 {
-    return IShape::update();
+    IShape::update();
+}
+
+
+////////////////////////////////////////////////////////////
+void Shape::setOriginPosition(const he::gfx::OriginPosition& originPosition)
+{
+    IShape::setOriginPosition(originPosition);
+    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -215,16 +204,13 @@ void Shape::updateVertexArray()
 {
     m_vertexArray.clear();
 
-    if (m_figure)
+    for (std::size_t i = 0 ; i < m_figure.getNumOfPoints() ; ++i)
     {
-        for (std::size_t i = 0 ; i < m_figure->getNumOfPoints() ; ++i)
-        {
-            auto point = m_figure->getPoint(i);
-            transformPoint(point);
-            // TODO: remove 1200, 800 - screen width and height
-            convertPixelPointToVertexPoint(point, 1200, 800);
-            m_vertexArray.push_back({point, m_context.color});
-        }
+        auto point = m_figure.getPoint(i);
+        transformPoint(point);
+        // TODO: remove 1200, 800 - screen width and height
+        convertPixelPointToVertexPoint(point, 1200, 800);
+        m_vertexArray.push_back({point, m_context.color});
     }
 
     if (m_closedVertexArray)

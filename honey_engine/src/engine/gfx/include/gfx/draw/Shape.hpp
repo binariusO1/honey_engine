@@ -15,13 +15,8 @@ namespace draw
 class Shape : public IShape
 {
 public:
-    Shape(const std::string&, const std::shared_ptr<he::gfx::geometry::figures::Figure>&);
-    Shape(const std::string&, const he::gfx::geometry::figures::Rectangle&);
-    Shape(const std::string&, 
-            const std::shared_ptr<he::gfx::geometry::figures::Figure>&, 
-            const he::gfx::Color&, 
-            const he::gfx::geometry::Point2Df&,
-            const he::gfx::OriginPosition&);
+    Shape(const std::string&, const geometry::figures::Figure&);
+    Shape(const Shape&);
     ~Shape() override;
 
 public:
@@ -37,23 +32,23 @@ public:
     const he::gfx::geometry::Point2Df& getOrigin() const override;
     void setRotation(const he::gfx::geometry::Angle& angle) override;
     const he::gfx::geometry::Angle& getRotation() const override;
-    bool isPointInside(const geometry::Point2Df& point);
+    bool isPointInside(const gfx::geometry::Point2Df& point);
     void setOriginInCenter() override;
 
 public:
     void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;
 
 public:
+    void setOriginPosition(const he::gfx::OriginPosition& originPosition);
     void closeVertexArray();
     void openVertexArray();
     void update();
 
 protected:
-    void setOriginPosition(const he::gfx::OriginPosition& originPosition);
     void updateVertexArray();
 
 protected:
-    const std::shared_ptr<he::gfx::geometry::figures::Figure> m_figure{nullptr};
+    const geometry::figures::Figure& m_figure;
     bool m_closedVertexArray{false};
 };
 } // namespace draw

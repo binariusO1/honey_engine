@@ -1,6 +1,6 @@
 #pragma once
 
-#include "gfx/draw/Shape.hpp"
+#include "gfx/draw/ShapeRectangle.hpp"
 
 namespace he
 {
@@ -12,7 +12,7 @@ class ITexture;
 } // namespace render
 namespace draw
 {
-class Sprite : public Shape
+class Sprite : public draw::ShapeRectangle
 {
 public:
     Sprite() = delete;
@@ -34,7 +34,7 @@ protected:
 protected:
     void updateTextureCoords();
 
-    std::shared_ptr<he::gfx::render::ITexture>  m_texture{nullptr};
+    std::shared_ptr<he::gfx::render::ITexture> m_texture{nullptr};
     bool m_isFilledByColor{false};
     bool m_textureCoordsNeedUpdate{false};
 };

@@ -14,7 +14,7 @@ namespace draw
 {
 ////////////////////////////////////////////////////////////
 Sprite::Sprite(const std::string& name, const std::shared_ptr<he::gfx::render::ITexture>& texture) 
-    : Shape(name, std::make_shared<he::gfx::geometry::figures::Rectangle>(he::gfx::geometry::Size2Df{static_cast<float>(texture->getSize().width), static_cast<float>(texture->getSize().height)}))
+    : ShapeRectangle(name, {static_cast<float>(texture->getSize().width), static_cast<float>(texture->getSize().height)})
 { 
     m_texture = texture;
     m_textureCoordsNeedUpdate = true;

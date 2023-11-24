@@ -85,6 +85,7 @@ const Point2Df& Transformable2d::getPosition() const
 //PROTECTED
 ////////////////////////////////////////////////////////////
 
+
 ////////////////////////////////////////////////////////////
 void Transformable2d::transformPoint(Point2Df& point)
 {
@@ -97,6 +98,7 @@ void Transformable2d::inverseTransformPoint(Point2Df& point)
 {
     point = getTransform().getInverse().transformPoint(point);
 }
+
 
 ////////////////////////////////////////////////////////////
 const Transform& Transformable2d::getTransform() const

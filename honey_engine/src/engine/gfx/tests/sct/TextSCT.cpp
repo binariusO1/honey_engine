@@ -1,6 +1,6 @@
 #include "RenderFixture.hpp"
 #include <gtest/gtest.h>
-#include "gfx/draw/Shape.hpp"
+#include "gfx/draw/ShapeRectangle.hpp"
 #include "gfx/geometry/figures/Rectangle.hpp"
 #include "gfx/draw/Text.hpp"
 
@@ -39,15 +39,13 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInDefaultPosition)
     setDaultTextObject();
 
     auto textBounds = t_text1->getLocalBounds();
-    he::gfx::geometry::figures::Rectangle backgroundRectangle(he::gfx::geometry::Size2Df{textBounds.p2.x*2, textBounds.p2.y*2});
-    he::gfx::geometry::figures::Rectangle boundsRectangle(he::gfx::geometry::Size2Df{textBounds.p2.x, textBounds.p2.y});
-    he::gfx::draw::Shape shape1("backgroundRectangle", backgroundRectangle);
-    he::gfx::draw::Shape shape2("boundsRectangle", boundsRectangle);
+    he::gfx::draw::ShapeRectangle shape1("backgroundRectangle", {textBounds.p2.x*2, textBounds.p2.y*2});
+    he::gfx::draw::ShapeRectangle shape2("boundsRectangle", {textBounds.p2.x, textBounds.p2.y});
     shape1.setColor(gfx::Color::Red);
     shape2.setColor(gfx::Color::Black);
 
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::Shape>(shape1));
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::Shape>(shape2));
+    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shape1));
+    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shape2));
     addDrawableToMainLayer(t_text1);
 
     display(200);
@@ -62,19 +60,16 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInDefaultPositionAfterSetNewCharacterSize
     t_text1->update();
 
     auto textBounds = t_text1->getLocalBounds();
-    std::shared_ptr<he::gfx::geometry::figures::Rectangle> backgroundRectangle = 
-        std::make_shared<he::gfx::geometry::figures::Rectangle>(he::gfx::geometry::Size2Df{textBounds.p2.x*2, textBounds.p2.y*2});
-    std::shared_ptr<he::gfx::geometry::figures::Rectangle> boundsRectangle = 
-        std::make_shared<he::gfx::geometry::figures::Rectangle>(he::gfx::geometry::Size2Df{textBounds.p2.x, textBounds.p2.y});
-    std::shared_ptr<he::gfx::draw::Shape> shape1 = 
-        std::make_shared<he::gfx::draw::Shape>("backgroundRectangle", backgroundRectangle); //TODO shapeRectangle as iherit class of shape
-    std::shared_ptr<he::gfx::draw::Shape> shape2 = 
-        std::make_shared<he::gfx::draw::Shape>("boundsRectangle", boundsRectangle);
-    shape1->setColor(gfx::Color::Red);
-    shape2->setColor(gfx::Color::Black);
 
-    addDrawableToMainLayer(shape1);
-    addDrawableToMainLayer(shape2);
+    std::shared_ptr<he::gfx::draw::ShapeRectangle> backgroundRectangle = 
+        std::make_shared<he::gfx::draw::ShapeRectangle>("backgroundRectangle", geometry::Size2Df{textBounds.p2.x*2, textBounds.p2.y*2});
+    std::shared_ptr<he::gfx::draw::ShapeRectangle> boundsRectangle = 
+        std::make_shared<he::gfx::draw::ShapeRectangle>("boundsRectangle", geometry::Size2Df{textBounds.p2.x, textBounds.p2.y});
+    backgroundRectangle->setColor(gfx::Color::Red);
+    boundsRectangle->setColor(gfx::Color::Blue);
+
+    addDrawableToMainLayer(backgroundRectangle);
+    addDrawableToMainLayer(boundsRectangle);
     addDrawableToMainLayer(t_text1);
 
     display(displayTime);
@@ -84,8 +79,6 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInDefaultPositionAfterSetNewCharacterSize
     textBounds = t_text1->getLocalBounds();
     backgroundRectangle->setSize({textBounds.p2.x*2, textBounds.p2.y*2});
     boundsRectangle->setSize({textBounds.p2.x, textBounds.p2.y});
-    shape1->update();
-    shape2->update();
     display(displayTime);
     t_text1->setString("character size 20");
     t_text1->setCharacterSize(20);
@@ -93,8 +86,6 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInDefaultPositionAfterSetNewCharacterSize
     textBounds = t_text1->getLocalBounds();
     backgroundRectangle->setSize({textBounds.p2.x*2, textBounds.p2.y*2});
     boundsRectangle->setSize({textBounds.p2.x, textBounds.p2.y});
-    shape1->update();
-    shape2->update();
     display(displayTime);
     t_text1->setString("character size 40");
     t_text1->setCharacterSize(40);
@@ -102,8 +93,6 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInDefaultPositionAfterSetNewCharacterSize
     textBounds = t_text1->getLocalBounds();
     backgroundRectangle->setSize({textBounds.p2.x*2, textBounds.p2.y*2});
     boundsRectangle->setSize({textBounds.p2.x, textBounds.p2.y});
-    shape1->update();
-    shape2->update();
     t_text1->update();
     display(displayTime);
 }
@@ -114,25 +103,20 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInMovedPosition)
     setDaultTextObject();
 
     auto textBounds = t_text1->getLocalBounds();
-    he::gfx::geometry::figures::Rectangle quartRectangle(he::gfx::geometry::Size2Df{defaultWindowWidth/2.f, defaultWindowHeight/2.f});
-    he::gfx::geometry::figures::Rectangle backgroundRectangle(he::gfx::geometry::Size2Df{textBounds.p2.x*2, textBounds.p2.y*2});
-    he::gfx::geometry::figures::Rectangle boundsRectangle(he::gfx::geometry::Size2Df{textBounds.p2.x, textBounds.p2.y});
-    he::gfx::draw::Shape shapeBackgroundRectangle("backgroundRectangle", backgroundRectangle);
-    he::gfx::draw::Shape shapeBoundsRectangle("boundsRectangle", boundsRectangle);
-    he::gfx::draw::Shape shapeQuartRectangle("quartRectangle", quartRectangle);
+    he::gfx::draw::ShapeRectangle shapeBackgroundRectangle("backgroundRectangle", {textBounds.p2.x*2, textBounds.p2.y*2});
+    he::gfx::draw::ShapeRectangle shapeBoundsRectangle("boundsRectangle", {textBounds.p2.x, textBounds.p2.y});
+    he::gfx::draw::ShapeRectangle shapeQuartRectangle("quartRectangle", {defaultWindowWidth/2.f, defaultWindowHeight/2.f});
     shapeBackgroundRectangle.setColor(gfx::Color::Red);
-    shapeBoundsRectangle.setColor(gfx::Color::Black);
+    shapeBoundsRectangle.setColor(gfx::Color::Blue);
     shapeQuartRectangle.setColor(gfx::Color::Red);
 
     t_text1->setPosition({defaultWindowWidth/2.f, defaultWindowHeight/2.f});
     shapeBoundsRectangle.setPosition({defaultWindowWidth/2.f, defaultWindowHeight/2.f});
     shapeBackgroundRectangle.setPosition({defaultWindowWidth/2.f, defaultWindowHeight/2.f});
-    shapeBackgroundRectangle.update();
-    shapeBoundsRectangle.update();
 
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::Shape>(shapeQuartRectangle));
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::Shape>(shapeBackgroundRectangle));
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::Shape>(shapeBoundsRectangle));
+    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeQuartRectangle));
+    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeBackgroundRectangle));
+    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeBoundsRectangle));
     addDrawableToMainLayer(t_text1);
 
     display(200);

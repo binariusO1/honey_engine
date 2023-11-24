@@ -3,8 +3,6 @@
 #include "gfx/draw/Shape.hpp"
 #include "gfx/geometry/figures/Rectangle.hpp"
 
-#include "logger/Logger.hpp"
-
 using namespace ::testing;
 namespace
 {
@@ -19,7 +17,7 @@ public:
 
     void createSut()
     {
-        sut = std::make_unique<he::gfx::draw::Shape>("shape", rectangle);
+        sut = std::make_unique<he::gfx::draw::Shape>("shape", *rectangle);
     }
 
     std::unique_ptr<he::gfx::draw::Shape> sut;
@@ -67,7 +65,7 @@ TEST_F(ShapeTests, whenSetOriginAndNoSetPosition_thenCheckIsPointInside_thenRetu
     createSut();
     const he::gfx::geometry::Point2Df newOrigin{100.0, 100.0};
     const he::gfx::geometry::Point2Df pointToCheck{99.0, 99.0};
-    // note: after setOrigin(100, 100), figure still stick to (0,0), so coordinates will be ({-100,-100}, {0, -100} ...)
+
     sut->setOrigin(newOrigin);
 
     ASSERT_EQ(sut->isPointInside(pointToCheck), false);
@@ -102,22 +100,41 @@ TEST_F(ShapeTests, whenSetOriginInCenterAndNoSetPosition_thenCheckIsPointInside_
     ASSERT_EQ(sut->isPointInside(pointToCheck), false);
 }
 
-TEST_F(ShapeTests, whenSetPosition_thenCheckIsPointInside_thenReturnTrue)
+TEST_F(ShapeTests, isPointInside_thenCheckIsPointInside_thenReturnTrue)
 {
-    createSut();
     const he::gfx::geometry::Point2Df position{100.0, 100.0};
-    sut->setPosition(position);
     const he::gfx::geometry::Point2Df pointToCheck{101.0, 101.0};
+
+    createSut();
+    sut->setPosition(position);
+
     ASSERT_EQ(sut->isPointInside(pointToCheck), true);
 }
 
-TEST_F(ShapeTests, whenSetPosition_thenCheckIsPointInside_thenReturnFalse)
+TEST_F(ShapeTests, isPointInside_thenCheckIsPointInside_thenReturnFalse)
 {
-    createSut();
     const he::gfx::geometry::Point2Df position{100.0, 100.0};
-    sut->setPosition(position);
     const he::gfx::geometry::Point2Df pointToCheck{99.0, 99.0};
+
+    createSut();
+    sut->setPosition(position);
+
     ASSERT_EQ(sut->isPointInside(pointToCheck), false);
+}
+
+TEST_F(ShapeTests, setPosition_whenSetNewPosition_pointsShouldBeChanged)
+{
+    const he::gfx::geometry::Point2Df position{150.0, 140.0};
+
+    createSut();
+    auto vertexArray = sut->getVertexArray();
+    sut->setPosition(position);
+    sut->update();
+
+    for (size_t i = 0 ; i < vertexArray.size() ; ++i)
+    {
+        ASSERT_NE(sut->getVertexArray()[i].position, vertexArray[i].position);
+    }
 }
 
 } // namespace he::gfx::draw

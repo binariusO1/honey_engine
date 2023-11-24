@@ -213,4 +213,26 @@ TEST_F(TextTests, setPosition_whenSetPosition_shouldSetPosition)
 
     ASSERT_EQ(sut->getPosition(), point);
 }
+
+TEST_F(TextTests, setPosition_whenSetNewPosition_pointsShouldBeChanged)
+{
+    const he::gfx::geometry::Point2Df position{150.0, 140.0};
+    EXPECT_CALL(*fontMock, setCharacterSize(t_characterSize)).WillRepeatedly(Return(true));
+    expectedUpdateVertexArray();
+
+    createSut();
+    sut->setCharacterSize(t_characterSize);
+    sut->setString(t_string1);
+
+    auto vertexArray = sut->getVertexArray();
+
+    sut->setPosition(position);
+    sut->update();
+
+    for (size_t i = 0 ; i < vertexArray.size() ; ++i)
+    {
+        ASSERT_NE(sut->getVertexArray()[i].position, vertexArray[i].position);
+    }
+}
+
 } // namespace he::gfx::draw

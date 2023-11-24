@@ -9,6 +9,7 @@ set(INTERNAL_FILES
 	src/graphic/Texture.cpp
 	src/draw/Button.cpp
 	src/draw/IShape.cpp
+	src/draw/ShapeRectangle.cpp
 	src/draw/Shape.cpp
 	src/draw/Sprite.cpp
 	src/draw/Text.cpp
@@ -33,6 +34,7 @@ set(PUBLIC_HEADERS
 	include/gfx/draw/IDrawable.hpp
 	include/gfx/draw/Drawable.hpp
 	include/gfx/draw/IShape.hpp
+	include/gfx/draw/ShapeRectangle.hpp
 	include/gfx/draw/Shape.hpp
 	include/gfx/draw/Sprite.hpp
 	include/gfx/draw/Text.hpp
