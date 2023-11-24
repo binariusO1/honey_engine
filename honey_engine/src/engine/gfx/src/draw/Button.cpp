@@ -44,10 +44,15 @@ void Button::setPosition(const geometry::Point2Df& point)
 }
 
 
-////////////////////////////////////////////////////////////
-void Button::process_event(const he::window::Event& event)
+//////////////////////////////////////////////////////////////////////
+bool Button::onMauseButtonPressed(const he::window::Event::MouseButtonAction& event)
 {
-    //
+    if (isPointInside(event.x, event.y))
+    {
+        LOG_DEBUG << "Process event: MouseButtonAction, button name: " << m_context.name;
+        return true;
+    }
+    return false;
 }
 
 
@@ -68,6 +73,11 @@ void Button::setText(const std::string& text)
 }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// PRIVATE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 //////////////////////////////////////////////////////////////////////
 void Button::setTextPosition(const geometry::Point2Df& point)
 {
@@ -79,6 +89,19 @@ void Button::setTextPosition(const geometry::Point2Df& point)
         m_text->setPosition({point.x + textPosCorrectionX, point.y + textPosCorrectionY});
     }
 }
+
+
+//////////////////////////////////////////////////////////////////////
+bool Button::isPointInside(const int x, const int y)
+{
+    if (Shape::isPointInside({static_cast<float>(x), static_cast<float>(y)}))
+    {
+        return true;
+    }
+    return false;
+}
+
+
 } // namespace draw
 } // namespace gfx
 } // namespace he

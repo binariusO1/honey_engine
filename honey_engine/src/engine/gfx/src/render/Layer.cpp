@@ -94,6 +94,10 @@ void Layer::addDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>& drawabl
     {
         m_uniqueDrawables.push_back(drawable);
     }
+    else
+    {
+        LOG_WARNING << "Unable to add drawable: " << drawable->getName() << ". Key is already exists";
+    }
 }
 
 
@@ -114,6 +118,10 @@ void Layer::addDrawables(const DrawableList& drawables)
         if (it.second)
         {
             m_uniqueDrawables.push_back(drawable);
+        }
+        else
+        {
+            LOG_WARNING << "Unable to add drawable: " << drawable->getName() << ". Key is already exists";
         }
     });
 }
@@ -148,13 +156,40 @@ he::gfx::render::DrawableList& Layer::drawableList()
 
 
 ////////////////////////////////////////////////////////////
+void Layer::addButton(const std::shared_ptr<gfx::draw::IButton>& button)
+{
+    m_buttons.push_back(button);
+}
+
+
+////////////////////////////////////////////////////////////
 void Layer::process_event(const he::window::Event& event)
 {
-    for (auto it = m_uniqueListeners.begin(); it != m_uniqueListeners.end(); ++it)
+    // LOG_DEBUG << "Process event: " << window::toString(event.type) << ", layer name: " << m_context.name;
+
+    switch (event.type)
     {
-        it->second->process_event(event);
+        case window::Event::EventType::mouseButtonPressed:
+            onMauseButtonPressed(event.mouseButton);
+            return;
+        default:
+            break;
     }
 }
+
+
+////////////////////////////////////////////////////////////
+void Layer::onMauseButtonPressed(const he::window::Event::MouseButtonAction& event)
+{
+    for (const auto& button : m_buttons)
+    {
+        if (button->onMauseButtonPressed(event) and m_firstOnMauseButtonPressed)
+        {
+            return;
+        }
+    }
+}
+
 } // namespace render
 } // namespace gfx
 } // namespace he

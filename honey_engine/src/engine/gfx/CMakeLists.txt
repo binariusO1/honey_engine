@@ -33,6 +33,7 @@ set(PUBLIC_HEADERS
     include/gfx/draw/Button.hpp
 	include/gfx/draw/IDrawable.hpp
 	include/gfx/draw/Drawable.hpp
+	include/gfx/draw/IButton.hpp
 	include/gfx/draw/IShape.hpp
 	include/gfx/draw/ShapeRectangle.hpp
 	include/gfx/draw/Shape.hpp

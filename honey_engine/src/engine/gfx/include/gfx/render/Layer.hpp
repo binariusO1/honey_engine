@@ -1,7 +1,6 @@
 #pragma once
 
 #include <set>
-#include "gfx/draw/IDrawable.hpp"
 #include "gfx/render/BaseLayer.hpp"
 #include "gfx/render/RenderSettings.hpp"
 
@@ -35,13 +34,20 @@ public:
     he::gfx::render::DrawableList& drawableList();
 
 public:
+    void addButton(const std::shared_ptr<gfx::draw::IButton>&);
+
+public:
     void process_event(const he::window::Event&) override;
+
+private:
+    void onMauseButtonPressed(const he::window::Event::MouseButtonAction&);
 
 protected:
     DrawableList m_uniqueDrawables; 
     std::set<std::string> m_uniqueKeys;
-    EventInputListenerMap m_uniqueListeners;
+    ButtonList m_buttons;
     LayersMap m_layers;
+    bool m_firstOnMauseButtonPressed{false};
 };
 } // namespace render
 } // namespace gfx

@@ -80,7 +80,7 @@ public:
         mouseLeft,              ///< The mouse cursor left the area of the window (no data)
     };
 
-    EventType type;     ///< Type of the event
+    EventType type;
 
     union
     {
@@ -88,7 +88,7 @@ public:
         KeyEvent              key;                  ///< Key event parameters (Event::keyPressed, Event::keyReleased)
         TextEvent             text;                 ///< Text event parameters (Event::textEntered)
         MouseMoveEvent        mouseMove;            ///< Mouse move event parameters (Event::mouseMoved)
-        MouseButtonAction     mouseButton;         ///< Mouse button event parameters (Event::mouseButtonPressed, Event::mouseButtonReleased)
+        MouseButtonAction     mouseButton;          ///< Mouse button event parameters (Event::mouseButtonPressed, Event::mouseButtonReleased)
         MouseWheelScrollEvent mouseWheelScroll;     ///< Mouse wheel event parameters (Event::mouseWheelScrolled)
     };
 };

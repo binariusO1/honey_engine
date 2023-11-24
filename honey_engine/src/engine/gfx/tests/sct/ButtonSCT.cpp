@@ -31,15 +31,15 @@ constexpr std::size_t timeToDisplay{150};
 
 namespace  he
 {
-class InteractiveSCT : public testing::Test
+class ButtonSCT : public testing::Test
 {
 public:
-    InteractiveSCT()
+    ButtonSCT()
     {
         window = std::make_unique<he::window::Window>(defaultWindowWidth, defaultWindowHeight, defaultWindowName);
         render = std::make_unique<he::gfx::render::Render>();
     }
-    ~InteractiveSCT() = default;
+    ~ButtonSCT() = default;
 
     void display(const size_t timeToDisplay)
     {
@@ -67,11 +67,11 @@ public:
     std::shared_ptr<he::gfx::render::SceneManager> sceneManager{nullptr};
 };
 
-TEST_F(InteractiveSCT, buttonTest)
+TEST_F(ButtonSCT, buttonTest)
 {
 }
 
-TEST_F(InteractiveSCT, eventTest)
+TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefaultTextToWindowCenter_shouldClick)
 {
     const he::gfx::geometry::Size2Dpxl textureSize(200, 100);
     std::shared_ptr<he::gfx::render::Texture> texture1 = std::make_shared<he::gfx::render::Texture>();
@@ -80,11 +80,12 @@ TEST_F(InteractiveSCT, eventTest)
     button1.setColor(he::gfx::Color::Blue);
     button1.setText("Quit");
     button1.setPosition({574, 350});
-    std::shared_ptr<he::gfx::draw::IDrawable> but1 = std::make_shared<he::gfx::draw::Button>(button1);
+    std::shared_ptr<he::gfx::draw::Button> but1 = std::make_shared<he::gfx::draw::Button>(button1);
 
     std::shared_ptr<he::gfx::render::Layer> layer1 = std::make_shared<he::gfx::render::Layer>("layer_1");
     he::gfx::render::DrawableList sprites{but1};
     layer1->addDrawables(sprites);
+    layer1->addButton(but1);
 
     std::shared_ptr<he::gfx::render::Scene> scene1 = std::make_shared<he::gfx::render::Scene>("scene_1");
     scene1->addLayer(layer1);
@@ -97,7 +98,7 @@ TEST_F(InteractiveSCT, eventTest)
     display(60*10);
 }
 
-TEST_F(InteractiveSCT, menuTest)
+TEST_F(ButtonSCT, menuTest)
 {
 }
 

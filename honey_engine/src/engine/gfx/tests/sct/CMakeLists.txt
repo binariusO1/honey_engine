@@ -5,7 +5,7 @@ if(NOT COVERAGE)
 	add_test_executable(${MODULE_NAME_SCT}
 		TESTS ${MODULE_NAME}
 		SOURCES
-			InteractiveSCT.cpp
+			ButtonSCT.cpp
 			RenderSCT.cpp
 			RenderFixture.hpp
 			TextSCT.cpp

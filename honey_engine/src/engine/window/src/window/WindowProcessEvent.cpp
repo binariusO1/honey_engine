@@ -90,6 +90,7 @@ bool Window::process_event(he::window::Event& event)
         case Event::EventType::mouseMoved:
         case Event::EventType::mouseEntered:
         case Event::EventType::mouseLeft:
+            LOG_WARNING << "Not implemented yet";
         default:
             return false;
     }

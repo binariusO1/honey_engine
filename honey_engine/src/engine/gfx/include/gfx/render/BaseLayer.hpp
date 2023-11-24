@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "gfx/draw/IButton.hpp"
 #include "gfx/draw/IDrawable.hpp"
 #include "gfx/draw/Shape.hpp"
 #include "gfx/render/ILayer.hpp"
@@ -19,6 +20,7 @@ namespace render
 using DrawableList = std::vector<std::shared_ptr<he::gfx::draw::IDrawable>>;
 using EventInputListenerList = std::vector<std::shared_ptr<he::window::IEventInputListener>>;
 using EventInputListenerMap = std::map<std::string, std::shared_ptr<he::window::IEventInputListener>>;
+using ButtonList = std::vector<std::shared_ptr<he::gfx::draw::IButton>>;
 using LayersList = std::vector<std::shared_ptr<he::gfx::render::ILayer>>;
 using LayersMap = std::unordered_map<std::string, std::shared_ptr<he::gfx::render::ILayer>>;
 using ShapeList = std::vector<std::shared_ptr<he::gfx::draw::Shape>>;
