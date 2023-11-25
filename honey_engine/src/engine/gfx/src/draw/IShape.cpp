@@ -37,7 +37,7 @@ IShape::IShape(const std::string& name) : m_context(name)
 ////////////////////////////////////////////////////////////
 IShape::IShape(const IShape& copy)
     : m_vertexArray{copy.m_vertexArray}
-    , m_context{copy.m_context}
+    , m_context{copy.m_context} // TODO: warning - during copy, unique string will be not unique. maybe name should be: hash+name ?
     , m_vertexArrayNeedUpdate{copy.m_vertexArrayNeedUpdate}
     , geometry::transform::Transformable2d(copy)
 {

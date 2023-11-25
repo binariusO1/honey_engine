@@ -13,7 +13,6 @@ namespace draw
 ////////////////////////////////////////////////////////////
 Button::Button(const std::string& name, const std::shared_ptr<he::gfx::render::ITexture>& texture) : Sprite(name, texture)
 {
-    //
 }
 
 
@@ -72,7 +71,7 @@ void Button::setText(const std::string& text)
 void Button::setText(const draw::Text& text)
 {
     m_text = std::make_unique<draw::Text>(text);
-    // todo change name
+    // todo change name function to connect text with button
     setTextPosition();
 }
 
