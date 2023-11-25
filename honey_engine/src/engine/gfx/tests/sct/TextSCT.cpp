@@ -22,7 +22,7 @@ public:
     void setDaultTextObject()
     {
         t_text1 = std::make_shared<he::gfx::draw::Text>("text1");
-        t_text1->setFont(t_fontCalibriPath);
+        t_text1->setFont(f_fontCalibriPath);
         t_text1->setCharacterSize(40); 
         t_text1->setString("Test"); 
         t_text1->update();
@@ -104,14 +104,14 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInMovedPosition)
     auto textBounds = t_text1->getLocalBounds();
     he::gfx::draw::ShapeRectangle shapeBackgroundRectangle("backgroundRectangle", {textBounds.width*2, textBounds.height*2});
     he::gfx::draw::ShapeRectangle shapeBoundsRectangle("boundsRectangle", {textBounds.width, textBounds.height});
-    he::gfx::draw::ShapeRectangle shapeQuartRectangle("quartRectangle", {defaultWindowWidth/2.f, defaultWindowHeight/2.f});
+    he::gfx::draw::ShapeRectangle shapeQuartRectangle("quartRectangle", {f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
     shapeBackgroundRectangle.setColor(gfx::Color::Red);
     shapeBoundsRectangle.setColor(gfx::Color::Blue);
     shapeQuartRectangle.setColor(gfx::Color::Red);
 
-    t_text1->setPosition({defaultWindowWidth/2.f, defaultWindowHeight/2.f});
-    shapeBoundsRectangle.setPosition({defaultWindowWidth/2.f, defaultWindowHeight/2.f});
-    shapeBackgroundRectangle.setPosition({defaultWindowWidth/2.f, defaultWindowHeight/2.f});
+    t_text1->setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
+    shapeBoundsRectangle.setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
+    shapeBackgroundRectangle.setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
 
     addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeQuartRectangle));
     addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeBackgroundRectangle));
@@ -127,7 +127,7 @@ TEST_F(TextSCT, textDraw_afterMovedToCenterAndChangeOriginToCenter_shouldDrawTex
     setDaultTextObject();
 
     auto textBounds = t_text1->getLocalBounds();
-    he::gfx::draw::ShapeRectangle shapeQuartRectangle("quartRectangle", {defaultWindowWidth/2.f, defaultWindowHeight/2.f});
+    he::gfx::draw::ShapeRectangle shapeQuartRectangle("quartRectangle", {f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
     shapeQuartRectangle.setColor(gfx::Color::Red);
 
     addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeQuartRectangle));
@@ -137,7 +137,7 @@ TEST_F(TextSCT, textDraw_afterMovedToCenterAndChangeOriginToCenter_shouldDrawTex
     t_text1->setOriginInCenter();
     display(75);
 
-    t_text1->setPosition({defaultWindowWidth/2.f, defaultWindowHeight/2.f});
+    t_text1->setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
     display(75);
 }
 }// namespace he::gfx

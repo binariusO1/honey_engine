@@ -55,10 +55,10 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefinedTextToWindowCenter_shouldG
     texture1->createEmpty(t_buttonSize);
     he::gfx::draw::Button button1("Button1", texture1);
     button1.setColor(he::gfx::Color::Blue);
-    button1.setPosition({defaultWindowWidth/2.f, defaultWindowHeight/2.f});
+    button1.setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
     button1.setOriginInCenter();
     he::gfx::draw::Text customText("customText");
-    customText.setFont(t_fontCalibriPath);
+    customText.setFont(f_fontCalibriPath);
     customText.setCharacterSize(40);
     customText.setColor(gfx::Color::Yellow);
     customText.setOriginInCenter();

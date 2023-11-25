@@ -16,7 +16,7 @@ class RenderFixture
 public:
     RenderFixture()
     {
-        mainWindow = std::make_unique<he::window::Window>(defaultWindowWidth, defaultWindowHeight, defaultWindowName);
+        mainWindow = std::make_unique<he::window::Window>(f_defaultWindowWidth, f_defaultWindowHeight, f_defaultWindowName);
         mainRender = std::make_unique<he::gfx::render::Render>();
     }
 
@@ -73,11 +73,11 @@ public:
     std::unique_ptr<he::window::Window> mainWindow;
     std::unique_ptr<he::gfx::render::IRender> mainRender;
 
-const char* t_fontCalibriPath = "\\data\\gfx\\fonts\\calibri.ttf";
 
-    const char* defaultWindowName{"window test"};
-    const int defaultWindowWidth{1200};
-    const int defaultWindowHeight{800};
+    const char* f_fontCalibriPath = "\\data\\gfx\\fonts\\calibri.ttf";
+    const char* f_defaultWindowName{"window test"};
+    const int f_defaultWindowWidth{1200};
+    const int f_defaultWindowHeight{800};
 };
 } // namespace gfx
 } // namespace he

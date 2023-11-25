@@ -6,7 +6,7 @@ if(NOT COVERAGE)
 		TESTS ${MODULE_NAME}
 		SOURCES
 			ButtonSCT.cpp
-			RenderSCT.cpp
+			ShapeSCT.cpp
 			RenderFixture.hpp
 			TextSCT.cpp
 		LABELS
