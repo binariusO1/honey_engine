@@ -1,14 +1,8 @@
 
 #include <gtest/gtest.h>
-#include <memory>
-#include "exception/invalid_initialization.hpp"
-#include "gfx/render/IStateMachine.hpp"
-#include "gfx/render/SceneStateMachine.hpp"
-#include "gfx/render/Scene.hpp"
 #include "render/RenderMock.hpp"
 #include "render/SceneMock.hpp"
 #include "gfx/render/SceneManager.hpp"
-#include "logger/Logger.hpp"
 
 using namespace ::testing;
 namespace

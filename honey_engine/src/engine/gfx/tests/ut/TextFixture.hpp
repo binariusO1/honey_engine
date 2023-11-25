@@ -1,8 +1,6 @@
 #pragma once
 
 #include "gfx/geometry/Point2d.hpp"
-#include "gfx/geometry/Line.hpp"
-#include "gfx/text/Glyph.hpp"
 #include "gfx/text/Page.hpp"
 
 namespace he

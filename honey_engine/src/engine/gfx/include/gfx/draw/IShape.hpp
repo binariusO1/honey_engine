@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include "gfx/Vertex.hpp"
 #include "gfx/draw/Drawable.hpp"
 #include "gfx/geometry/figures/Rectangle.hpp"
 #include "gfx/geometry/transform/Transformable2d.hpp"

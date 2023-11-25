@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <memory>
 #include "gfx/draw/Shape.hpp"
 #include "gfx/geometry/figures/Rectangle.hpp"
 

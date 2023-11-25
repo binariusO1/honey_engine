@@ -5,7 +5,6 @@
 #include "exception/invalid_initialization.hpp"
 #include "gfx/graphic/Texture.hpp"
 #include "gl/GlWrapperMock.hpp"
-#include "logger/Logger.hpp"
 
 using namespace ::testing;
 namespace

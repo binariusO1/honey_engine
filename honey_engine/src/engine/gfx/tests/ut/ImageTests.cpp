@@ -3,7 +3,6 @@
 #include "gfx/Color.hpp"
 #include "gfx/geometry/Size2D.hpp"
 #include "gfx/graphic/Image.hpp"
-#include "logger/Logger.hpp"
 
 using namespace ::testing;
 namespace

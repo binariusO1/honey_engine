@@ -1,14 +1,15 @@
 #pragma once
 
-#include <memory>
-#include "gfx/Vertex.hpp"
 #include "gfx/draw/IShape.hpp"
-#include "gfx/geometry/figures/Rectangle.hpp"
 
 namespace he
 {
 namespace gfx
 {
+namespace geometry::figure
+{
+class Figure;
+} // namespace
 namespace draw
 {
 

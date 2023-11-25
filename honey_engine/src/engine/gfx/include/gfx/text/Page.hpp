@@ -3,7 +3,6 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
-// #include "gfx/graphic/Texture.hpp"
 #include "gfx/text/Glyph.hpp"
 
 namespace he

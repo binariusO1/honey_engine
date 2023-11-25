@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include "gfx/draw/Button.hpp"
 #include "graphic/TextureMock.hpp"
-#include "logger/Logger.hpp"
 
 using namespace ::testing;
 
