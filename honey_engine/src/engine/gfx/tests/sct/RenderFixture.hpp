@@ -22,9 +22,10 @@ public:
 
     void display(const size_t timeToDisplay = 600)
     {
-        if (not sceneManager)
+        LOG_INFO << LOG_BRIGHT_BLUE << "[SCT] Start display" << LOG_WHITE;
+        if (not mainSceneManager)
         {
-            LOG_ERROR << "[SCT] sceneManager is not initialized. Please initialize it first";
+            LOG_ERROR << "[SCT] mainSceneManager is not initialized. Please initialize it first";
             return;
         }
 
@@ -32,14 +33,14 @@ public:
         while (mainWindow->isWindowOpen() and i > 0)
         {
             mainWindow->clear();
-            sceneManager->render(*mainRender);
+            mainSceneManager->render(*mainRender);
         
             mainWindow->swapBuffers();
             mainWindow->update();
 
             --i;
         }
-        LOG_INFO << LOG_BRIGHT_BLUE << "[SCT] end display" << LOG_WHITE;
+        LOG_INFO << LOG_BRIGHT_BLUE << "[SCT] End display" << LOG_WHITE;
     }
 
     void createCustomScreen()
@@ -48,12 +49,17 @@ public:
         mainScene = std::make_shared<he::gfx::render::Scene>("main_scene");
         mainScene->addLayer(mainLayer);
         he::gfx::render::SceneTransitionTable transitionTable{{mainScene, nullptr, nullptr, nullptr, nullptr}};
-        sceneManager = std::make_unique<he::gfx::render::SceneManager>(transitionTable);
+        mainSceneManager = std::make_unique<he::gfx::render::SceneManager>(transitionTable);
     }
 
     void addDrawableToMainLayer(const std::shared_ptr<he::gfx::draw::IDrawable>& drawable)
     {
         mainLayer->addDrawable(drawable);
+    }
+
+    void addButtonToMainLayer(const std::shared_ptr<he::gfx::draw::IButton>& drawable)
+    {
+        mainLayer->addButton(drawable);
     }
 
     void addDrawablesToMainLayer(const he::gfx::render::DrawableList& list)
@@ -63,7 +69,7 @@ public:
 
     std::shared_ptr<he::gfx::render::Layer> mainLayer;
     std::shared_ptr<he::gfx::render::Scene> mainScene;
-    std::shared_ptr<he::gfx::render::SceneManager> sceneManager{nullptr};
+    std::shared_ptr<he::gfx::render::SceneManager> mainSceneManager{nullptr};
     std::unique_ptr<he::window::Window> mainWindow;
     std::unique_ptr<he::gfx::render::IRender> mainRender;
 

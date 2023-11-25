@@ -161,7 +161,11 @@ void Text::setOrigin(const geometry::Point2Df& point)
 ////////////////////////////////////////////////////////////
 void Text::setOriginInCenter()
 {
-    setOrigin({m_bounds.p2.x/2.f , m_bounds.p2.y/2.f});
+    if (m_vertexArrayNeedUpdate)
+    {
+        update();
+    }
+    IShape::setOrigin({m_bounds.width/2.f, m_bounds.height/2.f});
 }
 
 
@@ -180,7 +184,7 @@ const he::gfx::geometry::Point2Df& Text::getPosition() const
 
 
 ////////////////////////////////////////////////////////////
-geometry::Line<float> Text::getLocalBounds() const
+const he::gfx::geometry::Size2Df Text::getLocalBounds() const
 {
     return m_bounds;
 }
@@ -287,7 +291,6 @@ void Text::updateVertexArray()
     m_outlineVertices.clear();
  
     computeTextStyle();
-    LOG_DEBUG << LOG_BLUE << "computeTextStyle() end" << LOG_WHITE;
 
     auto textureSize = texture->getSize();
     for (std::size_t i = 0 ; i < m_vertexArray.size() ; ++i)
@@ -308,8 +311,8 @@ void Text::updateVertexArray()
 //////////////////////////////////////////////////////////////////////
 void Text::computeTextStyle()
 {
-    LOG_DEBUG << LOG_BLUE << "computeTextStyle() start" << LOG_WHITE;
-    // Note: Compute values related to the text style
+    LOG_DEBUG << "Start compute text style";
+
     bool  isBold             = m_style & text::FontStyle::Bold;
     bool  isUnderlined       = m_style & text::FontStyle::Underlined;
     bool  isStrikeThrough    = m_style & text::FontStyle::StrikeThrough;
@@ -480,10 +483,8 @@ void Text::computeTextStyle()
 //////////////////////////////////////////////////////////////////////
 void Text::updateLocalBounds(he::gfx::geometry::Line<float> bounds)
 {
-    m_bounds.p1.x = bounds.p1.x;
-    m_bounds.p1.y = bounds.p1.y;
-    m_bounds.p2.x = bounds.p2.x - bounds.p1.x;
-    m_bounds.p2.y = bounds.p2.y - bounds.p1.y;
+    m_bounds.width = std::abs(bounds.p2.x - bounds.p1.x);
+    m_bounds.height = std::abs(bounds.p2.y - bounds.p1.y);
 }
 
 

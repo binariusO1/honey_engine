@@ -34,7 +34,7 @@ public:
     void setStyle(const text::Style style);
     const text::Style getStyle() const;
     void setCharacterSize(const unsigned int);
-    geometry::Line<float> getLocalBounds() const;
+    const he::gfx::geometry::Size2Df getLocalBounds() const;
 
 public:
     void setColor(const he::gfx::Color&) override;
@@ -75,7 +75,7 @@ protected:
 
 private:
     std::string m_string;
-    he::gfx::geometry::Line<float> m_bounds;
+    he::gfx::geometry::Size2Df m_bounds;
     unsigned int m_fontTextureId{0};
     text::Style m_style{gfx::text::FontStyle::Regular};             //!< Text style (see Style enum)
     gfx::VertexArray2d m_outlineVertices{}; //!< Vertex array containing the outline geometry

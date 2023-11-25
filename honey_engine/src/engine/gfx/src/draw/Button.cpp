@@ -39,8 +39,8 @@ void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings
 //////////////////////////////////////////////////////////////////////
 void Button::setPosition(const geometry::Point2Df& point)
 {
-    setTextPosition(point);
     Shape::setPosition(point);
+    setTextPosition();
 }
 
 
@@ -61,15 +61,19 @@ void Button::setText(const std::string& text)
 {
     if (m_text == nullptr)
     {
-        const std::string buttonTextName = m_context.name + "_text";
-        m_text = std::make_unique<gfx::draw::Text>(buttonTextName);
-        m_text->setColor({gfx::Color::White});
-        m_text->setPosition({m_position.x + m_origin.x, m_position.y + m_origin.y});
-        m_text->setFont("\\data\\gfx\\fonts\\calibri.ttf");
-        m_text->setCharacterSize(40);
-        m_text->setOriginInCenter();
+        setDefaultTextSettings();
     }
     m_text->setString(text);
+    setTextPosition();
+}
+
+
+//////////////////////////////////////////////////////////////////////
+void Button::setText(const draw::Text& text)
+{
+    m_text = std::make_unique<draw::Text>(text);
+    // todo change name
+    setTextPosition();
 }
 
 
@@ -79,15 +83,27 @@ void Button::setText(const std::string& text)
 
 
 //////////////////////////////////////////////////////////////////////
-void Button::setTextPosition(const geometry::Point2Df& point)
+void Button::setTextPosition()
 {
     if (m_text)
     {
+        m_text->setOriginInCenter();
         auto textPosition = m_text->getPosition();
-        auto textPosCorrectionX = textPosition.x - getPosition().x;
-        auto textPosCorrectionY = textPosition.y - getPosition().y;
-        m_text->setPosition({point.x + textPosCorrectionX, point.y + textPosCorrectionY});
+        auto textPosCorrectionX = textPosition.x - m_position.x;
+        auto textPosCorrectionY = textPosition.y - m_position.y;
+        m_text->setPosition({textPosition.x - textPosCorrectionX + m_figure.getSize().width/2.f - getOrigin().x, textPosition.y - textPosCorrectionY + m_figure.getSize().height/2.f - getOrigin().y});
     }
+}
+
+
+//////////////////////////////////////////////////////////////////////
+void Button::setDefaultTextSettings()
+{
+    const std::string buttonTextName = m_context.name + "_text";
+    m_text = std::make_unique<gfx::draw::Text>(buttonTextName);
+    m_text->setColor({gfx::Color::White});
+    m_text->setFont("\\data\\gfx\\fonts\\calibri.ttf");
+    m_text->setCharacterSize(40);
 }
 
 

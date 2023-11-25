@@ -253,7 +253,7 @@ bool Font::trySetCharacterSize(const unsigned int newCharacterSize)
     {
         if (not m_fontHandles)
         {
-            LOG_WARNING << "font handles not initialized";
+            LOG_WARNING << "Font not initialized. Wrong path or not specified";
             return false;
         }
     

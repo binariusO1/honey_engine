@@ -194,8 +194,8 @@ TEST_F(TextTests, setOriginInCenter_whenSetOrigin_shouldSetProperValue)
     sut->setString(t_string1);
     sut->setOriginInCenter();
 
-    auto centerX = sut->getLocalBounds().p2.x/2.f;
-    auto centerY = sut->getLocalBounds().p2.y/2.f;
+    auto centerX = sut->getLocalBounds().width/2.f;
+    auto centerY = sut->getLocalBounds().height/2.f;
 
     ASSERT_EQ(sut->getOrigin().x, centerX);
     ASSERT_EQ(sut->getOrigin().y, centerY);

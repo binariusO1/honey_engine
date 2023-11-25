@@ -26,9 +26,11 @@ public:
     
 public:
     void setText(const std::string&);
+    void setText(const draw::Text&);
 
 private:
-    void setTextPosition(const geometry::Point2Df& point);
+    void setTextPosition();
+    void setDefaultTextSettings();
     bool isPointInside(const int x, const int y);
 
 private:
