@@ -154,11 +154,11 @@ void Window::handleMouseEvent(int button, int action)
     m_currentMousePosition = m_glfwWrapper->getCursorPos(); 
     if (button == GLFW_MOUSE_BUTTON_LEFT)
     {
-        event.mouseButton = he::window::Event::MouseButtonAction{he::window::Mouse::Button::Left, m_currentMousePosition.first, m_currentMousePosition.second};
+        event.mouseButton = he::window::Event::MouseButtonAction{he::window::Mouse::Button::Left, m_currentMousePosition.first, m_windowSize.height-m_currentMousePosition.second};
     }
     else if (button == GLFW_MOUSE_BUTTON_RIGHT)
     {
-        event.mouseButton = he::window::Event::MouseButtonAction{he::window::Mouse::Button::Right, m_currentMousePosition.first, m_currentMousePosition.second};
+        event.mouseButton = he::window::Event::MouseButtonAction{he::window::Mouse::Button::Right, m_currentMousePosition.first, m_windowSize.height-m_currentMousePosition.second};
     }
 
     if (action == GLFW_PRESS)

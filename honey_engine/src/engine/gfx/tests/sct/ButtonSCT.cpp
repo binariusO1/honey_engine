@@ -41,7 +41,7 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefaultTextToCustomPosition_shoul
     std::shared_ptr<he::window::IEventInputListener> sceneListener = std::shared_ptr<he::gfx::render::SceneManager>(mainSceneManager);
     mainWindow->addEventInputListener(sceneListener.get());
 
-    display(75);
+    display(300);
 
     but1->setPosition({231, 150});
     display(500);
