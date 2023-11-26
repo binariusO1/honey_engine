@@ -81,7 +81,7 @@ typedef ::common::log_stream::LogStream<::common::Logger> logger;
 #define LOG_THIS_3 LOG_DEBUG << LOG_YELLOW << "THIS <-- (3)" << LOG_WHITE
 #define LOG_THIS_4 LOG_DEBUG << LOG_LIGHT_YELLOW << "THIS <-- (4)" << LOG_WHITE
 #define LOG_THIS_5 LOG_DEBUG << LOG_BRIGHT_GREEN << "THIS <-- (5)" << LOG_WHITE
-#define LOG_THIS_6 LOG_DEBUG << KIG_GREEN << "THIS <-- (6)" << LOG_WHITE
+#define LOG_THIS_6 LOG_DEBUG << LOG_GREEN << "THIS <-- (6)" << LOG_WHITE
 #define LOG_THIS_7 LOG_DEBUG << LOG_BLUE << "THIS <-- (7)" << LOG_WHITE
 #define LOG_THIS_8 LOG_DEBUG << LOG_BRIGHT_BLUE << "THIS <-- (8)" << LOG_WHITE
 

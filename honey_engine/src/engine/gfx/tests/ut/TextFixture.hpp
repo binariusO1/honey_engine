@@ -14,7 +14,7 @@ class TextFixture
 public:
 
 const char* t_fontCalibriPath = "\\data\\gfx\\fonts\\calibri.ttf";
-
+const unsigned int t_defaultCharacterSize{26};
 const geometry::Point2Df t_point1{0.f, 5.f};
 const geometry::Point2Df t_point2{4.f, 6.f}; 
 const geometry::Point2Df t_point3{1.f, 3.f};

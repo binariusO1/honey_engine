@@ -203,7 +203,6 @@ void Shape::setOriginPosition(const he::gfx::OriginPosition& originPosition)
 void Shape::updateVertexArray()
 {
     m_vertexArray.clear();
-
     for (std::size_t i = 0 ; i < m_figure.getNumOfPoints() ; ++i)
     {
         auto point = m_figure.getPoint(i);

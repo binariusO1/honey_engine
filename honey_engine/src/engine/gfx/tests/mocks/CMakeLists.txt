@@ -1,6 +1,7 @@
 set(MODULE_NAME_MOCKS render_mocks)
 
 set(PUBLIC_HEADERS
+	include/draw/TextMock.hpp
 	include/graphic/TextureMock.hpp
     include/render/LayerMock.hpp
     include/render/RenderMock.hpp

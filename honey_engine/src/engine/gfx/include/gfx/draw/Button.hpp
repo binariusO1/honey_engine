@@ -19,6 +19,7 @@ public:
 
 public:
     void setPosition(const geometry::Point2Df&);
+    void setOriginInCenter() override;
     void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) override;
 
 public:
@@ -29,7 +30,7 @@ public:
     void setText(const draw::Text&);
 
 private:
-    void setTextPosition();
+    void updateTextPosition();
     void setDefaultTextSettings();
     bool isPointInside(const int x, const int y);
 

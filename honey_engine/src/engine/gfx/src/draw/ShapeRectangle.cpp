@@ -1,5 +1,5 @@
 #include "gfx/draw/ShapeRectangle.hpp"
-
+#include "logger/Logger.hpp"
 namespace 
 {
 } // namespace

@@ -39,7 +39,15 @@ void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings
 void Button::setPosition(const geometry::Point2Df& point)
 {
     Shape::setPosition(point);
-    setTextPosition();
+    updateTextPosition();
+}
+
+
+////////////////////////////////////////////////////////////
+void Button::setOriginInCenter()
+{
+    Shape::setOriginInCenter();
+    updateTextPosition();
 }
 
 
@@ -63,7 +71,7 @@ void Button::setText(const std::string& text)
         setDefaultTextSettings();
     }
     m_text->setString(text);
-    setTextPosition();
+    updateTextPosition();
 }
 
 
@@ -72,7 +80,7 @@ void Button::setText(const draw::Text& text)
 {
     m_text = std::make_unique<draw::Text>(text);
     // todo change name function to connect text with button
-    setTextPosition();
+    updateTextPosition();
 }
 
 
@@ -82,7 +90,7 @@ void Button::setText(const draw::Text& text)
 
 
 //////////////////////////////////////////////////////////////////////
-void Button::setTextPosition()
+void Button::updateTextPosition()
 {
     if (m_text)
     {
