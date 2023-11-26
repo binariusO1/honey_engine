@@ -36,6 +36,13 @@ void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings
 
 
 //////////////////////////////////////////////////////////////////////
+void Button::addCallback(const ButtonCallback& callback)
+{
+    m_callback = callback;
+}
+
+
+//////////////////////////////////////////////////////////////////////
 void Button::setPosition(const geometry::Point2Df& point)
 {
     Shape::setPosition(point);
@@ -57,6 +64,7 @@ bool Button::onMauseButtonPressed(const he::window::Event::MouseButtonAction& ev
     if (isPointInside(event.x, event.y))
     {
         LOG_DEBUG << "Process event: MouseButtonAction, button name: " << m_context.name;
+        m_callback();
         return true;
     }
     return false;

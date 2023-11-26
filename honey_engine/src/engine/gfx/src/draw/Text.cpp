@@ -159,7 +159,7 @@ void Text::setOrigin(const geometry::Point2Df& point)
 
 
 ////////////////////////////////////////////////////////////
-void Text::setOriginInCenter()
+void Text::setOriginInCenter() //PR - inaczej wylicza środek kiedy jest tekst typu "click" a kiedy jest w tekście ogonek "clickg"
 {
     if (m_vertexArrayNeedUpdate)
     {

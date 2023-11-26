@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include "gfx/draw/Sprite.hpp"
 #include "gfx/draw/Text.hpp"
 #include "gfx/draw/IButton.hpp"
@@ -10,6 +11,8 @@ namespace gfx
 {
 namespace draw
 {
+using ButtonCallback = std::function<void()>;
+
 class Button : public draw::Sprite , public draw::IButton
 {
 public:
@@ -23,6 +26,7 @@ public:
     void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) override;
 
 public:
+    void addCallback(const ButtonCallback&);
     bool onMauseButtonPressed(const he::window::Event::MouseButtonAction&) override;
     
 public:
@@ -36,6 +40,7 @@ private:
 
 private:
     std::unique_ptr<Text> m_text{nullptr};
+    ButtonCallback m_callback = [](){};
 };
 } // namespace draw
 } // namespace gfx

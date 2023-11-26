@@ -354,7 +354,7 @@ TEST_P(WindowMouseButtonEventTests, whenPollEventCatchMouseButtonEventTypeWithEn
     ASSERT_EQ(event.type, expectedEventType);
     ASSERT_EQ(event.mouseButton.button, button);
     ASSERT_EQ(event.mouseButton.x, x);
-    ASSERT_EQ(event.mouseButton.y, y);
+    ASSERT_EQ(event.mouseButton.y, defaultWindowHeight-y);
 }
 
 INSTANTIATE_TEST_SUITE_P(
