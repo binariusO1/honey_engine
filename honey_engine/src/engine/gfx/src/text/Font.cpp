@@ -334,6 +334,9 @@ Glyph Font::loadGlyph(const std::uint32_t codePoint, const bool bold, const floa
     auto       bitmapGlyph = reinterpret_cast<FT_BitmapGlyph>(glyphDesc);
     FT_Bitmap& bitmap      = bitmapGlyph->bitmap;
 
+    // Convert the glyph to a bitmap (i.e. rasterize it)
+    // Warning! After this line, do not read any data from glyphDesc directly, use
+    // bitmapGlyph.root to access the FT_Glyph data.
     glyphToBitmap(bitmap, weight, bold, outline, outlineThickness);
 
     // Note: Compute the glyph's advance offset
@@ -373,13 +376,13 @@ Glyph Font::loadGlyph(const std::uint32_t codePoint, const bool bold, const floa
         glyph.textureRect.p2.y -= static_cast<int>(2 * padding);
 
         // Compute the glyph's bounding box
-        glyph.bounds.p1.x   = static_cast<float>(bitmapGlyph->left);
-        glyph.bounds.p1.y    = static_cast<float>(-bitmapGlyph->top);
-        glyph.bounds.p2.x  = static_cast<float>(bitmap.width);
+        glyph.bounds.p1.x = static_cast<float>(bitmapGlyph->left);
+        glyph.bounds.p1.y = static_cast<float>(-bitmapGlyph->top);
+        glyph.bounds.p2.x = static_cast<float>(bitmap.width);
         glyph.bounds.p2.y = static_cast<float>(bitmap.rows);
 
         // Resize the pixel buffer to the new size and fill it with transparent white pixels
-        m_pixelBuffer.resize(static_cast<std::size_t>(width * height * 4));
+        m_pixelBuffer.resize(static_cast<std::size_t>(width) * static_cast<std::size_t>(height) * 4);
         std::uint8_t* current = m_pixelBuffer.data();
         std::uint8_t* end = current + width * height * 4;
 

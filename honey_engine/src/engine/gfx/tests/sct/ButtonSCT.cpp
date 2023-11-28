@@ -95,7 +95,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
         }
         else
         {
-            but1->setText("Changed!");
+            but1->setText("Just changed");
         }
         textChanged = not textChanged;
     };

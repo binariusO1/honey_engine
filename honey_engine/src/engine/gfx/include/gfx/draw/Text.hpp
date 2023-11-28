@@ -64,7 +64,7 @@ private:
              float            thickness,
              float            outlineThickness = 0);
     void addGlyphQuad(gfx::VertexArray2d& vertices, const geometry::Point2Df& position, const gfx::Color& color, const gfx::text::Glyph& glyph, float italicShear);
-    void updateLocalBounds(he::gfx::geometry::Line<float>);
+    void updateLocalBounds(he::gfx::geometry::Line<float>, const float, const float);
     
 protected:
     void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;

@@ -71,8 +71,8 @@ void Page::addGlyph(const std::uint64_t key, const gfx::text::Glyph& glyph)
 //////////////////////////////////////////////////////////////////////
 void Page::addRowHeight(const unsigned int rowHeight)
 {
-    m_positionOfNextRow += rowHeight;
     m_rows.emplace_back(0, m_positionOfNextRow, rowHeight);
+    m_positionOfNextRow += rowHeight;
 }
 
 

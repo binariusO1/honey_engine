@@ -165,7 +165,7 @@ void Text::setOriginInCenter() //PR - inaczej wylicza środek kiedy jest tekst t
     {
         update();
     }
-    IShape::setOrigin({m_bounds.width/2.f, m_bounds.height/2.f});
+    IShape::setOrigin({m_bounds.width/2.f, m_bounds.height});
 }
 
 
@@ -344,6 +344,8 @@ void Text::computeTextStyle()
     auto minY = static_cast<float>(characterSize);
     float maxX = 0.f;
     float maxY = 0.f;
+    float maxTop = 0.f;
+    float maxBottom = 0.f;
 
     std::uint32_t prevChar = 0;
 
@@ -432,6 +434,16 @@ void Text::computeTextStyle()
         float right  = glyph.bounds.p1.x + glyph.bounds.p2.x;
         float bottom = glyph.bounds.p1.y + glyph.bounds.p2.y;
 
+        if (top > maxTop) 
+        { 
+            maxTop = top; 
+        }
+
+        if (bottom > maxBottom)
+        { 
+            maxBottom = bottom; 
+        }
+    
         minX = std::min(minX, x + left - italicShear * bottom);
         maxX = std::max(maxX, x + right - italicShear * top);
         minY = std::min(minY, y + top);
@@ -474,17 +486,17 @@ void Text::computeTextStyle()
     }
 
     // Note: Update the bounding rectangle
-    updateLocalBounds({{minX, minY}, {maxX, maxY}});
+    updateLocalBounds({{minX, minY}, {maxX, maxY}}, maxBottom, maxTop);
 
     return;
 }
 
 
 //////////////////////////////////////////////////////////////////////
-void Text::updateLocalBounds(he::gfx::geometry::Line<float> bounds)
+void Text::updateLocalBounds(he::gfx::geometry::Line<float> bounds, const float bottom, const float top)
 {
-    m_bounds.width = std::abs(bounds.p2.x - bounds.p1.x);
-    m_bounds.height = std::abs(bounds.p2.y - bounds.p1.y);
+    m_bounds.width = std::abs(bounds.p2.x - bounds.p1.x- bounds.p1.x);
+    m_bounds.height = std::abs(bounds.p2.y - bounds.p1.y- bounds.p1.y - bottom - top);
 }
 
 
