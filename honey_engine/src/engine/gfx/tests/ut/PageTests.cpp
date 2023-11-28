@@ -93,7 +93,8 @@ TEST_F(PageTests, afterPopulateRows_shouldGetRow)
 
     ASSERT_EQ(sut->getRows()[0].height, height1);
     ASSERT_EQ(sut->getRows()[0].width, 0);
-    ASSERT_EQ(sut->getRows()[2].top, sut->getPositionOfNextRow());
+    ASSERT_EQ(sut->getRows()[2].top, 3 + height1 + height2);
+    ASSERT_EQ(sut->getPositionOfNextRow(), 3 + height1 + height2 + height3);
 }
 
 TEST_F(PageTests, afterAddRow_shouldSetWidthForRow)
