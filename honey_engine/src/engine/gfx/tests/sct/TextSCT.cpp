@@ -23,7 +23,7 @@ public:
     {
         t_text1 = std::make_shared<he::gfx::draw::Text>("text1");
         t_text1->setFont(f_fontCalibriPath);
-        t_text1->setCharacterSize(40); 
+        t_text1->setCharacterSize(60); 
         t_text1->setString("Test"); 
         t_text1->update();
     }
@@ -35,6 +35,26 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInDefaultPosition)
 {
     createCustomScreen();
     setDaultTextObject();
+
+    auto textBounds = t_text1->getLocalBounds();
+    he::gfx::draw::ShapeRectangle shape1("backgroundRectangle", {textBounds.width*2, textBounds.height*2});
+    he::gfx::draw::ShapeRectangle shape2("boundsRectangle", {textBounds.width, textBounds.height});
+    shape1.setColor(gfx::Color::Red);
+    shape2.setColor(gfx::Color::Black);
+
+    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shape1));
+    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shape2));
+    addDrawableToMainLayer(t_text1);
+
+    display(200);
+}
+
+TEST_F(TextSCT, textDraw_shouldDrawItalicFontTextInDefaultPosition)
+{
+    createCustomScreen();
+    setDaultTextObject();
+    t_text1->setCharacterSize(60);
+    t_text1->setStyle(text::FontStyle::Italic);
 
     auto textBounds = t_text1->getLocalBounds();
     he::gfx::draw::ShapeRectangle shape1("backgroundRectangle", {textBounds.width*2, textBounds.height*2});
@@ -79,14 +99,14 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInDefaultPositionAfterSetNewCharacterSize
     boundsRectangle->setSize({textBounds.width, textBounds.height});
     display(displayTime);
     t_text1->setString("character size 20");
-    t_text1->setCharacterSize(20);
+    t_text1->setCharacterSize(30);
     t_text1->update();
     textBounds = t_text1->getLocalBounds();
     backgroundRectangle->setSize({textBounds.width*2, textBounds.height*2});
     boundsRectangle->setSize({textBounds.width, textBounds.height});
     display(displayTime);
     t_text1->setString("character size 40");
-    t_text1->setCharacterSize(40);
+    t_text1->setCharacterSize(60);
     t_text1->update();
     textBounds = t_text1->getLocalBounds();
     backgroundRectangle->setSize({textBounds.width*2, textBounds.height*2});

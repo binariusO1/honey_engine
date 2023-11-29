@@ -489,22 +489,22 @@ geometry::Line<float> Font::findGlyphRect(Page& page, const geometry::Size2Dui& 
     if (not isRowFound)
     {
         unsigned int rowHeight = size.height + size.height / 10;
-        while ((page.getPositionOfNextRow() + rowHeight >= page.getTexture()->getSize().height) || (size.width >= page.getTexture()->getSize().width))
+        while ((page.getPositionOfNextRow() + rowHeight >= page.getTexture()->getSize().height) or (size.width >= page.getTexture()->getSize().width))
         {
-            // Not enough space: resize the texture if possible
             geometry::Size2D textureSize{page.getTexture()->getSize().width, page.getTexture()->getSize().height};
             auto textureMaxSize = page.getTexture()->getMaxTextureSize();
+
             if ((textureSize.width * 2u <= textureMaxSize) and (textureSize.height * 2u <= textureMaxSize))
             {
                 // Make the texture 2 times bigger
                 gfx::render::Texture newTexture;
+
                 if (not newTexture.create(textureSize * static_cast<std::uint16_t>(2)))
                 {
                     LOG_ERROR << "Failed to create new page texture";
                     return {gfx::geometry::Point2d<float>(0.f, 0.f), gfx::geometry::Point2d<float>(2.f, 2.f)};
                 }
 
-                newTexture.setSmooth(m_isSmooth);
                 newTexture.update(*(page.getTexture().get()));
                 page.getTexture()->swap(newTexture);
             }

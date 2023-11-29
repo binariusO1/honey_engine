@@ -25,7 +25,7 @@ public:
 
     friend std::ostream& operator<< (std::ostream& os, const geometry::Size2d<T>& size)
     {
-        os << "{" << size.width << ", " << size.height << "}";
+        os << '[' << size.width << ", " << size.height << ']';
         return os;
     }
 };

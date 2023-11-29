@@ -165,7 +165,7 @@ void Text::setOriginInCenter() //PR - inaczej wylicza środek kiedy jest tekst t
     {
         update();
     }
-    IShape::setOrigin({m_bounds.width/2.f, m_bounds.height});
+    IShape::setOrigin({m_bounds.width/2.f, m_bounds.height/2.f});
 }
 
 
@@ -229,7 +229,8 @@ void Text::setCharacterSize(const unsigned int characterSize)
 ////////////////////////////////////////////////////////////
 void Text::update()
 {
-    IShape::update();
+    this->updateVertexArray();
+    m_vertexArrayNeedUpdate = false;
 }
 
 
@@ -256,7 +257,10 @@ void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& 
     auto newRenderSettings = renderSettings;
     newRenderSettings.prymitiveType = he::libs::gl::ConnectionType::Triangles;
 
-    checkIfVertexArrayNeedUpdateThenUpdate();
+    if (m_vertexArrayNeedUpdate)
+    {
+        this->update();
+    }
 
     if (m_outlineThickness != 0.0)
     {
@@ -495,8 +499,8 @@ void Text::computeTextStyle()
 //////////////////////////////////////////////////////////////////////
 void Text::updateLocalBounds(he::gfx::geometry::Line<float> bounds, const float bottom, const float top)
 {
-    m_bounds.width = std::abs(bounds.p2.x - bounds.p1.x- bounds.p1.x);
-    m_bounds.height = std::abs(bounds.p2.y - bounds.p1.y- bounds.p1.y - bottom - top);
+    m_bounds.width = std::abs(bounds.p2.x - bounds.p1.x);
+    m_bounds.height = std::abs(bounds.p2.y - bounds.p1.y) - bottom - top;
 }
 
 

@@ -98,7 +98,7 @@ bool Texture::create(const geometry::Size2Dpxl& size)
 {
     if ((size.width == 0) or (size.height == 0))
     {
-        LOG_WARNING << "Failed to create texture, invalid size (" << size.width << "x" << size.height << ")";
+        LOG_WARNING << "Failed to create texture, invalid size [" << size.width << 'x' << size.height << ']';
         return false;
     }
 
@@ -109,8 +109,8 @@ bool Texture::create(const geometry::Size2Dpxl& size)
     if ((size.width > maxSize) or (size.height > maxSize))
     { 
         LOG_ERROR << "Failed to create texture, its internal size is too high "
-              << "(" << size.width << "x" << size.height << ", "
-              << "maximum is " << maxSize << "x" << maxSize << ")" << std::endl;
+              << '[' << size.width << 'x' << size.height << ", "
+              << "maximum is " << maxSize << 'x' << maxSize << ']' << std::endl;
         return false;
     }
 
@@ -122,7 +122,7 @@ bool Texture::create(const geometry::Size2Dpxl& size)
         glGenTextures(1, &texture);
         m_context.textureId = texture;
     }
-    LOG_DEBUG << "\x1B[32mCreate texture with id: " << m_context.textureId << "\033[0m";
+
     bool textureEdgeClamp = false;
 
     glBindTexture(GL_TEXTURE_2D, m_context.textureId); 
@@ -132,6 +132,7 @@ bool Texture::create(const geometry::Size2Dpxl& size)
     glGenerateMipmap(GL_TEXTURE_2D);
     m_hasMipmap = false;
 
+    LOG_DEBUG << "Create texture id: " << m_context.textureId << ", size: [" << size.width << "x" << size.height << "]";
     return true;
 }
 
@@ -267,7 +268,7 @@ void Texture::update(const Texture& texture, const geometry::Vector2Du& dest)
     }
 
     // TODO
-    LOG_WARNING << "no implemented";
+    LOG_WARNING << "not implemented";
 }
 
 
@@ -275,19 +276,14 @@ void Texture::update(const Texture& texture, const geometry::Vector2Du& dest)
 ////////////////////////////////////////////////////////////
 void Texture::swap(Texture& right)
 {
+    LOG_DEBUG << "Swap texture id: " << m_context.textureId << " with texture id: " << right.m_context.textureId;
+
     std::swap(m_context.size, right.m_context.size);
-    //  std::swap(m_actualSize, right.m_actualSize);
     std::swap(m_context.textureId, right.m_context.textureId);
     std::swap(m_isSmooth, right.m_isSmooth);
-    // std::swap(m_sRgb, right.m_sRgb);
-    // std::swap(m_isRepeated, right.m_isRepeated);
     std::swap(m_pixelsFlipped, right.m_pixelsFlipped);
-    // std::swap(m_fboAttachment, right.m_fboAttachment);
     std::swap(m_hasMipmap, right.m_hasMipmap);
-
-    auto id = right.getTextureId();
-    right.m_context.textureId = m_context.textureId;
-    m_context.textureId = id;
+    std::swap(m_isSmooth, right.m_isSmooth);
 }
 
 
