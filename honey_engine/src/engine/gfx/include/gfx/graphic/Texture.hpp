@@ -19,6 +19,7 @@ class Texture : public ITexture
 {
 public:
     Texture();
+    Texture(const geometry::Size2Dpxl& size);
     Texture(const std::string& filepath);
     Texture(const he::gfx::render::Image);
     ~Texture() override;

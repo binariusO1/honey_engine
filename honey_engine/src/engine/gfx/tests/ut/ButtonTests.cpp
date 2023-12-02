@@ -30,7 +30,7 @@ public:
     {
         EXPECT_CALL(*textureMock, getSize()).WillRepeatedly(Return(t_buttonSize));
     }
-    // przeniesc do wspolnego fixture (tylko text + button moga uzywac)
+
     void expectGetFontTexture(const unsigned int times = 1)
     {
         EXPECT_CALL(*fontMock, getTexture()).Times(times).WillRepeatedly(Return(texture));

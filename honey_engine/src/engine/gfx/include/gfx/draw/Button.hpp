@@ -16,7 +16,9 @@ using ButtonCallback = std::function<void()>;
 class Button : public draw::Sprite , public draw::IButton
 {
 public:
+    Button() = delete;
     Button(const std::string&, const std::shared_ptr<he::gfx::render::ITexture>& texture);
+    Button(const std::string&, const geometry::Size2Dpxl& size);
     Button(const Button&);
     ~Button() = default;
 

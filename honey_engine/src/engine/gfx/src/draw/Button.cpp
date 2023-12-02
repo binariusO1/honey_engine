@@ -2,6 +2,7 @@
 
 #include "gfx/draw/Text.hpp"
 #include "gfx/render/Render.hpp"
+#include "gfx/graphic/Texture.hpp"
 #include "logger/Logger.hpp"
 
 namespace he
@@ -12,6 +13,12 @@ namespace draw
 {
 ////////////////////////////////////////////////////////////
 Button::Button(const std::string& name, const std::shared_ptr<he::gfx::render::ITexture>& texture) : Sprite(name, texture)
+{
+}
+
+
+////////////////////////////////////////////////////////////
+Button::Button(const std::string& name, const geometry::Size2Dpxl& size) : Sprite(name, std::make_shared<he::gfx::render::Texture>(size))
 {
 }
 

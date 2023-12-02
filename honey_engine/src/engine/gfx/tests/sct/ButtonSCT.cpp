@@ -27,9 +27,7 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefaultTextToCustomPosition_shoul
 {
     createCustomScreen();
 
-    std::shared_ptr<he::gfx::render::Texture> texture1 = std::make_shared<he::gfx::render::Texture>();
-    texture1->createEmpty(t_buttonSize);
-    he::gfx::draw::Button button1("Button1", texture1);
+    he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color::Blue);
     button1.setText("Click");
     button1.setPosition({574, 350});
@@ -51,9 +49,7 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefinedTextToWindowCenter_shouldG
 {
     createCustomScreen();
 
-    std::shared_ptr<he::gfx::render::Texture> texture1 = std::make_shared<he::gfx::render::Texture>();
-    texture1->createEmpty(t_buttonSize);
-    he::gfx::draw::Button button1("Button1", texture1);
+    he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color::Red);
     button1.setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
     button1.setOriginInCenter();
@@ -79,9 +75,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
 {
     createCustomScreen();
 
-    std::shared_ptr<he::gfx::render::Texture> texture1 = std::make_shared<he::gfx::render::Texture>();
-    texture1->createEmpty(t_buttonSize);
-    he::gfx::draw::Button button1("Button1", texture1);
+    he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color::Magenta);
     button1.setText("Click");
     button1.setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
@@ -114,9 +108,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
 {
     createCustomScreen();
 
-    std::shared_ptr<he::gfx::render::Texture> texture1 = std::make_shared<he::gfx::render::Texture>();
-    texture1->createEmpty(t_buttonSize);
-    he::gfx::draw::Button button1("Button1", texture1);
+    he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color::Magenta);
     button1.setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
     button1.setOriginInCenter();
