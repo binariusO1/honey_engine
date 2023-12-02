@@ -27,11 +27,12 @@ public:
     void removeLayer(const std::shared_ptr<he::gfx::render::ILayer>&);
     
 public:
-    void addDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>&);
-    void addDrawables(const DrawableList&);
+    void addShape(const std::shared_ptr<he::gfx::draw::IShape>&);
+    void addShapes(const ShapeList&);
     // TODO add funtion which is add shape, text as template and convert to idrawable (after checking)
-    void removeDrawable(const std::shared_ptr<he::gfx::draw::IDrawable>&);
-    he::gfx::render::DrawableList& drawableList();
+    void removeShape(const std::shared_ptr<he::gfx::draw::IShape>&);
+    he::gfx::render::ShapeList& shapeList();
+    he::gfx::draw::IShape& shape(const std::string&);
 
 public:
     void addButton(const std::shared_ptr<gfx::draw::IButton>&);
@@ -43,9 +44,9 @@ private:
     void onMauseButtonPressed(const he::window::Event::MouseButtonAction&);
 
 protected:
-    DrawableList m_uniqueDrawables; 
-    std::set<std::string> m_uniqueKeys;
     ButtonList m_buttons;
+    ShapeList m_shapes; 
+    std::set<std::string> m_keys;
     LayersMap m_layers;
     bool m_firstOnMauseButtonPressed{false};
 };

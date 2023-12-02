@@ -5,6 +5,10 @@
 #include "gfx/render/PropagationSettings.hpp"
 
 using namespace ::testing;
+namespace
+{
+constexpr he::gfx::geometry::Size2Dpxl t_buttonSize(200, 100);
+} // namespace
 
 namespace  he
 {
@@ -34,6 +38,11 @@ public:
 TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateWithDifferentCallbacks)
 {
     createCustomScreen();
+    he::gfx::draw::Button button1("Button1", t_buttonSize);
+    button1.setColor(he::gfx::Color::Blue);
+    button1.setText("Click");
+;
+    // mainPropagationLayer->addButton(std::make_shared<he::gfx::draw::Button>(button1));
 
     display(500);
 }

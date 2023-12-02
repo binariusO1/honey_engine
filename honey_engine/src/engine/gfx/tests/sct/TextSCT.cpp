@@ -42,9 +42,9 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInDefaultPosition)
     shape1.setColor(gfx::Color::Red);
     shape2.setColor(gfx::Color::Black);
 
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shape1));
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shape2));
-    addDrawableToMainLayer(t_text1);
+    addShapeToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shape1));
+    addShapeToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shape2));
+    addShapeToMainLayer(t_text1);
 
     display(200);
 }
@@ -62,9 +62,9 @@ TEST_F(TextSCT, textDraw_shouldDrawItalicFontTextInDefaultPosition)
     shape1.setColor(gfx::Color::Red);
     shape2.setColor(gfx::Color::Black);
 
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shape1));
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shape2));
-    addDrawableToMainLayer(t_text1);
+    addShapeToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shape1));
+    addShapeToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shape2));
+    addShapeToMainLayer(t_text1);
 
     display(200);
 }
@@ -86,9 +86,9 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInDefaultPositionAfterSetNewCharacterSize
     backgroundRectangle->setColor(gfx::Color::Red);
     boundsRectangle->setColor(gfx::Color::Blue);
 
-    addDrawableToMainLayer(backgroundRectangle);
-    addDrawableToMainLayer(boundsRectangle);
-    addDrawableToMainLayer(t_text1);
+    addShapeToMainLayer(backgroundRectangle);
+    addShapeToMainLayer(boundsRectangle);
+    addShapeToMainLayer(t_text1);
 
     display(displayTime);
     t_text1->setString("character size 0");
@@ -133,10 +133,10 @@ TEST_F(TextSCT, textDraw_shouldDrawTextInMovedPosition)
     shapeBoundsRectangle.setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
     shapeBackgroundRectangle.setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
 
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeQuartRectangle));
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeBackgroundRectangle));
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeBoundsRectangle));
-    addDrawableToMainLayer(t_text1);
+    addShapeToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeQuartRectangle));
+    addShapeToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeBackgroundRectangle));
+    addShapeToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeBoundsRectangle));
+    addShapeToMainLayer(t_text1);
 
     display(200);
 }
@@ -150,8 +150,8 @@ TEST_F(TextSCT, textDraw_afterMovedToCenterAndChangeOriginToCenter_shouldDrawTex
     he::gfx::draw::ShapeRectangle shapeQuartRectangle("quartRectangle", {f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
     shapeQuartRectangle.setColor(gfx::Color::Red);
 
-    addDrawableToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeQuartRectangle));
-    addDrawableToMainLayer(t_text1);
+    addShapeToMainLayer(std::make_shared<he::gfx::draw::ShapeRectangle>(shapeQuartRectangle));
+    addShapeToMainLayer(t_text1);
     display(75);
 
     t_text1->setOriginInCenter();

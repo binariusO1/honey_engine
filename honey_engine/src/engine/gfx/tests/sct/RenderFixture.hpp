@@ -52,19 +52,19 @@ public:
         mainSceneManager = std::make_unique<he::gfx::render::SceneManager>(transitionTable);
     }
 
-    void addDrawableToMainLayer(const std::shared_ptr<he::gfx::draw::IDrawable>& drawable)
+    void addShapeToMainLayer(const std::shared_ptr<he::gfx::draw::IShape>& shape)
     {
-        mainLayer->addDrawable(drawable);
+        mainLayer->addShape(shape);
     }
 
-    void addButtonToMainLayer(const std::shared_ptr<he::gfx::draw::IButton>& drawable)
+    void addButtonToMainLayer(const std::shared_ptr<he::gfx::draw::IButton>& button)
     {
-        mainLayer->addButton(drawable);
+        mainLayer->addButton(button);
     }
 
-    void addDrawablesToMainLayer(const he::gfx::render::DrawableList& list)
+    void addDrawablesToMainLayer(const he::gfx::render::ShapeList& list)
     {
-        mainLayer->addDrawables(list);
+        mainLayer->addShapes(list);
     }
 
     std::shared_ptr<he::gfx::render::Layer> mainLayer;

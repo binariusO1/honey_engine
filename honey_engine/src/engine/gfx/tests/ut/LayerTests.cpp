@@ -40,9 +40,9 @@ TEST_F(LayerTests, whenaddDrawableWithSameName_shouldAddOnlyFirst)
     hexagon7->setPosition({200.0, 600.0});
 
     std::shared_ptr<he::gfx::render::Layer> layer2 = std::make_shared<he::gfx::render::Layer>("layer_2");
-    he::gfx::render::DrawableList hexagons{hexagon6, hexagon7};
-    layer2->addDrawables(hexagons);
+    he::gfx::render::ShapeList hexagons{hexagon6, hexagon7};
+    layer2->addShapes(hexagons);
 
-    ASSERT_EQ(layer2->drawableList().size(), 1);
+    ASSERT_EQ(layer2->shapeList().size(), 1);
 }
 } // namespace he::gfx::render

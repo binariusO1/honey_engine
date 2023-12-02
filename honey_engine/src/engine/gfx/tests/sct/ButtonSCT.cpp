@@ -33,7 +33,7 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefaultTextToCustomPosition_shoul
     button1.setPosition({574, 350});
     std::shared_ptr<he::gfx::draw::Button> but1 = std::make_shared<he::gfx::draw::Button>(button1);
 
-    addDrawableToMainLayer(but1);
+    addShapeToMainLayer(but1);
     addButtonToMainLayer(but1);
 
     std::shared_ptr<he::window::IEventInputListener> sceneListener = std::shared_ptr<he::gfx::render::SceneManager>(mainSceneManager);
@@ -62,7 +62,7 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefinedTextToWindowCenter_shouldG
     button1.setText(customText);
     std::shared_ptr<he::gfx::draw::Button> but1 = std::make_shared<he::gfx::draw::Button>(button1);
 
-    addDrawableToMainLayer(but1);
+    addShapeToMainLayer(but1);
     addButtonToMainLayer(but1);
 
     std::shared_ptr<he::window::IEventInputListener> sceneListener = std::shared_ptr<he::gfx::render::SceneManager>(mainSceneManager);
@@ -95,7 +95,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
     };
     but1->addCallback(callback);
 
-    addDrawableToMainLayer(but1);
+    addShapeToMainLayer(but1);
     addButtonToMainLayer(but1);
 
     std::shared_ptr<he::window::IEventInputListener> sceneListener = std::shared_ptr<he::gfx::render::SceneManager>(mainSceneManager);
@@ -128,7 +128,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
     };
     but1->addCallback(callback);
 
-    addDrawableToMainLayer(but1);
+    addShapeToMainLayer(but1);
     addButtonToMainLayer(but1);
 
     std::shared_ptr<he::window::IEventInputListener> sceneListener = std::shared_ptr<he::gfx::render::SceneManager>(mainSceneManager);
