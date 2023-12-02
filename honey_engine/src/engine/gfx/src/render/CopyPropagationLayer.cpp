@@ -26,7 +26,7 @@ CopyPropagationLayer::~CopyPropagationLayer()
 ////////////////////////////////////////////////////////////
 void CopyPropagationLayer::render(gfx::render::IRender& render)
 {
-    for (const auto& item : m_uniqueDrawables)
+    for (const auto& item : m_uniqueShapes)
     {
         auto numX = m_propagationSettings.distanceX > 1 ? m_propagationSettings.numberOfElementsX : 1;
         auto numY = m_propagationSettings.distanceY > 1 ? m_propagationSettings.numberOfElementsY : 1;
@@ -48,7 +48,7 @@ void CopyPropagationLayer::render(gfx::render::IRender& render)
 ////////////////////////////////////////////////////////////
 void CopyPropagationLayer::process_event(const he::window::Event& event)
 {
-    for (auto it = m_uniqueDrawables.begin(); it != m_uniqueDrawables.end(); ++it)
+    for (auto it = m_uniqueShapes.begin(); it != m_uniqueShapes.end(); ++it)
     {
         LOG_WARNING << "Not implemented";
     }
@@ -63,34 +63,34 @@ void CopyPropagationLayer::setRenderSettings(const he::gfx::render::RenderSettin
 
 
 ////////////////////////////////////////////////////////////
-void CopyPropagationLayer::addDrawable(const std::shared_ptr<he::gfx::draw::Shape>& drawable)
+void CopyPropagationLayer::addShape(const std::shared_ptr<he::gfx::draw::IShape>& drawable)
 {
-    m_uniqueDrawables.push_back(drawable);
+    m_uniqueShapes.push_back(drawable);
 }
 
 
 ////////////////////////////////////////////////////////////
 void CopyPropagationLayer::addDrawables(const ShapeList& drawables)
 {
-    auto sum = m_uniqueDrawables.size() + drawables.size();
+    auto sum = m_uniqueShapes.size() + drawables.size();
 
-    if (m_uniqueDrawables.capacity() < sum)
+    if (m_uniqueShapes.capacity() < sum)
     {
-        m_uniqueDrawables.reserve(sum);
+        m_uniqueShapes.reserve(sum);
     }
 
-    m_uniqueDrawables.insert(m_uniqueDrawables.end(), drawables.begin(), drawables.end());
+    m_uniqueShapes.insert(m_uniqueShapes.end(), drawables.begin(), drawables.end());
 }
 
 
 ////////////////////////////////////////////////////////////
 void CopyPropagationLayer::removeDrawable(const std::shared_ptr<he::gfx::draw::Shape>& drawable)
 {
-    auto it = std::find(m_uniqueDrawables.begin(), m_uniqueDrawables.end(), drawable);
+    auto it = std::find(m_uniqueShapes.begin(), m_uniqueShapes.end(), drawable);
 
-    if (it != m_uniqueDrawables.end()) 
+    if (it != m_uniqueShapes.end()) 
     {
-        m_uniqueDrawables.erase(it);
+        m_uniqueShapes.erase(it);
     } 
     else 
     {
@@ -100,9 +100,9 @@ void CopyPropagationLayer::removeDrawable(const std::shared_ptr<he::gfx::draw::S
 
 
 ////////////////////////////////////////////////////////////
-he::gfx::draw::Shape& CopyPropagationLayer::drawable(const std::string& name)
+he::gfx::draw::IShape& CopyPropagationLayer::drawable(const std::string& name)
 {
-    for (auto& item : m_uniqueDrawables)
+    for (auto& item : m_uniqueShapes)
     {
         if (item->getName() == name)
         {

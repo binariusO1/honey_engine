@@ -31,7 +31,7 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefaultTextToCustomPosition_shoul
     texture1->createEmpty(t_buttonSize);
     he::gfx::draw::Button button1("Button1", texture1);
     button1.setColor(he::gfx::Color::Blue);
-    button1.setText("Quit");
+    button1.setText("Click");
     button1.setPosition({574, 350});
     std::shared_ptr<he::gfx::draw::Button> but1 = std::make_shared<he::gfx::draw::Button>(button1);
 

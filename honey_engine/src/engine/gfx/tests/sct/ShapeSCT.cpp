@@ -141,7 +141,7 @@ TEST_F(ShapeSCT, screenTestShapes_drawSamples)
 
     he::gfx::PropagationSettings propagationSettings{2, 7, 105.0, 100.0};
     std::shared_ptr<he::gfx::render::CopyPropagationLayer> layer3 = std::make_shared<he::gfx::render::CopyPropagationLayer>("layer_3", propagationSettings);
-    layer3->addDrawable(cross1);
+    layer3->addShape(cross1);
 
     //initialize texture drawable
     const he::gfx::geometry::Size2Dpxl textureSize(200, 100);

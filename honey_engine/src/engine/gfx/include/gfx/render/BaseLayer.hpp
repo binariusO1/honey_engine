@@ -23,7 +23,7 @@ using EventInputListenerMap = std::map<std::string, std::shared_ptr<he::window::
 using ButtonList = std::vector<std::shared_ptr<he::gfx::draw::IButton>>;
 using LayersList = std::vector<std::shared_ptr<he::gfx::render::ILayer>>;
 using LayersMap = std::unordered_map<std::string, std::shared_ptr<he::gfx::render::ILayer>>;
-using ShapeList = std::vector<std::shared_ptr<he::gfx::draw::Shape>>;
+using ShapeList = std::vector<std::shared_ptr<he::gfx::draw::IShape>>;
 
 class BaseLayer : public ILayer
 {

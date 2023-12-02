@@ -25,16 +25,16 @@ public:
     void setRenderSettings(const he::gfx::render::RenderSettings&) override;
     
 public:
-    void addDrawable(const std::shared_ptr<he::gfx::draw::Shape>&);
+    void addShape(const std::shared_ptr<he::gfx::draw::IShape>&);
     void addDrawables(const ShapeList&);
     void removeDrawable(const std::shared_ptr<he::gfx::draw::Shape>&);
-    he::gfx::draw::Shape& drawable(const std::string&);
+    he::gfx::draw::IShape& drawable(const std::string&);
 
 public:
     void process_event(const he::window::Event&) override;
 
 private:
-    ShapeList m_uniqueDrawables{};
+    ShapeList m_uniqueShapes{};
     PropagationSettings m_propagationSettings{};
 };
 } // namespace render
