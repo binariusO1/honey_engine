@@ -17,6 +17,7 @@ class Sprite : public draw::ShapeRectangle
 public:
     Sprite() = delete;
     explicit Sprite(const std::string&, const std::shared_ptr<he::gfx::render::ITexture>&);
+    Sprite(const Sprite&);
     ~Sprite() override;
 
 public:

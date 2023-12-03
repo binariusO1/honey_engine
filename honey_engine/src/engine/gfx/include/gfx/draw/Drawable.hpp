@@ -39,7 +39,8 @@ public:
                 throw he::common::invalid_initialization("Name cannot be empty!");
             }
         }
-        const std::string name;
+        // TODO: add const hash id
+        std::string name;
         he::gfx::OriginPosition originPosition{he::gfx::OriginPosition::leftDown};
         he::gfx::Color color{he::gfx::Color::White};
         VisibilityState visibility{VisibilityState::visible};

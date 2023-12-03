@@ -29,13 +29,13 @@ public:
 public:
     void addShape(const std::shared_ptr<he::gfx::draw::IShape>&);
     void addShapes(const ShapeList&);
-    // TODO add funtion which is add shape, text as template and convert to idrawable (after checking)
     void removeShape(const std::shared_ptr<he::gfx::draw::IShape>&);
-    he::gfx::render::ShapeList& shapeList();
+    he::gfx::render::ShapeList& shapeList();//todo: change name to getShapes
     he::gfx::draw::IShape& shape(const std::string&);
 
 public:
-    void addButton(const std::shared_ptr<gfx::draw::IButton>&);
+    void addButton(const std::shared_ptr<gfx::draw::Button>&);
+    he::gfx::render::ButtonList& getButtons();
 
 public:
     void process_event(const he::window::Event&) override;

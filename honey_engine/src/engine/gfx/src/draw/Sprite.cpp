@@ -22,6 +22,14 @@ Sprite::Sprite(const std::string& name, const std::shared_ptr<he::gfx::render::I
 
 
 ////////////////////////////////////////////////////////////
+Sprite::Sprite(const Sprite& copy)
+    : m_texture{copy.m_texture}
+    , ShapeRectangle(copy)
+{
+}
+
+
+////////////////////////////////////////////////////////////
 Sprite::~Sprite() = default;
 
 

@@ -114,6 +114,7 @@ inline bool operator !=(const Point2d<T>& left, const Point2d<T>& right)
 using Point2D = Point2d<std::int16_t>;
 using Point2Di = Point2d<int>;
 using Point2Du = Point2d<std::uint16_t>;
+using Point2Dt = Point2d<std::uint64_t>;
 using Point2Df = Point2d<float>;
 using Point2Dd = Point2d<double>;
 

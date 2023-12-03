@@ -42,6 +42,14 @@ void ShapeRectangle::setSize(const gfx::geometry::Size2Df& size)
     m_vertexArrayNeedUpdate = true;
 }
 
+
+////////////////////////////////////////////////////////////
+const gfx::geometry::Size2Df ShapeRectangle::getSize() const
+{
+    return m_rectangle.getSize();
+}
+
+
 } // namespace draw
 } // namespace gfx
 } // namespace he

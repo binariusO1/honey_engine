@@ -1,7 +1,7 @@
 #include "RenderFixture.hpp"
 #include <gtest/gtest.h>
 #include "gfx/draw/Button.hpp"
-#include "gfx/render/CopyPropagationLayer.hpp"
+#include "gfx/render/UniquePropagationLayer.hpp"
 #include "gfx/render/PropagationSettings.hpp"
 
 using namespace ::testing;
@@ -22,27 +22,39 @@ public:
     }
     ~PropagationLayerSCT() = default;
 
-    void createCustomScreen()
+    void createCustomScreen(const PropagationSettings& propagationSettings)
     {
-        PropagationSettings propagationSettings;
-        mainPropagationLayer = std::make_shared<he::gfx::render::CopyPropagationLayer>("main_propagation_layer", propagationSettings);
+        mainPropagationLayer = std::make_shared<he::gfx::render::UniquePropagationLayer>("main_propagation_layer", propagationSettings);
         mainScene = std::make_shared<he::gfx::render::Scene>("main_scene");
         mainScene->addLayer(mainPropagationLayer);
         he::gfx::render::SceneTransitionTable transitionTable{{mainScene, nullptr, nullptr, nullptr, nullptr}};
         mainSceneManager = std::make_unique<he::gfx::render::SceneManager>(transitionTable);
     }
 
-    std::shared_ptr<he::gfx::render::CopyPropagationLayer> mainPropagationLayer;
+    std::shared_ptr<he::gfx::render::UniquePropagationLayer> mainPropagationLayer;
 };
 
 TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateWithDifferentCallbacks)
 {
-    createCustomScreen();
+    PropagationSettings propagationSettings{1, 3, 0, 0};
+    createCustomScreen(propagationSettings);
+    enableEventInputListener();
     he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color::Blue);
     button1.setText("Click");
-;
-    // mainPropagationLayer->addButton(std::make_shared<he::gfx::draw::Button>(button1));
+
+    mainPropagationLayer->addButton(std::make_shared<he::gfx::draw::Button>(button1));
+    auto buttons = mainPropagationLayer->getButtons();
+
+    for (std::size_t i = 0 ; i < buttons.size() ; ++i)
+    {
+        const std::string iterator = std::to_string(i+1);
+        const he::gfx::draw::ButtonCallback callback = [button = buttons[i], iterator](){
+            button->setText("button_" + iterator);
+            button->addCallback([](){});
+        };
+        buttons[i]->addCallback(callback);
+    }
 
     display(500);
 }

@@ -27,6 +27,7 @@ set(INTERNAL_FILES
 	src/render/Render.cpp
 	src/render/Scene.cpp
 	src/render/SceneManager.cpp
+	src/render/UniquePropagationLayer.cpp
 	)
 
 set(PUBLIC_HEADERS 
@@ -77,6 +78,7 @@ set(PUBLIC_HEADERS
     include/gfx/render/Scene.hpp
     include/gfx/render/SceneStateMachine.hpp
     include/gfx/render/SceneManager.hpp
+	include/gfx/render/UniquePropagationLayer.hpp
     include/gfx/render/VisibilityState.hpp
     include/gfx/text/Font.hpp
     include/gfx/text/FontHandles.hpp

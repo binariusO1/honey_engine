@@ -93,6 +93,13 @@ const std::string IShape::getName() const
 
 
 ////////////////////////////////////////////////////////////
+void IShape::setName(const std::string& name)
+{
+    m_context.name = name;
+}
+
+
+////////////////////////////////////////////////////////////
 const he::gfx::VertexArray2d& IShape::getVertexArray() const
 {
     return m_vertexArray;

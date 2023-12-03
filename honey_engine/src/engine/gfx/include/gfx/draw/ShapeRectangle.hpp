@@ -20,6 +20,7 @@ public:
 
 public:
     void setSize(const gfx::geometry::Size2Df& size);
+    const gfx::geometry::Size2Df getSize() const;
 
 private:
     gfx::geometry::figures::Rectangle m_rectangle;

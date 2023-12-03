@@ -26,18 +26,14 @@ public:
 TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefaultTextToCustomPosition_shouldGetMouseButtonEvent)
 {
     createCustomScreen();
-
+    enableEventInputListener();
     he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color::Blue);
     button1.setText("Click");
     button1.setPosition({574, 350});
     std::shared_ptr<he::gfx::draw::Button> but1 = std::make_shared<he::gfx::draw::Button>(button1);
 
-    addShapeToMainLayer(but1);
     addButtonToMainLayer(but1);
-
-    std::shared_ptr<he::window::IEventInputListener> sceneListener = std::shared_ptr<he::gfx::render::SceneManager>(mainSceneManager);
-    mainWindow->addEventInputListener(sceneListener.get());
 
     display(300);
 
@@ -48,7 +44,7 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefaultTextToCustomPosition_shoul
 TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefinedTextToWindowCenter_shouldGetMouseButtonEvent)
 {
     createCustomScreen();
-
+    enableEventInputListener();
     he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color::Red);
     button1.setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
@@ -62,11 +58,7 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefinedTextToWindowCenter_shouldG
     button1.setText(customText);
     std::shared_ptr<he::gfx::draw::Button> but1 = std::make_shared<he::gfx::draw::Button>(button1);
 
-    addShapeToMainLayer(but1);
     addButtonToMainLayer(but1);
-
-    std::shared_ptr<he::window::IEventInputListener> sceneListener = std::shared_ptr<he::gfx::render::SceneManager>(mainSceneManager);
-    mainWindow->addEventInputListener(sceneListener.get());
 
     display(500);
 }
@@ -74,7 +66,7 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefinedTextToWindowCenter_shouldG
 TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeText)
 {
     createCustomScreen();
-
+    enableEventInputListener();
     he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color::Magenta);
     button1.setText("Click");
@@ -95,11 +87,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
     };
     but1->addCallback(callback);
 
-    addShapeToMainLayer(but1);
     addButtonToMainLayer(but1);
-
-    std::shared_ptr<he::window::IEventInputListener> sceneListener = std::shared_ptr<he::gfx::render::SceneManager>(mainSceneManager);
-    mainWindow->addEventInputListener(sceneListener.get());
 
     display(500);
 }
@@ -107,7 +95,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
 TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeTextCharacterSize)
 {
     createCustomScreen();
-
+    enableEventInputListener();
     he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color::Magenta);
     button1.setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
@@ -128,11 +116,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
     };
     but1->addCallback(callback);
 
-    addShapeToMainLayer(but1);
     addButtonToMainLayer(but1);
-
-    std::shared_ptr<he::window::IEventInputListener> sceneListener = std::shared_ptr<he::gfx::render::SceneManager>(mainSceneManager);
-    mainWindow->addEventInputListener(sceneListener.get());
 
     display(500);
 }

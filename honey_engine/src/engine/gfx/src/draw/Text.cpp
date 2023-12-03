@@ -123,7 +123,7 @@ const he::gfx::Color Text::getColor() const
 
 
 ////////////////////////////////////////////////////////////
-const unsigned int Text::getTextureId() const // move to new interface (similar to Sprite) and inherit with Sprite
+unsigned int Text::getTextureId() const // TODO: move to new interface (similar to Sprite) and inherit with Sprite
 {
     return m_font->getTexture()->getTextureId();
 }
@@ -145,7 +145,7 @@ void Text::setStyle(const text::Style style)
 
 
 ////////////////////////////////////////////////////////////
-const text::Style Text::getStyle() const
+text::Style Text::getStyle() const
 {
     return m_style;
 }
@@ -159,7 +159,7 @@ void Text::setOrigin(const geometry::Point2Df& point)
 
 
 ////////////////////////////////////////////////////////////
-void Text::setOriginInCenter() //PR - inaczej wylicza środek kiedy jest tekst typu "click" a kiedy jest w tekście ogonek "clickg"
+void Text::setOriginInCenter()
 {
     if (m_vertexArrayNeedUpdate)
     {

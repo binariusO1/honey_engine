@@ -28,7 +28,7 @@ public:
     void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) override;
 
 public:
-    void addCallback(const ButtonCallback&);
+    void addCallback(const ButtonCallback&);//todo: change name to addMouseButtonPressedCallback
     bool onMauseButtonPressed(const he::window::Event::MouseButtonAction&) override;
     
 public:

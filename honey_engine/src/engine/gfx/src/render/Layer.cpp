@@ -23,6 +23,11 @@ Layer::~Layer()
 ////////////////////////////////////////////////////////////
 void Layer::render(gfx::render::IRender& render)
 {
+    for (const auto& item : m_buttons)
+    {
+        render.draw(*item);
+    }
+
     for (const auto& item : m_shapes)
     {
         render.draw(*item);
@@ -86,56 +91,56 @@ void Layer::removeLayer(const std::shared_ptr<he::gfx::render::ILayer>& layer)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::addShape(const std::shared_ptr<he::gfx::draw::IShape>& drawable)
+void Layer::addShape(const std::shared_ptr<he::gfx::draw::IShape>& shape)
 {
-    auto it = m_keys.emplace(drawable->getName());
+    auto it = m_keys.emplace(shape->getName());
 
     if (it.second)
     {
-        m_shapes.push_back(drawable);
+        m_shapes.push_back(shape);
     }
     else
     {
-        LOG_WARNING << "Unable to add drawable: " << drawable->getName() << ". Key is already exists";
+        LOG_WARNING << "Unable to add shape: " << shape->getName() << ". Key is already exists";
     }
 }
 
 
 ////////////////////////////////////////////////////////////
-void Layer::addShapes(const ShapeList& drawables)
+void Layer::addShapes(const ShapeList& shape)
 {
-    auto sum = m_shapes.size() + drawables.size();
+    auto sum = m_shapes.size() + shape.size();
 
     if (m_shapes.capacity() < sum)
     {
         m_shapes.reserve(sum);
     }
 
-    std::for_each(drawables.begin(), drawables.end(), [&](const std::shared_ptr<he::gfx::draw::IShape>& drawable) 
+    std::for_each(shape.begin(), shape.end(), [&](const std::shared_ptr<he::gfx::draw::IShape>& shape) 
     { 
-        auto it = m_keys.emplace(drawable->getName());
+        auto it = m_keys.emplace(shape->getName());
 
         if (it.second)
         {
-            m_shapes.push_back(drawable);
+            m_shapes.push_back(shape);
         }
         else
         {
-            LOG_WARNING << "Unable to add drawable: " << drawable->getName() << ". Key is already exists";
+            LOG_WARNING << "Unable to add shape: " << shape->getName() << ". Key is already exists";
         }
     });
 }
 
 
 ////////////////////////////////////////////////////////////
-void Layer::removeShape(const std::shared_ptr<he::gfx::draw::IShape>& drawable)
+void Layer::removeShape(const std::shared_ptr<he::gfx::draw::IShape>& shape)
 {
-    if (not m_keys.erase(drawable->getName()))
+    if (not m_keys.erase(shape->getName()))
     {
         return;
     }
 
-    auto it = std::find(m_shapes.begin(), m_shapes.end(), drawable);
+    auto it = std::find(m_shapes.begin(), m_shapes.end(), shape);
 
     if (it != m_shapes.end()) 
     {
@@ -170,16 +175,32 @@ he::gfx::draw::IShape& Layer::shape(const std::string& name)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::addButton(const std::shared_ptr<gfx::draw::IButton>& button)
+void Layer::addButton(const std::shared_ptr<gfx::draw::Button>& button)
 {
-    m_buttons.push_back(button);
+    auto it = m_keys.emplace(button->getName());
+
+    if (it.second)
+    {
+        m_buttons.push_back(button);
+    }
+    else
+    {
+        LOG_WARNING << "Unable to add button: " << button->getName() << ". Key is already exists";
+    }
+}
+
+
+////////////////////////////////////////////////////////////
+he::gfx::render::ButtonList& Layer::getButtons()
+{
+    return m_buttons;
 }
 
 
 ////////////////////////////////////////////////////////////
 void Layer::process_event(const he::window::Event& event)
 {
-    // LOG_DEBUG << "Process event: " << window::toString(event.type) << ", layer name: " << m_context.name;
+    //  LOG_DEBUG << "Process event: " << window::toString(event.type) << ", layer name: " << m_context.name;
 
     switch (event.type)
     {

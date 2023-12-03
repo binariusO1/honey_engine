@@ -52,12 +52,18 @@ public:
         mainSceneManager = std::make_unique<he::gfx::render::SceneManager>(transitionTable);
     }
 
+    void enableEventInputListener()
+    {
+        std::shared_ptr<he::window::IEventInputListener> sceneListener = std::shared_ptr<he::gfx::render::SceneManager>(mainSceneManager);
+        mainWindow->addEventInputListener(sceneListener.get());
+    }
+
     void addShapeToMainLayer(const std::shared_ptr<he::gfx::draw::IShape>& shape)
     {
         mainLayer->addShape(shape);
     }
 
-    void addButtonToMainLayer(const std::shared_ptr<he::gfx::draw::IButton>& button)
+    void addButtonToMainLayer(const std::shared_ptr<he::gfx::draw::Button>& button)
     {
         mainLayer->addButton(button);
     }

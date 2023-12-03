@@ -32,7 +32,7 @@ public:
     void setFont(const text::Font& font);
     void setFont(const std::filesystem::path& filepath);
     void setStyle(const text::Style style);
-    const text::Style getStyle() const;
+    text::Style getStyle() const;
     void setCharacterSize(const unsigned int);
     const he::gfx::geometry::Size2Df getLocalBounds() const;
 
@@ -48,7 +48,7 @@ public:
     const he::gfx::geometry::Point2Df& getPosition() const override;
     const he::gfx::geometry::Angle& getRotation() const override;
 
-    const unsigned int getTextureId() const;
+    unsigned int getTextureId() const;
     const he::gfx::VertexArray2d& getVertexArray() const override;
     void update();
 
