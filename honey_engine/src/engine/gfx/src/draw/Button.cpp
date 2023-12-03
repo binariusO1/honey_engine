@@ -43,9 +43,9 @@ void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings
 
 
 //////////////////////////////////////////////////////////////////////
-void Button::addCallback(const ButtonCallback& callback)
+void Button::setCallback(const ButtonCallback& callback, const window::Mouse::Button button)
 {
-    m_callback = callback;
+    m_callbackMap.insert(std::make_pair(button, callback));
 }
 
 
@@ -68,12 +68,14 @@ void Button::setOriginInCenter()
 //////////////////////////////////////////////////////////////////////
 bool Button::onMauseButtonPressed(const he::window::Event::MouseButtonAction& event)
 {
-    if (isPointInside(event.x, event.y))
+    auto it = m_callbackMap.find(event.button);
+
+    if (it != m_callbackMap.end() and isPointInside(event.x, event.y)) 
     {
         LOG_DEBUG << "Process event: MouseButtonAction, button name: " << m_context.name;
-        m_callback();
+        it->second();
         return true;
-    }
+    } 
     return false;
 }
 
@@ -126,7 +128,7 @@ void Button::setDefaultTextSettings()
     m_text = std::make_unique<gfx::draw::Text>(buttonTextName);
     m_text->setColor({gfx::Color::White});
     m_text->setFont("\\data\\gfx\\fonts\\calibri.ttf");
-    m_text->setCharacterSize(40);
+    m_text->setCharacterSize(30);
 }
 
 

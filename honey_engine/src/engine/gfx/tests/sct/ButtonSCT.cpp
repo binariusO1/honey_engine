@@ -23,13 +23,13 @@ public:
     ~ButtonSCT() = default;
 };
 
-TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefaultTextToCustomPosition_shouldGetMouseButtonEvent)
+TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefaultTextToCustomPosition_shouldNotGetUndefinedMouseButtonEvent)
 {
     createCustomScreen();
     enableEventInputListener();
     he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color::Blue);
-    button1.setText("Click");
+    button1.setText("No callback");
     button1.setPosition({574, 350});
     std::shared_ptr<he::gfx::draw::Button> but1 = std::make_shared<he::gfx::draw::Button>(button1);
 
@@ -41,7 +41,7 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefaultTextToCustomPosition_shoul
     display(500);
 }
 
-TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefinedTextToWindowCenter_shouldGetMouseButtonEvent)
+TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefinedTextToWindowCenter_shouldNotGetUndefinedMouseButtonEvent)
 {
     createCustomScreen();
     enableEventInputListener();
@@ -51,10 +51,10 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefinedTextToWindowCenter_shouldG
     button1.setOriginInCenter();
     he::gfx::draw::Text customText("customText");
     customText.setFont(f_fontCalibriPath);
-    customText.setCharacterSize(40);
+    customText.setCharacterSize(30);
     customText.setColor(gfx::Color::Yellow);
     customText.setOriginInCenter();
-    customText.setString("Click");
+    customText.setString("No callback");
     button1.setText(customText);
     std::shared_ptr<he::gfx::draw::Button> but1 = std::make_shared<he::gfx::draw::Button>(button1);
 
@@ -85,7 +85,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
         }
         textChanged = not textChanged;
     };
-    but1->addCallback(callback);
+    but1->setCallback(callback, window::Mouse::Button::Left);
 
     addButtonToMainLayer(but1);
 
@@ -114,7 +114,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
         customText.setCharacterSize(++characterSize);
             but1->setText(customText);
     };
-    but1->addCallback(callback);
+    but1->setCallback(callback, window::Mouse::Button::Left);
 
     addButtonToMainLayer(but1);
 

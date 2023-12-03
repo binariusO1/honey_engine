@@ -1,5 +1,6 @@
 #pragma once
 
+#include <unordered_map>
 #include <functional>
 #include "gfx/draw/Sprite.hpp"
 #include "gfx/draw/Text.hpp"
@@ -28,7 +29,7 @@ public:
     void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) override;
 
 public:
-    void addCallback(const ButtonCallback&);//todo: change name to addMouseButtonPressedCallback
+    void setCallback(const ButtonCallback& callback, const window::Mouse::Button mouseButton);
     bool onMauseButtonPressed(const he::window::Event::MouseButtonAction&) override;
     
 public:
@@ -42,7 +43,7 @@ private:
 
 private:
     std::unique_ptr<Text> m_text{nullptr};
-    ButtonCallback m_callback = [](){};
+    std::unordered_map<window::Mouse::Button, ButtonCallback> m_callbackMap;
 };
 } // namespace draw
 } // namespace gfx
