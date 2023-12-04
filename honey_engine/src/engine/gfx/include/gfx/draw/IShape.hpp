@@ -28,8 +28,9 @@ public:
     const he::gfx::geometry::Point2Df& getPosition() const override;
     const std::string getName() const override;
     void setName(const std::string&) override;
+    void setLayerName(const std::string&) override;
+    const std::string getLayerName() const override;
     const he::gfx::VertexArray2d& getVertexArray() const override;
-    //todo: add scene and layer name
 
 public:
     void setOrigin(const he::gfx::geometry::Point2Df& point) override;

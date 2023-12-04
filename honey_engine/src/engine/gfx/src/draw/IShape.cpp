@@ -93,6 +93,20 @@ const std::string IShape::getName() const
 
 
 ////////////////////////////////////////////////////////////
+void IShape::setLayerName(const std::string& name)
+{
+    m_context.layerName = name;
+}
+
+
+////////////////////////////////////////////////////////////
+const std::string IShape::getLayerName() const
+{
+    return m_context.layerName;
+}
+
+
+////////////////////////////////////////////////////////////
 void IShape::setName(const std::string& name)
 {
     m_context.name = name;

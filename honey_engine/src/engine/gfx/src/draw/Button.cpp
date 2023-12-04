@@ -72,7 +72,7 @@ bool Button::onMauseButtonPressed(const he::window::Event::MouseButtonAction& ev
 
     if (it != m_callbackMap.end() and isPointInside(event.x, event.y)) 
     {
-        LOG_DEBUG << "Process event: MouseButtonAction, button name: " << m_context.name;
+        LOG_DEBUG << "Process event: MouseButtonAction, layer: " << m_context.layerName << ", button: " << m_context.name;
         it->second();
         return true;
     } 

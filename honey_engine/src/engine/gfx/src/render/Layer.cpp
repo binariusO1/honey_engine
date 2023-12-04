@@ -98,6 +98,7 @@ void Layer::addShape(const std::shared_ptr<he::gfx::draw::IShape>& shape)
     if (it.second)
     {
         m_shapes.push_back(shape);
+        m_shapes.back()->setLayerName(m_context.name);
     }
     else
     {
@@ -123,6 +124,7 @@ void Layer::addShapes(const ShapeList& shape)
         if (it.second)
         {
             m_shapes.push_back(shape);
+            m_shapes.back()->setLayerName(m_context.name);
         }
         else
         {
@@ -182,6 +184,7 @@ void Layer::addButton(const std::shared_ptr<gfx::draw::Button>& button)
     if (it.second)
     {
         m_buttons.push_back(button);
+        m_buttons.back()->setLayerName(m_context.name);
     }
     else
     {
