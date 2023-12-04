@@ -36,12 +36,12 @@ public:
 
 TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateWithDifferentCallbacks)
 {
-    PropagationSettings propagationSettings{1, 3, 0, 0};
+    PropagationSettings propagationSettings{3, 3, 0, 0};
     createCustomScreen(propagationSettings);
     enableEventInputListener();
     he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color::Blue);
-    button1.setText("Click");
+    button1.setText("Click once");
 
     mainPropagationLayer->addButton(std::make_shared<he::gfx::draw::Button>(button1));
     auto buttons = mainPropagationLayer->getButtons();
@@ -51,7 +51,7 @@ TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateWithDifferent
         const std::string iterator = std::to_string(i+1);
         const he::gfx::draw::ButtonCallback callback = [button = buttons[i], iterator](){
             button->setText("button_" + iterator);
-            button->setCallback([](){}, window::Mouse::Button::Left);
+            button->removeCallback(window::Mouse::Button::Left);
         };
         buttons[i]->setCallback(callback, window::Mouse::Button::Left);
     }

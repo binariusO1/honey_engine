@@ -69,6 +69,34 @@ TEST_F(ButtonTests, construction_whenCreate_shouldCreateWithoutError)
     createSut();
 }
 
+TEST_F(ButtonTests, setCallback_whenSetCallbackAndRemove_shouldReturnNothing)
+{
+    expectInitCalls();
+    he::window::Event::MouseButtonAction event{he::window::Mouse::Button::Left, 50, 50};
+    unsigned int numberToSet{0};    
+
+    createSut();
+    sut->setCallback([&numberToSet](){numberToSet=123;}, window::Mouse::Button::Left);
+    sut->removeCallback(window::Mouse::Button::Left);
+
+    ASSERT_EQ(sut->onMauseButtonPressed(event), false);
+    ASSERT_EQ(numberToSet, 0);
+}
+
+TEST_F(ButtonTests, setCallback_whenSetCallbackTwiceForTheSameButton_shouldRemoveFirstAndAddSecond)
+{
+    expectInitCalls();
+    he::window::Event::MouseButtonAction event{he::window::Mouse::Button::Left, 50, 50};
+    unsigned int numberToSet{0};    
+
+    createSut();
+    sut->setCallback([&numberToSet](){numberToSet=123;}, window::Mouse::Button::Left);
+    sut->setCallback([&numberToSet](){numberToSet=125;}, window::Mouse::Button::Left);
+
+    ASSERT_EQ(sut->onMauseButtonPressed(event), true);
+    ASSERT_EQ(numberToSet, 125);
+}
+
 TEST_F(ButtonTests, onMauseButtonPressed_whenButtonPressedInsideAndCallbackButtonDefined_shouldReturnTrue)
 {
     expectInitCalls();
@@ -123,4 +151,6 @@ TEST_F(ButtonTests, setOriginInCenter_whenSetOriginInCenterAfterSetPosition_shou
     sut->setPosition(position);
     sut->setOriginInCenter();
 }
+
+
 } // namespace he::gfx::draw

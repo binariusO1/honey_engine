@@ -45,7 +45,21 @@ void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings
 //////////////////////////////////////////////////////////////////////
 void Button::setCallback(const ButtonCallback& callback, const window::Mouse::Button button)
 {
+    removeCallback(button);
     m_callbackMap.insert(std::make_pair(button, callback));
+}
+
+
+//////////////////////////////////////////////////////////////////////
+void Button::removeCallback(const window::Mouse::Button button)
+{
+    auto it = m_callbackMap.find(button);
+
+    if (it != m_callbackMap.end())
+    {
+        m_callbackMap.erase(it->first);
+        LOG_DEBUG << "Remove callback button: " << he::window::toString(button);
+    }
 }
 
 
