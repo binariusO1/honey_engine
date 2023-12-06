@@ -51,9 +51,9 @@ TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateWithDifferent
         const std::string iterator = std::to_string(i+1);
         const he::gfx::draw::ButtonCallback callback = [button = buttons[i], iterator](){
             button->setText("button_" + iterator);
-            button->removeCallback(window::Mouse::Button::Left);
+            button->removeCallback(window::Event(window::Event::mouseButtonPressed, window::Event::MouseMoveEvent{window::Mouse::Button::Left}));
         };
-        buttons[i]->setCallback(callback, window::Mouse::Button::Left);
+        buttons[i]->setCallback(callback, window::Event(window::Event::mouseButtonPressed, window::Event::MouseMoveEvent{window::Mouse::Button::Left}));
     }
 
     display(500);

@@ -13,6 +13,7 @@ namespace gfx
 namespace draw
 {
 using ButtonCallback = std::function<void()>;
+using ButtonEventCallbackMap = std::unordered_map<window::Event, ButtonCallback, window::EventHasher>;
 
 class Button : public draw::Sprite , public draw::IButton
 {
@@ -29,8 +30,8 @@ public:
     void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) override;
 
 public:
-    void setCallback(const ButtonCallback& callback, const window::Mouse::Button mouseButton);
-    void removeCallback(const window::Mouse::Button mouseButton);
+    void setCallback(const ButtonCallback& callback, const window::Event event);
+    void removeCallback(const window::Event event);
     bool onMauseButtonPressed(const he::window::Event::MouseButtonAction&) override;
     bool onMouseCursorMoved(const he::window::Event::MouseMoveEvent&) override;
 
@@ -45,7 +46,7 @@ private:
 
 private:
     std::unique_ptr<Text> m_text{nullptr};
-    std::map<window::Mouse::Button, ButtonCallback> m_callbackMap;
+    ButtonEventCallbackMap m_callbackMap;
 };
 } // namespace draw
 } // namespace gfx

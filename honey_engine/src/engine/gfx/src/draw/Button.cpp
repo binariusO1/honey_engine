@@ -43,22 +43,22 @@ void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings
 
 
 //////////////////////////////////////////////////////////////////////
-void Button::setCallback(const ButtonCallback& callback, const window::Mouse::Button button)
+void Button::setCallback(const ButtonCallback& callback, const window::Event event)
 {
-    removeCallback(button);
-    m_callbackMap.insert(std::make_pair(button, callback));
+    removeCallback(event);
+    m_callbackMap.insert(std::make_pair(event, callback));
 }
 
 
 //////////////////////////////////////////////////////////////////////
-void Button::removeCallback(const window::Mouse::Button button)
+void Button::removeCallback(const window::Event event)
 {
-    auto it = m_callbackMap.find(button);
+    auto it = m_callbackMap.find(event);
 
     if (it != m_callbackMap.end())
     {
         m_callbackMap.erase(it->first);
-        LOG_DEBUG << "Remove callback button: " << he::window::toString(button);
+        LOG_DEBUG << "Remove callback button: " << he::window::toString(event.type);
     }
 }
 
@@ -82,7 +82,9 @@ void Button::setOriginInCenter()
 //////////////////////////////////////////////////////////////////////
 bool Button::onMauseButtonPressed(const he::window::Event::MouseButtonAction& event)
 {
-    auto it = m_callbackMap.find(event.button);
+    he::window::Event e(he::window::Event::mouseButtonPressed, event);
+
+    auto it = m_callbackMap.find(e);
 
     if (it != m_callbackMap.end() and isPointInside(event.x, event.y)) 
     {

@@ -77,7 +77,7 @@ public:
         mouseWheelScrolled,     ///< The mouse wheel was scrolled (data in event.mouseWheelScroll)
         mouseButtonPressed,     ///< A mouse button was pressed (data in event.mouseButton)
         mouseButtonReleased,    ///< A mouse button was released (data in event.mouseButton)
-        mouseMoved,             ///< The mouse cursor moved (data in event.mouseMove)
+        mouseCursorMoved,             ///< The mouse cursor moved (data in event.mouseMove)
         mouseEntered,           ///< The mouse cursor entered the area of the window (no data)
         mouseLeft,              ///< The mouse cursor left the area of the window (no data)
     };
@@ -93,6 +93,10 @@ public:
         MouseButtonAction     mouseButton;          ///< Mouse button event parameters (Event::mouseButtonPressed, Event::mouseButtonReleased)
         MouseWheelScrollEvent mouseWheelScroll;     ///< Mouse wheel event parameters (Event::mouseWheelScrolled)
     };
+
+    Event() = default;
+    Event(const EventType eventType, const MouseMoveEvent event) : type{eventType}, mouseMove{event} {};
+    Event(const EventType eventType, const MouseButtonAction event) : type{eventType}, mouseButton{event} {};
 };
 
 inline const char* toString(const Event::EventType& type)
@@ -111,7 +115,7 @@ inline const char* toString(const Event::EventType& type)
         case Event::EventType::mouseWheelScrolled: return "mouseWheelScrolled";
         case Event::EventType::mouseButtonPressed: return "mouseButtonPressed";
         case Event::EventType::mouseButtonReleased: return "mouseButtonReleased";
-        case Event::EventType::mouseMoved: return "mouseMoved";
+        case Event::EventType::mouseCursorMoved: return "mouseCursorMoved";
         case Event::EventType::mouseEntered: return "mouseEntered";
         case Event::EventType::mouseLeft: return "mouseLeft";
         default: return "None";

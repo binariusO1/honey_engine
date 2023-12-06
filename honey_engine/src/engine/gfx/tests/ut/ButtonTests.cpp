@@ -72,51 +72,57 @@ TEST_F(ButtonTests, construction_whenCreate_shouldCreateWithoutError)
 TEST_F(ButtonTests, setCallback_whenSetCallbackAndRemove_shouldReturnNothing)
 {
     expectInitCalls();
-    he::window::Event::MouseButtonAction event{he::window::Mouse::Button::Left, 50, 50};
+    he::window::Event::MouseButtonAction mouseButtonAction{he::window::Mouse::Button::Left, 50, 50};
+    he::window::Event event(he::window::Event::mouseButtonPressed, mouseButtonAction);
     unsigned int numberToSet{0};    
 
     createSut();
-    sut->setCallback([&numberToSet](){numberToSet=123;}, window::Mouse::Button::Left);
-    sut->removeCallback(window::Mouse::Button::Left);
+    sut->setCallback([&numberToSet](){numberToSet=123;}, event);
+    sut->removeCallback(event);
 
-    ASSERT_EQ(sut->onMauseButtonPressed(event), false);
+    ASSERT_EQ(sut->onMauseButtonPressed(mouseButtonAction), false);
     ASSERT_EQ(numberToSet, 0);
 }
 
 TEST_F(ButtonTests, setCallback_whenSetCallbackTwiceForTheSameButton_shouldRemoveFirstAndAddSecond)
 {
     expectInitCalls();
-    he::window::Event::MouseButtonAction event{he::window::Mouse::Button::Left, 50, 50};
+    he::window::Event::MouseButtonAction mouseButtonAction{he::window::Mouse::Button::Left, 50, 50};
+    he::window::Event event(he::window::Event::mouseButtonPressed, mouseButtonAction);
     unsigned int numberToSet{0};    
 
     createSut();
-    sut->setCallback([&numberToSet](){numberToSet=123;}, window::Mouse::Button::Left);
-    sut->setCallback([&numberToSet](){numberToSet=125;}, window::Mouse::Button::Left);
+    sut->setCallback([&numberToSet](){numberToSet=123;}, event);
+    sut->setCallback([&numberToSet](){numberToSet=125;}, event);
 
-    ASSERT_EQ(sut->onMauseButtonPressed(event), true);
+    ASSERT_EQ(sut->onMauseButtonPressed(mouseButtonAction), true);
     ASSERT_EQ(numberToSet, 125);
 }
 
 TEST_F(ButtonTests, onMauseButtonPressed_whenButtonPressedInsideAndCallbackButtonDefined_shouldReturnTrue)
 {
     expectInitCalls();
-    he::window::Event::MouseButtonAction event{he::window::Mouse::Button::Left, 1, 99};
+    he::window::Event::MouseButtonAction mouseButtonAction{he::window::Mouse::Button::Left, 1, 99};
+    he::window::Event event(he::window::Event::mouseButtonPressed, mouseButtonAction);
+    event.mouseButton = mouseButtonAction;
 
     createSut();
-    sut->setCallback([](){}, window::Mouse::Button::Left);
+    sut->setCallback([](){}, event);
 
-    ASSERT_EQ(sut->onMauseButtonPressed(event), true);
+    ASSERT_EQ(sut->onMauseButtonPressed(mouseButtonAction), true);
 }
 
 TEST_F(ButtonTests, onMauseButtonPressed_whenButtonPressedOutsideAndCallbackButtonDefined_shouldReturnFalse)
 {
     expectInitCalls();
-    he::window::Event::MouseButtonAction event{he::window::Mouse::Button::Left, 101, 101};
+    he::window::Event::MouseButtonAction mouseButtonAction{he::window::Mouse::Button::Left, 101, 101};
+    he::window::Event event(he::window::Event::mouseButtonPressed, mouseButtonAction);
+    event.mouseButton = mouseButtonAction;
 
     createSut();
-    sut->setCallback([](){}, window::Mouse::Button::Left);
+    sut->setCallback([](){}, event);
 
-    ASSERT_EQ(sut->onMauseButtonPressed(event), false);
+    ASSERT_EQ(sut->onMauseButtonPressed(mouseButtonAction), false);
 }
 
 TEST_F(ButtonTests, onMauseButtonPressed_whenButtonPressedInside_shouldReturnFalse)

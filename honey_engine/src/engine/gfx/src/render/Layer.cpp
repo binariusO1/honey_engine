@@ -210,7 +210,7 @@ void Layer::process_event(const he::window::Event& event)
         case window::Event::EventType::mouseButtonPressed:
             onMauseButtonPressed(event.mouseButton);
             return;
-        case window::Event::EventType::mouseMoved:
+        case window::Event::EventType::mouseCursorMoved:
             onMouseCursorMoved(event.mouseMove);
             return;
         default:

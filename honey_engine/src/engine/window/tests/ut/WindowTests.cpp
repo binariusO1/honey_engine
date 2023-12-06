@@ -427,7 +427,7 @@ TEST_F(WindowTests, whenPollEventDontCatchAnyEventType_shouldProcessSingleEventA
     sut->enableEvents();
     sut->update(event);
 
-    ASSERT_EQ(event.type, he::window::Event::EventType::mouseMoved);
+    ASSERT_EQ(event.type, he::window::Event::EventType::mouseCursorMoved);
     ASSERT_EQ(event.mouseMove.x, x);
     ASSERT_EQ(event.mouseMove.y, y);
 }

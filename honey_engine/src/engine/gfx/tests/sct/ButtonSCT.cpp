@@ -94,7 +94,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
         }
         textChanged = not textChanged;
     };
-    but1->setCallback(callback, window::Mouse::Button::Left);
+    but1->setCallback(callback, window::Event(window::Event::mouseButtonPressed, window::Event::MouseMoveEvent{window::Mouse::Button::Left}));
 
     addButtonToMainLayer(but1);
 
@@ -123,7 +123,8 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
         customText.setCharacterSize(++characterSize);
             but1->setText(customText);
     };
-    but1->setCallback(callback, window::Mouse::Button::Left);
+
+    but1->setCallback(callback, window::Event(window::Event::mouseButtonPressed, window::Event::MouseMoveEvent{window::Mouse::Button::Left}));
 
     addButtonToMainLayer(but1);
 
@@ -135,12 +136,12 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseMoveEvent_shouldRunCallbackAndChangeCol
     createCustomScreen();
     enableEventInputListener();
     std::shared_ptr<he::gfx::draw::Button> button = std::make_shared<he::gfx::draw::Button>(createCustomButtonInWindowCenter());
-    LOG_THIS_1;
+
     he::gfx::draw::ButtonCallback callback = [&button](){
             button->setColor(gfx::Color::Red);
     };
 
-    button->setCallback(callback, window::Mouse::Button::Left);
+    button->setCallback(callback, window::Event(window::Event::mouseButtonPressed, window::Event::MouseMoveEvent{window::Mouse::Button::Left}));
     addButtonToMainLayer(button);
 
     display(500);

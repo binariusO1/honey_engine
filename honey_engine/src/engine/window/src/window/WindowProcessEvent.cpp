@@ -87,7 +87,7 @@ bool Window::process_event(he::window::Event& event)
         case Event::EventType::mouseWheelScrolled:
         case Event::EventType::mouseButtonPressed:
         case Event::EventType::mouseButtonReleased:
-        case Event::EventType::mouseMoved:
+        case Event::EventType::mouseCursorMoved:
         case Event::EventType::mouseEntered:
         case Event::EventType::mouseLeft:
             LOG_WARNING << "Not implemented yet";
@@ -230,7 +230,7 @@ void Window::fillEvent(he::window::Event& event)
     if (isMouseMoved() and event.type == 0)
     {
         event.mouseMove = he::window::Event::MouseMoveEvent{m_currentMousePosition.first, m_currentMousePosition.second};
-        event.type = he::window::Event::EventType::mouseMoved;
+        event.type = he::window::Event::EventType::mouseCursorMoved;
         m_currentEvent = event;
     }
 }
