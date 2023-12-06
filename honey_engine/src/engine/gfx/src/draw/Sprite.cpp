@@ -2,7 +2,7 @@
 
 #include "gfx/geometry/figures/Rectangle.hpp"
 #include "gfx/geometry/Size2d.hpp"
-#include "gfx/graphic/ITexture.hpp"
+#include "gfx/graphic/Texture.hpp"
 #include "gfx/render/Render.hpp"
 #include "logger/Logger.hpp"
 

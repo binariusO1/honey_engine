@@ -210,6 +210,9 @@ void Layer::process_event(const he::window::Event& event)
         case window::Event::EventType::mouseButtonPressed:
             onMauseButtonPressed(event.mouseButton);
             return;
+        case window::Event::EventType::mouseMoved:
+            onMouseCursorMoved(event.mouseMove);
+            return;
         default:
             break;
     }
@@ -228,6 +231,18 @@ void Layer::onMauseButtonPressed(const he::window::Event::MouseButtonAction& eve
     }
 }
 
+
+////////////////////////////////////////////////////////////
+void Layer::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& event)
+{
+    for (const auto& button : m_buttons)
+    {
+        if (button->onMouseCursorMoved(event) and m_firstOnMauseButtonPressed)
+        {
+            return;
+        }
+    }
+}
 } // namespace render
 } // namespace gfx
 } // namespace he

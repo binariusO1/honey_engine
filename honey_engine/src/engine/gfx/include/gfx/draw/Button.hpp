@@ -32,7 +32,8 @@ public:
     void setCallback(const ButtonCallback& callback, const window::Mouse::Button mouseButton);
     void removeCallback(const window::Mouse::Button mouseButton);
     bool onMauseButtonPressed(const he::window::Event::MouseButtonAction&) override;
-    
+    bool onMouseCursorMoved(const he::window::Event::MouseMoveEvent&) override;
+
 public:
     void setText(const std::string&);
     void setText(const draw::Text&);

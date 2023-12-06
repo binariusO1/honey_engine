@@ -16,7 +16,7 @@ public:
 
     void createSut()
     {
-        sut = std::make_unique<he::gfx::draw::Shape>("shape", *rectangle);
+        sut = std::make_unique<he::gfx::draw::Shape>("shape", rectangle);
     }
 
     std::unique_ptr<he::gfx::draw::Shape> sut;

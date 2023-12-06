@@ -20,7 +20,7 @@ int main()
     std::unique_ptr<he::gfx::render::IRender> render = std::make_unique<he::gfx::render::Render>();
 
     he::gfx::geometry::figures::Rectangle rect(100.0);
-    std::shared_ptr<he::gfx::draw::Shape> rectangle1 = std::make_shared<he::gfx::draw::Shape>("rect1", rect);
+    std::shared_ptr<he::gfx::draw::Shape> rectangle1 = std::make_shared<he::gfx::draw::Shape>("rect1", std::make_shared<he::gfx::geometry::figures::Rectangle>(rect));
     rectangle1->setPosition({512, 350});
 
     std::shared_ptr<he::gfx::render::Layer> layer1 = std::make_shared<he::gfx::render::Layer>("layer_1");

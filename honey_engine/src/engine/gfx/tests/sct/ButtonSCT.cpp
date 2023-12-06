@@ -21,6 +21,15 @@ public:
     {
     }
     ~ButtonSCT() = default;
+
+    draw::Button createCustomButtonInWindowCenter()
+    {
+        he::gfx::draw::Button button1("Button1", t_buttonSize);
+        button1.setColor(he::gfx::Color::Magenta);
+        button1.setPosition({f_defaultWindowWidth/2.f, f_defaultWindowHeight/2.f});
+        button1.setOriginInCenter();
+        return button1;
+    }
 };
 
 TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefaultTextToCustomPosition_shouldNotGetUndefinedMouseButtonEvent)
@@ -117,6 +126,22 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
     but1->setCallback(callback, window::Mouse::Button::Left);
 
     addButtonToMainLayer(but1);
+
+    display(500);
+}
+
+TEST_F(ButtonSCT, eventTest_afterGetMouseMoveEvent_shouldRunCallbackAndChangeColor)
+{
+    createCustomScreen();
+    enableEventInputListener();
+    std::shared_ptr<he::gfx::draw::Button> button = std::make_shared<he::gfx::draw::Button>(createCustomButtonInWindowCenter());
+    LOG_THIS_1;
+    he::gfx::draw::ButtonCallback callback = [&button](){
+            button->setColor(gfx::Color::Red);
+    };
+
+    button->setCallback(callback, window::Mouse::Button::Left);
+    addButtonToMainLayer(button);
 
     display(500);
 }

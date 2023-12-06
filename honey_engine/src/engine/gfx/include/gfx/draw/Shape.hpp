@@ -16,7 +16,7 @@ namespace draw
 class Shape : public IShape
 {
 public:
-    Shape(const std::string&, const geometry::figures::Figure&);
+    Shape(const std::string&, const std::shared_ptr<geometry::figures::Figure>);
     Shape(const Shape&);
     ~Shape() override;
 
@@ -49,7 +49,7 @@ protected:
     void updateVertexArray();
 
 protected:
-    const geometry::figures::Figure& m_figure;
+    const std::shared_ptr<geometry::figures::Figure> m_figure{nullptr};
     bool m_closedVertexArray{false};
 };
 } // namespace draw

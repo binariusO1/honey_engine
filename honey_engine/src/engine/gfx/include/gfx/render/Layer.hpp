@@ -42,6 +42,7 @@ public:
 
 private:
     void onMauseButtonPressed(const he::window::Event::MouseButtonAction&);
+    void onMouseCursorMoved(const he::window::Event::MouseMoveEvent&);
 
 protected:
     ButtonList m_buttons;

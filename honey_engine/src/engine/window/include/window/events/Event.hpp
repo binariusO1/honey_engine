@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
+#include <string>
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
 #include "WindowState.hpp"
@@ -115,6 +117,21 @@ inline const char* toString(const Event::EventType& type)
         default: return "None";
     }
 }
+
+struct EventHasher
+{
+    std::size_t operator()(const Event& event) const
+    {
+        std::size_t h1 = std::hash<std::string>{}(toString(event.type));
+
+        if (event.type == Event::EventType::mouseButtonPressed)
+        {
+            std::size_t h2 = std::hash<std::string>{}(toString(event.mouseButton.button));
+            return h1 ^ (h2 << 1);
+        }
+        return h1 << 1;
+    }
+};
 
 inline bool operator ==(const Event& left, const Event& right)
 {
