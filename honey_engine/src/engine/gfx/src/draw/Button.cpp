@@ -80,33 +80,18 @@ void Button::setOriginInCenter()
 
 
 //////////////////////////////////////////////////////////////////////
-bool Button::onMauseButtonPressed(const he::window::Event::MouseButtonAction& event)
+bool Button::onMauseButtonPressed(const he::window::Event::MouseButtonAction& mouseButtonAction)
 {
-    auto it = m_callbackMap.find(he::window::Event(he::window::Event::mouseButtonPressed, event));
-
-    if (it != m_callbackMap.end() and isPointInside(event.x, event.y)) 
-    {
-        LOG_DEBUG << "Process event: MouseButtonAction, layer: " << m_context.layerName << ", button: " << m_context.name;
-        it->second();
-        return true;
-    } 
-    return false;
+    window::Event event{he::window::Event(he::window::Event::mouseButtonPressed, mouseButtonAction)};
+    return checkEvent(event, {mouseButtonAction.x, mouseButtonAction.y});
 }
 
 
 ////////////////////////////////////////////////////////////
-bool Button::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& event)
+bool Button::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& mouseMoveEvent)
 {
-    auto it = m_callbackMap.find(he::window::Event(he::window::Event::mouseCursorMoved));
-
-    if (it != m_callbackMap.end() and isPointInside(event.x, event.y)) 
-    {
-        LOG_DEBUG << "Process event: mouseCursorMoved, layer: " << m_context.layerName << ", button: " << m_context.name;
-        it->second();
-        return true;
-    } 
-
-    return false;
+    window::Event event{he::window::Event(he::window::Event::mouseCursorMoved)};
+    return checkEvent(event, {mouseMoveEvent.x, mouseMoveEvent.y});
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -116,6 +101,7 @@ void Button::setText(const std::string& text)
     {
         setDefaultTextSettings();
     }
+
     m_text->setString(text);
     updateTextPosition();
 }
@@ -172,6 +158,20 @@ bool Button::isPointInside(const int x, const int y)
 }
 
 
+//////////////////////////////////////////////////////////////////////
+bool Button::checkEvent(const window::Event& event, const gfx::geometry::Point2Di point)
+{
+    auto it = m_callbackMap.find(event);
+
+    if (it != m_callbackMap.end() and isPointInside(point.x, point.y)) 
+    {
+        LOG_DEBUG << "Process event: " << window::toString(event.type) << ", layer: " << m_context.layerName << ", button: " << m_context.name;
+        it->second();
+        return true;
+    } 
+
+    return false;
+}
 } // namespace draw
 } // namespace gfx
 } // namespace he

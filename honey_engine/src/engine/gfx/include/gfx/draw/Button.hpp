@@ -43,6 +43,7 @@ private:
     void updateTextPosition();
     void setDefaultTextSettings();
     bool isPointInside(const int x, const int y);
+    bool checkEvent(const window::Event& event, const gfx::geometry::Point2Di point);
 
 private:
     std::unique_ptr<Text> m_text{nullptr};
