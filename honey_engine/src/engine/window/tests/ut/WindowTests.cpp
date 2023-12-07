@@ -307,6 +307,7 @@ TEST_P(WindowKeyEventTests, whenPollEventCatchKeyEventTypeWithEnabledEvents_shou
             callback(window, key, 0, action, 0);
         }));
     EXPECT_CALL(*mock, setMouseButtonCallback(A<GLFWmousebuttonfun>()));
+    EXPECT_CALL(*mock, setMouseMovedCallback(A<GLFWcursorposfun>()));
     EXPECT_CALL(*mock, setScrollCallback(A<GLFWscrollfun>()));
 
     sut->enableEvents();
@@ -346,6 +347,7 @@ TEST_P(WindowMouseButtonEventTests, whenPollEventCatchMouseButtonEventTypeWithEn
             callback(window, button, action, 0);
         }));
     EXPECT_CALL(*mock, setKeyCallback(A<GLFWkeyfun>()));
+    EXPECT_CALL(*mock, setMouseMovedCallback(A<GLFWcursorposfun>()));
     EXPECT_CALL(*mock, setScrollCallback(A<GLFWscrollfun>()));
 
     sut->enableEvents();
@@ -387,6 +389,7 @@ TEST_P(WindowMouseScrollEventTests, whenPollEventCatchMouseScrollEventTypeWithEn
             callback(window, xoffset, yoffset);
         }));
     EXPECT_CALL(*mock, setMouseButtonCallback(A<GLFWmousebuttonfun>()));
+    EXPECT_CALL(*mock, setMouseMovedCallback(A<GLFWcursorposfun>()));
     EXPECT_CALL(*mock, setKeyCallback(A<GLFWkeyfun>()));
 
     sut->enableEvents();
@@ -422,6 +425,7 @@ TEST_F(WindowTests, whenPollEventDontCatchAnyEventType_shouldProcessSingleEventA
 
     EXPECT_CALL(*mock, setMouseButtonCallback(A<GLFWmousebuttonfun>()));
     EXPECT_CALL(*mock, setKeyCallback(A<GLFWkeyfun>()));
+    EXPECT_CALL(*mock, setMouseMovedCallback(A<GLFWcursorposfun>()));
     EXPECT_CALL(*mock, setScrollCallback(A<GLFWscrollfun>()));
 
     sut->enableEvents();
@@ -458,6 +462,7 @@ TEST_F(WindowTests, whenCallbackInputEventCall_shouldNotifyAllListeners)
             callback(window, button, action, 0);
         }));
     EXPECT_CALL(*mock, setKeyCallback(A<GLFWkeyfun>()));
+    EXPECT_CALL(*mock, setMouseMovedCallback(A<GLFWcursorposfun>()));
     EXPECT_CALL(*mock, setScrollCallback(A<GLFWscrollfun>()));
 
     sut->enableEvents();
@@ -496,6 +501,7 @@ TEST_F(WindowTests, whenCallbackInputEventCall_shouldNotifyRemainedListeners)
             callback(window, button, action, 0);
         }));
     EXPECT_CALL(*mock, setKeyCallback(A<GLFWkeyfun>()));
+    EXPECT_CALL(*mock, setMouseMovedCallback(A<GLFWcursorposfun>()));
     EXPECT_CALL(*mock, setScrollCallback(A<GLFWscrollfun>()));
 
     sut->enableEvents();

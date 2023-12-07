@@ -90,7 +90,6 @@ bool Window::process_event(he::window::Event& event)
         case Event::EventType::mouseCursorMoved:
         case Event::EventType::mouseEntered:
         case Event::EventType::mouseLeft:
-            LOG_WARNING << "Not implemented yet";
         default:
             return false;
     }
@@ -191,6 +190,16 @@ void Window::handleScrollEvent(double xoffset, double yoffset)
         event.mouseWheelScroll.y = yoffset;
     }
     event.type = he::window::Event::EventType::mouseWheelScrolled;
+    m_currentEvent = event;
+    notifyListeners(event);
+}
+
+
+////////////////////////////////////////////////////////////
+void Window::handleMouseMoveEvent(double xPos, double yPos)
+{
+    auto yPosCorrected = m_windowSize.height - static_cast<int>(yPos);
+    he::window::Event event((window::Event::mouseCursorMoved), window::Event::MouseMoveEvent{static_cast<int>(xPos), yPosCorrected});
     m_currentEvent = event;
     notifyListeners(event);
 }

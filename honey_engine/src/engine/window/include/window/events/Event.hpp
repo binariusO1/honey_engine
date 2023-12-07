@@ -95,6 +95,7 @@ public:
     };
 
     Event() = default;
+    Event(const EventType eventType) : type{eventType} {};
     Event(const EventType eventType, const MouseMoveEvent event) : type{eventType}, mouseMove{event} {};
     Event(const EventType eventType, const MouseButtonAction event) : type{eventType}, mouseButton{event} {};
 };
@@ -139,7 +140,7 @@ struct EventHasher
 
 inline bool operator ==(const Event& left, const Event& right)
 {
-    return (left.type == right.type) and (left.key.code == right.key.code);
+    return (left.type == right.type);
 }
 } // namespace window
 } // namespace he

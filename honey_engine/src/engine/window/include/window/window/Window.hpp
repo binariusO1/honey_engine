@@ -68,6 +68,7 @@ private:
     void handleKeyEvent(int, int, int, int);
     void handleMouseEvent(int, int);
     void handleScrollEvent(double, double);
+    void handleMouseMoveEvent(double, double);
     void notifyListeners(const he::window::Event&) override;
 
     GLFWwindow* m_window;

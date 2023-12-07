@@ -51,9 +51,33 @@ TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateWithDifferent
         const std::string iterator = std::to_string(i+1);
         const he::gfx::draw::ButtonCallback callback = [button = buttons[i], iterator](){
             button->setText("button_" + iterator);
-            button->removeCallback(window::Event(window::Event::mouseButtonPressed, window::Event::MouseMoveEvent{window::Mouse::Button::Left}));
+            button->removeCallback(window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}));
         };
-        buttons[i]->setCallback(callback, window::Event(window::Event::mouseButtonPressed, window::Event::MouseMoveEvent{window::Mouse::Button::Left}));
+        buttons[i]->setCallback(callback, window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}));
+    }
+
+    display(500);
+}
+
+TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateAndReceiveEvents)
+{
+    PropagationSettings propagationSettings{10, 13, 10, 10};
+    createCustomScreen(propagationSettings);
+    enableEventInputListener();
+    he::gfx::draw::Button button1("Button1", he::gfx::geometry::Size2Dpxl{100, 50});
+    button1.setColor(he::gfx::Color::Red);
+
+    mainPropagationLayer->addButton(std::make_shared<he::gfx::draw::Button>(button1));
+    auto buttons = mainPropagationLayer->getButtons();
+
+    for (std::size_t i = 0 ; i < buttons.size() ; ++i)
+    {
+        const std::string iterator = std::to_string(i+1);
+        const he::gfx::draw::ButtonCallback callback = [button = buttons[i], iterator](){
+            button->setColor(he::gfx::Color::Green);
+            button->removeCallback(window::Event(window::Event::mouseCursorMoved));
+        };
+        buttons[i]->setCallback(callback, window::Event(window::Event::mouseCursorMoved));
     }
 
     display(500);

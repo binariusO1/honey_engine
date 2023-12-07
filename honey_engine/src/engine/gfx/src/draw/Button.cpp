@@ -58,7 +58,7 @@ void Button::removeCallback(const window::Event event)
     if (it != m_callbackMap.end())
     {
         m_callbackMap.erase(it->first);
-        LOG_DEBUG << "Remove callback button: " << he::window::toString(event.type);
+        LOG_DEBUG << "Remove callback: " << he::window::toString(event.type);
     }
 }
 
@@ -82,9 +82,7 @@ void Button::setOriginInCenter()
 //////////////////////////////////////////////////////////////////////
 bool Button::onMauseButtonPressed(const he::window::Event::MouseButtonAction& event)
 {
-    he::window::Event e(he::window::Event::mouseButtonPressed, event);
-
-    auto it = m_callbackMap.find(e);
+    auto it = m_callbackMap.find(he::window::Event(he::window::Event::mouseButtonPressed, event));
 
     if (it != m_callbackMap.end() and isPointInside(event.x, event.y)) 
     {
@@ -99,6 +97,15 @@ bool Button::onMauseButtonPressed(const he::window::Event::MouseButtonAction& ev
 ////////////////////////////////////////////////////////////
 bool Button::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& event)
 {
+    auto it = m_callbackMap.find(he::window::Event(he::window::Event::mouseCursorMoved));
+
+    if (it != m_callbackMap.end() and isPointInside(event.x, event.y)) 
+    {
+        LOG_DEBUG << "Process event: mouseCursorMoved, layer: " << m_context.layerName << ", button: " << m_context.name;
+        it->second();
+        return true;
+    } 
+
     return false;
 }
 

@@ -42,15 +42,24 @@ void UniquePropagationLayer::addButton(const std::shared_ptr<gfx::draw::Button>&
 
     for (; x <= numX; ++x)
     {
-        xPosition = firstButtonPosition.x + (button->getSize().width * (x - 1)) + (m_propagationSettings.distanceX * x);
+        xPosition = firstButtonPosition.x + (button->getSize().width * (x - 1)) + (m_propagationSettings.distanceX * (x-1));
 
         for (; y <= numY ; ++y)
         {
-            yPosition = firstButtonPosition.y + (button->getSize().height * (y - 1)) + (m_propagationSettings.distanceY * y);
+            yPosition = firstButtonPosition.y + (button->getSize().height * (y - 1)) + (m_propagationSettings.distanceY * (y-1));
 
-            if (x > 1 or (x == 1 and y > 1))
+            if (x > 1 and y > 1)
             {
                 addNewButton(button.get(), {xPosition, yPosition}, {x, y});
+            }
+            else if (x == 1 and y > 1)
+            {
+                addNewButton(button.get(), {firstButtonPosition.x, yPosition}, {x, y});
+            }
+            
+            else if (x > 1 and y == 1)
+            {
+                addNewButton(button.get(), {xPosition, firstButtonPosition.y}, {x, y});
             }
         }
         y = 1;

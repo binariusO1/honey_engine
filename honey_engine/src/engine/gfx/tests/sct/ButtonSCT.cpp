@@ -94,7 +94,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
         }
         textChanged = not textChanged;
     };
-    but1->setCallback(callback, window::Event(window::Event::mouseButtonPressed, window::Event::MouseMoveEvent{window::Mouse::Button::Left}));
+    but1->setCallback(callback, window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}));
 
     addButtonToMainLayer(but1);
 
@@ -124,9 +124,32 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
             but1->setText(customText);
     };
 
-    but1->setCallback(callback, window::Event(window::Event::mouseButtonPressed, window::Event::MouseMoveEvent{window::Mouse::Button::Left}));
+    but1->setCallback(callback, window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}));
 
     addButtonToMainLayer(but1);
+
+    display(500);
+}
+
+TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunProperCallbackAndChangeText)
+{
+    createCustomScreen();
+    enableEventInputListener();
+    std::shared_ptr<he::gfx::draw::Button> button = std::make_shared<he::gfx::draw::Button>(createCustomButtonInWindowCenter());
+
+    he::gfx::draw::ButtonCallback callbackLeft = [&button](){
+        button->setText("Left button");
+        button->removeCallback(window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left})); // TODO - zmienić event na predefiniowany enum żeby fraza była krótsza
+    };
+
+    he::gfx::draw::ButtonCallback callbackRight = [&button](){
+        button->setText("Right button");
+        button->removeCallback(window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Right}));
+    };
+
+    button->setCallback(callbackLeft, window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}));
+    button->setCallback(callbackRight, window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Right}));
+    addButtonToMainLayer(button);
 
     display(500);
 }
@@ -138,10 +161,11 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseMoveEvent_shouldRunCallbackAndChangeCol
     std::shared_ptr<he::gfx::draw::Button> button = std::make_shared<he::gfx::draw::Button>(createCustomButtonInWindowCenter());
 
     he::gfx::draw::ButtonCallback callback = [&button](){
-            button->setColor(gfx::Color::Red);
+        button->setColor(gfx::Color::Green);
+        button->removeCallback(window::Event(window::Event::mouseCursorMoved));
     };
 
-    button->setCallback(callback, window::Event(window::Event::mouseButtonPressed, window::Event::MouseMoveEvent{window::Mouse::Button::Left}));
+    button->setCallback(callback, window::Event(window::Event::mouseCursorMoved));
     addButtonToMainLayer(button);
 
     display(500);

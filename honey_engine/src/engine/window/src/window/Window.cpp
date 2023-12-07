@@ -182,6 +182,12 @@ void Window::enableEvents()
         windowPtr->handleMouseEvent(button, action);
     });
 
+    m_glfwWrapper->setMouseMovedCallback([](GLFWwindow* window, double xpos, double ypos)
+    {
+        he::window::Window* windowPtr = (he::window::Window*)glfwGetWindowUserPointer(window);
+        windowPtr->handleMouseMoveEvent(xpos, ypos);
+    });
+
     m_glfwWrapper->setScrollCallback([](GLFWwindow* window, double xoffset, double yoffset)
     {
         he::window::Window* windowPtr = (he::window::Window*)glfwGetWindowUserPointer(window);
