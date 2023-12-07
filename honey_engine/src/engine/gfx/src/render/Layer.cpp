@@ -208,7 +208,10 @@ void Layer::process_event(const he::window::Event& event)
     switch (event.type)
     {
         case window::Event::EventType::mouseButtonPressed:
-            onMauseButtonPressed(event.mouseButton);
+            onMouseButtonPressed(event.mouseButton);
+            return;
+        case window::Event::EventType::mouseButtonReleased:
+            onMouseButtonReleased(event.mouseButton);
             return;
         case window::Event::EventType::mouseCursorMoved:
             onMouseCursorMoved(event.mouseMove);
@@ -220,11 +223,24 @@ void Layer::process_event(const he::window::Event& event)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::onMauseButtonPressed(const he::window::Event::MouseButtonAction& event)
+void Layer::onMouseButtonPressed(const he::window::Event::MouseButtonAction& event)
 {
     for (const auto& button : m_buttons)
     {
-        if (button->onMauseButtonPressed(event) and m_firstOnMauseButtonPressed)
+        if (button->onMouseButtonPressed(event) and m_firstonMouseButtonPressed)
+        {
+            return;
+        }
+    }
+}
+
+
+////////////////////////////////////////////////////////////
+void Layer::onMouseButtonReleased(const he::window::Event::MouseButtonAction& event)
+{
+    for (const auto& button : m_buttons)
+    {
+        if (button->onMouseButtonReleased(event) and m_firstonMouseButtonPressed)
         {
             return;
         }
@@ -237,7 +253,7 @@ void Layer::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& event)
 {
     for (const auto& button : m_buttons)
     {
-        if (button->onMouseCursorMoved(event) and m_firstOnMauseButtonPressed)
+        if (button->onMouseCursorMoved(event) and m_firstonMouseButtonPressed)
         {
             return;
         }

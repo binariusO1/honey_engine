@@ -155,7 +155,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunProperCallbackAndC
     display(500);
 }
 
-TEST_F(ButtonSCT, eventTest_afterGetMouseMoveEvent_shouldRunCallbackAndChangeColor)
+TEST_F(ButtonSCT, eventTest_afterGetMouseMoveEventInside_shouldRunCallbackAndChangeColor)
 {
     createCustomScreen();
     enableEventInputListener();
@@ -169,6 +169,31 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseMoveEvent_shouldRunCallbackAndChangeCol
     };
 
     button->setCallback(callback, window::Event(window::Event::mouseCursorMoved));
+    addButtonToMainLayer(button);
+
+    display(500);
+}
+
+TEST_F(ButtonSCT, eventTest_afterMousePressedAndReleased_shouldRunCallbackAndChangeColor)
+{
+    createCustomScreen();
+    enableEventInputListener();
+    std::shared_ptr<he::gfx::draw::Button> button = std::make_shared<he::gfx::draw::Button>(createCustomButtonInWindowCenter());
+
+    button->setColor(gfx::Color::Red);
+    button->setText("Hold");
+
+    he::gfx::draw::ButtonCallback callbackPressed = [&button](){
+        button->setColor(gfx::Color::Green);
+        button->setText("Release");
+    };
+    he::gfx::draw::ButtonCallback callbackReleased = [&button](){
+        button->setColor(gfx::Color::Red);
+        button->setText("Hold");
+    };
+
+    button->setCallback(callbackPressed, window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}));
+    button->setCallback(callbackReleased, window::Event(window::Event::mouseButtonReleased, window::Event::MouseButtonAction{window::Mouse::Button::Left}));
     addButtonToMainLayer(button);
 
     display(500);

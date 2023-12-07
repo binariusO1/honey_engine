@@ -15,7 +15,8 @@ public:
     virtual ~IButton() = default;
 
 public:
-    virtual bool onMauseButtonPressed(const he::window::Event::MouseButtonAction&) = 0;
+    virtual bool onMouseButtonPressed(const he::window::Event::MouseButtonAction&) = 0;
+    virtual bool onMouseButtonReleased(const he::window::Event::MouseButtonAction&) = 0;
     virtual bool onMouseCursorMoved(const he::window::Event::MouseMoveEvent&) = 0;
 };
 } // namespace draw

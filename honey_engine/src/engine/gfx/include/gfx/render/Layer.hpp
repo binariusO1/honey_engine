@@ -41,7 +41,8 @@ public:
     void process_event(const he::window::Event&) override;
 
 private:
-    void onMauseButtonPressed(const he::window::Event::MouseButtonAction&);
+    void onMouseButtonPressed(const he::window::Event::MouseButtonAction&);
+    void onMouseButtonReleased(const he::window::Event::MouseButtonAction&);
     void onMouseCursorMoved(const he::window::Event::MouseMoveEvent&);
 
 protected:
@@ -49,7 +50,7 @@ protected:
     ShapeList m_shapes; 
     std::set<std::string> m_keys;
     LayersMap m_layers;
-    bool m_firstOnMauseButtonPressed{false};
+    bool m_firstonMouseButtonPressed{false};
 };
 } // namespace render
 } // namespace gfx

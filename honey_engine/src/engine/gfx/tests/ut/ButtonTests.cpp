@@ -84,7 +84,7 @@ TEST_F(ButtonTests, setCallback_whenSetCallbackAndRemove_shouldReturnNothing)
     sut->setCallback([&numberToSet](){numberToSet=123;}, event);
     sut->removeCallback(event);
 
-    ASSERT_EQ(sut->onMauseButtonPressed(mouseButtonAction), false);
+    ASSERT_EQ(sut->onMouseButtonPressed(mouseButtonAction), false);
     ASSERT_EQ(numberToSet, 0);
 }
 
@@ -106,9 +106,9 @@ TEST_F(ButtonTests, setCallback_whenSetDifferentCallbacksAndRemoveChoosen_should
     sut->removeCallback(eventMouseButtonPressedRight);
     sut->removeCallback(eventMouseCursorMoved);
 
-    ASSERT_EQ(sut->onMauseButtonPressed(mouseButtonAction1), true);
+    ASSERT_EQ(sut->onMouseButtonPressed(mouseButtonAction1), true);
     ASSERT_EQ(charToSet, 'L');
-    ASSERT_EQ(sut->onMauseButtonPressed(mouseButtonAction2), false);
+    ASSERT_EQ(sut->onMouseButtonPressed(mouseButtonAction2), false);
     ASSERT_EQ(sut->onMouseCursorMoved(mouseButtonAction3), false);
 }
 
@@ -123,15 +123,15 @@ TEST_F(ButtonTests, setCallback_whenSetCallbackTwiceForTheSameButton_shouldRemov
     sut->setCallback([&numberToSet](){numberToSet=123;}, event);
     sut->setCallback([&numberToSet](){numberToSet=125;}, event);
 
-    ASSERT_EQ(sut->onMauseButtonPressed(mouseButtonAction), true);
+    ASSERT_EQ(sut->onMouseButtonPressed(mouseButtonAction), true);
     ASSERT_EQ(numberToSet, 125);
 }
 
-class ButtonMauseButtonEventTests : public testing::TestWithParam<std::tuple<he::window::Event::MouseButtonAction, bool, he::window::Event, bool>> , public ButtonTestsFixture
+class ButtonMauseButtonPressedEventTests : public testing::TestWithParam<std::tuple<he::window::Event::MouseButtonAction, bool, he::window::Event, bool>> , public ButtonTestsFixture
 {
 };
 
-TEST_P(ButtonMauseButtonEventTests, onMauseButtonPressed_whenMouseEventCome_shouldDoAction)
+TEST_P(ButtonMauseButtonPressedEventTests, onMouseButtonPressed_whenMouseEventCome_shouldDoAction)
 {
     const auto [p_event, p_needSetCallback , p_callbackEvent, p_expectedResult] = GetParam();
     expectInitCalls();
@@ -142,13 +142,15 @@ TEST_P(ButtonMauseButtonEventTests, onMauseButtonPressed_whenMouseEventCome_shou
         sut->setCallback([](){}, p_callbackEvent);
     }
 
-    ASSERT_EQ(sut->onMauseButtonPressed(p_event), p_expectedResult);
+    ASSERT_EQ(sut->onMouseButtonPressed(p_event), p_expectedResult);
 }
 
 INSTANTIATE_TEST_SUITE_P(
     ButtonTests, 
-    ButtonMauseButtonEventTests,
+    ButtonMauseButtonPressedEventTests,
     testing::Values(
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Left, 50, 50}, true,
+            window::Event(window::Event::mouseButtonPressed), false),
         std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Left, 50, 50}, true,
             window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}), true),
         std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Left, 101, 101}, true,
@@ -163,6 +165,45 @@ INSTANTIATE_TEST_SUITE_P(
             window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}), false),
         std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Middle, 50, 50}, true,
             window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Middle}), true)));
+
+class ButtonMauseButtonReleaseEventTests : public testing::TestWithParam<std::tuple<he::window::Event::MouseButtonAction, bool, he::window::Event, bool>> , public ButtonTestsFixture
+{
+};
+
+TEST_P(ButtonMauseButtonReleaseEventTests, onMouseButtonReleased_whenMouseEventCome_shouldDoAction)
+{
+    const auto [p_event, p_needSetCallback , p_callbackEvent, p_expectedResult] = GetParam();
+    expectInitCalls();
+
+    createSut();
+    if (p_needSetCallback)
+    {
+        sut->setCallback([](){}, p_callbackEvent);
+    }
+
+    ASSERT_EQ(sut->onMouseButtonReleased(p_event), p_expectedResult);
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    ButtonTests, 
+    ButtonMauseButtonReleaseEventTests,
+    testing::Values(
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Left, 50, 50}, true,
+            window::Event(window::Event::mouseButtonReleased), false),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Left, 50, 50}, true,
+            window::Event(window::Event::mouseButtonReleased, window::Event::MouseButtonAction{window::Mouse::Button::Left}), true),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Left, 101, 101}, true,
+            window::Event(window::Event::mouseButtonReleased, window::Event::MouseButtonAction{window::Mouse::Button::Left}), false),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Left, 50, 50}, false,
+            window::Event(window::Event::mouseButtonReleased, window::Event::MouseButtonAction{window::Mouse::Button::Left}), false),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Left, 101, 101}, false,
+            window::Event(window::Event::mouseButtonReleased, window::Event::MouseButtonAction{window::Mouse::Button::Left}), false),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Right, 50, 50}, true,
+            window::Event(window::Event::mouseButtonReleased, window::Event::MouseButtonAction{window::Mouse::Button::Right}), true),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Right, 50, 50}, true,
+            window::Event(window::Event::mouseButtonReleased, window::Event::MouseButtonAction{window::Mouse::Button::Left}), false),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Middle, 50, 50}, true,
+            window::Event(window::Event::mouseButtonReleased, window::Event::MouseButtonAction{window::Mouse::Button::Middle}), true)));
 
 class ButtonMauseCursorMovedEventTests : public testing::TestWithParam<std::tuple<he::window::Event::MouseMoveEvent, bool, he::window::Event, bool>> , public ButtonTestsFixture
 {

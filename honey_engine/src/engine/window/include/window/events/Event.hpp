@@ -129,7 +129,7 @@ struct EventHasher
     {
         std::size_t h1 = std::hash<std::string>{}(toString(event.type));
 
-        if (event.type == Event::EventType::mouseButtonPressed)
+        if (event.type == Event::EventType::mouseButtonPressed or event.type == Event::EventType::mouseButtonReleased)
         {
             std::size_t h2 = std::hash<std::string>{}(toString(event.mouseButton.button));
             return h1 ^ (h2 << 1);

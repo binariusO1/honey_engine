@@ -80,9 +80,17 @@ void Button::setOriginInCenter()
 
 
 //////////////////////////////////////////////////////////////////////
-bool Button::onMauseButtonPressed(const he::window::Event::MouseButtonAction& mouseButtonAction)
+bool Button::onMouseButtonPressed(const he::window::Event::MouseButtonAction& mouseButtonAction)
 {
     window::Event event{he::window::Event(he::window::Event::mouseButtonPressed, mouseButtonAction)};
+    return checkEvent(event, {mouseButtonAction.x, mouseButtonAction.y});
+}
+
+
+//////////////////////////////////////////////////////////////////////
+bool Button::onMouseButtonReleased(const he::window::Event::MouseButtonAction& mouseButtonAction)
+{
+    window::Event event{he::window::Event(he::window::Event::mouseButtonReleased, mouseButtonAction)};
     return checkEvent(event, {mouseButtonAction.x, mouseButtonAction.y});
 }
 
@@ -93,6 +101,7 @@ bool Button::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& mouseMo
     window::Event event{he::window::Event(he::window::Event::mouseCursorMoved)};
     return checkEvent(event, {mouseMoveEvent.x, mouseMoveEvent.y});
 }
+
 
 //////////////////////////////////////////////////////////////////////
 void Button::setText(const std::string& text)
@@ -111,7 +120,6 @@ void Button::setText(const std::string& text)
 void Button::setText(const draw::Text& text)
 {
     m_text = std::make_unique<draw::Text>(text);
-    // todo change name function to connect text with button
     updateTextPosition();
 }
 

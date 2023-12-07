@@ -32,7 +32,8 @@ public:
 public:
     void setCallback(const ButtonCallback& callback, const window::Event event);
     void removeCallback(const window::Event event);
-    bool onMauseButtonPressed(const he::window::Event::MouseButtonAction&) override;
+    bool onMouseButtonPressed(const he::window::Event::MouseButtonAction&) override;
+    bool onMouseButtonReleased(const he::window::Event::MouseButtonAction&) override;
     bool onMouseCursorMoved(const he::window::Event::MouseMoveEvent&) override;
 
 public:
