@@ -15,12 +15,9 @@ constexpr he::gfx::geometry::Size2Dpxl t_buttonSize{100, 100};
 
 namespace he::gfx::draw
 {
-class ButtonTests : public testing::Test , public text::TextFixture
+class ButtonTestsFixture : public text::TextFixture
 {
 public:
-    ButtonTests() = default;
-    ~ButtonTests() override {};
-
     void createSut()
     {
         sut = std::make_unique<he::gfx::draw::Button>("button1", textureMock);
@@ -60,6 +57,13 @@ public:
     std::shared_ptr<he::gfx::render::TextureMock> textureMock = std::make_shared<he::gfx::render::TextureMock>();
     std::shared_ptr<he::gfx::render::ITexture> textureBase = textureMock;
     std::shared_ptr<he::gfx::render::Texture> texture = std::static_pointer_cast<he::gfx::render::Texture>(textureBase);
+};
+
+class ButtonTests : public testing::Test , public ButtonTestsFixture
+{
+public:
+    ButtonTests() = default;
+    ~ButtonTests() override {};
 };
 
 TEST_F(ButtonTests, construction_whenCreate_shouldCreateWithoutError)
@@ -123,73 +127,73 @@ TEST_F(ButtonTests, setCallback_whenSetCallbackTwiceForTheSameButton_shouldRemov
     ASSERT_EQ(numberToSet, 125);
 }
 
-TEST_F(ButtonTests, onMauseButtonPressed_whenButtonPressedInsideAndCallbackButtonDefined_shouldReturnTrue)
+class ButtonMauseButtonEventTests : public testing::TestWithParam<std::tuple<he::window::Event::MouseButtonAction, bool, he::window::Event, bool>> , public ButtonTestsFixture
 {
+};
+
+TEST_P(ButtonMauseButtonEventTests, onMauseButtonPressed_whenMouseEventCome_shouldDoAction)
+{
+    const auto [p_event, p_needSetCallback , p_callbackEvent, p_expectedResult] = GetParam();
     expectInitCalls();
-    he::window::Event::MouseButtonAction mouseButtonAction{he::window::Mouse::Button::Left, 1, 99};
-    he::window::Event event(he::window::Event::mouseButtonPressed, mouseButtonAction);
-    event.mouseButton = mouseButtonAction;
 
     createSut();
-    sut->setCallback([](){}, event);
+    if (p_needSetCallback)
+    {
+        sut->setCallback([](){}, p_callbackEvent);
+    }
 
-    ASSERT_EQ(sut->onMauseButtonPressed(mouseButtonAction), true);
+    ASSERT_EQ(sut->onMauseButtonPressed(p_event), p_expectedResult);
 }
 
-TEST_F(ButtonTests, onMauseButtonPressed_whenButtonPressedOutsideAndCallbackButtonDefined_shouldReturnFalse)
+INSTANTIATE_TEST_SUITE_P(
+    ButtonTests, 
+    ButtonMauseButtonEventTests,
+    testing::Values(
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Left, 50, 50}, true,
+            window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}), true),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Left, 101, 101}, true,
+            window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}), false),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Left, 50, 50}, false,
+            window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}), false),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Left, 101, 101}, false,
+            window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}), false),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Right, 50, 50}, true,
+            window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Right}), true),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Right, 50, 50}, true,
+            window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}), false),
+        std::make_tuple(window::Event::MouseButtonAction{window::Mouse::Button::Middle, 50, 50}, true,
+            window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Middle}), true)));
+
+class ButtonMauseCursorMovedEventTests : public testing::TestWithParam<std::tuple<he::window::Event::MouseMoveEvent, bool, he::window::Event, bool>> , public ButtonTestsFixture
 {
+};
+
+TEST_P(ButtonMauseCursorMovedEventTests, onMauseCursorMoved_whenMouseEventCome_shouldDoAction)
+{
+    const auto [p_event, p_needSetCallback , p_callbackEvent, p_expectedResult] = GetParam();
     expectInitCalls();
-    he::window::Event::MouseButtonAction mouseButtonAction{he::window::Mouse::Button::Left, 101, 101};
-    he::window::Event event(he::window::Event::mouseButtonPressed, mouseButtonAction);
-    event.mouseButton = mouseButtonAction;
 
     createSut();
-    sut->setCallback([](){}, event);
+    if (p_needSetCallback)
+    {
+        sut->setCallback([](){}, p_callbackEvent);
+    }
 
-    ASSERT_EQ(sut->onMauseButtonPressed(mouseButtonAction), false);
+    ASSERT_EQ(sut->onMouseCursorMoved(p_event), p_expectedResult);
 }
 
-TEST_F(ButtonTests, onMauseButtonPressed_whenButtonPressedInsideWithoutCallback_shouldReturnFalse)
-{
-    expectInitCalls();
-    he::window::Event::MouseButtonAction event{he::window::Mouse::Button::Left, 1, 99};
-
-    createSut();
-    
-    ASSERT_EQ(sut->onMauseButtonPressed(event), false);
-}
-
-TEST_F(ButtonTests, onMauseButtonPressed_whenButtonPressedOutside_shouldReturnFalse)
-{
-    expectInitCalls();
-    he::window::Event::MouseButtonAction event{he::window::Mouse::Button::Left, 101, 101};
-
-    createSut();
-    
-    ASSERT_EQ(sut->onMauseButtonPressed(event), false);
-}
-
-TEST_F(ButtonTests, onMauseButtonMoved_whenButtonMovedInsideWithoutCallback_shouldReturnFalse)
-{
-    expectInitCalls();
-    he::window::Event::MouseMoveEvent event{50, 50};
-
-    createSut();
-    
-    ASSERT_EQ(sut->onMouseCursorMoved(event), false);
-}
-
-TEST_F(ButtonTests, onMauseButtonMoved_whenButtonMovedInsideWithCallback_shouldReturnTrue)
-{
-    expectInitCalls();
-    he::window::Event::MouseMoveEvent event{50, 50};
-
-    createSut();
-    sut->setCallback([](){}, window::Event(window::Event::mouseCursorMoved));
-
-    ASSERT_EQ(sut->onMouseCursorMoved(event), true);
-}
-
+INSTANTIATE_TEST_SUITE_P(
+    ButtonTests, 
+    ButtonMauseCursorMovedEventTests,
+    testing::Values(
+        std::make_tuple(window::Event::MouseMoveEvent{50, 50}, true,
+            window::Event(window::Event::mouseCursorMoved), true),
+        std::make_tuple(window::Event::MouseMoveEvent{50, 50}, false,
+            window::Event(window::Event::mouseCursorMoved), false),
+        std::make_tuple(window::Event::MouseMoveEvent{101, 101}, true,
+            window::Event(window::Event::mouseCursorMoved), false),
+        std::make_tuple(window::Event::MouseMoveEvent{101, 101}, false,
+            window::Event(window::Event::mouseCursorMoved), false)));
 
 TEST_F(ButtonTests, setOriginInCenter_whenSetOriginInCenterAfterSetPosition_shouldTextBeInCenterButton)
 {
