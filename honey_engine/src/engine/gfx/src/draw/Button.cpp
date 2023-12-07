@@ -144,8 +144,8 @@ void Button::updateTextPosition()
         auto textPosition = m_text->getPosition();
         auto textPosCorrectionX = textPosition.x - m_position.x;
         auto textPosCorrectionY = textPosition.y - m_position.y;
-        m_text->setPosition({textPosition.x - textPosCorrectionX + m_figure->getSize().width/2.f - getOrigin().x, 
-            textPosition.y - textPosCorrectionY + m_figure->getSize().height/2.f - getOrigin().y});
+        m_text->setPosition({textPosition.x - textPosCorrectionX + m_figure.getSize().width/2.f - getOrigin().x, 
+            textPosition.y - textPosCorrectionY + m_figure.getSize().height/2.f - getOrigin().y});
     }
 }
 

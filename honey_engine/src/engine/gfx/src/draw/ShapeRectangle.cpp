@@ -10,24 +10,25 @@ namespace gfx
 namespace draw
 {
 ////////////////////////////////////////////////////////////
-ShapeRectangle::ShapeRectangle(const std::string& name, const geometry::Size2Df& size) : m_rectangle{size} , Shape(name, std::make_shared<geometry::figures::Rectangle>(size)) 
+ShapeRectangle::ShapeRectangle(const std::string& name, const geometry::Size2Df& size) : m_rectangle(size) , Shape(name, m_rectangle)
 {
 }
 
 
 ////////////////////////////////////////////////////////////
 ShapeRectangle::ShapeRectangle(const std::string& name, const gfx::geometry::figures::Rectangle& rect)
-    : Shape(name, std::make_shared<geometry::figures::Rectangle>(rect))
-    , m_rectangle{rect} 
+    : m_rectangle{rect} 
+    , Shape(name, m_rectangle)
 {
 }
 
 
 ////////////////////////////////////////////////////////////
 ShapeRectangle::ShapeRectangle(const ShapeRectangle& copy)
-    : Shape(copy)
-    , m_rectangle{copy.m_rectangle}
+    : m_rectangle{copy.m_rectangle}
+    , Shape(copy, m_rectangle)
 {
+    //m_figure = static_cast<gfx::geometry::figures::Figure&>(m_rectangle);
 }
 
 

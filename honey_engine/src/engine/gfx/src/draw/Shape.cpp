@@ -26,7 +26,7 @@ namespace gfx
 namespace draw
 {
 ////////////////////////////////////////////////////////////
-Shape::Shape(const std::string& name, const std::shared_ptr<geometry::figures::Figure> figure)    
+Shape::Shape(const std::string& name, const geometry::figures::Figure& figure)   
     : IShape(name)
     , m_figure{figure}
 {
@@ -35,9 +35,9 @@ Shape::Shape(const std::string& name, const std::shared_ptr<geometry::figures::F
 
 
 ////////////////////////////////////////////////////////////
-Shape::Shape(const Shape& copy)
+Shape::Shape(const Shape& copy, const geometry::figures::Figure& figure)
     : IShape(copy)
-    , m_figure{copy.m_figure}
+    , m_figure{figure}
     , m_closedVertexArray{copy.m_closedVertexArray}
 {
 }
@@ -52,7 +52,7 @@ bool Shape::isPointInside(const geometry::Point2Df& point)
 {
     he::gfx::geometry::Point2Df pointToCheck{point};
     inverseTransformPoint(pointToCheck);
-    return m_figure->isPointInside(pointToCheck);
+    return m_figure.isPointInside(pointToCheck);
 }
 
 
@@ -72,7 +72,7 @@ void Shape::setOrigin(const he::gfx::geometry::Point2Df& origin)
     {
          m_context.originPosition = he::gfx::OriginPosition::leftDown;
     }
-    else if(origin == he::gfx::geometry::Point2Df{m_figure->getCenterPoint().x , m_figure->getCenterPoint().y})
+    else if(origin == he::gfx::geometry::Point2Df{m_figure.getCenterPoint().x , m_figure.getCenterPoint().y})
     {
          m_context.originPosition = he::gfx::OriginPosition::center;
     }
@@ -87,7 +87,7 @@ void Shape::setOrigin(const he::gfx::geometry::Point2Df& origin)
 ////////////////////////////////////////////////////////////
 void Shape::setOriginInCenter()
 {
-    setOrigin({m_figure->getCenterPoint().x , m_figure->getCenterPoint().y});
+    setOrigin({m_figure.getCenterPoint().x , m_figure.getCenterPoint().y});
     m_vertexArrayNeedUpdate = true;
     m_context.originPosition = he::gfx::OriginPosition::center;
 }
@@ -203,9 +203,9 @@ void Shape::setOriginPosition(const he::gfx::OriginPosition& originPosition)
 void Shape::updateVertexArray()
 {
     m_vertexArray.clear();
-    for (std::size_t i = 0 ; i < m_figure->getNumOfPoints() ; ++i)
+    for (std::size_t i = 0 ; i < m_figure.getNumOfPoints() ; ++i)
     {
-        auto point = m_figure->getPoint(i);
+        auto point = m_figure.getPoint(i);
         transformPoint(point);
         // TODO: remove 1200, 800 - screen width and height
         convertPixelPointToVertexPoint(point, 1200, 800);

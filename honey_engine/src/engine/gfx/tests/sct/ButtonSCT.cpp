@@ -44,10 +44,10 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefaultTextToCustomPosition_shoul
 
     addButtonToMainLayer(but1);
 
-    display(300);
+    display(150);
 
     but1->setPosition({231, 150});
-    display(500);
+    display(150);
 }
 
 TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefinedTextToWindowCenter_shouldNotGetUndefinedMouseButtonEvent)
@@ -69,7 +69,7 @@ TEST_F(ButtonSCT, eventTest_afterMoveButtonWithDefinedTextToWindowCenter_shouldN
 
     addButtonToMainLayer(but1);
 
-    display(500);
+    display(250);
 }
 
 TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeText)
@@ -98,7 +98,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
 
     addButtonToMainLayer(but1);
 
-    display(500);
+    display(450);
 }
 
 TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeTextCharacterSize)
@@ -136,6 +136,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunProperCallbackAndC
     createCustomScreen();
     enableEventInputListener();
     std::shared_ptr<he::gfx::draw::Button> button = std::make_shared<he::gfx::draw::Button>(createCustomButtonInWindowCenter());
+    button->setText("Click");
 
     he::gfx::draw::ButtonCallback callbackLeft = [&button](){
         button->setText("Left button");
@@ -160,8 +161,10 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseMoveEvent_shouldRunCallbackAndChangeCol
     enableEventInputListener();
     std::shared_ptr<he::gfx::draw::Button> button = std::make_shared<he::gfx::draw::Button>(createCustomButtonInWindowCenter());
 
+    button->setText("Touch");
     he::gfx::draw::ButtonCallback callback = [&button](){
         button->setColor(gfx::Color::Green);
+        button->setText("Touched");
         button->removeCallback(window::Event(window::Event::mouseCursorMoved));
     };
 
