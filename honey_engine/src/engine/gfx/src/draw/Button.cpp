@@ -99,7 +99,14 @@ bool Button::onMouseButtonReleased(const he::window::Event::MouseButtonAction& m
 bool Button::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& mouseMoveEvent)
 {
     window::Event event{he::window::Event(he::window::Event::mouseCursorMoved)};
-    return checkEvent(event, {mouseMoveEvent.x, mouseMoveEvent.y});
+    auto it = m_callbackMap.find(event);
+
+    if (it != m_callbackMap.end()) 
+    {
+        it->second(isPointInside(mouseMoveEvent.x, mouseMoveEvent.y));
+        return true;
+    } 
+    return false;
 }
 
 
@@ -174,10 +181,9 @@ bool Button::checkEvent(const window::Event& event, const gfx::geometry::Point2D
     if (it != m_callbackMap.end() and isPointInside(point.x, point.y)) 
     {
         LOG_DEBUG << "Process event: " << window::toString(event.type) << ", layer: " << m_context.layerName << ", button: " << m_context.name;
-        it->second();
+        it->second(true);
         return true;
     } 
-
     return false;
 }
 } // namespace draw

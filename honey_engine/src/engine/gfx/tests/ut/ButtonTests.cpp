@@ -81,7 +81,7 @@ TEST_F(ButtonTests, setCallback_whenSetCallbackAndRemove_shouldReturnNothing)
     unsigned int numberToSet{0};    
 
     createSut();
-    sut->setCallback([&numberToSet](){numberToSet=123;}, event);
+    sut->setCallback([&numberToSet](bool){numberToSet=123;}, event);
     sut->removeCallback(event);
 
     ASSERT_EQ(sut->onMouseButtonPressed(mouseButtonAction), false);
@@ -100,9 +100,9 @@ TEST_F(ButtonTests, setCallback_whenSetDifferentCallbacksAndRemoveChoosen_should
     char charToSet{'0'};    
 
     createSut();
-    sut->setCallback([&charToSet](){charToSet='L';}, eventMouseButtonPressedLeft);
-    sut->setCallback([&charToSet](){charToSet='R';}, eventMouseButtonPressedRight);
-    sut->setCallback([&charToSet](){charToSet='M';}, eventMouseCursorMoved);
+    sut->setCallback([&charToSet](bool){charToSet='L';}, eventMouseButtonPressedLeft);
+    sut->setCallback([&charToSet](bool){charToSet='R';}, eventMouseButtonPressedRight);
+    sut->setCallback([&charToSet](bool){charToSet='M';}, eventMouseCursorMoved);
     sut->removeCallback(eventMouseButtonPressedRight);
     sut->removeCallback(eventMouseCursorMoved);
 
@@ -120,8 +120,8 @@ TEST_F(ButtonTests, setCallback_whenSetCallbackTwiceForTheSameButton_shouldRemov
     unsigned int numberToSet{0};    
 
     createSut();
-    sut->setCallback([&numberToSet](){numberToSet=123;}, event);
-    sut->setCallback([&numberToSet](){numberToSet=125;}, event);
+    sut->setCallback([&numberToSet](bool){numberToSet=123;}, event);
+    sut->setCallback([&numberToSet](bool){numberToSet=125;}, event);
 
     ASSERT_EQ(sut->onMouseButtonPressed(mouseButtonAction), true);
     ASSERT_EQ(numberToSet, 125);
@@ -139,7 +139,7 @@ TEST_P(ButtonMauseButtonPressedEventTests, onMouseButtonPressed_whenMouseEventCo
     createSut();
     if (p_needSetCallback)
     {
-        sut->setCallback([](){}, p_callbackEvent);
+        sut->setCallback([](bool){}, p_callbackEvent);
     }
 
     ASSERT_EQ(sut->onMouseButtonPressed(p_event), p_expectedResult);
@@ -178,7 +178,7 @@ TEST_P(ButtonMauseButtonReleaseEventTests, onMouseButtonReleased_whenMouseEventC
     createSut();
     if (p_needSetCallback)
     {
-        sut->setCallback([](){}, p_callbackEvent);
+        sut->setCallback([](bool){}, p_callbackEvent);
     }
 
     ASSERT_EQ(sut->onMouseButtonReleased(p_event), p_expectedResult);
@@ -209,7 +209,7 @@ class ButtonMauseCursorMovedEventTests : public testing::TestWithParam<std::tupl
 {
 };
 
-TEST_P(ButtonMauseCursorMovedEventTests, onMauseCursorMoved_whenMouseEventCome_shouldDoAction)
+TEST_P(ButtonMauseCursorMovedEventTests, onMauseCursorMoved_whenMouseEventComeAndCallbackIsSet_shouldDoAction)
 {
     const auto [p_event, p_needSetCallback , p_callbackEvent, p_expectedResult] = GetParam();
     expectInitCalls();
@@ -217,7 +217,7 @@ TEST_P(ButtonMauseCursorMovedEventTests, onMauseCursorMoved_whenMouseEventCome_s
     createSut();
     if (p_needSetCallback)
     {
-        sut->setCallback([](){}, p_callbackEvent);
+        sut->setCallback([](bool){}, p_callbackEvent);
     }
 
     ASSERT_EQ(sut->onMouseCursorMoved(p_event), p_expectedResult);
@@ -232,7 +232,7 @@ INSTANTIATE_TEST_SUITE_P(
         std::make_tuple(window::Event::MouseMoveEvent{50, 50}, false,
             window::Event(window::Event::mouseCursorMoved), false),
         std::make_tuple(window::Event::MouseMoveEvent{101, 101}, true,
-            window::Event(window::Event::mouseCursorMoved), false),
+            window::Event(window::Event::mouseCursorMoved), true),
         std::make_tuple(window::Event::MouseMoveEvent{101, 101}, false,
             window::Event(window::Event::mouseCursorMoved), false)));
 

@@ -49,7 +49,7 @@ TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateWithDifferent
     for (std::size_t i = 0 ; i < buttons.size() ; ++i)
     {
         const std::string iterator = std::to_string(i+1);
-        const he::gfx::draw::ButtonCallback callback = [button = buttons[i], iterator](){
+        const he::gfx::draw::ButtonCallback callback = [button = buttons[i], iterator](bool){
             button->setText("button_" + iterator);
             button->removeCallback(window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}));
         };
@@ -73,9 +73,12 @@ TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateAndReceiveEve
     for (std::size_t i = 0 ; i < buttons.size() ; ++i)
     {
         const std::string iterator = std::to_string(i+1);
-        const he::gfx::draw::ButtonCallback callback = [button = buttons[i], iterator](){
-            button->setColor(he::gfx::Color::Green);
-            button->removeCallback(window::Event(window::Event::mouseCursorMoved));
+        const he::gfx::draw::ButtonCallback callback = [button = buttons[i], iterator](bool isTouched){
+            if (isTouched)
+            {
+                button->setColor(he::gfx::Color::Green);
+                button->removeCallback(window::Event(window::Event::mouseCursorMoved));
+            }
         };
         buttons[i]->setCallback(callback, window::Event(window::Event::mouseCursorMoved));
     }

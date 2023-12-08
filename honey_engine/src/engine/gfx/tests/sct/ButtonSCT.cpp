@@ -83,7 +83,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
     button1.setOriginInCenter();
     std::shared_ptr<he::gfx::draw::Button> but1 = std::make_shared<he::gfx::draw::Button>(button1);
     bool textChanged{false};
-    he::gfx::draw::ButtonCallback callback = [&but1, &textChanged](){
+    he::gfx::draw::ButtonCallback callback = [&but1, &textChanged](bool){
         if (textChanged)
         {
             but1->setText("Click");
@@ -119,7 +119,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunCallbackAndChangeT
     button1.setText(customText);
     std::shared_ptr<he::gfx::draw::Button> but1 = std::make_shared<he::gfx::draw::Button>(button1);
 
-    he::gfx::draw::ButtonCallback callback = [&but1, &customText, &characterSize](){
+    he::gfx::draw::ButtonCallback callback = [&but1, &customText, &characterSize](bool){
         customText.setCharacterSize(++characterSize);
             but1->setText(customText);
     };
@@ -138,12 +138,12 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseButtonEvent_shouldRunProperCallbackAndC
     std::shared_ptr<he::gfx::draw::Button> button = std::make_shared<he::gfx::draw::Button>(createCustomButtonInWindowCenter());
     button->setText("Click");
 
-    he::gfx::draw::ButtonCallback callbackLeft = [&button](){
+    he::gfx::draw::ButtonCallback callbackLeft = [&button](bool){
         button->setText("Left button");
         button->removeCallback(window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left})); // TODO - zmienić event na predefiniowany enum żeby fraza była krótsza
     };
 
-    he::gfx::draw::ButtonCallback callbackRight = [&button](){
+    he::gfx::draw::ButtonCallback callbackRight = [&button](bool){
         button->setText("Right button");
         button->removeCallback(window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Right}));
     };
@@ -162,10 +162,42 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseMoveEventInside_shouldRunCallbackAndCha
     std::shared_ptr<he::gfx::draw::Button> button = std::make_shared<he::gfx::draw::Button>(createCustomButtonInWindowCenter());
 
     button->setText("Touch");
-    he::gfx::draw::ButtonCallback callback = [&button](){
-        button->setColor(gfx::Color::Green);
-        button->setText("Touched");
-        button->removeCallback(window::Event(window::Event::mouseCursorMoved));
+    he::gfx::draw::ButtonCallback callback = [&button](bool isPointInside){
+        if (isPointInside)
+        {
+            button->setColor(gfx::Color::Green);
+            button->setText("Touched");
+            button->removeCallback(window::Event(window::Event::mouseCursorMoved));
+        }
+    };
+
+    button->setCallback(callback, window::Event(window::Event::mouseCursorMoved));
+    addButtonToMainLayer(button);
+
+    display(500);
+}
+
+TEST_F(ButtonSCT, eventTest_afterGetMouseMoveEventInsideAndOutside_shouldRunCallbackAndChangeColor)
+{
+    createCustomScreen();
+    enableEventInputListener();
+    std::shared_ptr<he::gfx::draw::Button> button = std::make_shared<he::gfx::draw::Button>(createCustomButtonInWindowCenter());
+
+    button->setText("Touch");
+    bool isTouched{false};
+    he::gfx::draw::ButtonCallback callback = [&button, &isTouched](bool isPointInside){
+        if (isPointInside and not isTouched)
+        {
+            button->setColor(gfx::Color::Green);
+            button->setText("Touched");
+            isTouched = true;
+        }
+        else if(not isPointInside and isTouched)
+        {
+            button->setColor(gfx::Color::Red);
+            button->setText("Touch");
+            isTouched = false;
+        }
     };
 
     button->setCallback(callback, window::Event(window::Event::mouseCursorMoved));
@@ -183,11 +215,11 @@ TEST_F(ButtonSCT, eventTest_afterMousePressedAndReleased_shouldRunCallbackAndCha
     button->setColor(gfx::Color::Red);
     button->setText("Hold");
 
-    he::gfx::draw::ButtonCallback callbackPressed = [&button](){
+    he::gfx::draw::ButtonCallback callbackPressed = [&button](bool isTouched){
         button->setColor(gfx::Color::Green);
         button->setText("Release");
     };
-    he::gfx::draw::ButtonCallback callbackReleased = [&button](){
+    he::gfx::draw::ButtonCallback callbackReleased = [&button](bool){
         button->setColor(gfx::Color::Red);
         button->setText("Hold");
     };

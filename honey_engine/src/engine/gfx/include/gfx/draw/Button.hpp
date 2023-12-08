@@ -12,7 +12,7 @@ namespace gfx
 {
 namespace draw
 {
-using ButtonCallback = std::function<void()>;
+using ButtonCallback = std::function<void(bool isPointInside)>;
 using ButtonEventCallbackMap = std::unordered_map<window::Event, ButtonCallback, window::EventHasher>;
 
 class Button : public draw::Sprite , public draw::IButton
@@ -39,11 +39,11 @@ public:
 public:
     void setText(const std::string&);
     void setText(const draw::Text&);
+    bool isPointInside(const int x, const int y);//todo: Point2i
 
 private:
     void updateTextPosition();
     void setDefaultTextSettings();
-    bool isPointInside(const int x, const int y);
     bool checkEvent(const window::Event& event, const gfx::geometry::Point2Di point);
 
 private:
