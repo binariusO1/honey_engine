@@ -78,5 +78,30 @@ TEST_F(MenuLayerSCT, menuTest_afterAddButtonSetMenuOriginToCenterAndSetPosition_
 
     display(500);
 }
+
+TEST_F(MenuLayerSCT, menuTest_afterAddButtonAndSetMenuPosition_shouldCreateHorizontalMenu)
+{
+    PropagationSettings propagationSettings{5, 1, 1, 0};
+    createCustomScreen(propagationSettings);
+
+    he::gfx::draw::Button button1("Button1", {60, 60});
+    button1.setColor(he::gfx::Color(217, 210, 205, 255));
+    button1.setPosition({0, 740});
+    he::gfx::draw::Text customText("customText");
+    customText.setFont(f_fontCalibriPath);
+    customText.setCharacterSize(28);
+    customText.setColor(gfx::Color::Black);
+    button1.setText(customText);
+    mainMenuLayer->setButton(std::make_shared<he::gfx::draw::Button>(button1));
+
+    auto buttons = mainMenuLayer->getButtons();
+    buttons[0]->setText("1");
+    buttons[1]->setText("2");
+    buttons[2]->setText("3");
+    buttons[3]->setText("4");
+    buttons[4]->setText("5");
+
+    display(500);
+}
 }// namespace gfx
 }// namespace he
