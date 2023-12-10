@@ -28,7 +28,6 @@ protected:
     void updateButtons(const std::size_t startIndex);
 
 private:
-    gfx::geometry::Size2Df calcCorectionOfOrigin(const draw::Button* firstButton);
     float calcPos(const float buttonDimension, const float firstButtonPosCoord, const float propSettingsDistance, std::size_t iterator);
     float calcXPos(const draw::Button*, const std::size_t x);
     float calcYPos(const draw::Button*, const std::size_t y);

@@ -131,14 +131,14 @@ void UniquePropagationLayer::updateButtons(const std::size_t startIndex)
 
             if (x == 1 and y > 1)
             {
-                xPosition = firstButtonPosition.x + (calcCorectionOfOrigin(m_buttons[startIndex].get()).width * 0.5f);
+                xPosition = firstButtonPosition.x;
             }
             else if (x > 1 and y == 1)
             {
-                yPosition = firstButtonPosition.y + (calcCorectionOfOrigin(m_buttons[startIndex].get()).height * 0.5f);
+                yPosition = firstButtonPosition.y;
             }
 
-            m_buttons[i]->setOriginInCenter();
+            m_buttons[i]->setOrigin(m_buttons[startIndex]->getOrigin());
             m_buttons[i]->setPosition({xPosition, yPosition});
         }
     }
@@ -146,23 +146,10 @@ void UniquePropagationLayer::updateButtons(const std::size_t startIndex)
 
 
 ////////////////////////////////////////////////////////////
-gfx::geometry::Size2Df UniquePropagationLayer::calcCorectionOfOrigin(const draw::Button* firstButton)
-{
-    switch (firstButton->getOriginPosition())
-    {
-        case gfx::OriginPosition::leftDown:
-            return firstButton->getSize();
-        case gfx::OriginPosition::center:
-        default:
-            return {0.f, 0.f};
-    }
-}
-
-////////////////////////////////////////////////////////////
 float UniquePropagationLayer::calcXPos(const draw::Button* firstButton, const std::size_t x)
 {
     float firstButtonPosX{firstButton->getPosition().x};
-    firstButtonPosX += (calcCorectionOfOrigin(firstButton).width * 0.5f);
+
     return calcPos(firstButton->getSize().width, firstButtonPosX, m_propagationSettings.distanceX, x);
 }
 
@@ -171,7 +158,6 @@ float UniquePropagationLayer::calcXPos(const draw::Button* firstButton, const st
 float UniquePropagationLayer::calcYPos(const draw::Button* firstButton, const std::size_t y)
 {
     float firstButtonPosY{firstButton->getPosition().y};
-    firstButtonPosY += (calcCorectionOfOrigin(firstButton).height * 0.5f);
 
     return calcPos(firstButton->getSize().height, firstButtonPosY, m_propagationSettings.distanceY, y);
 }
