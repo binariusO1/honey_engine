@@ -10,7 +10,7 @@ namespace gfx
 namespace render
 {
 
-class CopyPropagationLayer final : public Layer
+class CopyPropagationLayer : public Layer
 {
 public:
     CopyPropagationLayer(const std::string&, const PropagationSettings&);
@@ -22,6 +22,7 @@ public:
 private:
     void process_event(const he::window::Event&) override {};
     void addButton(const std::shared_ptr<gfx::draw::Button>&) {};
+
     PropagationSettings m_propagationSettings{};
 };
 } // namespace render

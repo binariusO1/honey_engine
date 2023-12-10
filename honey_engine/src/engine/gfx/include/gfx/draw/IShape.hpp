@@ -41,6 +41,7 @@ public:
 public:
     virtual void setOriginInCenter() = 0;
     void setOriginPosition(const he::gfx::OriginPosition& originPosition);
+    gfx::OriginPosition getOriginPosition() const;
     void update();
     void checkIfVertexArrayNeedUpdateThenUpdate();
 

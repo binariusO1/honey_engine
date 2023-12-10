@@ -7,6 +7,7 @@ if(NOT COVERAGE)
 		SOURCES
 			ButtonSCT.cpp
 			PropagationLayerSCT.cpp
+			MenuLayerSCT.cpp
 			RenderFixture.hpp
 			ShapeSCT.cpp
 			TextSCT.cpp

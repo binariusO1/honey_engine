@@ -35,6 +35,7 @@ public:
 
 public:
     void addButton(const std::shared_ptr<gfx::draw::Button>&);
+    void addButtons(const ButtonList&);
     he::gfx::render::ButtonList& getButtons();
 
 public:

@@ -1,11 +1,11 @@
 #include "gfx/render/Render.hpp"
 
-#include "libs/gl/GlWrapper.hpp"
 #include "gfx/draw/IDrawable.hpp"
 #include "gfx/draw/Shape.hpp"
 #include "gfx/draw/Sprite.hpp"
-#include "logger/Logger.hpp"
 #include <iomanip>
+#include "libs/gl/GlWrapper.hpp"
+#include "logger/Logger.hpp"
 
 namespace he
 {

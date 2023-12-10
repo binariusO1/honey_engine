@@ -29,16 +29,18 @@ public:
         mainScene->addLayer(mainPropagationLayer);
         he::gfx::render::SceneTransitionTable transitionTable{{mainScene, nullptr, nullptr, nullptr, nullptr}};
         mainSceneManager = std::make_unique<he::gfx::render::SceneManager>(transitionTable);
+
+        enableEventInputListener();
     }
 
     std::shared_ptr<he::gfx::render::UniquePropagationLayer> mainPropagationLayer;
 };
 
-TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateWithDifferentCallbacks)
+TEST_F(PropagationLayerSCT, propagationTest_afterAddButton_shouldPropagateWithDifferentCallbacks)
 {
     PropagationSettings propagationSettings{3, 3, 0, 0};
     createCustomScreen(propagationSettings);
-    enableEventInputListener();
+
     he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color::Blue);
     button1.setText("Click once");
@@ -59,11 +61,11 @@ TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateWithDifferent
     display(500);
 }
 
-TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateAndReceiveEvents)
+TEST_F(PropagationLayerSCT, propagationTest_afterAddButton_shouldPropagateAndReceiveMouseMovedEventOnce)
 {
     PropagationSettings propagationSettings{10, 13, 10, 10};
     createCustomScreen(propagationSettings);
-    enableEventInputListener();
+
     he::gfx::draw::Button button1("Button1", he::gfx::geometry::Size2Dpxl{100, 50});
     button1.setColor(he::gfx::Color::Red);
 
@@ -80,6 +82,39 @@ TEST_F(PropagationLayerSCT, menuTest_afterAddButton_shouldPropagateAndReceiveEve
                 button->removeCallback(window::Event(window::Event::mouseCursorMoved));
             }
         };
+        buttons[i]->setCallback(callback, window::Event(window::Event::mouseCursorMoved));
+    }
+
+    display(500);
+}
+
+TEST_F(PropagationLayerSCT, propagationTest_afterAddButton_shouldPropagateAndReceiveMouseMovedEventManyTimes)
+{
+    PropagationSettings propagationSettings{10, 13, 10, 10};
+    createCustomScreen(propagationSettings);
+
+    he::gfx::draw::Button button1("Button1", he::gfx::geometry::Size2Dpxl{100, 50});
+    button1.setColor(he::gfx::Color::Red);
+
+    mainPropagationLayer->addButton(std::make_shared<he::gfx::draw::Button>(button1));
+    auto buttons = mainPropagationLayer->getButtons();
+
+    std::vector<bool> isTouchedButtonTable(buttons.size(), false);
+    LOG_DEBUG << isTouchedButtonTable.size();
+    for (std::size_t i = 0 ; i < buttons.size() ; ++i)
+    {
+        const he::gfx::draw::ButtonCallback callback = [button = buttons[i], i = i, &isTouchedTable = isTouchedButtonTable](bool isPointInside){
+            auto isTouched = isTouchedTable[i];
+            if (isPointInside and not isTouched)
+            {
+                button->setColor(gfx::Color::Green);
+                isTouched = true;
+            }
+            else if(not isPointInside and isTouched)
+            {
+                button->setColor(gfx::Color::Red);
+                isTouched = false;
+            }};
         buttons[i]->setCallback(callback, window::Event(window::Event::mouseCursorMoved));
     }
 

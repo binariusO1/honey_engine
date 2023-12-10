@@ -10,7 +10,7 @@ namespace gfx
 namespace render
 {
 
-class UniquePropagationLayer final : public Layer
+class UniquePropagationLayer : public Layer
 {
 public:
     UniquePropagationLayer(const std::string&, const PropagationSettings&);
@@ -20,12 +20,20 @@ public:
     void render(gfx::render::IRender&) override;
 
 public:
-    void addButton(const std::shared_ptr<gfx::draw::Button>&);
+    virtual void addButton(const std::shared_ptr<gfx::draw::Button>&);
+    void update();
+
+protected:
+    void checkAndCorrectPropagationParameters();
+    void updateButtons(const std::size_t startIndex);
 
 private:
-    void addNewButton(const draw::Button*, const gfx::geometry::Point2Df position, const gfx::geometry::Point2Dt coords);
+    gfx::geometry::Size2Df calcCorectionOfOrigin(const draw::Button* firstButton);
+    float calcPos(const float buttonDimension, const float firstButtonPosCoord, const float propSettingsDistance, std::size_t iterator);
+    float calcXPos(const draw::Button*, const std::size_t x);
+    float calcYPos(const draw::Button*, const std::size_t y);
 
-private:
+protected:
     PropagationSettings m_propagationSettings{};
 };
 } // namespace render

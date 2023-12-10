@@ -170,6 +170,13 @@ void IShape::setOriginPosition(const he::gfx::OriginPosition& originPosition)
 
 
 ////////////////////////////////////////////////////////////
+gfx::OriginPosition IShape::getOriginPosition() const
+{
+    return m_context.originPosition;
+}
+
+
+////////////////////////////////////////////////////////////
 void IShape::update()
 {
     updateVertexArray();

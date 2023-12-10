@@ -24,6 +24,7 @@ set(INTERNAL_FILES
 	src/render/BaseLayer.cpp
 	src/render/Layer.cpp
 	src/render/CopyPropagationLayer.cpp
+	src/render/MenuLayer.cpp
 	src/render/Render.cpp
 	src/render/Scene.cpp
 	src/render/SceneManager.cpp
@@ -70,6 +71,7 @@ set(PUBLIC_HEADERS
     include/gfx/render/IScene.hpp
     include/gfx/render/IStateMachine.hpp
     include/gfx/render/Layer.hpp
+    include/gfx/render/MenuLayer.hpp
     include/gfx/render/OpenCloseState.hpp
     include/gfx/render/CopyPropagationLayer.hpp
     include/gfx/render/PropagationSettings.hpp

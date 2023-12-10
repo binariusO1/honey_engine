@@ -8,6 +8,7 @@ set(SOURCES
 	FontTests.cpp
 	ImageTests.cpp
 	LayerTests.cpp
+	MenuLayerTests.cpp
 	PageTests.cpp
 	Point2dTests.cpp
 	SceneTests.cpp
@@ -18,6 +19,7 @@ set(SOURCES
 	TextureTests.cpp
 	TextTests.cpp
 	Transformable2dTests.cpp
+	UniquePropagationLayerTests.cpp
 )
 
 if(COVERAGE)
