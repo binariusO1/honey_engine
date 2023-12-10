@@ -12,8 +12,8 @@ namespace gfx
 {
 namespace draw
 {
-using ButtonCallback = std::function<void(bool isPointInside)>;
-using ButtonEventCallbackMap = std::unordered_map<window::Event, ButtonCallback, window::EventHasher>;
+using ButtonCheckCallback = std::function<void(bool isPointInside)>;
+using ButtonEventCallbackMap = std::unordered_map<window::Event, ButtonCheckCallback, window::EventHasher>;
 
 class Button : public draw::Sprite , public draw::IButton
 {
@@ -30,8 +30,8 @@ public:
     void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) override;
 
 public:
-    void setCallback(const ButtonCallback& callback, const window::Event event);
-    void removeCallback(const window::Event event);
+    virtual void setCallback(const ButtonCheckCallback& callback, const window::Event event);
+    virtual void removeCallback(const window::Event event);
     bool onMouseButtonPressed(const he::window::Event::MouseButtonAction&) override;
     bool onMouseButtonReleased(const he::window::Event::MouseButtonAction&) override;
     bool onMouseCursorMoved(const he::window::Event::MouseMoveEvent&) override;

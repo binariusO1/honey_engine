@@ -51,7 +51,7 @@ TEST_F(PropagationLayerSCT, propagationTest_afterAddButton_shouldPropagateWithDi
     for (std::size_t i = 0 ; i < buttons.size() ; ++i)
     {
         const std::string iterator = std::to_string(i+1);
-        const he::gfx::draw::ButtonCallback callback = [button = buttons[i], iterator](bool){
+        const he::gfx::draw::ButtonCheckCallback callback = [button = buttons[i], iterator](bool){
             button->setText("button_" + iterator);
             button->removeCallback(window::Event(window::Event::mouseButtonPressed, window::Event::MouseButtonAction{window::Mouse::Button::Left}));
         };
@@ -75,7 +75,7 @@ TEST_F(PropagationLayerSCT, propagationTest_afterAddButton_shouldPropagateAndRec
     for (std::size_t i = 0 ; i < buttons.size() ; ++i)
     {
         const std::string iterator = std::to_string(i+1);
-        const he::gfx::draw::ButtonCallback callback = [button = buttons[i], iterator](bool isTouched){
+        const he::gfx::draw::ButtonCheckCallback callback = [button = buttons[i], iterator](bool isTouched){
             if (isTouched)
             {
                 button->setColor(he::gfx::Color::Green);
@@ -103,7 +103,7 @@ TEST_F(PropagationLayerSCT, propagationTest_afterAddButton_shouldPropagateAndRec
     LOG_DEBUG << isTouchedButtonTable.size();
     for (std::size_t i = 0 ; i < buttons.size() ; ++i)
     {
-        const he::gfx::draw::ButtonCallback callback = [button = buttons[i], i = i, &isTouchedTable = isTouchedButtonTable](bool isPointInside){
+        const he::gfx::draw::ButtonCheckCallback callback = [button = buttons[i], i = i, &isTouchedTable = isTouchedButtonTable](bool isPointInside){
             auto isTouched = isTouchedTable[i];
             if (isPointInside and not isTouched)
             {

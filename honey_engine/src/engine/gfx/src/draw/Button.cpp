@@ -43,7 +43,7 @@ void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings
 
 
 //////////////////////////////////////////////////////////////////////
-void Button::setCallback(const ButtonCallback& callback, const window::Event event)
+void Button::setCallback(const ButtonCheckCallback& callback, const window::Event event)
 {
     removeCallback(event);
     m_callbackMap.insert(std::make_pair(event, callback));

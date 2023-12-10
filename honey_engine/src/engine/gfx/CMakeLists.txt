@@ -7,6 +7,7 @@ set(INTERNAL_FILES
 	src/text/Page.cpp
 	src/graphic/Image.cpp
 	src/graphic/Texture.cpp
+	src/draw/AdvButton.cpp
 	src/draw/Button.cpp
 	src/draw/IShape.cpp
 	src/draw/ShapeRectangle.cpp
@@ -32,7 +33,10 @@ set(INTERNAL_FILES
 	)
 
 set(PUBLIC_HEADERS 
+    include/gfx/draw/AdvButton.hpp
     include/gfx/draw/Button.hpp
+    include/gfx/draw/ButtonState.hpp
+    include/gfx/draw/ButtonTransition.hpp
 	include/gfx/draw/IDrawable.hpp
 	include/gfx/draw/Drawable.hpp
 	include/gfx/draw/IButton.hpp
