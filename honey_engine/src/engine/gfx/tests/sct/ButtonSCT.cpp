@@ -276,7 +276,7 @@ TEST_F(ButtonSCT, stateTest_afterSetStateCallbacks_shouldRunCallbacks)
     button->setCallback(callbackClickedIdle, {ButtonState::Clicked, ButtonState::Idle});
 
     addButtonToMainLayer(button);
-    display(50000);
+    display(500);
 }
 }// namespace gfx
 }// namespace he
