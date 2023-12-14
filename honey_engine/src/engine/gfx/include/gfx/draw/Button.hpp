@@ -39,7 +39,7 @@ public:
 public:
     void setText(const std::string&);
     void setText(const draw::Text&);
-    bool isPointInside(const int x, const int y);//todo: Point2i
+    bool isPointInside(const geometry::Point2Df&);
 
 private:
     void updateTextPosition();

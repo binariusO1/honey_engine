@@ -105,7 +105,7 @@ bool Button::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& mouseMo
 
     if (it != m_callbackMap.end()) 
     {
-        it->second(isPointInside(mouseMoveEvent.x, mouseMoveEvent.y));
+        it->second(isPointInside({static_cast<float>(mouseMoveEvent.x), static_cast<float>(mouseMoveEvent.y)}));
         return true;
     } 
     return false;
@@ -165,9 +165,9 @@ void Button::setDefaultTextSettings()
 
 
 //////////////////////////////////////////////////////////////////////
-bool Button::isPointInside(const int x, const int y)
+bool Button::isPointInside(const geometry::Point2Df& point)
 {
-    if (Shape::isPointInside({static_cast<float>(x), static_cast<float>(y)}))
+    if (Shape::isPointInside(point))
     {
         return true;
     }
@@ -180,7 +180,7 @@ bool Button::checkEvent(const window::Event& event, const gfx::geometry::Point2D
 {
     auto it = m_callbackMap.find(event);
 
-    if (it != m_callbackMap.end() and isPointInside(point.x, point.y)) 
+    if (it != m_callbackMap.end() and isPointInside({static_cast<float>(point.x), static_cast<float>(point.y)})) 
     {
         LOG_DEBUG << "Process event: " << window::toString(event.type) << ", layer: " << m_context.layerName << ", button: " << m_context.name;
         it->second(true);

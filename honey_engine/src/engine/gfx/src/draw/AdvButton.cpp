@@ -100,7 +100,7 @@ void AdvButton::handleStateIdle(const window::Event& event)
     {
         case window::Event::mouseCursorMoved:
         {
-            if (isPointInside(event.mouseMove.x, event.mouseMove.y))
+            if (isPointInside({static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)}))
             {
                 this->setState(ButtonState::Touched);
             }
@@ -120,7 +120,7 @@ void AdvButton::handleStateTouched(const window::Event& event)
     {
         case window::Event::mouseCursorMoved:
         {
-            if (not isPointInside(event.mouseMove.x, event.mouseMove.y))
+            if (not isPointInside({static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)}))
             {
                 this->setState(ButtonState::Idle);
             }
@@ -146,7 +146,7 @@ void AdvButton::handleStateClicked(const window::Event& event)
     {
         case window::Event::mouseButtonReleased:
         {
-            bool isPointInside = Button::isPointInside(event.mouseButton.x, event.mouseButton.y);
+            bool isPointInside = Button::isPointInside({static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)});
     
             if (isPointInside)
             {
