@@ -62,7 +62,7 @@ void Render::drawVertex2d(
     }
 
     auto isPrimitive = not static_cast<bool>(textureId);
-    drawVertexArray(vertexArray, textureId, color, renderSettings, isPrimitive);
+    draw2d(vertexArray, textureId, color, renderSettings, isPrimitive);
 }
 
 
@@ -72,7 +72,7 @@ void Render::drawVertex2d(
 
 
 ////////////////////////////////////////////////////////////
-void Render::drawVertexArray(
+void Render::draw2d(
     const he::gfx::VertexArray2d& vertexArray, 
     const unsigned int textureId,
     const he::gfx::Color color, 

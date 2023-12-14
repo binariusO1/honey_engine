@@ -42,12 +42,12 @@ public:
         bool needUpdate);
 
 private:
-    void drawVertexArray(
+    void draw2d(
         const he::gfx::VertexArray2d& vertex, 
         const unsigned int textureId,
         const he::gfx::Color color, 
         const he::gfx::render::RenderSettings& renderSettings,
-        const bool isPrimitive = false) const;//TODO : change method name to 2D
+        const bool isPrimitive = false) const;
     void viewportTransform(he::gfx::geometry::Point2Df& point);
 
 private:
