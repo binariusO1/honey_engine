@@ -128,7 +128,6 @@ TEST_F(ShapeTests, setPosition_whenSetNewPosition_pointsShouldBeChanged)
     createSut();
     auto vertexArray = sut->getVertexArray();
     sut->setPosition(position);
-    sut->update();
 
     for (size_t i = 0 ; i < vertexArray.size() ; ++i)
     {

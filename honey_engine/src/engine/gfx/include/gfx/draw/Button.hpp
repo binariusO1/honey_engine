@@ -25,7 +25,7 @@ public:
     ~Button() = default;
 
 public:
-    void setPosition(const geometry::Point2Df&);
+    bool setPosition(const geometry::Point2Df&);
     void setOriginInCenter() override;
     void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) override;
 

@@ -1,5 +1,6 @@
 #include "gfx/render/Render.hpp"
 
+#include "gfx/geometry/transform/Transform.hpp"
 #include "gfx/draw/IDrawable.hpp"
 #include "gfx/draw/Shape.hpp"
 #include "gfx/draw/Sprite.hpp"
@@ -14,8 +15,8 @@ namespace gfx
 namespace render
 {
 ////////////////////////////////////////////////////////////
-Render::Render()
-    : m_glWrapper{std::make_unique<he::libs::gl::GlWrapper>()} 
+Render::Render(const int screenWidth, const int screenHeight)
+    : m_glWrapper{std::make_unique<he::libs::gl::GlWrapper>()}    
     , m_defaultRenderSettings{
         he::libs::gl::DrawType::Static,
         he::libs::gl::ConnectionType::TriangleFan,
@@ -23,6 +24,7 @@ Render::Render()
     }
     , m_primitiveShaderProgram{"d:\\Projects\\CPP\\games\\honey_engine\\data\\gfx\\render\\shaders\\shader_primitive2d.vs", "d:\\Projects\\CPP\\games\\honey_engine\\data\\gfx\\render\\shaders\\shader_primitive2d.fs"}
     , m_textureShaderProgram{"d:\\Projects\\CPP\\games\\honey_engine\\data\\gfx\\render\\shaders\\shader_2d.vs", "d:\\Projects\\CPP\\games\\honey_engine\\data\\gfx\\render\\shaders\\shader_2d.fs"}
+    , m_windowSize{screenWidth, screenHeight}
 {
 }
 
@@ -42,25 +44,25 @@ void Render::draw(he::gfx::draw::IDrawable& drawable, const he::gfx::render::Ren
 
 
 ////////////////////////////////////////////////////////////
-void Render::drawVertex(
-    const he::gfx::VertexArray2d& vertexArray, 
-    const unsigned int textureId,
-    const he::gfx::Color color, 
-    const he::gfx::render::RenderSettings& renderSettings) const
+void Render::drawVertex2d(
+        he::gfx::VertexArray2d& vertexArray,
+        const unsigned int textureId,
+        const he::gfx::Color color, 
+        const he::gfx::render::RenderSettings& renderSettings,
+        const float* modelMatrix,
+        bool needUpdate)
 {
+    if (needUpdate)
+    {
+        for (std::size_t i = 0 ; i < vertexArray.size() ; ++i)
+        {
+            he::gfx::geometry::transform::Transform::transformPoint2d(vertexArray[i].position, modelMatrix);
+            viewportTransform(vertexArray[i].position);
+        }
+    }
 
-    drawVertexArray(vertexArray, textureId, color, renderSettings);
-}
-
-
-////////////////////////////////////////////////////////////
-void Render::drawVertexPrimitive(
-    const he::gfx::VertexArray2d& vertexArray, 
-    const unsigned int textureId,
-    const he::gfx::Color color, 
-    const he::gfx::render::RenderSettings& renderSettings) const
-{
-    drawVertexArray(vertexArray, textureId, color, renderSettings, true);
+    auto isPrimitive = not static_cast<bool>(textureId);
+    drawVertexArray(vertexArray, textureId, color, renderSettings, isPrimitive);
 }
 
 
@@ -92,6 +94,21 @@ void Render::drawVertexArray(
     }
 }
 
+
+////////////////////////////////////////////////////////////
+void Render::viewportTransform(he::gfx::geometry::Point2Df& point)
+{
+    const float SCREEN_SCALE = 2.0f;
+    const float OFFSET_ORIGIN_SCREEN = -1.0f;
+
+    if (m_windowSize.width > 0 and m_windowSize.height > 0)
+    {
+        float x = (point.x / static_cast<float>(m_windowSize.width)*SCREEN_SCALE) + OFFSET_ORIGIN_SCREEN;
+        float y = (point.y / static_cast<float>(m_windowSize.height)*SCREEN_SCALE) + OFFSET_ORIGIN_SCREEN;
+        point.x = x;
+        point.y = y;
+    }
+}
 } // namespace render
 } // namespace gfx
 } // namespace he

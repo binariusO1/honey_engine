@@ -71,10 +71,26 @@ const he::gfx::Color IShape::getColor() const
 
 
 ////////////////////////////////////////////////////////////
-void IShape::setPosition(const he::gfx::geometry::Point2Df& position)
+bool IShape::setPosition(const he::gfx::geometry::Point2Df& position)
 {
-    Transformable2d::setPosition(position);
-    m_vertexArrayNeedUpdate = true;
+    m_vertexArrayNeedUpdate = Transformable2d::setPosition(position);
+    return m_vertexArrayNeedUpdate;
+}
+
+
+////////////////////////////////////////////////////////////
+bool IShape::setOrigin(const he::gfx::geometry::Point2Df& point)
+{
+    m_vertexArrayNeedUpdate = Transformable2d::setOrigin(point);
+    return m_vertexArrayNeedUpdate;
+}
+
+
+////////////////////////////////////////////////////////////    
+bool IShape::setRotation(const he::gfx::geometry::Angle& angle)
+{
+    m_vertexArrayNeedUpdate = Transformable2d::setRotation(angle);
+    return m_vertexArrayNeedUpdate;
 }
 
 
@@ -121,25 +137,9 @@ const he::gfx::VertexArray2d& IShape::getVertexArray() const
 
 
 ////////////////////////////////////////////////////////////
-void IShape::setOrigin(const he::gfx::geometry::Point2Df& point)
-{
-    Transformable2d::setOrigin(point);
-    m_vertexArrayNeedUpdate = true;
-}
-
-
-////////////////////////////////////////////////////////////
 const he::gfx::geometry::Point2Df& IShape::getOrigin() const
 {
     return Transformable2d::getOrigin();
-}
-
-
-////////////////////////////////////////////////////////////    
-void IShape::setRotation(const he::gfx::geometry::Angle& angle)
-{
-    Transformable2d::setRotation(angle);
-    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -173,24 +173,6 @@ void IShape::setOriginPosition(const he::gfx::OriginPosition& originPosition)
 gfx::OriginPosition IShape::getOriginPosition() const
 {
     return m_context.originPosition;
-}
-
-
-////////////////////////////////////////////////////////////
-void IShape::update()
-{
-    updateVertexArray();
-    m_vertexArrayNeedUpdate = false;
-}
-
-
-////////////////////////////////////////////////////////////
-void IShape::checkIfVertexArrayNeedUpdateThenUpdate()
-{
-    if (m_vertexArrayNeedUpdate)
-    {
-        update();
-    }
 }
 } // namespace draw
 } // namespace gfx

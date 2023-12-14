@@ -22,7 +22,7 @@ public:
 
 public:
     unsigned int getTextureId() const;
-    void setPosition(const he::gfx::geometry::Point2Df& position);
+    bool setPosition(const he::gfx::geometry::Point2Df& position);
 
 public:
     void setColor(const he::gfx::Color& color) override;
@@ -30,14 +30,12 @@ public:
 
 protected:
     void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;
-    void update();
-    
+
 protected:
     void updateTextureCoords();
 
     std::shared_ptr<he::gfx::render::ITexture> m_texture{nullptr};
     bool m_isFilledByColor{false};
-    bool m_textureCoordsNeedUpdate{false};
 };
 } // namespace draw
 } // namespace gfx

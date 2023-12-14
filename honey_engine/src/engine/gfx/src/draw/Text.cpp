@@ -152,9 +152,9 @@ text::Style Text::getStyle() const
 
 
 ////////////////////////////////////////////////////////////
-void Text::setOrigin(const geometry::Point2Df& point)
+bool Text::setOrigin(const geometry::Point2Df& point)
 {
-    IShape::setOrigin(point);
+    return IShape::setOrigin(point);
 }
 
 
@@ -170,9 +170,9 @@ void Text::setOriginInCenter()
 
 
 ////////////////////////////////////////////////////////////
-void Text::setPosition(const he::gfx::geometry::Point2Df& point)
+bool Text::setPosition(const he::gfx::geometry::Point2Df& point)
 { 
-    IShape::setPosition(point);
+    return IShape::setPosition(point);
 }
 
 
@@ -198,9 +198,9 @@ const he::gfx::geometry::Point2Df& Text::getOrigin() const
 
 
 ////////////////////////////////////////////////////////////
-void Text::setRotation(const he::gfx::geometry::Angle& rotation)
+bool Text::setRotation(const he::gfx::geometry::Angle& rotation)
 {
-    IShape::setRotation(rotation);
+    return IShape::setRotation(rotation);
 }
 
 
@@ -230,7 +230,6 @@ void Text::setCharacterSize(const unsigned int characterSize)
 void Text::update()
 {
     this->updateVertexArray();
-    m_vertexArrayNeedUpdate = false;
 }
 
 
@@ -259,18 +258,20 @@ void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& 
 
     if (m_vertexArrayNeedUpdate)
     {
-        this->update();
+        this->updateVertexArray();
     }
 
     if (m_outlineThickness != 0.0)
     {
-        render.drawVertex(m_outlineVertices, getTextureId(), m_context.color, newRenderSettings);
+        render.drawVertex2d(m_outlineVertices, getTextureId(), m_context.color, newRenderSettings, nullptr, m_vertexArrayNeedUpdate);
     }
 
-    if (not getVertexArray().empty())
+    if (not m_vertexArray.empty())
     {
-        render.drawVertex(m_vertexArray, getTextureId(), m_context.color, newRenderSettings);
+        render.drawVertex2d(m_vertexArray, getTextureId(), m_context.color, newRenderSettings, nullptr, m_vertexArrayNeedUpdate);
     }
+
+    m_vertexArrayNeedUpdate = false;
 }
 
 
@@ -302,9 +303,7 @@ void Text::updateVertexArray()
         auto point = m_vertexArray[i].position;
         auto texturePoint = m_vertexArray[i].texCoords;
  
-        transformPoint(point);
-        // TODO: remove 1200, 800 - screen width and height
-        convertPixelPointToVertexPoint(point, 1200, 800);
+        transformPoint(point);//todo check if needed
         convertPixelPointToVertexPointTexture(texturePoint, textureSize);
         m_vertexArray[i].position = point;
         m_vertexArray[i].texCoords = texturePoint;

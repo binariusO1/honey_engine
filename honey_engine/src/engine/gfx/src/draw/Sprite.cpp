@@ -17,7 +17,6 @@ Sprite::Sprite(const std::string& name, const std::shared_ptr<he::gfx::render::I
     : ShapeRectangle(name, {static_cast<float>(texture->getSize().width), static_cast<float>(texture->getSize().height)})
 { 
     m_texture = texture;
-    m_textureCoordsNeedUpdate = true;
 }
 
 
@@ -41,10 +40,9 @@ unsigned int Sprite::getTextureId() const
 
 
 ////////////////////////////////////////////////////////////
-void Sprite::setPosition(const he::gfx::geometry::Point2Df& position)
+bool Sprite::setPosition(const he::gfx::geometry::Point2Df& position)
 {
-    Shape::setPosition(position);
-    m_textureCoordsNeedUpdate = true;
+    return Shape::setPosition(position);
 }
 
 
@@ -53,29 +51,32 @@ void Sprite::draw(he::gfx::render::Render& render, const he::gfx::render::Render
 {
     if (m_vertexArrayNeedUpdate)
     {
-        update();
+        updateVertexArray();
+        updateTextureCoords();
     }
 
-    if (not Shape::getVertexArray().empty())
+    if (not m_vertexArray.empty())
     {
         if (m_isFilledByColor)
         {
-            render.drawVertexPrimitive(Shape::getVertexArray(), getTextureId(), getColor(), renderSettings);
+            render.drawVertex2d(m_vertexArray, 0, getColor(), renderSettings, getTransform().getMatrix(), m_vertexArrayNeedUpdate);
         }
         else
         {
-            render.drawVertex(Shape::getVertexArray(), getTextureId(), getColor(), renderSettings);
+            render.drawVertex2d(m_vertexArray, getTextureId(), getColor(), renderSettings, getTransform().getMatrix(), m_vertexArrayNeedUpdate);
         }
     }
+
+    m_vertexArrayNeedUpdate = false;
 }
 
 
 ////////////////////////////////////////////////////////////
 void Sprite::setColor(const he::gfx::Color& color)
 {
+    m_vertexArrayNeedUpdate = (m_context.color != color);
     m_context.color = color;
     m_isFilledByColor = true;
-    m_vertexArrayNeedUpdate = true;
 }
 
 
@@ -84,16 +85,6 @@ void Sprite::unsetColor()
 {
     m_isFilledByColor = false;
     m_vertexArrayNeedUpdate = true;
-}
-
-
-////////////////////////////////////////////////////////////
-void Sprite::update()
-{
-    Shape::update();
-
-    updateTextureCoords();
-    m_textureCoordsNeedUpdate = false;
 }
 
 

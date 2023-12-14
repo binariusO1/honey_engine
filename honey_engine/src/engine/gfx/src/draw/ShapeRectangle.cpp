@@ -28,7 +28,6 @@ ShapeRectangle::ShapeRectangle(const ShapeRectangle& copy)
     : m_rectangle{copy.m_rectangle}
     , Shape(copy, m_rectangle)
 {
-    //m_figure = static_cast<gfx::geometry::figures::Figure&>(m_rectangle);
 }
 
 

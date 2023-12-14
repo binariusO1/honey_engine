@@ -40,7 +40,7 @@ int Program::run(char* argv[])
 int Program::startProgram()
 {
         std::unique_ptr<he::window::Window> window = std::make_unique<he::window::Window>(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT, WINDOW_NAME);
-        std::unique_ptr<he::gfx::render::IRender> render = std::make_unique<he::gfx::render::Render>();
+        std::unique_ptr<he::gfx::render::IRender> render = std::make_unique<he::gfx::render::Render>(window->getWindowSize().first, window->getWindowSize().second);
 
         he::gfx::geometry::figures::Rectangle rect(100.0);
         std::shared_ptr<he::gfx::draw::Shape> rectangle1 = std::make_shared<he::gfx::draw::Shape>("rect1", rect);

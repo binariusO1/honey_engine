@@ -35,6 +35,22 @@ public:
 
     static const Transform Identity; //!< The identity transform (does nothing)
 
+    static void transformPoint2d(geometry::Point2Df& point, const float* matrix)
+    {
+        if (matrix)
+        {
+            try
+            {
+                point.x = matrix[0] * point.x + matrix[4] * point.y + matrix[12];
+                point.y = matrix[1] * point.x + matrix[5] * point.y + matrix[13];
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr << e.what() << '\n';
+            }
+        }
+    }
+
 private:
     float m_matrix[16]{1.f, 0.f, 0.f, 0.f,
                        0.f, 1.f, 0.f, 0.f,

@@ -1,7 +1,7 @@
 #include "gfx/geometry/transform/Transformable2d.hpp"
 
 #include <cmath>
-#include "logger/Logger.hpp"
+
 namespace he
 {
 namespace gfx
@@ -22,34 +22,38 @@ void Transformable2d::move(const geometry::Vector2Df& offset)
 
 
 ////////////////////////////////////////////////////////////
-void Transformable2d::setOrigin(const Point2Df& origin)
-{
-    m_origin = origin;
-    m_transformNeedUpdate        = true;
-}
-
-
-////////////////////////////////////////////////////////////
-void Transformable2d::setRotation(const Angle& angle)
-{
-    m_rotation = angle.wrapUnsigned();
-    m_transformNeedUpdate        = true;
-}
-
-
-////////////////////////////////////////////////////////////
-void Transformable2d::setScale(const geometry::Vector2Df& factors)
-{
-    m_scale = factors;
-    m_transformNeedUpdate        = true;
-}
-
-
-////////////////////////////////////////////////////////////
-void Transformable2d::setPosition(const Point2Df& position)
+bool Transformable2d::setPosition(const Point2Df& position)
 {
     m_position = position;
-    m_transformNeedUpdate        = true;
+    m_transformNeedUpdate = (m_position == position);
+    return m_transformNeedUpdate;
+}
+
+
+////////////////////////////////////////////////////////////
+bool Transformable2d::setOrigin(const Point2Df& origin)
+{
+    m_origin = origin;
+    m_transformNeedUpdate = (m_origin == origin);
+    return m_transformNeedUpdate;
+}
+
+
+////////////////////////////////////////////////////////////
+bool Transformable2d::setScale(const geometry::Vector2Df& factors)
+{
+    m_scale = factors;
+    m_transformNeedUpdate = (m_scale == factors);
+    return m_transformNeedUpdate;
+}
+
+
+////////////////////////////////////////////////////////////
+bool Transformable2d::setRotation(const Angle& angle)
+{
+    m_rotation = angle.wrapUnsigned();
+    m_transformNeedUpdate = (m_rotation == angle.wrapUnsigned());
+    return m_transformNeedUpdate;
 }
 
 

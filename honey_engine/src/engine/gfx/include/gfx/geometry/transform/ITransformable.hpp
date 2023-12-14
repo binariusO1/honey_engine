@@ -21,10 +21,10 @@ public:
 
 public:
     virtual void move(const Vector2Df& offset) = 0;
-    virtual void setOrigin(const Point2Df& origin) = 0;
-    virtual void setPosition(const Point2Df& position) = 0;
-    virtual void setRotation(const geometry::Angle& angle) = 0;
-    virtual void setScale(const geometry::Vector2Df& factors) = 0;
+    virtual bool setOrigin(const Point2Df& origin) = 0;
+    virtual bool setPosition(const Point2Df& position) = 0;
+    virtual bool setRotation(const geometry::Angle& angle) = 0;
+    virtual bool setScale(const geometry::Vector2Df& factors) = 0;
 
     virtual const Point2Df& getOrigin() const = 0;
     virtual const Point2Df& getPosition() const = 0;

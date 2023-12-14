@@ -20,10 +20,10 @@ public:
 
 public:
     void move(const geometry::Vector2Df& offset) override;
-    void setOrigin(const Point2Df& origin) override;
-    void setRotation(const geometry::Angle& angle) override;
-    void setScale(const geometry::Vector2Df& factors) override;
-    void setPosition(const Point2Df& position) override;
+    bool setOrigin(const Point2Df& origin) override;
+    bool setRotation(const geometry::Angle& angle) override;
+    bool setScale(const geometry::Vector2Df& factors) override;
+    bool setPosition(const Point2Df& position) override;
 
     const Point2Df& getOrigin() const override;
     const geometry::Angle& getRotation() const override;

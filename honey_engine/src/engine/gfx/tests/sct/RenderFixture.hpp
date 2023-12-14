@@ -17,7 +17,7 @@ public:
     RenderFixture()
     {
         mainWindow = std::make_unique<he::window::Window>(f_defaultWindowWidth, f_defaultWindowHeight, f_defaultWindowName);
-        mainRender = std::make_unique<he::gfx::render::Render>();
+        mainRender = std::make_unique<he::gfx::render::Render>(mainWindow->getWindowSize().first, mainWindow->getWindowSize().second);
     }
 
     void display(const size_t timeToDisplay = 600)

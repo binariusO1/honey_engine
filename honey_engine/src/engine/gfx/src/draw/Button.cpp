@@ -34,7 +34,8 @@ Button::Button(const Button& copy)
 //////////////////////////////////////////////////////////////////////
 void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings)
 {
-    Sprite::draw(render, renderSettings); 
+    Sprite::draw(render, renderSettings);
+
     if (m_text != nullptr)
     {
         render.draw(*m_text, renderSettings);
@@ -64,10 +65,11 @@ void Button::removeCallback(const window::Event event)
 
 
 //////////////////////////////////////////////////////////////////////
-void Button::setPosition(const geometry::Point2Df& point)
+bool Button::setPosition(const geometry::Point2Df& point)
 {
-    Shape::setPosition(point);
+    auto result = Shape::setPosition(point);
     updateTextPosition();
+    return result;
 }
 
 

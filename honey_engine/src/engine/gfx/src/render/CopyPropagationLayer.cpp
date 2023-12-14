@@ -23,6 +23,11 @@ CopyPropagationLayer::~CopyPropagationLayer()
 ////////////////////////////////////////////////////////////
 void CopyPropagationLayer::render(gfx::render::IRender& render)
 {
+    // TODO 2: improvement
+    // note: to reduce number of drawVertex2d in Render.cpp updates
+    // 1_ create structure like <item, copies_of_item>
+    // 2_ first time set position for all
+    // 3_ if no change with position of first element, just draw cached vertexArray
     for (const auto& item : m_shapes)
     {
         auto numX = m_propagationSettings.numberOfElementsX > 1 ? m_propagationSettings.numberOfElementsX : 1;

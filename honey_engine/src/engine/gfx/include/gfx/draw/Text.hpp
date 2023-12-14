@@ -38,10 +38,10 @@ public:
 
 public:
     void setColor(const he::gfx::Color&) override;
-    void setOrigin(const he::gfx::geometry::Point2Df&) override;
+    bool setOrigin(const he::gfx::geometry::Point2Df&) override;
     void setOriginInCenter() override;
-    void setPosition(const he::gfx::geometry::Point2Df&) override;
-    void setRotation(const he::gfx::geometry::Angle&) override;
+    bool setPosition(const he::gfx::geometry::Point2Df&) override;
+    bool setRotation(const he::gfx::geometry::Angle&) override;
     const he::gfx::Color getColor() const override;
     const std::string getName() const override { return m_context.name; };
     const he::gfx::geometry::Point2Df& getOrigin() const override;
