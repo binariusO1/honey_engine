@@ -87,6 +87,3 @@ private:
 } // namespace draw
 } // namespace gfx
 } // namespace he
-
-// TODO - zrobic funckje w ktorej wyswietlany tekst konwertowany jest na mapę bitową (z przezroczystym kanałem alfa) dla szybkiego renderu
-// czyli render obrazka zamiast polygonów

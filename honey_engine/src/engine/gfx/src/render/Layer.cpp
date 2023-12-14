@@ -156,7 +156,7 @@ void Layer::removeShape(const std::shared_ptr<he::gfx::draw::IShape>& shape)
 
 
 ////////////////////////////////////////////////////////////
-he::gfx::render::ShapeList& Layer::shapeList()
+he::gfx::render::ShapeList& Layer::getShapeList()
 {
     return m_shapes;
 }

@@ -43,6 +43,6 @@ TEST_F(LayerTests, whenaddDrawableWithSameName_shouldAddOnlyFirst)
     he::gfx::render::ShapeList hexagons{hexagon6, hexagon7};
     layer2->addShapes(hexagons);
 
-    ASSERT_EQ(layer2->shapeList().size(), 1);
+    ASSERT_EQ(layer2->getShapeList().size(), 1);
 }
 } // namespace he::gfx::render
