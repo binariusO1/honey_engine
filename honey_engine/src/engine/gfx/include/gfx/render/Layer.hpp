@@ -30,7 +30,7 @@ public:
     void addShape(const std::shared_ptr<he::gfx::draw::IShape>&);
     void addShapes(const ShapeList&);
     void removeShape(const std::shared_ptr<he::gfx::draw::IShape>&);
-    he::gfx::render::ShapeList& getShapeList();//todo: change name to getShapes
+    he::gfx::render::ShapeList& getShapeList();
     he::gfx::draw::IShape& shape(const std::string&);
 
 public:

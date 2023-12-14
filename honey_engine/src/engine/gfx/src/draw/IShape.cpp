@@ -1,27 +1,5 @@
 #include "gfx/draw/IShape.hpp"
 
-#include "gfx/render/Render.hpp"
-#include "logger/Logger.hpp"
-
-namespace 
-{
-    // TODO make this function common not inside thic .cpp file
-void convertPixelPointToVertexPoint(he::gfx::geometry::Point2Df& point, const int screenWidth, const int screenHeight)
-{
-    const float SCREEN_SCALE = 2.0f;
-    const float OFFSET_ORIGIN_SCREEN = -1.0f;
-
-    if (screenWidth > 0 and screenHeight > 0)
-    {
-        float x = (point.x / static_cast<float>(screenWidth)*SCREEN_SCALE) + OFFSET_ORIGIN_SCREEN;
-        float y = (point.y / static_cast<float>(screenHeight)*SCREEN_SCALE) + OFFSET_ORIGIN_SCREEN;
-        point.x = x;
-        point.y = y;
-        return;
-    }
-    LOG_WARNING << "No convert. Window width or height is equal to 0!";
-}
-} // namespace
 namespace he
 {
 namespace gfx
