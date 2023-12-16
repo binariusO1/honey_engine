@@ -6,11 +6,11 @@ namespace gfx
 {
 namespace render
 {
-struct TransformSettings
+struct TransformMatrix
 {
-    float* modelMatrix{nullptr};
-    float* viewMatrix{nullptr};
-    float* projectionMatrix{nullptr};
+    const float* modelMatrix{nullptr};
+    const float* projectionMatrix{nullptr};
+    const float* viewMatrix{nullptr};
     bool isNeedUpdate{false};
 }; 
 } // namespace render

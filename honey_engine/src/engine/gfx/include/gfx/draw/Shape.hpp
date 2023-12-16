@@ -37,7 +37,7 @@ public:
     void setOriginInCenter() override;
 
 public:
-    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;
+    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&, render::TransformMatrix&) override;
 
 public:
     void setOriginPosition(const he::gfx::OriginPosition& originPosition);

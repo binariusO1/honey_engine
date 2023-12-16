@@ -29,8 +29,8 @@ public:
     Render& operator=(const Render&) = delete;
 
 public:
-    void draw(he::gfx::draw::IDrawable&) override;
-    void draw(he::gfx::draw::IDrawable&, const he::gfx::render::RenderSettings&) override;
+    void draw(he::gfx::draw::IDrawable&, TransformMatrix&) override;
+    void draw(he::gfx::draw::IDrawable&, const he::gfx::render::RenderSettings&, TransformMatrix&) override;
 
 public:
     void drawVertex2d(
@@ -38,8 +38,7 @@ public:
         const unsigned int textureId,
         const he::gfx::Color color, 
         const he::gfx::render::RenderSettings& renderSettings,
-        const float* matrix,
-        bool needUpdate);
+        TransformMatrix&);
 
 private:
     void draw2d(

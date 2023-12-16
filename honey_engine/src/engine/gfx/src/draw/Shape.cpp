@@ -146,16 +146,18 @@ void Shape::openVertexArray()
 
 
 ////////////////////////////////////////////////////////////
-void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings)
+void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings, render::TransformMatrix& transformMatrix)
 {
     if (m_vertexArrayNeedUpdate)
     {
         updateVertexArray();
+        transformMatrix.isNeedUpdate = m_vertexArrayNeedUpdate;
     }
 
     if (not m_vertexArray.empty())
     {
-        render.drawVertex2d(m_vertexArray, 0, getColor(), renderSettings, getTransform().getMatrix(), m_vertexArrayNeedUpdate);
+        transformMatrix.modelMatrix = getTransform().getMatrix();
+        render.drawVertex2d(m_vertexArray, 0, getColor(), renderSettings, transformMatrix);
     }
 
     m_vertexArrayNeedUpdate = false;

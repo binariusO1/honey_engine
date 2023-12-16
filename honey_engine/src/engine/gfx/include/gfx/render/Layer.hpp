@@ -22,6 +22,9 @@ public:
     void setRenderSettings(const he::gfx::render::RenderSettings&) override;
 
 public:
+    bool setPosition(const geometry::Point2Df&) override;
+
+public:
     void addLayer(const std::shared_ptr<he::gfx::render::ILayer>&);
     void addLayers(const LayersList&);
     void removeLayer(const std::shared_ptr<he::gfx::render::ILayer>&);
@@ -45,6 +48,7 @@ private:
     void onMouseButtonPressed(const he::window::Event::MouseButtonAction&);
     void onMouseButtonReleased(const he::window::Event::MouseButtonAction&);
     void onMouseCursorMoved(const he::window::Event::MouseMoveEvent&);
+    void adjustPointsForEvent(int&, int&);
 
 protected:
     ButtonList m_buttons;

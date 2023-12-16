@@ -25,7 +25,7 @@ using LayersList = std::vector<std::shared_ptr<he::gfx::render::ILayer>>;
 using LayersMap = std::unordered_map<std::string, std::shared_ptr<he::gfx::render::ILayer>>;
 using ShapeList = std::vector<std::shared_ptr<he::gfx::draw::IShape>>;
 
-class BaseLayer : public ILayer
+class BaseLayer : public ILayer , protected geometry::transform::Transformable2d
 {
 public:
     BaseLayer(const std::string&);
@@ -49,6 +49,7 @@ public:
 protected:
     ILayer::ContextLayer m_context;
     he::gfx::render::RenderSettings m_renderSettings{};
+    he::gfx::render::TransformMatrix m_transformMatrix{};
 };
 } // namespace render
 } // namespace gfx

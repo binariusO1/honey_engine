@@ -47,23 +47,26 @@ bool Sprite::setPosition(const he::gfx::geometry::Point2Df& position)
 
 
 ////////////////////////////////////////////////////////////
-void Sprite::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings)
+void Sprite::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings, render::TransformMatrix& transformMatrix)
 {
     if (m_vertexArrayNeedUpdate)
     {
         updateVertexArray();
         updateTextureCoords();
+        transformMatrix.isNeedUpdate = m_vertexArrayNeedUpdate;
     }
 
     if (not m_vertexArray.empty())
     {
+        transformMatrix.modelMatrix = getTransform().getMatrix();
+
         if (m_isFilledByColor)
         {
-            render.drawVertex2d(m_vertexArray, 0, getColor(), renderSettings, getTransform().getMatrix(), m_vertexArrayNeedUpdate);
+            render.drawVertex2d(m_vertexArray, 0, getColor(), renderSettings, transformMatrix);
         }
         else
         {
-            render.drawVertex2d(m_vertexArray, getTextureId(), getColor(), renderSettings, getTransform().getMatrix(), m_vertexArrayNeedUpdate);
+            render.drawVertex2d(m_vertexArray, getTextureId(), getColor(), renderSettings, transformMatrix);
         }
     }
 

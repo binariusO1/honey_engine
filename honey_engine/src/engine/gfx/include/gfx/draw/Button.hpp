@@ -27,7 +27,7 @@ public:
 public:
     bool setPosition(const geometry::Point2Df&);
     void setOriginInCenter() override;
-    void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings) override;
+    void draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings, render::TransformMatrix&) override;
 
 public:
     virtual void setCallback(const ButtonCheckCallback& callback, const window::Event event);

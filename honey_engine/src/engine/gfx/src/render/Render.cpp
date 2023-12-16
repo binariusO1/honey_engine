@@ -30,16 +30,16 @@ Render::Render(const int screenWidth, const int screenHeight)
 
 
 ////////////////////////////////////////////////////////////
-void Render::draw(he::gfx::draw::IDrawable& drawable)
+void Render::draw(he::gfx::draw::IDrawable& drawable, TransformMatrix& transform)
 {
-    draw(drawable, m_defaultRenderSettings);
+    draw(drawable, m_defaultRenderSettings, transform);
 }
 
 
 ////////////////////////////////////////////////////////////
-void Render::draw(he::gfx::draw::IDrawable& drawable, const he::gfx::render::RenderSettings& renderSettings)
+void Render::draw(he::gfx::draw::IDrawable& drawable, const he::gfx::render::RenderSettings& renderSettings, TransformMatrix& transform)
 {
-    drawable.draw(*this, renderSettings);
+    drawable.draw(*this, renderSettings, transform);
 }
 
 
@@ -49,20 +49,22 @@ void Render::drawVertex2d(
         const unsigned int textureId,
         const he::gfx::Color color, 
         const he::gfx::render::RenderSettings& renderSettings,
-        const float* modelMatrix,
-        bool needUpdate)
+        TransformMatrix& transformMatrix)
 {
-    if (needUpdate)
+    if (transformMatrix.isNeedUpdate)
     {
         for (std::size_t i = 0 ; i < vertexArray.size() ; ++i)
         {
-            he::gfx::geometry::transform::Transform::transformPoint2d(vertexArray[i].position, modelMatrix);
+            he::gfx::geometry::transform::Transform::transformPoint2d(vertexArray[i].position, transformMatrix.modelMatrix);
+            he::gfx::geometry::transform::Transform::transformPoint2d(vertexArray[i].position, transformMatrix.viewMatrix);
+            he::gfx::geometry::transform::Transform::transformPoint2d(vertexArray[i].position, transformMatrix.projectionMatrix);
             viewportTransform(vertexArray[i].position);
         }
     }
 
     auto isPrimitive = not static_cast<bool>(textureId);
     draw2d(vertexArray, textureId, color, renderSettings, isPrimitive);
+    transformMatrix.isNeedUpdate = false;
 }
 
 

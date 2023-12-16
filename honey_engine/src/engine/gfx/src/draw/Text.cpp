@@ -251,7 +251,7 @@ void Text::createNewFont(const text::Font& font)
 
 
 //////////////////////////////////////////////////////////////////////
-void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings)
+void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings, render::TransformMatrix& transformMatrix)
 {
     auto newRenderSettings = renderSettings;
     newRenderSettings.prymitiveType = he::libs::gl::ConnectionType::Triangles;
@@ -259,16 +259,19 @@ void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& 
     if (m_vertexArrayNeedUpdate)
     {
         this->updateVertexArray();
+        transformMatrix.isNeedUpdate = m_vertexArrayNeedUpdate;
     }
 
     if (m_outlineThickness != 0.0)
     {
-        render.drawVertex2d(m_outlineVertices, getTextureId(), m_context.color, newRenderSettings, nullptr, m_vertexArrayNeedUpdate);
+        transformMatrix.modelMatrix = getTransform().getMatrix();
+        render.drawVertex2d(m_outlineVertices, getTextureId(), m_context.color, newRenderSettings, transformMatrix);
     }
 
     if (not m_vertexArray.empty())
     {
-        render.drawVertex2d(m_vertexArray, getTextureId(), m_context.color, newRenderSettings, nullptr, m_vertexArrayNeedUpdate);
+        transformMatrix.modelMatrix = getTransform().getMatrix();
+        render.drawVertex2d(m_vertexArray, getTextureId(), m_context.color, newRenderSettings, transformMatrix);
     }
 
     m_vertexArrayNeedUpdate = false;
@@ -303,7 +306,7 @@ void Text::updateVertexArray()
         auto point = m_vertexArray[i].position;
         auto texturePoint = m_vertexArray[i].texCoords;
  
-        transformPoint(point);//todo check if needed
+        // transformPoint(point);//todo check if needed
         convertPixelPointToVertexPointTexture(texturePoint, textureSize);
         m_vertexArray[i].position = point;
         m_vertexArray[i].texCoords = texturePoint;

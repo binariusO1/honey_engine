@@ -39,7 +39,7 @@ void CopyPropagationLayer::render(gfx::render::IRender& render)
             for (std::size_t j = 0 ; j < numY ; ++j)
             {
                 item->setPosition({xPosition, startingPosition.y + (m_propagationSettings.distanceY * j)});
-                render.draw(*item, m_renderSettings);
+                render.draw(*item, m_renderSettings, m_transformMatrix);
             }
         }
         item->setPosition(startingPosition);

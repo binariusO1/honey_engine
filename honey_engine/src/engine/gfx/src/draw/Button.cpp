@@ -32,13 +32,13 @@ Button::Button(const Button& copy)
 
 
 //////////////////////////////////////////////////////////////////////
-void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings)
+void Button::draw(gfx::render::Render& render, const gfx::render::RenderSettings& renderSettings, render::TransformMatrix& transformMatrix)
 {
-    Sprite::draw(render, renderSettings);
+    Sprite::draw(render, renderSettings, transformMatrix);
 
     if (m_text != nullptr)
     {
-        render.draw(*m_text, renderSettings);
+        render.draw(*m_text, renderSettings, transformMatrix);
     }
 }
 

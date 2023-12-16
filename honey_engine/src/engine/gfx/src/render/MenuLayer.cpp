@@ -23,23 +23,24 @@ void MenuLayer::render(gfx::render::IRender& render)
 
 
 ////////////////////////////////////////////////////////////
-void MenuLayer::setPosition(const geometry::Point2Df& position)
+bool MenuLayer::setPosition(const geometry::Point2Df& position)
 {
     checkAndCorrectPropagationParameters();
     switch (m_originPosition)
     {
         case he::gfx::OriginPosition::any:
             LOG_WARNING << "OriginPosition::any has no efect";
-            break;
+            return false;
         case he::gfx::OriginPosition::leftDown:
-            m_originPosition = OriginPosition::leftDown;
-            break;
+            return false;
         case he::gfx::OriginPosition::center:
             setPositionToCenter(position);
-            break;
+            return true;
         default:
             break;
     }
+
+    return false;
 }
 
 

@@ -1,5 +1,7 @@
 #include "gfx/render/Layer.hpp"
+
 #include <algorithm>
+#include "gfx/render/TransformMatrix.hpp"
 #include "logger/Logger.hpp"
 
 namespace he
@@ -25,17 +27,17 @@ void Layer::render(gfx::render::IRender& render)
 {
     for (const auto& item : m_buttons)
     {
-        render.draw(*item);
+        render.draw(*item, m_transformMatrix);
     }
 
     for (const auto& item : m_shapes)
     {
-        render.draw(*item);
+        render.draw(*item, m_transformMatrix);
     }
 
     for (const auto& layer : m_layers)
     {
-        layer.second->render(render);
+        layer.second->render(render); //todo : pass transformMatrix
     }
 }
 
@@ -48,6 +50,18 @@ void Layer::setRenderSettings(const he::gfx::render::RenderSettings& renderSetti
     {
         layer.second->setRenderSettings(m_renderSettings);
     }
+}
+
+
+////////////////////////////////////////////////////////////
+bool Layer::setPosition(const geometry::Point2Df& position)
+{
+    auto result = Transformable2d::setPosition(position);
+
+    m_transformMatrix.viewMatrix = getTransform().getMatrix();
+    m_transformMatrix.isNeedUpdate = true;
+
+    return result;
 }
 
 
@@ -252,9 +266,12 @@ void Layer::process_event(const he::window::Event& event)
 ////////////////////////////////////////////////////////////
 void Layer::onMouseButtonPressed(const he::window::Event::MouseButtonAction& event)
 {
+    window::Event::MouseButtonAction adjEvent = event;
+    adjustPointsForEvent(adjEvent.x, adjEvent.y);
+
     for (const auto& button : m_buttons)
     {
-        if (button->onMouseButtonPressed(event) and m_firstonMouseButtonPressed)
+        if (button->onMouseButtonPressed(adjEvent) and m_firstonMouseButtonPressed)
         {
             return;
         }
@@ -265,9 +282,12 @@ void Layer::onMouseButtonPressed(const he::window::Event::MouseButtonAction& eve
 ////////////////////////////////////////////////////////////
 void Layer::onMouseButtonReleased(const he::window::Event::MouseButtonAction& event)
 {
+    window::Event::MouseButtonAction adjEvent = event;
+    adjustPointsForEvent(adjEvent.x, adjEvent.y);
+
     for (const auto& button : m_buttons)
     {
-        if (button->onMouseButtonReleased(event) and m_firstonMouseButtonPressed)
+        if (button->onMouseButtonReleased(adjEvent) and m_firstonMouseButtonPressed)
         {
             return;
         }
@@ -278,13 +298,26 @@ void Layer::onMouseButtonReleased(const he::window::Event::MouseButtonAction& ev
 ////////////////////////////////////////////////////////////
 void Layer::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& event)
 {
+    window::Event::MouseMoveEvent adjEvent = event;
+    adjustPointsForEvent(adjEvent.x, adjEvent.y);
+
     for (const auto& button : m_buttons)
     {
-        if (button->onMouseCursorMoved(event) and m_firstonMouseButtonPressed)
+        if (button->onMouseCursorMoved(adjEvent) and m_firstonMouseButtonPressed)
         {
             return;
         }
     }
+}
+
+
+////////////////////////////////////////////////////////////
+void Layer::adjustPointsForEvent(int& x, int& y)
+{
+    he::gfx::geometry::Point2Df pointToCheck{static_cast<float>(x), static_cast<float>(y)};
+    Transformable2d::inverseTransformPoint(pointToCheck);
+    x = static_cast<int>(pointToCheck.x);
+    y = static_cast<int>(pointToCheck.y);
 }
 } // namespace render
 } // namespace gfx

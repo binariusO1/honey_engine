@@ -18,8 +18,10 @@ public:
     void render(gfx::render::IRender&) override;
 
 public:
-    void setPosition(const geometry::Point2Df&);
+    bool setPosition(const geometry::Point2Df&) override;
     void setOrigin(gfx::OriginPosition);
+
+public:
     void setButton(const std::shared_ptr<gfx::draw::Button>&);
 
 private:

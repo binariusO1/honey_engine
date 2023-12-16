@@ -67,7 +67,7 @@ private:
     void updateLocalBounds(he::gfx::geometry::Line<float>, const float, const float);
     
 protected:
-    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;
+    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&, render::TransformMatrix&) override;
     virtual void createNewFont(const text::Font& font);
 
 protected:

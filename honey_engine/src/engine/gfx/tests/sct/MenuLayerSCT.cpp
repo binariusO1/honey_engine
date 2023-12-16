@@ -42,7 +42,8 @@ TEST_F(MenuLayerSCT, menuTest_afterAddButtonSetMenuOriginToCenterAndSetPosition_
 
     he::gfx::draw::Button button1("Button1", t_buttonSize);
     button1.setColor(he::gfx::Color(217, 210, 205, 255));
-    button1.setPosition({0, 600});
+    button1.setOriginInCenter();
+    // button1.setPosition({0, 600});
     he::gfx::draw::Text customText("customText");
     customText.setFont(f_fontCalibriPath);
     customText.setCharacterSize(28);

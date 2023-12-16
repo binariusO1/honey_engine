@@ -44,8 +44,8 @@ public:
     struct MouseButtonAction
     {
         he::window::Mouse::Button button;    ///< Code of the button that has been pressed
-        int           x;             ///< X position of the mouse pointer, relative to the left of the owner window
-        int           y;             ///< Y position of the mouse pointer, relative to the top of the owner window
+        int x;             ///< X position of the mouse pointer, relative to the left of the owner window
+        int y;             ///< Y position of the mouse pointer, relative to the top of the owner window
     };
 
     struct MouseWheelEvent

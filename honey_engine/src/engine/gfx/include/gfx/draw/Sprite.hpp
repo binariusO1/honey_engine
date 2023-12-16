@@ -29,7 +29,7 @@ public:
     void unsetColor();
 
 protected:
-    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&) override;
+    void draw(he::gfx::render::Render&, const he::gfx::render::RenderSettings&, render::TransformMatrix&) override;
 
 protected:
     void updateTextureCoords();
