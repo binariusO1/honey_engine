@@ -8,7 +8,8 @@ set(PUBLIC_HEADERS
 	include/geometry/Point2d.hpp
 	include/geometry/Point3d.hpp
 	include/geometry/Size2d.hpp
-	include/gfx/geometry/Vector2d.hpp
+	include/geometry/Vector2d.hpp
+	include/geometry/Vector3d.hpp
 	include/geometry/Vector4d.hpp
 	include/geometry/figures/Cross.hpp
 	include/geometry/figures/Figure.hpp

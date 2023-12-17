@@ -3,6 +3,7 @@ set(MODULE_NAME math)
 set(PUBLIC_HEADERS 
 	include/${MODULE_NAME}/Constants.hpp
 	include/${MODULE_NAME}/Functions.hpp
+	include/${MODULE_NAME}/Matrix.hpp
 )
 
 add_library(${MODULE_NAME} ${INTERNAL_FILES} ${PUBLIC_HEADERS})

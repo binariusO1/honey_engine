@@ -3,6 +3,7 @@
 #include <vector>
 #include "gfx/Color.hpp"
 #include "gfx/geometry/Point2d.hpp"
+#include "gfx/geometry/Point3d.hpp"
 
 namespace he
 {
@@ -37,6 +38,8 @@ friend std::ostream& operator<< (std::ostream& os, const gfx::Vertex<T>& vertex)
 
 using Vertex2d = Vertex<he::gfx::geometry::Point2Df>;
 using VertexArray2d = std::vector<he::gfx::Vertex2d>;
+using Vertex3d = Vertex<he::gfx::geometry::Point3Df>;
+using VertexArray3d = std::vector<he::gfx::Vertex3d>;
 
 } // namespace gfx
 } // namespace he

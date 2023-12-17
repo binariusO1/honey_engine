@@ -104,13 +104,13 @@ inline Vector2d<T>& operator /=(Vector2d<T>& left, T right)
 template <typename T>
 inline bool operator ==(const Vector2d<T>& left, const Vector2d<T>& right)
 {
-    return (left.x == right.x) && (left.y == right.y);
+    return (left.x == right.x) and (left.y == right.y);
 }
 
 template <typename T>
 inline bool operator !=(const Vector2d<T>& left, const Vector2d<T>& right)
 {
-    return (left.x != right.x) || (left.y != right.y);
+    return (left.x != right.x) or (left.y != right.y);
 }
 
 using Vector2D = Vector2d<std::int16_t>;

@@ -8,6 +8,7 @@ if(NOT COVERAGE)
 			ButtonSCT.cpp
 			PropagationLayerSCT.cpp
 			MenuLayerSCT.cpp
+			Model3dSCT.cpp
 			RenderFixture.hpp
 			ShapeSCT.cpp
 			TextSCT.cpp

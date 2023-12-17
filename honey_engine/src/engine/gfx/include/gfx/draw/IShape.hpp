@@ -30,7 +30,7 @@ public:
     void setName(const std::string&) override;
     void setLayerName(const std::string&) override;
     const std::string getLayerName() const override;
-    const he::gfx::VertexArray2d& getVertexArray() const override;
+    virtual const he::gfx::VertexArray2d& getVertexArray() const;
 
 public:
     bool setOrigin(const he::gfx::geometry::Point2Df& point) override;

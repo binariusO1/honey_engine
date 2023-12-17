@@ -65,8 +65,8 @@ const geometry::Size2Df Hexagon::getSize() const
 ////////////////////////////////////////////////////////////
 bool Hexagon::isPointInside(const geometry::Point2Df& point) const
 {
-    float dx = math::getAbsoluteValue(point.x - getCenterPoint().x) / (m_side * 2.0f);
-    float dy = math::getAbsoluteValue(point.y - getCenterPoint().y) / (m_side * 2.0f);
+    float dx = he::math::getAbsoluteValue(point.x - getCenterPoint().x) / (m_side * 2.0f);
+    float dy = he::math::getAbsoluteValue(point.y - getCenterPoint().y) / (m_side * 2.0f);
     float a = 0.25f * MATH_SQRT3;
     bool status = (dy <= a) && (a * dx + 0.25f * dy <= 0.5f * a);
     

@@ -55,9 +55,9 @@ void Render::drawVertex2d(
     {
         for (std::size_t i = 0 ; i < vertexArray.size() ; ++i)
         {
-            he::gfx::geometry::transform::Transform::transformPoint2d(vertexArray[i].position, transformMatrix.modelMatrix);
-            he::gfx::geometry::transform::Transform::transformPoint2d(vertexArray[i].position, transformMatrix.viewMatrix);
-            he::gfx::geometry::transform::Transform::transformPoint2d(vertexArray[i].position, transformMatrix.projectionMatrix);
+            he::math::transformPoint2d(vertexArray[i].position.x, vertexArray[i].position.y, transformMatrix.projectionMatrix);
+            he::math::transformPoint2d(vertexArray[i].position.x, vertexArray[i].position.y, transformMatrix.viewMatrix);
+            he::math::transformPoint2d(vertexArray[i].position.x, vertexArray[i].position.y, transformMatrix.modelMatrix);
             viewportTransform(vertexArray[i].position);
         }
     }

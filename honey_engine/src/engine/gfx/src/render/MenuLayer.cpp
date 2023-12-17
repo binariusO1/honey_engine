@@ -1,7 +1,7 @@
 #include "gfx/render/MenuLayer.hpp"
 
 #include "logger/Logger.hpp"
-
+#include "math/functions.hpp"
 namespace he
 {
 namespace gfx
@@ -90,8 +90,8 @@ void MenuLayer::setPositionToCenter(const geometry::Point2Df& position)
         float newPosY{position.y};
 
         m_buttons[0]->setOriginInCenter();
-        auto propWidth = (buttonWidth * numX) + ((numX - 1) * std::abs(m_propagationSettings.distanceX));
-        auto propHeight = (buttonHeight * numY) + ((numY - 1) * std::abs(m_propagationSettings.distanceY));
+        auto propWidth = (buttonWidth * numX) + ((numX - 1) * math::getAbsoluteValue(m_propagationSettings.distanceX));
+        auto propHeight = (buttonHeight * numY) + ((numY - 1) * math::getAbsoluteValue(m_propagationSettings.distanceY));
 
         if (m_propagationSettings.distanceX > 0)
         {

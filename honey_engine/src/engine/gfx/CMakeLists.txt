@@ -49,7 +49,6 @@ set(PUBLIC_HEADERS
 	include/gfx/geometry/Angle.hpp
 	include/gfx/geometry/Angle.inl
 	include/gfx/geometry/Line.hpp
-	include/gfx/geometry/Matrix.hpp
 	include/gfx/geometry/Point2d.hpp
 	include/gfx/geometry/Point3d.hpp
 	include/gfx/geometry/Size2d.hpp
@@ -64,7 +63,6 @@ set(PUBLIC_HEADERS
 	include/gfx/geometry/transform/ITransformable.hpp
 	include/gfx/geometry/transform/Transform.hpp
 	include/gfx/geometry/transform/Transformable2d.hpp
-	include/gfx/geometry/Utils.hpp
     include/gfx/graphic/Image.hpp
     include/gfx/graphic/ITexture.hpp
     include/gfx/graphic/Texture.hpp

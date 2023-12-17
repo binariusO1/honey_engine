@@ -2,7 +2,6 @@
 
 #include <vector>
 #include "gfx/geometry/Line.hpp"
-#include "gfx/geometry/Utils.hpp"
 #include "math/Functions.hpp"
 
 
@@ -10,10 +9,10 @@ namespace
 {
 bool onLine(const he::gfx::geometry::Line<float>& l1, const he::gfx::geometry::Point2Df& p)
 {
-    if (p.x <= math::getMax(l1.p1.x, l1.p2.x) 
-    && p.x <= math::getMin(l1.p1.x, l1.p2.x)
-    && p.y <= math::getMax(l1.p1.y, l1.p2.y)
-    && p.y <= math::getMin(l1.p1.y, l1.p2.y))
+    if (p.x <= he::math::getMax(l1.p1.x, l1.p2.x) 
+    && p.x <= he::math::getMin(l1.p1.x, l1.p2.x)
+    && p.y <= he::math::getMax(l1.p1.y, l1.p2.y)
+    && p.y <= he::math::getMin(l1.p1.y, l1.p2.y))
     {
         return true;
     }

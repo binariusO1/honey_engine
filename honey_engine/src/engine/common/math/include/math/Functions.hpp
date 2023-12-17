@@ -1,5 +1,7 @@
 #pragma once
 
+namespace he
+{
 namespace math
 {
 template<typename T>
@@ -19,4 +21,5 @@ T getMax(const T& a, const T& b)
 {
     return (a < b) ? b : a;
 }
+} // namespace math
 } // namespace math

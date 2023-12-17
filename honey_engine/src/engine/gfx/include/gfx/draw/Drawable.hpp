@@ -4,7 +4,6 @@
 #include "gfx/Color.hpp"
 #include "gfx/Vertex.hpp"
 #include "gfx/draw/OriginPosition.hpp"
-#include "gfx/geometry/Point2d.hpp"
 #include "gfx/render/VisibilityState.hpp"
 #include "gfx/draw/IDrawable.hpp"
 
@@ -27,7 +26,6 @@ public:
 public:
     virtual void setColor(const he::gfx::Color&) = 0;
     virtual const he::gfx::Color getColor() const = 0;
-    virtual const he::gfx::VertexArray2d& getVertexArray() const = 0;
     virtual void setLayerName(const std::string&) = 0;
     virtual const std::string getLayerName() const = 0;
 

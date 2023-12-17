@@ -3,6 +3,16 @@ constexpr Transform::Transform() = default;
 
 
 ////////////////////////////////////////////////////////////
+constexpr Transform::Transform(const float diag)
+    : m_matrix{diag, 0.f,  0.f,  0.f,
+               0.f,  diag, 0.f,  0.f,
+               0.f,  0.f,  diag, 0.f,
+               0.f,  0.f,  0.f,  diag}
+{
+}
+
+
+////////////////////////////////////////////////////////////
 constexpr Transform::Transform(float a00, float a01, float a02,
                                float a10, float a11, float a12,
                                float a20, float a21, float a22)
@@ -10,6 +20,19 @@ constexpr Transform::Transform(float a00, float a01, float a02,
                a01, a11, 0.f, a21,
                0.f, 0.f, 1.f, 0.f,
                a02, a12, 0.f, a22}
+{
+}
+
+
+////////////////////////////////////////////////////////////
+constexpr Transform::Transform(float a00, float a01, float a02, float a03,
+                               float a10, float a11, float a12, float a13,
+                               float a20, float a21, float a22, float a23,
+                               float a30, float a31, float a32, float a33)
+    : m_matrix{a00, a10, a20, a30,
+               a01, a11, a21, a31,
+               a02, a12, a22, a32,
+               a03, a13, a23, a33}
 {
 }
 
@@ -83,6 +106,20 @@ constexpr Transform& Transform::translate(const geometry::Vector2Df& offset)
     Transform translation(1, 0, offset.x,
                           0, 1, offset.y,
                           0, 0, 1);
+    // clang-format on
+
+    return combine(translation);
+}
+
+
+////////////////////////////////////////////////////////////
+constexpr Transform& Transform::translate(const geometry::Vector3Df& offset)
+{
+    // clang-format off
+    Transform translation(1, 0, 0, offset.x,
+                          0, 1, 0, offset.y,
+                          0, 0, 1, offset.z,
+                          0, 0, 0, 1);
     // clang-format on
 
     return combine(translation);
