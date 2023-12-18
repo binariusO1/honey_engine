@@ -14,11 +14,12 @@ class Vector2d
 {
 public:
     inline Vector2d() : x{0}, y{0} {}
+    inline Vector2d(T value) : x(value), y(value) {}
     inline Vector2d(T X, T Y) : x(X), y(Y) {}
     template <typename U>
     explicit Vector2d(const Vector2d<U>& vector) : x(static_cast<T>(vector.x)), y(static_cast<T>(vector.y)) {}
 public:
-    inline T getLength() {}
+    inline std::size_t size() { return 2; }
     
 public:
     T x;

@@ -14,7 +14,7 @@ namespace transform
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR>
-Transformable<POINT, VECTOR>::Transformable() : m_scale{1.f, 1.f}
+Transformable<POINT, VECTOR>::Transformable() : m_scale(1.f)
 {
 }
 

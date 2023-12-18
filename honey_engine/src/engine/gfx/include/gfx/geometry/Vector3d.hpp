@@ -14,11 +14,12 @@ class Vector3d
 {
 public:
     inline Vector3d() : x{0}, y{0}, z{0} {}
+    inline Vector3d(T value) : x(value), y(value), z(value) {}
     inline Vector3d(T X, T Y, T Z) : x(X), y(Y), z(Z) {}
     template <typename U>
     explicit Vector3d(const Vector3d<U>& vector) : x(static_cast<T>(vector.x)), y(static_cast<T>(vector.y)), z(static_cast<T>(vector.z)) {}
 public:
-    inline T getLength() {}
+    inline std::size_t size() { return 3; }
     
 public:
     T x;
