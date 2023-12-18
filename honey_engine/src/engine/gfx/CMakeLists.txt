@@ -19,9 +19,9 @@ set(INTERNAL_FILES
 	src/geometry/figures/Polygon.cpp
 	src/geometry/figures/Rectangle.cpp
 	src/geometry/figures/StretchedHexagon.cpp
-	src/geometry/figures/Transform.cpp
-	src/geometry/figures/Transformable2d.cpp
-	src/geometry/figures/Utils.cpp
+	src/geometry/transform/Transform.cpp
+	src/geometry/transform/Transformable2d.cpp
+	src/geometry/transform/Utils.cpp
 	src/render/BaseLayer.cpp
 	src/render/Layer.cpp
 	src/render/CopyPropagationLayer.cpp

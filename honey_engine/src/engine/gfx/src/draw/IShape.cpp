@@ -17,7 +17,7 @@ IShape::IShape(const IShape& copy)
     : m_vertexArray{copy.m_vertexArray}
     , m_context{copy.m_context} // TODO: warning - during copy, unique string will be not unique. maybe name should be: hash+name ?
     , m_vertexArrayNeedUpdate{copy.m_vertexArrayNeedUpdate}
-    , geometry::transform::Transformable2d(copy)
+    , Trans2d(copy)
 {
 }
 
@@ -51,7 +51,7 @@ const he::gfx::Color IShape::getColor() const
 ////////////////////////////////////////////////////////////
 bool IShape::setPosition(const he::gfx::geometry::Point2Df& position)
 {
-    m_vertexArrayNeedUpdate = Transformable2d::setPosition(position);
+    m_vertexArrayNeedUpdate = Trans2d::setPosition(position);
     return m_vertexArrayNeedUpdate;
 }
 
@@ -59,15 +59,15 @@ bool IShape::setPosition(const he::gfx::geometry::Point2Df& position)
 ////////////////////////////////////////////////////////////
 bool IShape::setOrigin(const he::gfx::geometry::Point2Df& point)
 {
-    m_vertexArrayNeedUpdate = Transformable2d::setOrigin(point);
+    m_vertexArrayNeedUpdate = Trans2d::setOrigin(point);
     return m_vertexArrayNeedUpdate;
 }
 
 
 ////////////////////////////////////////////////////////////    
-bool IShape::setRotation(const he::gfx::geometry::Angle& angle)
+bool IShape::setRotation(const he::gfx::geometry::Angle& angle, const int)
 {
-    m_vertexArrayNeedUpdate = Transformable2d::setRotation(angle);
+    m_vertexArrayNeedUpdate = Trans2d::setRotation(angle);
     return m_vertexArrayNeedUpdate;
 }
 
@@ -75,7 +75,7 @@ bool IShape::setRotation(const he::gfx::geometry::Angle& angle)
 ////////////////////////////////////////////////////////////
 const he::gfx::geometry::Point2Df& IShape::getPosition() const
 {
-    return Transformable2d::getPosition();
+    return Trans2d::getPosition();
 }
 
 
@@ -117,14 +117,14 @@ const he::gfx::VertexArray2d& IShape::getVertexArray() const
 ////////////////////////////////////////////////////////////
 const he::gfx::geometry::Point2Df& IShape::getOrigin() const
 {
-    return Transformable2d::getOrigin();
+    return Trans2d::getOrigin();
 }
 
 
 ////////////////////////////////////////////////////////////
-const he::gfx::geometry::Angle& IShape::getRotation() const
+const he::gfx::geometry::Angle& IShape::getRotation(const int) const
 {
-    return Transformable2d::getRotation();
+    return Trans2d::getRotation();
 }
 
 

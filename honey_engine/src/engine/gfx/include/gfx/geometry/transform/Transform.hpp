@@ -2,6 +2,7 @@
 
 #include "gfx/geometry/Angle.hpp"
 #include "gfx/geometry/Point2d.hpp"
+#include "gfx/geometry/Point3d.hpp"
 #include "gfx/geometry/Vector2d.hpp"
 #include "gfx/geometry/Vector3d.hpp"
 #include "math/Matrix.hpp"
@@ -27,6 +28,7 @@ public:
     constexpr const float* getMatrix() const;
     constexpr Transform getInverse() const;
     constexpr geometry::Point2Df transformPoint(const geometry::Point2Df& point) const;
+    constexpr geometry::Point3Df transformPoint(const geometry::Point3Df& point) const;
 
     constexpr Transform& combine(const Transform& transform);
     constexpr Transform& translate(const geometry::Vector2Df& offset);
@@ -42,6 +44,9 @@ public:
     Transform& perspective(const float fovyInDegrees, const float aspectRatio, const float zNear, const float zFar);
 
     static const Transform Identity; //!< The identity transform (does nothing)
+
+protected:
+    constexpr Transform getTranslationMatrix(const float tx, const float ty, const float tz) const;
 
 private:
     math::Matrix4x4 m_matrix{0.f, 0.f, 0.f, 0.f,

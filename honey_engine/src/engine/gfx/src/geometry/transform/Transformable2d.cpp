@@ -10,19 +10,30 @@ namespace geometry
 {
 namespace transform
 {
-////////////////////////////////////////////////////////////
-Transformable2d::~Transformable2d() = default;
 
 
 ////////////////////////////////////////////////////////////
-void Transformable2d::move(const geometry::Vector2Df& offset)
+template<typename POINT, typename VECTOR>
+Transformable2d<POINT, VECTOR>::Transformable2d() : m_scale{1.f, 1.f}
+{
+}
+
+////////////////////////////////////////////////////////////
+template<typename POINT, typename VECTOR>
+Transformable2d<POINT, VECTOR>::~Transformable2d() = default;
+
+
+////////////////////////////////////////////////////////////
+template<typename POINT, typename VECTOR>
+void Transformable2d<POINT, VECTOR>::move(const VECTOR& offset)
 {
     setPosition({m_position.x + offset.x , m_position.y + offset.y});
 }
 
 
 ////////////////////////////////////////////////////////////
-bool Transformable2d::setPosition(const Point2Df& position)
+template<typename POINT, typename VECTOR>
+bool Transformable2d<POINT, VECTOR>::setPosition(const POINT& position)
 {
     m_position = position;
     m_transformNeedUpdate = (m_position == position);
@@ -31,7 +42,8 @@ bool Transformable2d::setPosition(const Point2Df& position)
 
 
 ////////////////////////////////////////////////////////////
-bool Transformable2d::setOrigin(const Point2Df& origin)
+template<typename POINT, typename VECTOR>
+bool Transformable2d<POINT, VECTOR>::setOrigin(const POINT& origin)
 {
     m_origin = origin;
     m_transformNeedUpdate = (m_origin == origin);
@@ -40,7 +52,8 @@ bool Transformable2d::setOrigin(const Point2Df& origin)
 
 
 ////////////////////////////////////////////////////////////
-bool Transformable2d::setScale(const geometry::Vector2Df& factors)
+template<typename POINT, typename VECTOR>
+bool Transformable2d<POINT, VECTOR>::setScale(const VECTOR& factors)
 {
     m_scale = factors;
     m_transformNeedUpdate = (m_scale == factors);
@@ -49,37 +62,42 @@ bool Transformable2d::setScale(const geometry::Vector2Df& factors)
 
 
 ////////////////////////////////////////////////////////////
-bool Transformable2d::setRotation(const Angle& angle)
+template<typename POINT, typename VECTOR>
+bool Transformable2d<POINT, VECTOR>::setRotation(const Angle& angle, const int)
 {
-    m_rotation = angle.wrapUnsigned();
-    m_transformNeedUpdate = (m_rotation == angle.wrapUnsigned());
+    m_rotation[0] = angle.wrapUnsigned();
+    m_transformNeedUpdate = (m_rotation[0] == angle.wrapUnsigned());
     return m_transformNeedUpdate;
 }
 
 
 ////////////////////////////////////////////////////////////
-const Point2Df& Transformable2d::getOrigin() const
+template<typename POINT, typename VECTOR>
+const POINT& Transformable2d<POINT, VECTOR>::getOrigin() const
 {
     return m_origin;
 }
 
 
 ////////////////////////////////////////////////////////////
-const Angle& Transformable2d::getRotation() const
+template<typename POINT, typename VECTOR>
+const Angle& Transformable2d<POINT, VECTOR>::getRotation(const int) const
 {
-    return m_rotation;
+    return m_rotation[0];
 }
 
 
 ////////////////////////////////////////////////////////////
-const geometry::Vector2Df& Transformable2d::getScale() const
+template<typename POINT, typename VECTOR>
+const VECTOR& Transformable2d<POINT, VECTOR>::getScale() const
 {
     return m_scale;
 }
 
 
 ////////////////////////////////////////////////////////////
-const Point2Df& Transformable2d::getPosition() const
+template<typename POINT, typename VECTOR>
+const POINT& Transformable2d<POINT, VECTOR>::getPosition() const
 {
     return m_position;
 }
@@ -91,26 +109,29 @@ const Point2Df& Transformable2d::getPosition() const
 
 
 ////////////////////////////////////////////////////////////
-void Transformable2d::transformPoint(Point2Df& point)
+template<typename POINT, typename VECTOR>
+void Transformable2d<POINT, VECTOR>::transformPoint(POINT& point)
 {
     point = getTransform().transformPoint(point);
 }
 
 
 ////////////////////////////////////////////////////////////
-void Transformable2d::inverseTransformPoint(Point2Df& point)
+template<typename POINT, typename VECTOR>
+void Transformable2d<POINT, VECTOR>::inverseTransformPoint(POINT& point)
 {
     point = getTransform().getInverse().transformPoint(point);
 }
 
 
 ////////////////////////////////////////////////////////////
-const Transform& Transformable2d::getTransform() const
+template<typename POINT, typename VECTOR>
+const Transform& Transformable2d<POINT, VECTOR>::getTransform() const
 {
     // Recompute the combined transform if needed
     if (m_transformNeedUpdate)
     {
-        float angle  = -m_rotation.asRadians();
+        float angle  = -m_rotation[0].asRadians();
         float cosine = std::cos(angle);
         float sine   = std::sin(angle);
         float sxc    = m_scale.x * cosine;
@@ -134,12 +155,7 @@ const Transform& Transformable2d::getTransform() const
     return m_transform;
 }
 
-
-////////////////////////////////////////////////////////////
-// PRIVATE
-////////////////////////////////////////////////////////////
-
-
+template class Transformable2d<geometry::Point2Df, geometry::Vector2Df>;
 } // namespace transform
 } // namespace geometry
 } // namespace gfx

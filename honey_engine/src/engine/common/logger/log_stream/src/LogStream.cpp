@@ -150,7 +150,7 @@ void LogStream<LogFunction>::buildContext()
 }
 
 template class LogStream<Logger>;
-} // namespace log
+} // namespace log_stream
 } // namespace common
 
 

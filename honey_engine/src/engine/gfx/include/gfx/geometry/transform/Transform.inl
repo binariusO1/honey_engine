@@ -45,6 +45,19 @@ constexpr const float* Transform::getMatrix() const
 
 
 ////////////////////////////////////////////////////////////
+constexpr Transform Transform::getTranslationMatrix(const float tx, const float ty, const float tz) const
+{
+    Transform translation(
+         1.0f, 0.0f, 0.0f, tx,
+         0.0f, 1.0f, 0.0f, ty,
+         0.0f, 0.0f, 1.0f, tz,
+         0.0f, 0.0f, 0.0f, 1.0f
+    );
+    return translation;
+}
+
+
+////////////////////////////////////////////////////////////
 constexpr Transform Transform::getInverse() const
 {
     // clang-format off
@@ -102,13 +115,7 @@ constexpr Transform& Transform::combine(const Transform& transform)
 ////////////////////////////////////////////////////////////
 constexpr Transform& Transform::translate(const geometry::Vector2Df& offset)
 {
-    // clang-format off
-    Transform translation(1, 0, offset.x,
-                          0, 1, offset.y,
-                          0, 0, 1);
-    // clang-format on
-
-    return combine(translation);
+    return combine(getTranslationMatrix(offset.x, offset.y, 1.f));
 }
 
 
@@ -157,6 +164,17 @@ constexpr geometry::Point2Df Transform::transformPoint(const geometry::Point2Df&
 {
     return geometry::Point2Df({m_matrix[0] * point.x + m_matrix[4] * point.y + m_matrix[12],
                     m_matrix[1] * point.x + m_matrix[5] * point.y + m_matrix[13]});
+}
+
+
+////////////////////////////////////////////////////////////
+constexpr geometry::Point3Df Transform::transformPoint(const geometry::Point3Df& point) const
+{
+    return geometry::Point3Df(
+    m_matrix[0] * point.x + m_matrix[4] * point.y + m_matrix[8] * point.z + m_matrix[12],
+    m_matrix[1] * point.x + m_matrix[5] * point.y + m_matrix[9] * point.z + m_matrix[13],
+     m_matrix[2] * point.x + m_matrix[6] * point.y + m_matrix[10] * point.z + m_matrix[14]
+    );
 }
 
 

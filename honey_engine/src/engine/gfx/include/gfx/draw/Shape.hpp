@@ -31,8 +31,8 @@ public:
 public:
     bool setOrigin(const he::gfx::geometry::Point2Df& origin) override;
     const he::gfx::geometry::Point2Df& getOrigin() const override;
-    bool setRotation(const he::gfx::geometry::Angle& angle) override;
-    const he::gfx::geometry::Angle& getRotation() const override;
+    bool setRotation(const he::gfx::geometry::Angle& angle, const int axis = 0) override;
+    const he::gfx::geometry::Angle& getRotation(const int axis = 0) const override;
     bool isPointInside(const gfx::geometry::Point2Df& point);
     void setOriginInCenter() override;
 

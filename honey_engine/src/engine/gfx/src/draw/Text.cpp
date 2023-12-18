@@ -198,14 +198,14 @@ const he::gfx::geometry::Point2Df& Text::getOrigin() const
 
 
 ////////////////////////////////////////////////////////////
-bool Text::setRotation(const he::gfx::geometry::Angle& rotation)
+bool Text::setRotation(const he::gfx::geometry::Angle& rotation, const int)
 {
     return IShape::setRotation(rotation);
 }
 
 
 ////////////////////////////////////////////////////////////
-const he::gfx::geometry::Angle& Text::getRotation() const
+const he::gfx::geometry::Angle& Text::getRotation(const int) const
 { 
     return IShape::getRotation();
 }

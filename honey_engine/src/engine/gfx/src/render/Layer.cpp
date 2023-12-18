@@ -56,7 +56,7 @@ void Layer::setRenderSettings(const he::gfx::render::RenderSettings& renderSetti
 ////////////////////////////////////////////////////////////
 bool Layer::setPosition(const geometry::Point2Df& position)
 {
-    auto result = Transformable2d::setPosition(position);
+    auto result = Trans2d::setPosition(position);
 
     m_transformMatrix.viewMatrix = getTransform().getMatrix();
     m_transformMatrix.isNeedUpdate = true;
@@ -315,7 +315,7 @@ void Layer::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& event)
 void Layer::adjustPointsForEvent(int& x, int& y)
 {
     he::gfx::geometry::Point2Df pointToCheck{static_cast<float>(x), static_cast<float>(y)};
-    Transformable2d::inverseTransformPoint(pointToCheck);
+    Trans2d::inverseTransformPoint(pointToCheck);
     x = static_cast<int>(pointToCheck.x);
     y = static_cast<int>(pointToCheck.y);
 }

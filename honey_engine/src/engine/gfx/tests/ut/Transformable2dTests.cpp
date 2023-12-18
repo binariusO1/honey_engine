@@ -12,9 +12,9 @@ public:
 
     void createSut()
     {
-        sut = std::make_unique<he::gfx::geometry::transform::Transformable2d>();
+        sut = std::make_unique<he::gfx::geometry::transform::Transformable2d<geometry::Point2Df, geometry::Vector2Df>>();
     }
-    std::unique_ptr<he::gfx::geometry::transform::Transformable2d> sut;
+    std::unique_ptr<he::gfx::geometry::transform::Transformable2d<geometry::Point2Df, geometry::Vector2Df>> sut;
 
 };
 
@@ -96,7 +96,7 @@ TEST_F(Transformable2dTests, checkPointPosition_whenSetScale)
 
 TEST_F(Transformable2dTests, checkInverseTransformPoint)
 {
-    Transformable2d transformableObject;
+    Transformable2d<geometry::Point2Df, geometry::Vector2Df> transformableObject;
     Point2Df point({100, 100});
     const Point2Df pointBeforeTransform = point;
 

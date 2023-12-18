@@ -81,7 +81,7 @@ bool Shape::setPosition(const he::gfx::geometry::Point2Df& position)
 
 
 ////////////////////////////////////////////////////////////    
-bool Shape::setRotation(const he::gfx::geometry::Angle& angle)
+bool Shape::setRotation(const he::gfx::geometry::Angle& angle, const int)
 {
     return IShape::setRotation(angle);
 }
@@ -116,7 +116,7 @@ const he::gfx::geometry::Point2Df& Shape::getPosition() const
 
 
 ////////////////////////////////////////////////////////////
-const he::gfx::geometry::Angle& Shape::getRotation() const
+const he::gfx::geometry::Angle& Shape::getRotation(const int) const
 {
     return IShape::getRotation();
 }

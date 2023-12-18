@@ -3,6 +3,8 @@
 #include <memory>
 #include "gfx/draw/Drawable.hpp"
 #include "gfx/geometry/figures/Rectangle.hpp"
+#include "gfx/geometry/Point2d.hpp"
+#include "gfx/geometry/Vector2d.hpp"
 #include "gfx/geometry/transform/Transformable2d.hpp"
 
 namespace he
@@ -11,8 +13,9 @@ namespace gfx
 {
 namespace draw
 {
+using Trans2d = he::gfx::geometry::transform::Transformable2d<geometry::Point2Df, geometry::Vector2Df>;
 
-class IShape : public Drawable , protected he::gfx::geometry::transform::Transformable2d
+class IShape : public Drawable , protected Trans2d
 {
 protected:
     IShape(const std::string&);
@@ -35,8 +38,8 @@ public:
 public:
     bool setOrigin(const he::gfx::geometry::Point2Df& point) override;
     const he::gfx::geometry::Point2Df& getOrigin() const override;
-    bool setRotation(const he::gfx::geometry::Angle& angle) override;
-    const he::gfx::geometry::Angle& getRotation() const override;
+    bool setRotation(const he::gfx::geometry::Angle& angle, const int axis = 0) override;
+    const he::gfx::geometry::Angle& getRotation(const int axis = 0) const override;
 
 public:
     virtual void setOriginInCenter() = 0;

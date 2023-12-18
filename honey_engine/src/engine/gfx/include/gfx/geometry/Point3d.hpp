@@ -13,10 +13,11 @@ template <typename T>
 class Point3d
 {
 public:
-    inline Point3d() : x{0}, y{0}, z{0} {}
-    inline Point3d(T X, T Y, T Z) : x(X), y(Y), z(Z) {}
+    constexpr Point3d() : x{0}, y{0}, z{0} {}
+    constexpr Point3d(T X, T Y, T Z) : x(X), y(Y), z(Z) {}
     template <typename U>
-    explicit Point3d(const Point3d<U>& point) : x(static_cast<T>(point.x)), y(static_cast<T>(point.y), z(static_cast<T>(point.z))) {}
+    constexpr Point3d(const Point3d<U>& point) : x(static_cast<T>(point.x)), y(static_cast<T>(point.y), z(static_cast<T>(point.z))) {}
+
 public:
     T x;
     T y;
@@ -119,8 +120,10 @@ inline bool operator !=(const Point3d<T>& left, const Point3d<T>& right)
 using Point3D = Point3d<std::int16_t>;
 using Point3Di = Point3d<int>;
 using Point3Du = Point3d<std::uint16_t>;
+using Point3Dt = Point3d<std::uint64_t>;
 using Point3Df = Point3d<float>;
 using Point3Dd = Point3d<double>;
+
 } // namespace geometry
 } // namespace gfx
 } // namespace he
