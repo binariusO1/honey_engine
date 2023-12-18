@@ -20,7 +20,7 @@ set(INTERNAL_FILES
 	src/geometry/figures/Rectangle.cpp
 	src/geometry/figures/StretchedHexagon.cpp
 	src/geometry/transform/Transform.cpp
-	src/geometry/transform/Transformable2d.cpp
+	src/geometry/transform/Transformable.cpp
 	src/geometry/transform/Utils.cpp
 	src/render/BaseLayer.cpp
 	src/render/Layer.cpp
@@ -62,7 +62,7 @@ set(PUBLIC_HEADERS
 	include/gfx/geometry/figures/StretchedHexagon.hpp
 	include/gfx/geometry/transform/ITransformable.hpp
 	include/gfx/geometry/transform/Transform.hpp
-	include/gfx/geometry/transform/Transformable2d.hpp
+	include/gfx/geometry/transform/Transformable.hpp
     include/gfx/graphic/Image.hpp
     include/gfx/graphic/ITexture.hpp
     include/gfx/graphic/Texture.hpp

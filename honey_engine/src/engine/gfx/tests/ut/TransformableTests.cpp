@@ -1,38 +1,38 @@
 
 #include <gtest/gtest.h>
-#include "gfx/geometry/transform/Transformable2d.hpp"
+#include "gfx/geometry/transform/Transformable.hpp"
 #include "logger/Logger.hpp"
 namespace  he::gfx::geometry::transform
 {
-class Transformable2dTests : public testing::Test
+class TransformableTests : public testing::Test
 {
 public:
-    Transformable2dTests() = default;
-    ~Transformable2dTests() override {};
+    TransformableTests() = default;
+    ~TransformableTests() override {};
 
     void createSut()
     {
-        sut = std::make_unique<he::gfx::geometry::transform::Transformable2d<geometry::Point2Df, geometry::Vector2Df>>();
+        sut = std::make_unique<he::gfx::geometry::transform::Transformable<geometry::Point2Df, geometry::Vector2Df>>();
     }
-    std::unique_ptr<he::gfx::geometry::transform::Transformable2d<geometry::Point2Df, geometry::Vector2Df>> sut;
+    std::unique_ptr<he::gfx::geometry::transform::Transformable<geometry::Point2Df, geometry::Vector2Df>> sut;
 
 };
 
-TEST_F(Transformable2dTests, whenMoveThenGetNewPosition)
+TEST_F(TransformableTests, whenMoveThenGetNewPosition)
 {
     createSut();
     sut->move({100.0, 100.0});
     ASSERT_EQ(sut->getPosition(), he::gfx::geometry::Point2Df(100.0, 100.0));
 }
 
-TEST_F(Transformable2dTests, whenSetOriginThenGetSameValue)
+TEST_F(TransformableTests, whenSetOriginThenGetSameValue)
 {
     createSut();
     sut->setOrigin({110.0, 110.0});
     ASSERT_EQ(sut->getOrigin(), he::gfx::geometry::Point2Df(110.0, 110.0));
 }
 
-TEST_F(Transformable2dTests, whenSetRotationThenGetSameValue)
+TEST_F(TransformableTests, whenSetRotationThenGetSameValue)
 {
     createSut();
     he::gfx::geometry::Angle angle(135.0);
@@ -40,21 +40,21 @@ TEST_F(Transformable2dTests, whenSetRotationThenGetSameValue)
     ASSERT_EQ(sut->getRotation(), angle);
 }
 
-TEST_F(Transformable2dTests, whenSetScaleThenGetSameValue)
+TEST_F(TransformableTests, whenSetScaleThenGetSameValue)
 {
     createSut();
     sut->setScale({10.0, 1.1});
     ASSERT_EQ(sut->getScale(), he::gfx::geometry::Vector2Df(10.0, 1.1));
 }
 
-TEST_F(Transformable2dTests, whenSetPositionThenGetSameValue)
+TEST_F(TransformableTests, whenSetPositionThenGetSameValue)
 {
     createSut();
     sut->setPosition({115.0, 455.1});
     ASSERT_EQ(sut->getPosition(), he::gfx::geometry::Point2Df(115.0, 455.1));
 }
 
-TEST_F(Transformable2dTests, checkPointPosition_whenSetPosition)
+TEST_F(TransformableTests, checkPointPosition_whenSetPosition)
 {
     createSut();
     Point2Df point1({0, 0});
@@ -74,7 +74,7 @@ TEST_F(Transformable2dTests, checkPointPosition_whenSetPosition)
     ASSERT_EQ(point4, he::gfx::geometry::Point2Df(350.0, 350.0));
 }
 
-TEST_F(Transformable2dTests, checkPointPosition_whenSetScale)
+TEST_F(TransformableTests, checkPointPosition_whenSetScale)
 {
     createSut();
     Point2Df point1({0, 0});
@@ -94,9 +94,9 @@ TEST_F(Transformable2dTests, checkPointPosition_whenSetScale)
     ASSERT_EQ(point4, he::gfx::geometry::Point2Df(200.0, 50.0));
 }
 
-TEST_F(Transformable2dTests, checkInverseTransformPoint)
+TEST_F(TransformableTests, checkInverseTransformPoint)
 {
-    Transformable2d<geometry::Point2Df, geometry::Vector2Df> transformableObject;
+    Transformable<geometry::Point2Df, geometry::Vector2Df> transformableObject;
     Point2Df point({100, 100});
     const Point2Df pointBeforeTransform = point;
 

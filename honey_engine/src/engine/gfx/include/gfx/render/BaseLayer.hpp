@@ -25,7 +25,7 @@ using LayersList = std::vector<std::shared_ptr<he::gfx::render::ILayer>>;
 using LayersMap = std::unordered_map<std::string, std::shared_ptr<he::gfx::render::ILayer>>;
 using ShapeList = std::vector<std::shared_ptr<he::gfx::draw::IShape>>;
 
-using Trans2d = he::gfx::geometry::transform::Transformable2d<geometry::Point2Df, geometry::Vector2Df>;
+using Trans2d = he::gfx::geometry::transform::Transformable<geometry::Point2Df, geometry::Vector2Df>;
 class BaseLayer : public ILayer , protected Trans2d
 {
 public:

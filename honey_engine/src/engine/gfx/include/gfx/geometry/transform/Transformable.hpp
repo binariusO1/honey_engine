@@ -11,12 +11,12 @@ namespace geometry
 namespace transform
 {
 template<typename POINT, typename VECTOR>
-class Transformable2d : public ITransformable<POINT, VECTOR>
+class Transformable : public ITransformable<POINT, VECTOR>
 {
 public:
-    Transformable2d();
-    Transformable2d(const Transformable2d&) = default;
-    ~Transformable2d() override;
+    Transformable();
+    Transformable(const Transformable&) = default;
+    ~Transformable() override;
 
 public:
     void move(const VECTOR& offset) override;

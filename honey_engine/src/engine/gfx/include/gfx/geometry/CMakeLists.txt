@@ -19,7 +19,7 @@ set(PUBLIC_HEADERS
 	include/geometry/figures/StretchedHexagon.hpp
 	include/geometry/transform/Transform.hpp
 	include/geometry/transform/Transformable.hpp
-	include/geometry/transform/Transformable2d.hpp
+	include/geometry/transform/Transformable.hpp
 	include/geometry/Utils.hpp
 )
 
@@ -30,7 +30,7 @@ set(INTERNAL_FILES
 	src/Rectangle.cpp
 	src/StretchedHexagon.cpp
 	src/Transform.cpp
-	src/Transformable2d.cpp
+	src/Transformable.cpp
 	src/Utils.cpp
 )
 

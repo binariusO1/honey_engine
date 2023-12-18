@@ -18,7 +18,7 @@ set(SOURCES
 	TextFixture.hpp
 	TextureTests.cpp
 	TextTests.cpp
-	Transformable2dTests.cpp
+	TransformableTests.cpp
 	UniquePropagationLayerTests.cpp
 )
 

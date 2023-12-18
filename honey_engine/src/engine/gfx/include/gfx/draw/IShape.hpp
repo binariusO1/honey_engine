@@ -5,7 +5,7 @@
 #include "gfx/geometry/figures/Rectangle.hpp"
 #include "gfx/geometry/Point2d.hpp"
 #include "gfx/geometry/Vector2d.hpp"
-#include "gfx/geometry/transform/Transformable2d.hpp"
+#include "gfx/geometry/transform/Transformable.hpp"
 
 namespace he
 {
@@ -13,7 +13,7 @@ namespace gfx
 {
 namespace draw
 {
-using Trans2d = he::gfx::geometry::transform::Transformable2d<geometry::Point2Df, geometry::Vector2Df>;
+using Trans2d = he::gfx::geometry::transform::Transformable<geometry::Point2Df, geometry::Vector2Df>;
 
 class IShape : public Drawable , protected Trans2d
 {
