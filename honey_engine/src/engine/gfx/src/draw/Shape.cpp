@@ -10,7 +10,7 @@ namespace draw
 {
 ////////////////////////////////////////////////////////////
 Shape::Shape(const std::string& name, const geometry::figures::Figure& figure)   
-    : IShape(name)
+    : IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>(name)
     , m_figure{figure}
 {
     m_vertexArrayNeedUpdate = true;
@@ -19,7 +19,7 @@ Shape::Shape(const std::string& name, const geometry::figures::Figure& figure)
 
 ////////////////////////////////////////////////////////////
 Shape::Shape(const Shape& copy, const geometry::figures::Figure& figure)
-    : IShape(copy)
+    : IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>(copy)
     , m_figure{figure}
     , m_closedVertexArray{copy.m_closedVertexArray}
 {
@@ -42,7 +42,7 @@ bool Shape::isPointInside(const geometry::Point2Df& point)
 ////////////////////////////////////////////////////////////
 void Shape::setColor(const he::gfx::Color& color)
 {
-    IShape::setColor(color);
+    IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::setColor(color);
 }
 
 
@@ -62,7 +62,7 @@ bool Shape::setOrigin(const he::gfx::geometry::Point2Df& origin)
          m_context.originPosition = he::gfx::OriginPosition::any;
     }
 
-    return IShape::setOrigin(origin);
+    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::setOrigin(origin);
 }
 
 
@@ -76,56 +76,56 @@ void Shape::setOriginInCenter()
 ////////////////////////////////////////////////////////////
 bool Shape::setPosition(const he::gfx::geometry::Point2Df& position)
 {
-    return IShape::setPosition(position);
+    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::setPosition(position);
 }
 
 
 ////////////////////////////////////////////////////////////    
 bool Shape::setRotation(const he::gfx::geometry::Angle& angle, const int)
 {
-    return IShape::setRotation(angle);
+    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::setRotation(angle);
 }
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::Color Shape::getColor() const
 {
-    return IShape::getColor();
+    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::getColor();
 }
 
 
 ////////////////////////////////////////////////////////////
 const std::string Shape::getName() const
 {
-    return IShape::getName();
+    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::getName();
 }
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::geometry::Point2Df& Shape::getOrigin() const
 {
-    return IShape::getOrigin();
+    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::getOrigin();
 }
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::geometry::Point2Df& Shape::getPosition() const
 {
-    return IShape::getPosition();
+    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::getPosition();
 }
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::geometry::Angle& Shape::getRotation(const int) const
 {
-    return IShape::getRotation();
+    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::getRotation();
 }
 
 
 ////////////////////////////////////////////////////////////
 const he::gfx::VertexArray2d& Shape::getVertexArray() const // TODO : do usunięcia, ponieważ korzystam tylko z m_vertexArray (poza tym nie trzeba dawać na zewnątrz) 
 {
-    return IShape::getVertexArray();
+    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::getVertexArray();
 }
 
 
@@ -167,7 +167,7 @@ void Shape::draw(he::gfx::render::Render& render, const he::gfx::render::RenderS
 ////////////////////////////////////////////////////////////
 void Shape::setOriginPosition(const he::gfx::OriginPosition& originPosition)
 {
-    IShape::setOriginPosition(originPosition);
+    IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::setOriginPosition(originPosition);
     m_vertexArrayNeedUpdate = true;
 }
 

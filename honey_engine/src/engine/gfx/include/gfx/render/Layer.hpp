@@ -30,11 +30,11 @@ public:
     void removeLayer(const std::shared_ptr<he::gfx::render::ILayer>&);
     
 public:
-    void addShape(const std::shared_ptr<he::gfx::draw::IShape>&);
+    void addShape(const std::shared_ptr<draw::IShape2d>&);
     void addShapes(const ShapeList&);
-    void removeShape(const std::shared_ptr<he::gfx::draw::IShape>&);
+    void removeShape(const std::shared_ptr<draw::IShape2d>&);
     he::gfx::render::ShapeList& getShapeList();
-    he::gfx::draw::IShape& shape(const std::string&);
+    draw::IShape2d& shape(const std::string&);
 
 public:
     void addButton(const std::shared_ptr<gfx::draw::Button>&);

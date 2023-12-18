@@ -58,7 +58,7 @@ public:
         mainWindow->addEventInputListener(sceneListener.get());
     }
 
-    void addShapeToMainLayer(const std::shared_ptr<he::gfx::draw::IShape>& shape)
+    void addShapeToMainLayer(const std::shared_ptr<he::gfx::draw::IShape2d>& shape)
     {
         mainLayer->addShape(shape);
     }

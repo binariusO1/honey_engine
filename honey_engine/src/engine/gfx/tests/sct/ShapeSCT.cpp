@@ -42,30 +42,30 @@ TEST_F(ShapeSCT, screenTestShapes_drawSamples)
     he::gfx::draw::ShapeRectangle shape1("rect1", rect->getSize());
     shape1.setColor(he::gfx::Color::Yellow);
     shape1.setPosition({0.0, 100.0});
-    std::shared_ptr<he::gfx::draw::IShape> rectangle1 = std::make_shared<he::gfx::draw::ShapeRectangle>(shape1);
-    std::shared_ptr<he::gfx::draw::IShape> rectangle2 = std::make_shared<he::gfx::draw::ShapeRectangle>("rect2", rect->getSize());
+    std::shared_ptr<he::gfx::draw::IShape2d> rectangle1 = std::make_shared<he::gfx::draw::ShapeRectangle>(shape1);
+    std::shared_ptr<he::gfx::draw::IShape2d> rectangle2 = std::make_shared<he::gfx::draw::ShapeRectangle>("rect2", rect->getSize());
     he::gfx::draw::ShapeRectangle shape3("rect3", rect->getSize());
     shape3.setColor(he::gfx::Color::Green);
     shape3.setPosition({0.0, 200.0});
-    std::shared_ptr<he::gfx::draw::IShape> rectangle3 = std::make_shared<he::gfx::draw::ShapeRectangle>(shape3);
+    std::shared_ptr<he::gfx::draw::IShape2d> rectangle3 = std::make_shared<he::gfx::draw::ShapeRectangle>(shape3);
 
     std::shared_ptr<he::gfx::draw::ShapeRectangle> shape4 = std::make_shared<he::gfx::draw::ShapeRectangle>("rect4", rect->getSize());
     shape4->setColor(he::gfx::Color::Cyan);
     shape4->setPosition({0.0, 300.0});
-    std::shared_ptr<he::gfx::draw::IShape> rectangle4 = std::shared_ptr<he::gfx::draw::ShapeRectangle>(shape4);
+    std::shared_ptr<he::gfx::draw::IShape2d> rectangle4 = std::shared_ptr<he::gfx::draw::ShapeRectangle>(shape4);
 
     he::gfx::draw::ShapeRectangle shape5("rect5", rect->getSize());
     shape5.setColor(he::gfx::Color::Blue);
     shape5.setPosition({0.0, 400.0});
-    std::shared_ptr<he::gfx::draw::IShape> rectangle5 = std::make_shared<he::gfx::draw::ShapeRectangle>(shape5);
+    std::shared_ptr<he::gfx::draw::IShape2d> rectangle5 = std::make_shared<he::gfx::draw::ShapeRectangle>(shape5);
     he::gfx::draw::ShapeRectangle shape6("rect6", rect->getSize());
     shape6.setColor(he::gfx::Color::Magenta);
     shape6.setPosition({0.0, 500.0});
-    std::shared_ptr<he::gfx::draw::IShape> rectangle6 = std::make_shared<he::gfx::draw::ShapeRectangle>(shape6);
+    std::shared_ptr<he::gfx::draw::IShape2d> rectangle6 = std::make_shared<he::gfx::draw::ShapeRectangle>(shape6);
     he::gfx::draw::ShapeRectangle shape7("rect7", rect->getSize());
     shape7.setColor(he::gfx::Color::Red);
     shape7.setPosition({0.0, 600.0});
-    std::shared_ptr<he::gfx::draw::IShape> rectangle7 = std::make_shared<he::gfx::draw::ShapeRectangle>(shape7);
+    std::shared_ptr<he::gfx::draw::IShape2d> rectangle7 = std::make_shared<he::gfx::draw::ShapeRectangle>(shape7);
 
     std::shared_ptr<he::gfx::render::Layer> layer1 = std::make_shared<he::gfx::render::Layer>("layer_1");
     he::gfx::render::ShapeList rectangles{rectangle1, rectangle2, rectangle3, rectangle4, rectangle5, rectangle6, rectangle7};
@@ -76,22 +76,22 @@ TEST_F(ShapeSCT, screenTestShapes_drawSamples)
     he::gfx::draw::Shape hex1("hex1", *hex);
     hex1.setPosition({200.0, 0.0});
     hex1.closeVertexArray();
-    std::shared_ptr<he::gfx::draw::IShape> hexagon1 = std::make_shared<he::gfx::draw::Shape>(hex1);
+    std::shared_ptr<he::gfx::draw::IShape2d> hexagon1 = std::make_shared<he::gfx::draw::Shape>(hex1);
 
     he::gfx::draw::Shape hex2("hex2", *hex);
     hex2.setPosition({200.0, 100.0});
     hex2.setColor(he::gfx::Color::Yellow);
     hex2.closeVertexArray();
-    std::shared_ptr<he::gfx::draw::IShape> hexagon2 = std::make_shared<he::gfx::draw::Shape>(hex2);
+    std::shared_ptr<he::gfx::draw::IShape2d> hexagon2 = std::make_shared<he::gfx::draw::Shape>(hex2);
 
     he::gfx::draw::Shape hex3("hex3", *hex);
     hex3.setPosition({200.0, 200.0});
     hex3.setColor(he::gfx::Color::Green);
     hex3.closeVertexArray();
-    std::shared_ptr<he::gfx::draw::IShape> hexagon3 = std::make_shared<he::gfx::draw::Shape>(hex3);
+    std::shared_ptr<he::gfx::draw::IShape2d> hexagon3 = std::make_shared<he::gfx::draw::Shape>(hex3);
 
     he::gfx::draw::Shape hex4("hex4", *hex);
-    std::shared_ptr<he::gfx::draw::IShape> hexagon4{nullptr};
+    std::shared_ptr<he::gfx::draw::IShape2d> hexagon4{nullptr};
 
     if (dynamic_cast<he::gfx::draw::Shape*>(&hex4) != nullptr)
     {
@@ -106,7 +106,7 @@ TEST_F(ShapeSCT, screenTestShapes_drawSamples)
     hex5.setPosition({200.0, 400.0});
     hex5.setOriginPosition(he::gfx::OriginPosition::leftDown);
     hex5.closeVertexArray();
-    std::shared_ptr<he::gfx::draw::IShape> hexagon5{nullptr};
+    std::shared_ptr<he::gfx::draw::IShape2d> hexagon5{nullptr};
 
     if (dynamic_cast<he::gfx::draw::Shape*>(&hex4) != nullptr)
     {
@@ -117,13 +117,13 @@ TEST_F(ShapeSCT, screenTestShapes_drawSamples)
     hex6.setColor(he::gfx::Color::Magenta);
     hex6.setPosition({200.0, 500.0});
     hex6.closeVertexArray();
-    std::shared_ptr<he::gfx::draw::IShape> hexagon6 = std::make_shared<he::gfx::draw::Shape>(hex6);
+    std::shared_ptr<he::gfx::draw::IShape2d> hexagon6 = std::make_shared<he::gfx::draw::Shape>(hex6);
 
     he::gfx::draw::Shape hex7("hex7", *hex);
     hex7.setColor(he::gfx::Color::Red);
     hex7.setPosition({200.0, 600.0});
     hex7.closeVertexArray();
-    std::shared_ptr<he::gfx::draw::IShape> hexagon7 = std::make_shared<he::gfx::draw::Shape>(hex7);
+    std::shared_ptr<he::gfx::draw::IShape2d> hexagon7 = std::make_shared<he::gfx::draw::Shape>(hex7);
 
     std::shared_ptr<he::gfx::render::Layer> layer2 = std::make_shared<he::gfx::render::Layer>("layer_2");
     he::gfx::render::ShapeList hexagons{hexagon1, hexagon2, hexagon3, hexagon4, hexagon5, hexagon6, hexagon7};
@@ -176,7 +176,7 @@ TEST_F(ShapeSCT, screenTestShapes_drawTextureBackground)
     // todo move to SpriteSCT
     createCustomScreen();
     std::shared_ptr<he::gfx::render::Texture> texture1 = std::make_shared<he::gfx::render::Texture>("data\\gfx\\interface\\menu_background.png");
-    std::shared_ptr<he::gfx::draw::IShape> sprite1 = std::make_shared<he::gfx::draw::Sprite>("sprite1", texture1);
+    std::shared_ptr<he::gfx::draw::IShape2d> sprite1 = std::make_shared<he::gfx::draw::Sprite>("sprite1", texture1);
 
     addShapeToMainLayer(sprite1);
 

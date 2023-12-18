@@ -56,7 +56,7 @@ void Layer::setRenderSettings(const he::gfx::render::RenderSettings& renderSetti
 ////////////////////////////////////////////////////////////
 bool Layer::setPosition(const geometry::Point2Df& position)
 {
-    auto result = Trans2d::setPosition(position);
+    auto result = TransformableTmpl::setPosition(position);
 
     m_transformMatrix.viewMatrix = getTransform().getMatrix();
     m_transformMatrix.isNeedUpdate = true;
@@ -105,7 +105,7 @@ void Layer::removeLayer(const std::shared_ptr<he::gfx::render::ILayer>& layer)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::addShape(const std::shared_ptr<he::gfx::draw::IShape>& shape)
+void Layer::addShape(const std::shared_ptr<draw::IShape2d>& shape)
 {
     auto it = m_keys.emplace(shape->getName());
 
@@ -131,7 +131,7 @@ void Layer::addShapes(const ShapeList& shapes)
         m_shapes.reserve(sum);
     }
 
-    std::for_each(shapes.begin(), shapes.end(), [&](const std::shared_ptr<he::gfx::draw::IShape>& shape) 
+    std::for_each(shapes.begin(), shapes.end(), [&](const std::shared_ptr<draw::IShape2d>& shape) 
     { 
         auto it = m_keys.emplace(shape->getName());
 
@@ -149,7 +149,7 @@ void Layer::addShapes(const ShapeList& shapes)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::removeShape(const std::shared_ptr<he::gfx::draw::IShape>& shape)
+void Layer::removeShape(const std::shared_ptr<draw::IShape2d>& shape)
 {
     if (not m_keys.erase(shape->getName()))
     {
@@ -177,7 +177,7 @@ he::gfx::render::ShapeList& Layer::getShapeList()
 
 
 ////////////////////////////////////////////////////////////
-he::gfx::draw::IShape& Layer::shape(const std::string& name)
+draw::IShape2d& Layer::shape(const std::string& name)
 {
     for (auto& item : m_shapes)
     {
@@ -315,7 +315,7 @@ void Layer::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& event)
 void Layer::adjustPointsForEvent(int& x, int& y)
 {
     he::gfx::geometry::Point2Df pointToCheck{static_cast<float>(x), static_cast<float>(y)};
-    Trans2d::inverseTransformPoint(pointToCheck);
+    TransformableTmpl::inverseTransformPoint(pointToCheck);
     x = static_cast<int>(pointToCheck.x);
     y = static_cast<int>(pointToCheck.y);
 }

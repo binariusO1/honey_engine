@@ -18,7 +18,7 @@ struct Glyph;
 } // namespace text
 namespace draw
 {
-class Text : public draw::IShape
+class Text : public IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>
 {
 public:
     Text(const std::string& name);

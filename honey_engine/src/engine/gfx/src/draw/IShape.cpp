@@ -7,27 +7,31 @@ namespace gfx
 namespace draw
 {
 ////////////////////////////////////////////////////////////
-IShape::IShape(const std::string& name) : m_context(name)
+template<typename POINT, typename VECTOR, typename VERTEX>
+IShape<POINT, VECTOR, VERTEX>::IShape(const std::string& name) : m_context(name)
 {
 }
 
 
 ////////////////////////////////////////////////////////////
-IShape::IShape(const IShape& copy)
+template<typename POINT, typename VECTOR, typename VERTEX>
+IShape<POINT, VECTOR, VERTEX>::IShape(const IShape<POINT, VECTOR, VERTEX>& copy)
     : m_vertexArray{copy.m_vertexArray}
     , m_context{copy.m_context} // TODO: warning - during copy, unique string will be not unique. maybe name should be: hash+name ?
     , m_vertexArrayNeedUpdate{copy.m_vertexArrayNeedUpdate}
-    , Trans2d(copy)
+    , TransformableTmpl(copy)
 {
 }
 
 
 ////////////////////////////////////////////////////////////
-IShape::~IShape() = default;
+template<typename POINT, typename VECTOR, typename VERTEX>
+IShape<POINT, VECTOR, VERTEX>::~IShape() = default;
 
 
 ////////////////////////////////////////////////////////////
-void IShape::setColor(const he::gfx::Color& color)
+template<typename POINT, typename VECTOR, typename VERTEX>
+void IShape<POINT, VECTOR, VERTEX>::setColor(const he::gfx::Color& color)
 {
     if (color != m_context.color)
     {
@@ -42,94 +46,107 @@ void IShape::setColor(const he::gfx::Color& color)
 
 
 ////////////////////////////////////////////////////////////
-const he::gfx::Color IShape::getColor() const
+template<typename POINT, typename VECTOR, typename VERTEX>
+const he::gfx::Color IShape<POINT, VECTOR, VERTEX>::getColor() const
 {
     return m_context.color;
 }
 
 
 ////////////////////////////////////////////////////////////
-bool IShape::setPosition(const he::gfx::geometry::Point2Df& position)
+template<typename POINT, typename VECTOR, typename VERTEX>
+bool IShape<POINT, VECTOR, VERTEX>::setPosition(const POINT& position)
 {
-    m_vertexArrayNeedUpdate = Trans2d::setPosition(position);
+    m_vertexArrayNeedUpdate = TransformableTmpl::setPosition(position);
     return m_vertexArrayNeedUpdate;
 }
 
 
 ////////////////////////////////////////////////////////////
-bool IShape::setOrigin(const he::gfx::geometry::Point2Df& point)
+template<typename POINT, typename VECTOR, typename VERTEX>
+bool IShape<POINT, VECTOR, VERTEX>::setOrigin(const POINT& point)
 {
-    m_vertexArrayNeedUpdate = Trans2d::setOrigin(point);
-    return m_vertexArrayNeedUpdate;
-}
-
-
-////////////////////////////////////////////////////////////    
-bool IShape::setRotation(const he::gfx::geometry::Angle& angle, const int)
-{
-    m_vertexArrayNeedUpdate = Trans2d::setRotation(angle);
+    m_vertexArrayNeedUpdate = TransformableTmpl::setOrigin(point);
     return m_vertexArrayNeedUpdate;
 }
 
 
 ////////////////////////////////////////////////////////////
-const he::gfx::geometry::Point2Df& IShape::getPosition() const
+template<typename POINT, typename VECTOR, typename VERTEX>
+bool IShape<POINT, VECTOR, VERTEX>::setRotation(const he::gfx::geometry::Angle& angle, const int)
 {
-    return Trans2d::getPosition();
+    m_vertexArrayNeedUpdate = TransformableTmpl::setRotation(angle);
+    return m_vertexArrayNeedUpdate;
 }
 
 
 ////////////////////////////////////////////////////////////
-const std::string IShape::getName() const
+template<typename POINT, typename VECTOR, typename VERTEX>
+const POINT& IShape<POINT, VECTOR, VERTEX>::getPosition() const
+{
+    return TransformableTmpl::getPosition();
+}
+
+
+////////////////////////////////////////////////////////////
+template<typename POINT, typename VECTOR, typename VERTEX>
+const std::string IShape<POINT, VECTOR, VERTEX>::getName() const
 {
     return m_context.name;
 }
 
 
 ////////////////////////////////////////////////////////////
-void IShape::setLayerName(const std::string& name)
+template<typename POINT, typename VECTOR, typename VERTEX>
+void IShape<POINT, VECTOR, VERTEX>::setLayerName(const std::string& name)
 {
     m_context.layerName = name;
 }
 
 
 ////////////////////////////////////////////////////////////
-const std::string IShape::getLayerName() const
+template<typename POINT, typename VECTOR, typename VERTEX>
+const std::string IShape<POINT, VECTOR, VERTEX>::getLayerName() const
 {
     return m_context.layerName;
 }
 
 
 ////////////////////////////////////////////////////////////
-void IShape::setName(const std::string& name)
+template<typename POINT, typename VECTOR, typename VERTEX>
+void IShape<POINT, VECTOR, VERTEX>::setName(const std::string& name)
 {
     m_context.name = name;
 }
 
 
 ////////////////////////////////////////////////////////////
-const he::gfx::VertexArray2d& IShape::getVertexArray() const
+template<typename POINT, typename VECTOR, typename VERTEX>
+const VERTEX& IShape<POINT, VECTOR, VERTEX>::getVertexArray() const
 {
     return m_vertexArray;
 }
 
 
 ////////////////////////////////////////////////////////////
-const he::gfx::geometry::Point2Df& IShape::getOrigin() const
+template<typename POINT, typename VECTOR, typename VERTEX>
+const POINT& IShape<POINT, VECTOR, VERTEX>::getOrigin() const
 {
-    return Trans2d::getOrigin();
+    return TransformableTmpl::getOrigin();
 }
 
 
 ////////////////////////////////////////////////////////////
-const he::gfx::geometry::Angle& IShape::getRotation(const int) const
+template<typename POINT, typename VECTOR, typename VERTEX>
+const he::gfx::geometry::Angle& IShape<POINT, VECTOR, VERTEX>::getRotation(const int) const
 {
-    return Trans2d::getRotation();
+    return TransformableTmpl::getRotation();
 }
 
 
 ////////////////////////////////////////////////////////////
-void IShape::setOriginPosition(const he::gfx::OriginPosition& originPosition)
+template<typename POINT, typename VECTOR, typename VERTEX>
+void IShape<POINT, VECTOR, VERTEX>::setOriginPosition(const he::gfx::OriginPosition& originPosition)
 {
     switch (originPosition)
     {
@@ -148,10 +165,14 @@ void IShape::setOriginPosition(const he::gfx::OriginPosition& originPosition)
 
 
 ////////////////////////////////////////////////////////////
-gfx::OriginPosition IShape::getOriginPosition() const
+template<typename POINT, typename VECTOR, typename VERTEX>
+gfx::OriginPosition IShape<POINT, VECTOR, VERTEX>::getOriginPosition() const
 {
     return m_context.originPosition;
 }
+
+template class IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>;
+
 } // namespace draw
 } // namespace gfx
 } // namespace he

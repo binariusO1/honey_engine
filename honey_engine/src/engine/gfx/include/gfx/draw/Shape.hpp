@@ -12,13 +12,19 @@ class Figure;
 } // namespace
 namespace draw
 {
+using IShape2d = he::gfx::draw::IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>;
 
-class Shape : public IShape
+class Shape : public IShape2d
 {
 public:
     Shape(const std::string&, const geometry::figures::Figure&);
     Shape(const Shape&, const geometry::figures::Figure&);
     ~Shape() override;
+
+    //operator std::shared_ptr<IShape2d>() const {
+        // Perform the conversion here
+    //    return std::make_shared<IShape2d>(/* pass necessary parameters */);
+    //}
 
 public:
     void setColor(const he::gfx::Color& color) override;
