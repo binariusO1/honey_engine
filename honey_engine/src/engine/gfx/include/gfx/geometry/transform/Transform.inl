@@ -45,15 +45,119 @@ constexpr const float* Transform::getMatrix() const
 
 
 ////////////////////////////////////////////////////////////
-constexpr Transform Transform::getTranslationMatrix(const float tx, const float ty, const float tz) const
+constexpr const Transform Transform::getTranslateMatrix(const geometry::Point2Df& point) const
 {
-    Transform translation(
-         1.0f, 0.0f, 0.0f, tx,
-         0.0f, 1.0f, 0.0f, ty,
-         0.0f, 0.0f, 1.0f, tz,
+    return Transform(
+         1.0f, 0.0f, 0.0f, point.x,
+         0.0f, 1.0f, 0.0f, point.y,
+         0.0f, 0.0f, 1.0f, 0.0f,
          0.0f, 0.0f, 0.0f, 1.0f
     );
-    return translation;
+}
+
+
+////////////////////////////////////////////////////////////
+constexpr const Transform Transform::getTranslateMatrix(const geometry::Point3Df& point) const
+{
+    return Transform(
+         1.0f, 0.0f, 0.0f, point.x,
+         0.0f, 1.0f, 0.0f, point.y,
+         0.0f, 0.0f, 1.0f, point.z,
+         0.0f, 0.0f, 0.0f, 1.0f
+    );
+}
+
+
+////////////////////////////////////////////////////////////
+constexpr const Transform Transform::getRotateXMatrix(const geometry::Angle angle) const
+{
+    const float cosx = std::cos(angle.asRadians());
+    const float sinx = std::sin(angle.asRadians());
+
+    return Transform(
+         1.0f, 0.0f, 0.0f, 0.0f,
+         0.0f, cosx, -sinx, 0.0f,
+         0.0f, sinx, cosx, 0.0f,
+         0.0f, 0.0f, 0.0f, 1.0f
+    );;
+}
+
+
+////////////////////////////////////////////////////////////
+constexpr const Transform Transform::getRotateYMatrix(const geometry::Angle angle) const
+{
+    const float cosy = std::cos(angle.asRadians());
+    const float siny = std::sin(angle.asRadians());
+
+    return Transform(
+         cosy, 0.0f, siny, 0.0f,
+         0.0f, 1.0f, 0.0f, 0.0f,
+         -siny, 0.0f, cosy, 0.0f,
+         0.0f, 0.0f, 0.0f, 1.0f
+    );
+}
+
+
+////////////////////////////////////////////////////////////
+constexpr const Transform Transform::getRotateZMatrix(const geometry::Angle angle) const
+{
+    const float cosz = std::cos(angle.asRadians());
+    const float sinz = std::sin(angle.asRadians());
+
+    return Transform(
+         cosz, -sinz, 0.0f, 0.0f,
+         sinz, cosz, 0.0f, 0.0f,
+         0.0f, 0.0f, 1.0f, 0.0f,
+         0.0f, 0.0f, 0.0f, 1.0f
+    );
+}
+
+
+////////////////////////////////////////////////////////////
+constexpr const Transform Transform::getScaleMatrix(const geometry::Point2Df& point) const
+{
+    return Transform(
+         point.x, 0.0f, 0.0f, 0.0f,
+         0.0f, point.y, 0.0f, 0.0f,
+         0.0f, 0.0f, 1.0f, 0.0f,
+         0.0f, 0.0f, 0.0f, 1.0f
+    );
+}
+
+
+////////////////////////////////////////////////////////////
+constexpr const Transform Transform::getScaleMatrix(const geometry::Point3Df& point) const
+{
+    return Transform(
+         point.x, 0.0f, 0.0f, 0.0f,
+         0.0f, point.y, 0.0f, 0.0f,
+         0.0f, 0.0f, point.z, 0.0f,
+         0.0f, 0.0f, 0.0f, 1.0f
+    );
+}
+
+
+////////////////////////////////////////////////////////////
+constexpr const Transform Transform::getOriginMatrix(const geometry::Point2Df& point) const
+{
+    return Transform(
+         1.0f, 0.0f, 0.0f, -point.x,
+         0.0f, 1.0f, 0.0f, -point.y,
+         0.0f, 0.0f, 1.0f, 0.0f,
+         0.0f, 0.0f, 0.0f, 1.0f
+    );
+}
+
+
+////////////////////////////////////////////////////////////
+constexpr const Transform Transform::getOriginMatrix(const geometry::Point3Df& point) const
+{
+    return Transform(
+         1.0f, 0.0f, 0.0f, -point.x,
+         0.0f, 1.0f, 0.0f, -point.y,
+         0.0f, 0.0f, 1.0f, -point.z,
+         0.0f, 0.0f, 0.0f, 1.0f
+    );
 }
 
 
@@ -115,21 +219,15 @@ constexpr Transform& Transform::combine(const Transform& transform)
 ////////////////////////////////////////////////////////////
 constexpr Transform& Transform::translate(const geometry::Vector2Df& offset)
 {
-    return combine(getTranslationMatrix(offset.x, offset.y, 1.f));
+    return combine(getTranslateMatrix(geometry::Point2Df(offset.x, offset.y)));
 }
 
 
 ////////////////////////////////////////////////////////////
 constexpr Transform& Transform::translate(const geometry::Vector3Df& offset)
 {
-    // clang-format off
-    Transform translation(1, 0, 0, offset.x,
-                          0, 1, 0, offset.y,
-                          0, 0, 1, offset.z,
-                          0, 0, 0, 1);
-    // clang-format on
+    return combine(getTranslateMatrix(geometry::Point3Df(offset.x, offset.y, offset.z)));
 
-    return combine(translation);
 }
 
 

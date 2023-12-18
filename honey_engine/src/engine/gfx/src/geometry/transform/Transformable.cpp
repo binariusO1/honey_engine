@@ -1,6 +1,6 @@
 #include "gfx/geometry/transform/Transformable.hpp"
 
-#include <cmath>
+#include "gfx/geometry/Utils.hpp"
 
 namespace he
 {
@@ -27,7 +27,7 @@ Transformable<POINT, VECTOR>::~Transformable() = default;
 template<typename POINT, typename VECTOR>
 void Transformable<POINT, VECTOR>::move(const VECTOR& offset)
 {
-    setPosition({m_position.x + offset.x , m_position.y + offset.y});
+    setPosition(m_position + offset);
 }
 
 
@@ -128,9 +128,19 @@ void Transformable<POINT, VECTOR>::inverseTransformPoint(POINT& point)
 template<typename POINT, typename VECTOR>
 const Transform& Transformable<POINT, VECTOR>::getTransform() const
 {
-    // Recompute the combined transform if needed
     if (m_transformNeedUpdate)
     {
+        const auto positionMatrix = m_transform.getTranslateMatrix(m_position);
+        const auto rotateXMatrix = m_transform.getRotateXMatrix(m_rotation[1]);
+        const auto rotateYMatrix = m_transform.getRotateXMatrix(m_rotation[2]);
+        const auto rotateZMatrix = m_transform.getRotateXMatrix(m_rotation[0]);
+        const auto scaleMatrix = m_transform.getScaleMatrix(geometry::vectorToPoint(m_scale));
+        const auto originMatrix = m_transform.getOriginMatrix(m_origin);
+
+        m_transform = originMatrix*scaleMatrix*rotateXMatrix*rotateYMatrix*rotateZMatrix*positionMatrix;
+
+        // note: jesli nie zadziała obrót wokół punktu środkowego to trzeba wtedy zaimplementować tx, ty dla origin poniżej:
+        /*
         float angle  = -m_rotation[0].asRadians();
         float cosine = std::cos(angle);
         float sine   = std::sin(angle);
@@ -140,15 +150,11 @@ const Transform& Transformable<POINT, VECTOR>::getTransform() const
         float sys    = m_scale.y * sine;
         float tx     = -m_origin.x * sxc - m_origin.y * sys + m_position.x;
         float ty     = m_origin.x * sxs - m_origin.y * syc + m_position.y;
-
         // clang-format off
         m_transform = Transform( sxc, sys, tx,
                                 -sxs, syc, ty,
                                  0.f, 0.f, 1.f);
-        // LOG_DEBUG << "[ " << sxc << " " << sys << " " << tx << " ]";
-        // LOG_DEBUG << "[ " << -sxs << " " << syc << " " << ty << " ]";
-        // LOG_DEBUG << "[ " << 0 << " " << 0 << " " << 1 << " ]";
-        // clang-format on
+        */
         m_transformNeedUpdate = false;
     }
 
@@ -156,6 +162,8 @@ const Transform& Transformable<POINT, VECTOR>::getTransform() const
 }
 
 template class Transformable<geometry::Point2Df, geometry::Vector2Df>;
+template class Transformable<geometry::Point3Df, geometry::Vector3Df>;
+
 } // namespace transform
 } // namespace geometry
 } // namespace gfx

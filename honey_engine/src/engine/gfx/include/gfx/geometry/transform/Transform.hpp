@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include "gfx/geometry/Angle.hpp"
 #include "gfx/geometry/Point2d.hpp"
 #include "gfx/geometry/Point3d.hpp"
@@ -45,8 +46,16 @@ public:
 
     static const Transform Identity; //!< The identity transform (does nothing)
 
-protected:
-    constexpr Transform getTranslationMatrix(const float tx, const float ty, const float tz) const;
+public:
+    constexpr const Transform getTranslateMatrix(const geometry::Point2Df&) const;
+    constexpr const Transform getTranslateMatrix(const geometry::Point3Df&) const;
+    constexpr const Transform getRotateXMatrix(const geometry::Angle angle) const;
+    constexpr const Transform getRotateYMatrix(const geometry::Angle angle) const;
+    constexpr const Transform getRotateZMatrix(const geometry::Angle angle) const;
+    constexpr const Transform getScaleMatrix(const geometry::Point2Df&) const;
+    constexpr const Transform getScaleMatrix(const geometry::Point3Df&) const;
+    constexpr const Transform getOriginMatrix(const geometry::Point2Df&) const;
+    constexpr const Transform getOriginMatrix(const geometry::Point3Df&) const;
 
 private:
     math::Matrix4x4 m_matrix{0.f, 0.f, 0.f, 0.f,

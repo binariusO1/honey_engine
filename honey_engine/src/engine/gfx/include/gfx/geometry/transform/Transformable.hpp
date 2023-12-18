@@ -36,9 +36,9 @@ public:
     void inverseTransformPoint(POINT& point) override;
 
 protected:
-    VECTOR m_scale; //todo : initialization 1.0f, 1.0f
-    POINT m_origin{}; // 0.0f, 0.0f};
-    POINT m_position{}; // 0.0f, 0.0f};
+    VECTOR m_scale;
+    POINT m_origin{};
+    POINT m_position{};
     geometry::Angle m_rotation[3]{he::gfx::geometry::Angle(0.0), he::gfx::geometry::Angle(0.0), he::gfx::geometry::Angle(0.0)};
     //int[3] m_rotation{0,0,0};
 

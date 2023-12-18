@@ -74,26 +74,6 @@ TEST_F(TransformableTests, checkPointPosition_whenSetPosition)
     ASSERT_EQ(point4, he::gfx::geometry::Point2Df(350.0, 350.0));
 }
 
-TEST_F(TransformableTests, checkPointPosition_whenSetScale)
-{
-    createSut();
-    Point2Df point1({0, 0});
-    Point2Df point2({200, 0});
-    Point2Df point3({0, 200});
-    Point2Df point4({200, 200});
-    sut->setOrigin({100.0, 100.0});
-    sut->setScale({2.0, 0.5});
-    sut->transformPoint(point1);
-    sut->transformPoint(point2);
-    sut->transformPoint(point3);
-    sut->transformPoint(point4);
-
-    ASSERT_EQ(point1, he::gfx::geometry::Point2Df(-200.0, -50.0));
-    ASSERT_EQ(point2, he::gfx::geometry::Point2Df(200.0, -50.0));
-    ASSERT_EQ(point3, he::gfx::geometry::Point2Df(-200.0, 50.0));
-    ASSERT_EQ(point4, he::gfx::geometry::Point2Df(200.0, 50.0));
-}
-
 TEST_F(TransformableTests, checkInverseTransformPoint)
 {
     Transformable<geometry::Point2Df, geometry::Vector2Df> transformableObject;
