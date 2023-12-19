@@ -31,7 +31,6 @@ public:
 
 public:
     bool isPointInside(const POINT& point);
-    void setOriginPosition(const he::gfx::OriginPosition& originPosition);
     void closeVertexArray();
     void openVertexArray();
 

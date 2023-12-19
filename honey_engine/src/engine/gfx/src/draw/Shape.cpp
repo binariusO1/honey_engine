@@ -44,7 +44,7 @@ bool Shape<POINT, VECTOR, VERTEX>::isPointInside(const POINT& point)
 
 
 ////////////////////////////////////////////////////////////
-template<typename POINT, typename VECTOR, typename VERTEX> // TODO : SPECIALIZATION
+template<typename POINT, typename VECTOR, typename VERTEX> // TODO : SPECIALIZATION 3D
 bool Shape<POINT, VECTOR, VERTEX>::setOrigin(const POINT& origin)
 {
     if (origin == he::gfx::geometry::Point2Df{0.0, 0.0})
@@ -65,7 +65,7 @@ bool Shape<POINT, VECTOR, VERTEX>::setOrigin(const POINT& origin)
 
 
 ////////////////////////////////////////////////////////////
-template<typename POINT, typename VECTOR, typename VERTEX> // TODO : SPECIALIZATION
+template<typename POINT, typename VECTOR, typename VERTEX> // TODO : SPECIALIZATION 3D
 void Shape<POINT, VECTOR, VERTEX>::setOriginInCenter()
 {
     IShapeTmpl::m_context.originPosition = he::gfx::OriginPosition::center;
@@ -92,7 +92,7 @@ void Shape<POINT, VECTOR, VERTEX>::openVertexArray()
 
 
 ////////////////////////////////////////////////////////////
-template<typename POINT, typename VECTOR, typename VERTEX> // TODO : SPECIALIZATION
+template<typename POINT, typename VECTOR, typename VERTEX> // TODO : SPECIALIZATION 3D
 void Shape<POINT, VECTOR, VERTEX>::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings, render::TransformMatrix& transformMatrix)
 {
     if (IShapeTmpl::m_vertexArrayNeedUpdate)
@@ -108,15 +108,6 @@ void Shape<POINT, VECTOR, VERTEX>::draw(he::gfx::render::Render& render, const h
     }
 
     IShapeTmpl::m_vertexArrayNeedUpdate = false;
-}
-
-
-////////////////////////////////////////////////////////////
-template<typename POINT, typename VECTOR, typename VERTEX>
-void Shape<POINT, VECTOR, VERTEX>::setOriginPosition(const he::gfx::OriginPosition& originPosition)//todo : remove
-{
-    IShapeTmpl::setOriginPosition(originPosition);
-    IShapeTmpl::m_vertexArrayNeedUpdate = true;
 }
 
 
