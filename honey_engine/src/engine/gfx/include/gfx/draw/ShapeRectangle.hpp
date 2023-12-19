@@ -9,8 +9,8 @@ namespace gfx
 {
 namespace draw
 {
-
-class ShapeRectangle : public Shape
+using Shape2d = he::gfx::draw::Shape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>;
+class ShapeRectangle : public Shape2d
 {
 public:
     ShapeRectangle(const std::string&, const gfx::geometry::Size2Df&);

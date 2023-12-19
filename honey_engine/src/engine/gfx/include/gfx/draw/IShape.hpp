@@ -56,6 +56,9 @@ protected:
     Drawable::Context m_context;
     bool m_vertexArrayNeedUpdate{false};
 };
+
+using IShape2d = he::gfx::draw::IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>;
+
 } // namespace draw
 } // namespace gfx
 } // namespace he

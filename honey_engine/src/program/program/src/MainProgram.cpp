@@ -43,7 +43,7 @@ int Program::startProgram()
         std::unique_ptr<he::gfx::render::IRender> render = std::make_unique<he::gfx::render::Render>(window->getWindowSize().first, window->getWindowSize().second);
 
         he::gfx::geometry::figures::Rectangle rect(100.0);
-        std::shared_ptr<he::gfx::draw::Shape> rectangle1 = std::make_shared<he::gfx::draw::Shape>("rect1", rect);
+        std::shared_ptr<he::gfx::draw::Shape2d> rectangle1 = std::make_shared<he::gfx::draw::Shape2d>("rect1", rect);
         rectangle1->setPosition({512, 350});
         rectangle1->setColor(he::gfx::Color::Green);
     

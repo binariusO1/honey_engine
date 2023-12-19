@@ -32,10 +32,10 @@ TEST_F(LayerTests, whenCreateWithEmptyName_shouldThrowException)
 TEST_F(LayerTests, whenaddDrawableWithSameName_shouldAddOnlyFirst)
 {
     std::shared_ptr<he::gfx::geometry::figures::Figure> hex = std::make_shared<he::gfx::geometry::figures::Hexagon>(55.0);
-    std::shared_ptr<he::gfx::draw::Shape> hexagon6 = std::make_shared<he::gfx::draw::Shape>("hex6", *hex);
+    std::shared_ptr<he::gfx::draw::Shape2d> hexagon6 = std::make_shared<he::gfx::draw::Shape2d>("hex6", *hex);
     hexagon6->setColor(he::gfx::Color::Magenta);
     hexagon6->setPosition({200.0, 500.0});
-    std::shared_ptr<he::gfx::draw::Shape> hexagon7 = std::make_shared<he::gfx::draw::Shape>("hex6", *hex);
+    std::shared_ptr<he::gfx::draw::Shape2d> hexagon7 = std::make_shared<he::gfx::draw::Shape2d>("hex6", *hex);
     hexagon7->setColor(he::gfx::Color::Red);
     hexagon7->setPosition({200.0, 600.0});
 

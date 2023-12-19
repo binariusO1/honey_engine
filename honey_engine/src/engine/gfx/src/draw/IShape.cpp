@@ -161,6 +161,8 @@ void IShape<POINT, VECTOR, VERTEX>::setOriginPosition(const he::gfx::OriginPosit
     default:
         break;
     }
+
+    m_vertexArrayNeedUpdate = true;
 }
 
 

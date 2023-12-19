@@ -16,10 +16,10 @@ public:
 
     void createSut()
     {
-        sut = std::make_unique<he::gfx::draw::Shape>("shape", *rectangle);
+        sut = std::make_unique<he::gfx::draw::Shape2d>("shape", *rectangle);
     }
 
-    std::unique_ptr<he::gfx::draw::Shape> sut;
+    std::unique_ptr<he::gfx::draw::Shape2d> sut;
     std::shared_ptr<he::gfx::geometry::figures::Rectangle> rectangle = 
         std::make_shared<he::gfx::geometry::figures::Rectangle>(he::gfx::geometry::Size2Df(100.0, 100.0));
 };

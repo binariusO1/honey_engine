@@ -73,57 +73,57 @@ TEST_F(ShapeSCT, screenTestShapes_drawSamples)
 
     // initialize hexagons
     std::shared_ptr<he::gfx::geometry::figures::Figure> hex = std::make_shared<he::gfx::geometry::figures::Hexagon>(57.0);
-    he::gfx::draw::Shape hex1("hex1", *hex);
+    he::gfx::draw::Shape2d hex1("hex1", *hex);
     hex1.setPosition({200.0, 0.0});
     hex1.closeVertexArray();
-    std::shared_ptr<he::gfx::draw::IShape2d> hexagon1 = std::make_shared<he::gfx::draw::Shape>(hex1);
+    std::shared_ptr<he::gfx::draw::IShape2d> hexagon1 = std::make_shared<he::gfx::draw::Shape2d>(hex1);
 
-    he::gfx::draw::Shape hex2("hex2", *hex);
+    he::gfx::draw::Shape2d hex2("hex2", *hex);
     hex2.setPosition({200.0, 100.0});
     hex2.setColor(he::gfx::Color::Yellow);
     hex2.closeVertexArray();
-    std::shared_ptr<he::gfx::draw::IShape2d> hexagon2 = std::make_shared<he::gfx::draw::Shape>(hex2);
+    std::shared_ptr<he::gfx::draw::IShape2d> hexagon2 = std::make_shared<he::gfx::draw::Shape2d>(hex2);
 
-    he::gfx::draw::Shape hex3("hex3", *hex);
+    he::gfx::draw::Shape2d hex3("hex3", *hex);
     hex3.setPosition({200.0, 200.0});
     hex3.setColor(he::gfx::Color::Green);
     hex3.closeVertexArray();
-    std::shared_ptr<he::gfx::draw::IShape2d> hexagon3 = std::make_shared<he::gfx::draw::Shape>(hex3);
+    std::shared_ptr<he::gfx::draw::IShape2d> hexagon3 = std::make_shared<he::gfx::draw::Shape2d>(hex3);
 
-    he::gfx::draw::Shape hex4("hex4", *hex);
+    he::gfx::draw::Shape2d hex4("hex4", *hex);
     std::shared_ptr<he::gfx::draw::IShape2d> hexagon4{nullptr};
 
-    if (dynamic_cast<he::gfx::draw::Shape*>(&hex4) != nullptr)
+    if (dynamic_cast<he::gfx::draw::Shape2d*>(&hex4) != nullptr)
     {
         hex4.setPosition({200.0, 300.0});
         hex4.setColor(he::gfx::Color::Cyan);
         hex4.closeVertexArray();
-        hexagon4 = std::make_shared<he::gfx::draw::Shape>(hex4);
+        hexagon4 = std::make_shared<he::gfx::draw::Shape2d>(hex4);
     }
 
-    he::gfx::draw::Shape hex5("hex5", *hex);
+    he::gfx::draw::Shape2d hex5("hex5", *hex);
     hex5.setColor(he::gfx::Color::Blue);
     hex5.setPosition({200.0, 400.0});
     hex5.setOriginPosition(he::gfx::OriginPosition::leftDown);
     hex5.closeVertexArray();
     std::shared_ptr<he::gfx::draw::IShape2d> hexagon5{nullptr};
 
-    if (dynamic_cast<he::gfx::draw::Shape*>(&hex4) != nullptr)
+    if (dynamic_cast<he::gfx::draw::Shape2d*>(&hex4) != nullptr)
     {
-        hexagon5 = std::make_shared<he::gfx::draw::Shape>(hex5);
+        hexagon5 = std::make_shared<he::gfx::draw::Shape2d>(hex5);
     }
 
-    he::gfx::draw::Shape hex6("hex6", *hex);
+    he::gfx::draw::Shape2d hex6("hex6", *hex);
     hex6.setColor(he::gfx::Color::Magenta);
     hex6.setPosition({200.0, 500.0});
     hex6.closeVertexArray();
-    std::shared_ptr<he::gfx::draw::IShape2d> hexagon6 = std::make_shared<he::gfx::draw::Shape>(hex6);
+    std::shared_ptr<he::gfx::draw::IShape2d> hexagon6 = std::make_shared<he::gfx::draw::Shape2d>(hex6);
 
-    he::gfx::draw::Shape hex7("hex7", *hex);
+    he::gfx::draw::Shape2d hex7("hex7", *hex);
     hex7.setColor(he::gfx::Color::Red);
     hex7.setPosition({200.0, 600.0});
     hex7.closeVertexArray();
-    std::shared_ptr<he::gfx::draw::IShape2d> hexagon7 = std::make_shared<he::gfx::draw::Shape>(hex7);
+    std::shared_ptr<he::gfx::draw::IShape2d> hexagon7 = std::make_shared<he::gfx::draw::Shape2d>(hex7);
 
     std::shared_ptr<he::gfx::render::Layer> layer2 = std::make_shared<he::gfx::render::Layer>("layer_2");
     he::gfx::render::ShapeList hexagons{hexagon1, hexagon2, hexagon3, hexagon4, hexagon5, hexagon6, hexagon7};
@@ -136,7 +136,7 @@ TEST_F(ShapeSCT, screenTestShapes_drawSamples)
 
     // initialize cross
     std::shared_ptr<he::gfx::geometry::figures::Figure> cross = std::make_shared<he::gfx::geometry::figures::Cross>(50.0);
-    std::shared_ptr<he::gfx::draw::Shape> cross1 = std::make_shared<he::gfx::draw::Shape>("cross1", *cross);
+    std::shared_ptr<he::gfx::draw::Shape2d> cross1 = std::make_shared<he::gfx::draw::Shape2d>("cross1", *cross);
     cross1->setPosition({320.0, 0.0});
 
     he::gfx::PropagationSettings propagationSettings{2, 7, 105.0, 100.0};
@@ -147,10 +147,10 @@ TEST_F(ShapeSCT, screenTestShapes_drawSamples)
     const he::gfx::geometry::Size2Dpxl textureSize(200, 100);
     std::shared_ptr<he::gfx::render::Texture> texture1 = std::make_shared<he::gfx::render::Texture>();
     texture1->createEmpty(textureSize);
-    std::shared_ptr<he::gfx::draw::Shape> sprite1 = std::make_shared<he::gfx::draw::Sprite>("sprite1", texture1);
+    std::shared_ptr<he::gfx::draw::Shape2d> sprite1 = std::make_shared<he::gfx::draw::Sprite>("sprite1", texture1);
     sprite1->setPosition({540.0, 0.0});
     std::shared_ptr<he::gfx::render::Texture> texture2 = std::make_shared<he::gfx::render::Texture>("data\\test\\container.png");
-    std::shared_ptr<he::gfx::draw::Shape> sprite2 = std::make_shared<he::gfx::draw::Sprite>("sprite2", texture2);
+    std::shared_ptr<he::gfx::draw::Shape2d> sprite2 = std::make_shared<he::gfx::draw::Sprite>("sprite2", texture2);
     sprite2->setPosition({540.0, 100.0});
 
     std::shared_ptr<he::gfx::render::Layer> layer4 = std::make_shared<he::gfx::render::Layer>("layer_4");
