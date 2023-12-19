@@ -217,7 +217,7 @@ TEST_F(ButtonSCT, eventTest_afterGetMouseMoveEventInsideAndOutside_shouldRunCall
 
     button->setCallback(callback, window::Event(window::Event::mouseCursorMoved));
     addButtonToMainLayer(button);
-    mainLayer->setPosition({200, 100});
+    main2dLayer->setPosition({200, 100});
     display(500);
 }
 

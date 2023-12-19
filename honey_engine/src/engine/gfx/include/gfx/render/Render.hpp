@@ -39,6 +39,12 @@ public:
         const he::gfx::Color color, 
         const he::gfx::render::RenderSettings& renderSettings,
         TransformMatrix&);
+    void drawVertex3d(
+        he::gfx::VertexArray3d& vertex,
+        const unsigned int textureId,
+        const he::gfx::Color color, 
+        const he::gfx::render::RenderSettings& renderSettings,
+        TransformMatrix&);
 
 private:
     void draw2d(
@@ -47,13 +53,20 @@ private:
         const he::gfx::Color color, 
         const he::gfx::render::RenderSettings& renderSettings,
         const bool isPrimitive = false) const;
-    void viewportTransform(he::gfx::geometry::Point2Df& point);
+    void draw3d(
+        const he::gfx::VertexArray3d& vertex, 
+        const unsigned int textureId,
+        const he::gfx::Color color, 
+        const he::gfx::render::RenderSettings& renderSettings,
+        const bool isPrimitive = false) const;
+    void viewportTransform(float& pX, float& pY);
 
 private:
     std::unique_ptr<he::libs::gl::IGlWrapper> m_glWrapper{nullptr};
     he::gfx::render::RenderSettings m_defaultRenderSettings{};
-    he::libs::gl::Shader m_textureShaderProgram;
-    he::libs::gl::Shader m_primitiveShaderProgram;
+    he::libs::gl::Shader m_texture2dShaderProgram;
+    he::libs::gl::Shader m_primitive2dShaderProgram;
+    he::libs::gl::Shader m_primitive3dShaderProgram;
     he::gfx::geometry::Size2Di m_windowSize;
     he::gfx::VertexArray2d m_cacheVertexArray{};
 };

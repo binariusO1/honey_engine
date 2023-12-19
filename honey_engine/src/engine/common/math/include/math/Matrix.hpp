@@ -20,6 +20,16 @@ inline void transformPoint2d(float& x, float& y, const Matrix4x4 matrix)
     }
 }
 
+inline void transformPoint3d(float& x, float& y, float z, const Matrix4x4 matrix)
+{
+    if (matrix)
+    {
+            x = matrix[0] * x + matrix[4] * y + matrix[8]  * z + matrix[12];
+            y = matrix[1] * x + matrix[5] * y + matrix[9]  * z + matrix[13];
+            z = matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14];
+    }
+}
+
 inline void setDiagonal(const float diagonalValue, Matrix4x4 matrix)
 {
     if (matrix)

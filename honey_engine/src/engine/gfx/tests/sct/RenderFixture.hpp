@@ -45,9 +45,11 @@ public:
 
     void createCustomScreen()
     {
-        mainLayer = std::make_shared<he::gfx::render::Layer2d>("main_layer");
+        main2dLayer = std::make_shared<he::gfx::render::Layer2d>("main_2d_layer");
+        main3dLayer = std::make_shared<he::gfx::render::Layer3d>("main_3d_layer");
         mainScene = std::make_shared<he::gfx::render::Scene>("main_scene");
-        mainScene->addLayer(mainLayer);
+        mainScene->addLayer(main2dLayer);
+        mainScene->addLayer(main3dLayer);
         he::gfx::render::SceneTransitionTable transitionTable{{mainScene, nullptr, nullptr, nullptr, nullptr}};
         mainSceneManager = std::make_unique<he::gfx::render::SceneManager>(transitionTable);
     }
@@ -60,20 +62,21 @@ public:
 
     void addShapeToMainLayer(const std::shared_ptr<he::gfx::draw::IShape2d>& shape)
     {
-        mainLayer->addShape(shape);
+        main2dLayer->addShape(shape);
     }
 
     void addButtonToMainLayer(const std::shared_ptr<he::gfx::draw::Button>& button)
     {
-        mainLayer->addButton(button);
+        main2dLayer->addButton(button);
     }
 
     void addDrawablesToMainLayer(const he::gfx::render::ShapeList& list)
     {
-        mainLayer->addShapes(list);
+        main2dLayer->addShapes(list);
     }
 
-    std::shared_ptr<he::gfx::render::Layer2d> mainLayer;
+    std::shared_ptr<he::gfx::render::Layer3d> main3dLayer;
+    std::shared_ptr<he::gfx::render::Layer2d> main2dLayer;
     std::shared_ptr<he::gfx::render::Scene> mainScene;
     std::shared_ptr<he::gfx::render::SceneManager> mainSceneManager{nullptr};
     std::unique_ptr<he::window::Window> mainWindow;

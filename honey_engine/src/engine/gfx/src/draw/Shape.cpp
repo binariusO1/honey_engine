@@ -189,7 +189,7 @@ void Shape<POINT, VECTOR, VERTEX>::draw(render::Render& render, const render::Re
 
 ////////////////////////////////////////////////////////////
 template<>
-void Shape2dFor3d::draw(render::Render&, const render::RenderSettings&, render::TransformMatrix& transformMatrix)
+void Shape2dFor3d::draw(render::Render& render, const render::RenderSettings& renderSettings, render::TransformMatrix& transformMatrix)
 {
     if (IShapeTmpl::m_vertexArrayNeedUpdate)
     {
@@ -200,8 +200,7 @@ void Shape2dFor3d::draw(render::Render&, const render::RenderSettings&, render::
     if (not IShapeTmpl::m_vertexArray.empty())
     {
         transformMatrix.modelMatrix = IShapeTmpl::getTransform().getMatrix();
-        // TODO :
-        // render.drawVertex2d(IShapeTmpl::m_vertexArray, 0, IShapeTmpl::getColor(), renderSettings, transformMatrix);
+        render.drawVertex3d(IShapeTmpl::m_vertexArray, 0, IShapeTmpl::getColor(), renderSettings, transformMatrix);
     }
 
     IShapeTmpl::m_vertexArrayNeedUpdate = false;
