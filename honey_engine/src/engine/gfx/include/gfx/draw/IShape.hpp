@@ -27,11 +27,11 @@ public:
 
 public:
     void setColor(const he::gfx::Color& color) override;
-    const he::gfx::Color getColor() const override;
     bool setPosition(const POINT& position) override;
     void setName(const std::string&) override;
     void setLayerName(const std::string&) override;
 
+    const he::gfx::Color getColor() const override;
     const POINT& getPosition() const override;
     const std::string getName() const override;
     const std::string getLayerName() const override;

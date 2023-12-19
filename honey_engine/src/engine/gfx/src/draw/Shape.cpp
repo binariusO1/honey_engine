@@ -40,13 +40,6 @@ bool Shape::isPointInside(const geometry::Point2Df& point)
 
 
 ////////////////////////////////////////////////////////////
-void Shape::setColor(const he::gfx::Color& color)
-{
-    IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::setColor(color);
-}
-
-
-////////////////////////////////////////////////////////////
 bool Shape::setOrigin(const he::gfx::geometry::Point2Df& origin)
 {
     if (origin == he::gfx::geometry::Point2Df{0.0, 0.0})
@@ -71,61 +64,6 @@ void Shape::setOriginInCenter()
 {
     m_context.originPosition = he::gfx::OriginPosition::center;
     setOrigin({m_figure.getCenterPoint().x , m_figure.getCenterPoint().y});
-}
-
-////////////////////////////////////////////////////////////
-bool Shape::setPosition(const he::gfx::geometry::Point2Df& position)
-{
-    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::setPosition(position);
-}
-
-
-////////////////////////////////////////////////////////////    
-bool Shape::setRotation(const he::gfx::geometry::Angle& angle, const int)
-{
-    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::setRotation(angle);
-}
-
-
-////////////////////////////////////////////////////////////
-const he::gfx::Color Shape::getColor() const
-{
-    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::getColor();
-}
-
-
-////////////////////////////////////////////////////////////
-const std::string Shape::getName() const
-{
-    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::getName();
-}
-
-
-////////////////////////////////////////////////////////////
-const he::gfx::geometry::Point2Df& Shape::getOrigin() const
-{
-    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::getOrigin();
-}
-
-
-////////////////////////////////////////////////////////////
-const he::gfx::geometry::Point2Df& Shape::getPosition() const
-{
-    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::getPosition();
-}
-
-
-////////////////////////////////////////////////////////////
-const he::gfx::geometry::Angle& Shape::getRotation(const int) const
-{
-    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::getRotation();
-}
-
-
-////////////////////////////////////////////////////////////
-const he::gfx::VertexArray2d& Shape::getVertexArray() const // TODO : do usunięcia, ponieważ korzystam tylko z m_vertexArray (poza tym nie trzeba dawać na zewnątrz) 
-{
-    return IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>::getVertexArray();
 }
 
 

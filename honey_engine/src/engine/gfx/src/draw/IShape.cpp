@@ -121,7 +121,7 @@ void IShape<POINT, VECTOR, VERTEX>::setName(const std::string& name)
 
 
 ////////////////////////////////////////////////////////////
-template<typename POINT, typename VECTOR, typename VERTEX>
+template<typename POINT, typename VECTOR, typename VERTEX> // TODO : do usunięcia lub do protected, ponieważ korzystam tylko z m_vertexArray (poza tym nie trzeba dawać na zewnątrz) 
 const VERTEX& IShape<POINT, VECTOR, VERTEX>::getVertexArray() const
 {
     return m_vertexArray;
