@@ -31,7 +31,7 @@ IShape<POINT, VECTOR, VERTEX>::~IShape() = default;
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX>
-void IShape<POINT, VECTOR, VERTEX>::setColor(const he::gfx::Color& color)
+void IShape<POINT, VECTOR, VERTEX>::setColor(const Color& color)
 {
     if (color != m_context.color)
     {
@@ -47,7 +47,7 @@ void IShape<POINT, VECTOR, VERTEX>::setColor(const he::gfx::Color& color)
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX>
-const he::gfx::Color IShape<POINT, VECTOR, VERTEX>::getColor() const
+const Color IShape<POINT, VECTOR, VERTEX>::getColor() const
 {
     return m_context.color;
 }
@@ -73,7 +73,7 @@ bool IShape<POINT, VECTOR, VERTEX>::setOrigin(const POINT& point)
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX>
-bool IShape<POINT, VECTOR, VERTEX>::setRotation(const he::gfx::geometry::Angle& angle, const int)
+bool IShape<POINT, VECTOR, VERTEX>::setRotation(const geometry::Angle& angle, const int)
 {
     m_vertexArrayNeedUpdate = TransformableTmpl::setRotation(angle);
     return m_vertexArrayNeedUpdate;
@@ -138,7 +138,7 @@ const POINT& IShape<POINT, VECTOR, VERTEX>::getOrigin() const
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX>
-const he::gfx::geometry::Angle& IShape<POINT, VECTOR, VERTEX>::getRotation(const int) const
+const geometry::Angle& IShape<POINT, VECTOR, VERTEX>::getRotation(const int) const
 {
     return TransformableTmpl::getRotation();
 }
@@ -146,16 +146,38 @@ const he::gfx::geometry::Angle& IShape<POINT, VECTOR, VERTEX>::getRotation(const
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX>
-void IShape<POINT, VECTOR, VERTEX>::setOriginPosition(const he::gfx::OriginPosition& originPosition)
+void IShape<POINT, VECTOR, VERTEX>::setOriginPosition(const OriginPosition& originPosition)
 {
     switch (originPosition)
     {
-    case he::gfx::OriginPosition::any:
+    case OriginPosition::any:
         break;
-    case he::gfx::OriginPosition::leftDown:
+    case OriginPosition::leftDown:
         setOrigin({0.0, 0.0});
         break;
-    case he::gfx::OriginPosition::center:
+    case OriginPosition::center:
+        setOriginInCenter();
+        break;
+    default:
+        break;
+    }
+
+    m_vertexArrayNeedUpdate = true;
+}
+
+
+////////////////////////////////////////////////////////////
+template<>
+void IShape<geometry::Point3Df, geometry::Vector3Df, VertexArray3d>::setOriginPosition(const OriginPosition& originPosition)
+{
+    switch (originPosition)
+    {
+    case OriginPosition::any:
+        break;
+    case OriginPosition::leftDown:
+        setOrigin({0.0, 0.0, 0.0});
+        break;
+    case OriginPosition::center:
         setOriginInCenter();
         break;
     default:
@@ -168,12 +190,13 @@ void IShape<POINT, VECTOR, VERTEX>::setOriginPosition(const he::gfx::OriginPosit
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX>
-gfx::OriginPosition IShape<POINT, VECTOR, VERTEX>::getOriginPosition() const
+OriginPosition IShape<POINT, VECTOR, VERTEX>::getOriginPosition() const
 {
     return m_context.originPosition;
 }
 
-template class IShape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>;
+template class IShape<geometry::Point2Df, geometry::Vector2Df, VertexArray2d>;
+template class IShape<geometry::Point3Df, geometry::Vector3Df, VertexArray3d>;
 
 } // namespace draw
 } // namespace gfx
