@@ -9,19 +9,22 @@ namespace gfx
 namespace render
 {
 ////////////////////////////////////////////////////////////
-BaseLayer::BaseLayer(const std::string& name) : m_context(name)
+template<typename POINT, typename VECTOR>
+BaseLayer<POINT, VECTOR>::BaseLayer(const std::string& name) : m_context(name)
 {
 }
 
 
 ////////////////////////////////////////////////////////////
-BaseLayer::~BaseLayer()
+template<typename POINT, typename VECTOR>
+BaseLayer<POINT, VECTOR>::~BaseLayer()
 {
 }
 
 
 ////////////////////////////////////////////////////////////
-void BaseLayer::show()
+template<typename POINT, typename VECTOR>
+void BaseLayer<POINT, VECTOR>::show()
 {
     m_context.visible = VisibilityState::visible;
     LOG_DEBUG << "Layer: " << this->getName() << " is visible";
@@ -29,7 +32,8 @@ void BaseLayer::show()
 
 
 ////////////////////////////////////////////////////////////
-void BaseLayer::hide()
+template<typename POINT, typename VECTOR>
+void BaseLayer<POINT, VECTOR>::hide()
 {
     m_context.visible = VisibilityState::hidden;
     LOG_DEBUG << "Layer: " << this->getName() << " is hidden";
@@ -37,17 +41,23 @@ void BaseLayer::hide()
 
 
 ////////////////////////////////////////////////////////////
-bool BaseLayer::isVisible() const
+template<typename POINT, typename VECTOR>
+bool BaseLayer<POINT, VECTOR>::isVisible() const
 {
     return (m_context.visible == VisibilityState::visible);
 }
 
 
 ////////////////////////////////////////////////////////////
-const std::string BaseLayer::getName() const
+template<typename POINT, typename VECTOR>
+const std::string BaseLayer<POINT, VECTOR>::getName() const
 {
     return m_context.name;
 }
+
+template class BaseLayer<geometry::Point2Df, geometry::Vector2Df>;
+template class BaseLayer<geometry::Point3Df, geometry::Vector3Df>;
+
 } // namespace render
 } // namespace gfx
 } // namespace he

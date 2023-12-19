@@ -12,7 +12,7 @@ namespace render
 {
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX> 
-Layer<POINT, VECTOR, VERTEX>::Layer(const std::string& name) : BaseLayer(name)
+Layer<POINT, VECTOR, VERTEX>::Layer(const std::string& name) : BaseLayerTmpl(name)
 {
 }
 
@@ -30,12 +30,12 @@ void Layer<POINT, VECTOR, VERTEX>::render(gfx::render::IRender& render)
 {
     for (const auto& item : m_buttons)
     {
-        render.draw(*item, m_transformMatrix);
+        render.draw(*item, BaseLayerTmpl::m_transformMatrix);
     }
 
     for (const auto& item : m_shapes)
     {
-        render.draw(*item, m_transformMatrix);
+        render.draw(*item, BaseLayerTmpl::m_transformMatrix);
     }
 
     for (const auto& layer : m_layers)
@@ -49,10 +49,10 @@ void Layer<POINT, VECTOR, VERTEX>::render(gfx::render::IRender& render)
 template<typename POINT, typename VECTOR, typename VERTEX> 
 void Layer<POINT, VECTOR, VERTEX>::setRenderSettings(const he::gfx::render::RenderSettings& renderSettings)
 {
-    m_renderSettings = renderSettings;
+    BaseLayerTmpl::m_renderSettings = renderSettings;
     for (const auto& layer : m_layers)
     {
-        layer.second->setRenderSettings(m_renderSettings);
+        layer.second->setRenderSettings(BaseLayerTmpl::m_renderSettings);
     }
 }
 
@@ -61,10 +61,10 @@ void Layer<POINT, VECTOR, VERTEX>::setRenderSettings(const he::gfx::render::Rend
 template<typename POINT, typename VECTOR, typename VERTEX> 
 bool Layer<POINT, VECTOR, VERTEX>::setPosition(const POINT& position)
 {
-    auto result = TransformableTmpl::setPosition(position);
+    auto result = BaseLayerTmpl::setPosition(position);
 
-    m_transformMatrix.viewMatrix = getTransform().getMatrix();
-    m_transformMatrix.isNeedUpdate = true;
+    BaseLayerTmpl::m_transformMatrix.viewMatrix = BaseLayerTmpl::getTransform().getMatrix();
+    BaseLayerTmpl::m_transformMatrix.isNeedUpdate = true;
 
     return result;
 }
@@ -121,7 +121,7 @@ void Layer<POINT, VECTOR, VERTEX>::addShape(const std::shared_ptr<IShapeTmpl>& s
     if (it.second)
     {
         m_shapes.push_back(shape);
-        m_shapes.back()->setLayerName(m_context.name);
+        m_shapes.back()->setLayerName(BaseLayerTmpl::m_context.name);
     }
     else
     {
@@ -132,7 +132,7 @@ void Layer<POINT, VECTOR, VERTEX>::addShape(const std::shared_ptr<IShapeTmpl>& s
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX> 
-void Layer<POINT, VECTOR, VERTEX>::addShapes(const ShapeList& shapes)
+void Layer<POINT, VECTOR, VERTEX>::addShapes(const IShapeListTmpl& shapes)
 {
     auto sum = m_shapes.size() + shapes.size();
 
@@ -148,7 +148,7 @@ void Layer<POINT, VECTOR, VERTEX>::addShapes(const ShapeList& shapes)
         if (it.second)
         {
             m_shapes.push_back(shape);
-            m_shapes.back()->setLayerName(m_context.name);
+            m_shapes.back()->setLayerName(BaseLayerTmpl::m_context.name);
         }
         else
         {
@@ -182,7 +182,7 @@ void Layer<POINT, VECTOR, VERTEX>::removeShape(const std::shared_ptr<IShapeTmpl>
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX> 
-he::gfx::render::ShapeList& Layer<POINT, VECTOR, VERTEX>::getShapeList()
+std::vector<std::shared_ptr<draw::IShape<POINT, VECTOR, VERTEX>>>& Layer<POINT, VECTOR, VERTEX>::getShapeList()
 {
     return m_shapes;
 }
@@ -212,7 +212,7 @@ void Layer<POINT, VECTOR, VERTEX>::addButton(const std::shared_ptr<gfx::draw::Bu
     if (it.second)
     {
         m_buttons.push_back(button);
-        m_buttons.back()->setLayerName(m_context.name);
+        m_buttons.back()->setLayerName(BaseLayerTmpl::m_context.name);
     }
     else
     {
@@ -239,7 +239,7 @@ void Layer<POINT, VECTOR, VERTEX>::addButtons(const ButtonList& buttons)
         if (it.second)
         {
             m_buttons.push_back(button);
-            m_buttons.back()->setLayerName(m_context.name);
+            m_buttons.back()->setLayerName(BaseLayerTmpl::m_context.name);
         }
         else
         {
@@ -337,12 +337,13 @@ template<typename POINT, typename VECTOR, typename VERTEX>
 void Layer<POINT, VECTOR, VERTEX>::adjustPointsForEvent(int& x, int& y)
 {
     he::gfx::geometry::Point2Df pointToCheck{static_cast<float>(x), static_cast<float>(y)};
-    TransformableTmpl::inverseTransformPoint(pointToCheck);
+    BaseLayerTmpl::inverseTransformPoint(pointToCheck);
     x = static_cast<int>(pointToCheck.x);
     y = static_cast<int>(pointToCheck.y);
 }
 
 template class Layer<geometry::Point2Df, geometry::Vector2Df, VertexArray2d>;
+template class Layer<geometry::Point3Df, geometry::Vector3Df, VertexArray3d>;
 
 } // namespace render
 } // namespace gfx

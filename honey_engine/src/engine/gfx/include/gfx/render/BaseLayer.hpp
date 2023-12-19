@@ -24,11 +24,8 @@ using ButtonList = std::vector<std::shared_ptr<he::gfx::draw::Button>>;
 using LayersList = std::vector<std::shared_ptr<he::gfx::render::ILayer>>;
 using LayersMap = std::unordered_map<std::string, std::shared_ptr<he::gfx::render::ILayer>>;
 
-using ShapeList = std::vector<std::shared_ptr<he::gfx::draw::IShape2d>>;
-
-using TransformableTmpl = he::gfx::geometry::transform::Transformable<geometry::Point2Df, geometry::Vector2Df>;
-
-class BaseLayer : public ILayer , protected TransformableTmpl
+template<typename POINT, typename VECTOR>
+class BaseLayer : public ILayer , protected geometry::transform::Transformable<POINT, VECTOR>
 {
 public:
     BaseLayer(const std::string&);

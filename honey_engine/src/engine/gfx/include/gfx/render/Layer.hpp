@@ -10,12 +10,15 @@ namespace gfx
 {
 namespace render
 {
+using ShapeList = std::vector<std::shared_ptr<he::gfx::draw::IShape2d>>;
 
 template<typename POINT, typename VECTOR, typename VERTEX>
-class Layer : public BaseLayer
+class Layer : public BaseLayer<POINT, VECTOR>
 {
 private:
+    using BaseLayerTmpl = BaseLayer<POINT, VECTOR>;
     using IShapeTmpl = draw::IShape<POINT, VECTOR, VERTEX>;
+    using IShapeListTmpl = std::vector<std::shared_ptr<draw::IShape<POINT, VECTOR, VERTEX>>>;
 
 public:
     Layer(const std::string&);
@@ -35,9 +38,9 @@ public:
     
 public:
     void addShape(const std::shared_ptr<IShapeTmpl>&);
-    void addShapes(const ShapeList&);
+    void addShapes(const IShapeListTmpl&);
     void removeShape(const std::shared_ptr<IShapeTmpl>&);
-    he::gfx::render::ShapeList& getShapeList();
+    IShapeListTmpl& getShapeList();
     IShapeTmpl& shape(const std::string&);
 
 public:
@@ -56,13 +59,14 @@ private:
 
 protected:
     ButtonList m_buttons;
-    ShapeList m_shapes; 
+    IShapeListTmpl m_shapes; 
     std::set<std::string> m_keys;
     LayersMap m_layers;
     bool m_firstonMouseButtonPressed{false};
 };
 
 using Layer2d = Layer<geometry::Point2Df, geometry::Vector2Df, VertexArray2d>;
+using Layer3d = Layer<geometry::Point3Df, geometry::Vector3Df, VertexArray3d>;
 
 } // namespace render
 } // namespace gfx
