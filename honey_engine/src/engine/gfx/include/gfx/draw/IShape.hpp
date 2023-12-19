@@ -56,7 +56,7 @@ protected:
 };
 
 using IShape2d = IShape<geometry::Point2Df, geometry::Vector2Df, VertexArray2d>;
-using IShape3d = IShape<geometry::Point3Df, geometry::Vector3Df, VertexArray3d>;
+using IShape2dFor3d = IShape<geometry::Point3Df, geometry::Vector3Df, VertexArray3d>;
 
 } // namespace draw
 } // namespace gfx

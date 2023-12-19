@@ -32,7 +32,7 @@ public:
 
     virtual const Transform& getTransform() const = 0;
     virtual void transformPoint(POINT& point) = 0;
-    virtual void inverseTransformPoint(POINT& point) = 0;
+    virtual void inverseTransformPoint(geometry::Point2Df& point) = 0;
 };
 } // namespace transform
 } // namespace geometry

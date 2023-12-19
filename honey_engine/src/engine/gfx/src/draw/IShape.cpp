@@ -168,7 +168,7 @@ void IShape<POINT, VECTOR, VERTEX>::setOriginPosition(const OriginPosition& orig
 
 ////////////////////////////////////////////////////////////
 template<>
-void IShape<geometry::Point3Df, geometry::Vector3Df, VertexArray3d>::setOriginPosition(const OriginPosition& originPosition)
+void IShape2dFor3d::setOriginPosition(const OriginPosition& originPosition)
 {
     switch (originPosition)
     {

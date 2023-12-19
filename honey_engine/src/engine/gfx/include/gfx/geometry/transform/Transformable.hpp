@@ -33,7 +33,7 @@ public:
 public:
     const Transform& getTransform() const override;
     void transformPoint(POINT& point) override;
-    void inverseTransformPoint(POINT& point) override;
+    void inverseTransformPoint(geometry::Point2Df& point) override;
 
 protected:
     VECTOR m_scale;

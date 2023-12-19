@@ -35,29 +35,29 @@ Shape<POINT, VECTOR, VERTEX>::~Shape() = default;
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX>
-bool Shape<POINT, VECTOR, VERTEX>::isPointInside(const POINT& point)
+bool Shape<POINT, VECTOR, VERTEX>::isPointInside(const geometry::Point2Df& point)
 {
-    POINT pointToCheck{point};
+    geometry::Point2Df pointToCheck{point};
     IShapeTmpl::inverseTransformPoint(pointToCheck);
     return m_figure.isPointInside(pointToCheck);
 }
 
 
 ////////////////////////////////////////////////////////////
-template<typename POINT, typename VECTOR, typename VERTEX> // TODO : SPECIALIZATION 3D
+template<typename POINT, typename VECTOR, typename VERTEX>
 bool Shape<POINT, VECTOR, VERTEX>::setOrigin(const POINT& origin)
 {
-    if (origin == he::gfx::geometry::Point2Df{0.0, 0.0})
+    if (origin == geometry::Point2Df{})
     {
-        IShapeTmpl::m_context.originPosition = he::gfx::OriginPosition::leftDown;
+        IShapeTmpl::m_context.originPosition = OriginPosition::leftDown;
     }
-    else if(origin == he::gfx::geometry::Point2Df{m_figure.getCenterPoint().x , m_figure.getCenterPoint().y})
+    else if(origin == geometry::Point2Df{m_figure.getCenterPoint().x , m_figure.getCenterPoint().y})
     {
-        IShapeTmpl::m_context.originPosition = he::gfx::OriginPosition::center;
+        IShapeTmpl::m_context.originPosition = OriginPosition::center;
     }
     else
     {
-        IShapeTmpl::m_context.originPosition = he::gfx::OriginPosition::any;
+        IShapeTmpl::m_context.originPosition = OriginPosition::any;
     }
 
     return IShapeTmpl::setOrigin(origin);
@@ -65,11 +65,40 @@ bool Shape<POINT, VECTOR, VERTEX>::setOrigin(const POINT& origin)
 
 
 ////////////////////////////////////////////////////////////
-template<typename POINT, typename VECTOR, typename VERTEX> // TODO : SPECIALIZATION 3D
+template<>
+bool Shape2dFor3d::setOrigin(const geometry::Point3Df& origin)
+{
+    if (origin == geometry::Point3Df{0.0, 0.0, 0.0})
+    {
+        IShapeTmpl::m_context.originPosition = OriginPosition::leftDown;
+    }
+    else if(origin == geometry::Point3Df{m_figure.getCenterPoint().x, m_figure.getCenterPoint().y, m_position.z})
+    {
+        IShapeTmpl::m_context.originPosition = OriginPosition::center;
+    }
+    else
+    {
+        IShapeTmpl::m_context.originPosition = OriginPosition::any;
+    }
+
+    return IShapeTmpl::setOrigin(origin);
+}
+
+////////////////////////////////////////////////////////////
+template<typename POINT, typename VECTOR, typename VERTEX>
 void Shape<POINT, VECTOR, VERTEX>::setOriginInCenter()
 {
     IShapeTmpl::m_context.originPosition = he::gfx::OriginPosition::center;
     setOrigin({m_figure.getCenterPoint().x , m_figure.getCenterPoint().y});
+}
+
+
+////////////////////////////////////////////////////////////
+template<>
+void Shape2dFor3d::setOriginInCenter()
+{
+    IShapeTmpl::m_context.originPosition = he::gfx::OriginPosition::center;
+    setOrigin({m_figure.getCenterPoint().x, m_figure.getCenterPoint().y, m_position.z});
 }
 
 
@@ -91,28 +120,8 @@ void Shape<POINT, VECTOR, VERTEX>::openVertexArray()
 }
 
 
-////////////////////////////////////////////////////////////
-template<typename POINT, typename VECTOR, typename VERTEX> // TODO : SPECIALIZATION 3D
-void Shape<POINT, VECTOR, VERTEX>::draw(he::gfx::render::Render& render, const he::gfx::render::RenderSettings& renderSettings, render::TransformMatrix& transformMatrix)
-{
-    if (IShapeTmpl::m_vertexArrayNeedUpdate)
-    {
-        updateVertexArray();
-        transformMatrix.isNeedUpdate = IShapeTmpl::m_vertexArrayNeedUpdate;
-    }
-
-    if (not IShapeTmpl::m_vertexArray.empty())
-    {
-        transformMatrix.modelMatrix = IShapeTmpl::getTransform().getMatrix();
-        render.drawVertex2d(IShapeTmpl::m_vertexArray, 0, IShapeTmpl::getColor(), renderSettings, transformMatrix);
-    }
-
-    IShapeTmpl::m_vertexArrayNeedUpdate = false;
-}
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// PRIVATE
+// PROTECTED
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -133,7 +142,79 @@ void Shape<POINT, VECTOR, VERTEX>::updateVertexArray()
     }
 }
 
-template class Shape<geometry::Point2Df, geometry::Vector2Df, he::gfx::VertexArray2d>;
+
+////////////////////////////////////////////////////////////
+template<>
+void Shape2dFor3d::updateVertexArray()
+{
+    IShapeTmpl::m_vertexArray.clear();
+
+    for (std::size_t i = 0 ; i < m_figure.getNumOfPoints() ; ++i)
+    {
+        const geometry::Point3Df point(m_figure.getPoint(i).x, m_figure.getPoint(i).y, m_position.z);
+        IShapeTmpl::m_vertexArray.push_back({point, IShapeTmpl::m_context.color});
+    }
+
+    if (m_closedVertexArray)
+    {
+        IShapeTmpl::m_vertexArray.push_back(IShapeTmpl::m_vertexArray[0]);
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// PUBLIC CD
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Shape<POINT, VECTOR, VERTEX>::draw(render::Render& render, const render::RenderSettings& renderSettings, render::TransformMatrix& transformMatrix)
+{
+    if (IShapeTmpl::m_vertexArrayNeedUpdate)
+    {
+        updateVertexArray();
+        transformMatrix.isNeedUpdate = IShapeTmpl::m_vertexArrayNeedUpdate;
+    }
+
+    if (not IShapeTmpl::m_vertexArray.empty())
+    {
+        transformMatrix.modelMatrix = IShapeTmpl::getTransform().getMatrix();
+        render.drawVertex2d(IShapeTmpl::m_vertexArray, 0, IShapeTmpl::getColor(), renderSettings, transformMatrix);
+    }
+
+    IShapeTmpl::m_vertexArrayNeedUpdate = false;
+}
+
+
+////////////////////////////////////////////////////////////
+template<>
+void Shape2dFor3d::draw(render::Render&, const render::RenderSettings&, render::TransformMatrix& transformMatrix)
+{
+    if (IShapeTmpl::m_vertexArrayNeedUpdate)
+    {
+        updateVertexArray();
+        transformMatrix.isNeedUpdate = IShapeTmpl::m_vertexArrayNeedUpdate;
+    }
+
+    if (not IShapeTmpl::m_vertexArray.empty())
+    {
+        transformMatrix.modelMatrix = IShapeTmpl::getTransform().getMatrix();
+        // TODO :
+        // render.drawVertex2d(IShapeTmpl::m_vertexArray, 0, IShapeTmpl::getColor(), renderSettings, transformMatrix);
+    }
+
+    IShapeTmpl::m_vertexArrayNeedUpdate = false;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// PRIVATE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+template class Shape<geometry::Point2Df, geometry::Vector2Df, VertexArray2d>;
+template class Shape<geometry::Point3Df, geometry::Vector3Df, VertexArray3d>;
 
 } // namespace draw
 } // namespace gfx

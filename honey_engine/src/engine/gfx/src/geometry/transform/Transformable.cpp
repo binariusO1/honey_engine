@@ -116,7 +116,7 @@ void Transformable<POINT, VECTOR>::transformPoint(POINT& point)
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR>
-void Transformable<POINT, VECTOR>::inverseTransformPoint(POINT& point)
+void Transformable<POINT, VECTOR>::inverseTransformPoint(geometry::Point2Df& point)
 {
     point = getTransform().getInverse().transformPoint(point);
 }
