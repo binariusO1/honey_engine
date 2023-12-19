@@ -146,7 +146,7 @@ void AdvButton::handleStateClicked(const window::Event& event)
     {
         case window::Event::mouseButtonReleased:
         {
-            bool isPointInside = Button::isPointInside({static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)});
+            const bool isPointInside = Button::isPointInside({static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)});
     
             if (isPointInside)
             {
