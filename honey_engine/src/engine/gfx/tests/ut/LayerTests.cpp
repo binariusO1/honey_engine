@@ -18,15 +18,15 @@ public:
 
     void createSut()
     {
-        sut = std::make_unique<he::gfx::render::Layer>("test name");
+        sut = std::make_unique<he::gfx::render::Layer2d>("test name");
     }
 
-    std::unique_ptr<he::gfx::render::Layer> sut;
+    std::unique_ptr<he::gfx::render::Layer2d> sut;
 };
 
 TEST_F(LayerTests, whenCreateWithEmptyName_shouldThrowException)
 {
-    EXPECT_THROW((he::gfx::render::Layer("")), he::common::invalid_initialization);
+    EXPECT_THROW((he::gfx::render::Layer2d("")), he::common::invalid_initialization);
 }
 
 TEST_F(LayerTests, whenaddDrawableWithSameName_shouldAddOnlyFirst)
@@ -39,7 +39,7 @@ TEST_F(LayerTests, whenaddDrawableWithSameName_shouldAddOnlyFirst)
     hexagon7->setColor(he::gfx::Color::Red);
     hexagon7->setPosition({200.0, 600.0});
 
-    std::shared_ptr<he::gfx::render::Layer> layer2 = std::make_shared<he::gfx::render::Layer>("layer_2");
+    std::shared_ptr<he::gfx::render::Layer2d> layer2 = std::make_shared<he::gfx::render::Layer2d>("layer_2");
     he::gfx::render::ShapeList hexagons{hexagon6, hexagon7};
     layer2->addShapes(hexagons);
 

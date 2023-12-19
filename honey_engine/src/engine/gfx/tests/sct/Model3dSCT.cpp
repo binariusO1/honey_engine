@@ -26,10 +26,14 @@ public:
     }
 };
 
-TEST_F(Model3dSCT, screenTest_drawSampleModel)
+TEST_F(Model3dSCT, screenTest_drawSampleShapeIn3dSpace)
 {
     createCustomScreen();
 
+    he::gfx::geometry::figures::Rectangle rectangle({200.0, 200.0});
+    std::shared_ptr<he::gfx::draw::Shape2dFor3d> rectangleShape = std::make_shared<he::gfx::draw::Shape2dFor3d>("rectangleShape", rectangle);
+    // mainLayer->addShape(rectangleShape);
+    
     geometry::transform::Transform model(1.0f);
     model.rotateAroundX(geometry::Angle{-55.f});
 

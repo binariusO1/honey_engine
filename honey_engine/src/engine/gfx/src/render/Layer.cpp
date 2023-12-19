@@ -11,19 +11,22 @@ namespace gfx
 namespace render
 {
 ////////////////////////////////////////////////////////////
-Layer::Layer(const std::string& name) : BaseLayer(name)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+Layer<POINT, VECTOR, VERTEX>::Layer(const std::string& name) : BaseLayer(name)
 {
 }
 
 
 ////////////////////////////////////////////////////////////
-Layer::~Layer()
+template<typename POINT, typename VECTOR, typename VERTEX> 
+Layer<POINT, VECTOR, VERTEX>::Layer::~Layer()
 {
 }
 
 
 ////////////////////////////////////////////////////////////
-void Layer::render(gfx::render::IRender& render)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::render(gfx::render::IRender& render)
 {
     for (const auto& item : m_buttons)
     {
@@ -43,7 +46,8 @@ void Layer::render(gfx::render::IRender& render)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::setRenderSettings(const he::gfx::render::RenderSettings& renderSettings)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::setRenderSettings(const he::gfx::render::RenderSettings& renderSettings)
 {
     m_renderSettings = renderSettings;
     for (const auto& layer : m_layers)
@@ -54,7 +58,8 @@ void Layer::setRenderSettings(const he::gfx::render::RenderSettings& renderSetti
 
 
 ////////////////////////////////////////////////////////////
-bool Layer::setPosition(const geometry::Point2Df& position)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+bool Layer<POINT, VECTOR, VERTEX>::setPosition(const POINT& position)
 {
     auto result = TransformableTmpl::setPosition(position);
 
@@ -66,7 +71,8 @@ bool Layer::setPosition(const geometry::Point2Df& position)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::addLayer(const std::shared_ptr<he::gfx::render::ILayer>& layer)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::addLayer(const std::shared_ptr<he::gfx::render::ILayer>& layer)
 {
     auto result = m_layers.insert({layer->getName(), layer});
     if (not result.second)
@@ -78,7 +84,8 @@ void Layer::addLayer(const std::shared_ptr<he::gfx::render::ILayer>& layer)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::addLayers(const LayersList& layers)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::addLayers(const LayersList& layers)
 {
     for (const auto& layer : layers)
     {
@@ -93,7 +100,8 @@ void Layer::addLayers(const LayersList& layers)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::removeLayer(const std::shared_ptr<he::gfx::render::ILayer>& layer)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::removeLayer(const std::shared_ptr<he::gfx::render::ILayer>& layer)
 {
     auto it = m_layers.find(layer->getName());
 
@@ -105,7 +113,8 @@ void Layer::removeLayer(const std::shared_ptr<he::gfx::render::ILayer>& layer)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::addShape(const std::shared_ptr<draw::IShape2d>& shape)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::addShape(const std::shared_ptr<IShapeTmpl>& shape)
 {
     auto it = m_keys.emplace(shape->getName());
 
@@ -122,7 +131,8 @@ void Layer::addShape(const std::shared_ptr<draw::IShape2d>& shape)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::addShapes(const ShapeList& shapes)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::addShapes(const ShapeList& shapes)
 {
     auto sum = m_shapes.size() + shapes.size();
 
@@ -131,7 +141,7 @@ void Layer::addShapes(const ShapeList& shapes)
         m_shapes.reserve(sum);
     }
 
-    std::for_each(shapes.begin(), shapes.end(), [&](const std::shared_ptr<draw::IShape2d>& shape) 
+    std::for_each(shapes.begin(), shapes.end(), [&](const std::shared_ptr<IShapeTmpl>& shape) 
     { 
         auto it = m_keys.emplace(shape->getName());
 
@@ -149,7 +159,8 @@ void Layer::addShapes(const ShapeList& shapes)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::removeShape(const std::shared_ptr<draw::IShape2d>& shape)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::removeShape(const std::shared_ptr<IShapeTmpl>& shape)
 {
     if (not m_keys.erase(shape->getName()))
     {
@@ -170,14 +181,16 @@ void Layer::removeShape(const std::shared_ptr<draw::IShape2d>& shape)
 
 
 ////////////////////////////////////////////////////////////
-he::gfx::render::ShapeList& Layer::getShapeList()
+template<typename POINT, typename VECTOR, typename VERTEX> 
+he::gfx::render::ShapeList& Layer<POINT, VECTOR, VERTEX>::getShapeList()
 {
     return m_shapes;
 }
 
 
 ////////////////////////////////////////////////////////////
-draw::IShape2d& Layer::shape(const std::string& name)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+draw::IShape<POINT, VECTOR, VERTEX>& Layer<POINT, VECTOR, VERTEX>::shape(const std::string& name)
 {
     for (auto& item : m_shapes)
     {
@@ -191,7 +204,8 @@ draw::IShape2d& Layer::shape(const std::string& name)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::addButton(const std::shared_ptr<gfx::draw::Button>& button)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::addButton(const std::shared_ptr<gfx::draw::Button>& button)
 {
     auto it = m_keys.emplace(button->getName());
 
@@ -208,7 +222,8 @@ void Layer::addButton(const std::shared_ptr<gfx::draw::Button>& button)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::addButtons(const ButtonList& buttons)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::addButtons(const ButtonList& buttons)
 {
     auto sum = m_buttons.size() + buttons.size();
 
@@ -235,14 +250,17 @@ void Layer::addButtons(const ButtonList& buttons)
 
 
 ////////////////////////////////////////////////////////////
-he::gfx::render::ButtonList& Layer::getButtons()
+template<typename POINT, typename VECTOR, typename VERTEX> 
+he::gfx::render::ButtonList& Layer<POINT, VECTOR, VERTEX>::getButtons()
 {
     return m_buttons;
 }
 
 
 ////////////////////////////////////////////////////////////
-void Layer::process_event(const he::window::Event& event)
+
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::process_event(const he::window::Event& event)
 {
     //  LOG_DEBUG << "Process event: " << window::toString(event.type) << ", layer name: " << m_context.name;
 
@@ -264,7 +282,8 @@ void Layer::process_event(const he::window::Event& event)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::onMouseButtonPressed(const he::window::Event::MouseButtonAction& event)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::onMouseButtonPressed(const he::window::Event::MouseButtonAction& event)
 {
     window::Event::MouseButtonAction adjEvent = event;
     adjustPointsForEvent(adjEvent.x, adjEvent.y);
@@ -280,7 +299,8 @@ void Layer::onMouseButtonPressed(const he::window::Event::MouseButtonAction& eve
 
 
 ////////////////////////////////////////////////////////////
-void Layer::onMouseButtonReleased(const he::window::Event::MouseButtonAction& event)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::onMouseButtonReleased(const he::window::Event::MouseButtonAction& event)
 {
     window::Event::MouseButtonAction adjEvent = event;
     adjustPointsForEvent(adjEvent.x, adjEvent.y);
@@ -296,7 +316,8 @@ void Layer::onMouseButtonReleased(const he::window::Event::MouseButtonAction& ev
 
 
 ////////////////////////////////////////////////////////////
-void Layer::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& event)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& event)
 {
     window::Event::MouseMoveEvent adjEvent = event;
     adjustPointsForEvent(adjEvent.x, adjEvent.y);
@@ -312,13 +333,17 @@ void Layer::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& event)
 
 
 ////////////////////////////////////////////////////////////
-void Layer::adjustPointsForEvent(int& x, int& y)
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::adjustPointsForEvent(int& x, int& y)
 {
     he::gfx::geometry::Point2Df pointToCheck{static_cast<float>(x), static_cast<float>(y)};
     TransformableTmpl::inverseTransformPoint(pointToCheck);
     x = static_cast<int>(pointToCheck.x);
     y = static_cast<int>(pointToCheck.y);
 }
+
+template class Layer<geometry::Point2Df, geometry::Vector2Df, VertexArray2d>;
+
 } // namespace render
 } // namespace gfx
 } // namespace he

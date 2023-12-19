@@ -33,9 +33,9 @@ TEST_F(SceneTests, whenCreateWithEmptyName_shouldThrowException)
 
 TEST_F(SceneTests, shouldAddAndRemoveLayers)
 {
-    std::shared_ptr<he::gfx::render::Layer> layer1 = std::make_shared<he::gfx::render::Layer>("layer1");
-    std::shared_ptr<he::gfx::render::Layer> layer2 = std::make_shared<he::gfx::render::Layer>("layer2");
-    std::shared_ptr<he::gfx::render::Layer> layer3 = std::make_shared<he::gfx::render::Layer>("layer3");
+    std::shared_ptr<he::gfx::render::Layer2d> layer1 = std::make_shared<he::gfx::render::Layer2d>("layer1");
+    std::shared_ptr<he::gfx::render::Layer2d> layer2 = std::make_shared<he::gfx::render::Layer2d>("layer2");
+    std::shared_ptr<he::gfx::render::Layer2d> layer3 = std::make_shared<he::gfx::render::Layer2d>("layer3");
 
     createSut();
     sut->addLayers({layer1, layer2});

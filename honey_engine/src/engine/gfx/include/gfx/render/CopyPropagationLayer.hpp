@@ -10,7 +10,7 @@ namespace gfx
 namespace render
 {
 
-class CopyPropagationLayer : public Layer
+class CopyPropagationLayer : public Layer<geometry::Point2Df, geometry::Vector2Df, VertexArray2d>
 {
 public:
     CopyPropagationLayer(const std::string&, const PropagationSettings&);

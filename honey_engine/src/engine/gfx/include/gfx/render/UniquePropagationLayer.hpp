@@ -10,7 +10,7 @@ namespace gfx
 namespace render
 {
 
-class UniquePropagationLayer : public Layer
+class UniquePropagationLayer : public Layer<geometry::Point2Df, geometry::Vector2Df, VertexArray2d>
 {
 public:
     UniquePropagationLayer(const std::string&, const PropagationSettings&);

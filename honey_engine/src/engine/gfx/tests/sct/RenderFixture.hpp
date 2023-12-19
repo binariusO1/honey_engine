@@ -45,7 +45,7 @@ public:
 
     void createCustomScreen()
     {
-        mainLayer = std::make_shared<he::gfx::render::Layer>("main_layer");
+        mainLayer = std::make_shared<he::gfx::render::Layer2d>("main_layer");
         mainScene = std::make_shared<he::gfx::render::Scene>("main_scene");
         mainScene->addLayer(mainLayer);
         he::gfx::render::SceneTransitionTable transitionTable{{mainScene, nullptr, nullptr, nullptr, nullptr}};
@@ -73,7 +73,7 @@ public:
         mainLayer->addShapes(list);
     }
 
-    std::shared_ptr<he::gfx::render::Layer> mainLayer;
+    std::shared_ptr<he::gfx::render::Layer2d> mainLayer;
     std::shared_ptr<he::gfx::render::Scene> mainScene;
     std::shared_ptr<he::gfx::render::SceneManager> mainSceneManager{nullptr};
     std::unique_ptr<he::window::Window> mainWindow;

@@ -47,7 +47,7 @@ int Program::startProgram()
         rectangle1->setPosition({512, 350});
         rectangle1->setColor(he::gfx::Color::Green);
     
-        std::shared_ptr<he::gfx::render::Layer> layer1 = std::make_shared<he::gfx::render::Layer>("layer_1");
+        std::shared_ptr<he::gfx::render::Layer2d> layer1 = std::make_shared<he::gfx::render::Layer2d>("layer_1");
         layer1->addShape(rectangle1);
 
         std::shared_ptr<he::gfx::render::Scene> scene1 = std::make_shared<he::gfx::render::Scene>("scene_1");

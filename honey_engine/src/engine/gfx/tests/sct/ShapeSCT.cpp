@@ -67,7 +67,7 @@ TEST_F(ShapeSCT, screenTestShapes_drawSamples)
     shape7.setPosition({0.0, 600.0});
     std::shared_ptr<he::gfx::draw::IShape2d> rectangle7 = std::make_shared<he::gfx::draw::ShapeRectangle>(shape7);
 
-    std::shared_ptr<he::gfx::render::Layer> layer1 = std::make_shared<he::gfx::render::Layer>("layer_1");
+    std::shared_ptr<he::gfx::render::Layer2d> layer1 = std::make_shared<he::gfx::render::Layer2d>("layer_1");
     he::gfx::render::ShapeList rectangles{rectangle1, rectangle2, rectangle3, rectangle4, rectangle5, rectangle6, rectangle7};
     layer1->addShapes(rectangles);
 
@@ -125,7 +125,7 @@ TEST_F(ShapeSCT, screenTestShapes_drawSamples)
     hex7.closeVertexArray();
     std::shared_ptr<he::gfx::draw::IShape2d> hexagon7 = std::make_shared<he::gfx::draw::Shape2d>(hex7);
 
-    std::shared_ptr<he::gfx::render::Layer> layer2 = std::make_shared<he::gfx::render::Layer>("layer_2");
+    std::shared_ptr<he::gfx::render::Layer2d> layer2 = std::make_shared<he::gfx::render::Layer2d>("layer_2");
     he::gfx::render::ShapeList hexagons{hexagon1, hexagon2, hexagon3, hexagon4, hexagon5, hexagon6, hexagon7};
     layer2->addShapes(hexagons);
 
@@ -153,7 +153,7 @@ TEST_F(ShapeSCT, screenTestShapes_drawSamples)
     std::shared_ptr<he::gfx::draw::Shape2d> sprite2 = std::make_shared<he::gfx::draw::Sprite>("sprite2", texture2);
     sprite2->setPosition({540.0, 100.0});
 
-    std::shared_ptr<he::gfx::render::Layer> layer4 = std::make_shared<he::gfx::render::Layer>("layer_4");
+    std::shared_ptr<he::gfx::render::Layer2d> layer4 = std::make_shared<he::gfx::render::Layer2d>("layer_4");
     he::gfx::render::ShapeList sprites{sprite1, sprite2};
     layer4->addShapes(sprites);
 

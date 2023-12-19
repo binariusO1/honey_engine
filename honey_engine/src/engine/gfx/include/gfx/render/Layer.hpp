@@ -11,8 +11,12 @@ namespace gfx
 namespace render
 {
 
+template<typename POINT, typename VECTOR, typename VERTEX>
 class Layer : public BaseLayer
 {
+private:
+    using IShapeTmpl = draw::IShape<POINT, VECTOR, VERTEX>;
+
 public:
     Layer(const std::string&);
     ~Layer();
@@ -22,7 +26,7 @@ public:
     void setRenderSettings(const he::gfx::render::RenderSettings&) override;
 
 public:
-    bool setPosition(const geometry::Point2Df&) override;
+    bool setPosition(const POINT&) override;
 
 public:
     void addLayer(const std::shared_ptr<he::gfx::render::ILayer>&);
@@ -30,11 +34,11 @@ public:
     void removeLayer(const std::shared_ptr<he::gfx::render::ILayer>&);
     
 public:
-    void addShape(const std::shared_ptr<draw::IShape2d>&);
+    void addShape(const std::shared_ptr<IShapeTmpl>&);
     void addShapes(const ShapeList&);
-    void removeShape(const std::shared_ptr<draw::IShape2d>&);
+    void removeShape(const std::shared_ptr<IShapeTmpl>&);
     he::gfx::render::ShapeList& getShapeList();
-    draw::IShape2d& shape(const std::string&);
+    IShapeTmpl& shape(const std::string&);
 
 public:
     void addButton(const std::shared_ptr<gfx::draw::Button>&);
@@ -57,6 +61,9 @@ protected:
     LayersMap m_layers;
     bool m_firstonMouseButtonPressed{false};
 };
+
+using Layer2d = Layer<geometry::Point2Df, geometry::Vector2Df, VertexArray2d>;
+
 } // namespace render
 } // namespace gfx
 } // namespace he
