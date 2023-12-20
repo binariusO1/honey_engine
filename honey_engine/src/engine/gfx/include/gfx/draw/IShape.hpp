@@ -35,9 +35,10 @@ public:
 
 public:
     bool setOrigin(const POINT& point) override;
-    bool setRotation(const geometry::Angle& angle, const int axis = 0) override;
+    bool setRotation(const float rotationZ) override;
+    bool setRotations(const float rotationX, const float rotationY, const float rotationZ, geometry::transform::AxisOrder axisOrder) override;
     const POINT& getOrigin() const override;
-    const geometry::Angle& getRotation(const int axis = 0) const override;
+    const geometry::Angle& getRotation() const override;
 
 public:
     virtual void setOriginInCenter() = 0;

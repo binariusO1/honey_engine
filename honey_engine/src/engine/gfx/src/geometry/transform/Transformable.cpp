@@ -33,8 +33,8 @@ void Transformable<POINT, VECTOR>::move(const VECTOR& offset)
 template<typename POINT, typename VECTOR>
 bool Transformable<POINT, VECTOR>::setPosition(const POINT& position)
 {
+    m_transformNeedUpdate = (m_position != position);
     m_position = position;
-    m_transformNeedUpdate = (m_position == position);
     return m_transformNeedUpdate;
 }
 
@@ -43,8 +43,8 @@ bool Transformable<POINT, VECTOR>::setPosition(const POINT& position)
 template<typename POINT, typename VECTOR>
 bool Transformable<POINT, VECTOR>::setOrigin(const POINT& origin)
 {
+    m_transformNeedUpdate = (m_origin != origin);
     m_origin = origin;
-    m_transformNeedUpdate = (m_origin == origin);
     return m_transformNeedUpdate;
 }
 
@@ -53,21 +53,49 @@ bool Transformable<POINT, VECTOR>::setOrigin(const POINT& origin)
 template<typename POINT, typename VECTOR>
 bool Transformable<POINT, VECTOR>::setScale(const VECTOR& factors)
 {
+    m_transformNeedUpdate = (m_scale != factors);
     m_scale = factors;
-    m_transformNeedUpdate = (m_scale == factors);
     return m_transformNeedUpdate;
 }
 
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR>
-bool Transformable<POINT, VECTOR>::setRotation(const Angle& angle, const int)
+bool Transformable<POINT, VECTOR>::setRotation(const float rotationZ)
 {
-    m_rotation[0] = angle.wrapUnsigned();
-    m_transformNeedUpdate = (m_rotation[0] == angle.wrapUnsigned());
+    const geometry::Angle angleZ(rotationZ);
+
+    m_transformNeedUpdate = (m_rotations.z.wrapUnsigned() != angleZ.wrapUnsigned());
+
+    m_rotations.axisOrder = AxisOrder::XYZ;
+    m_rotations.x = geometry::Angle(0.f);
+    m_rotations.y = geometry::Angle(0.f);
+    m_rotations.z = angleZ;
+
     return m_transformNeedUpdate;
 }
 
+
+////////////////////////////////////////////////////////////
+template<typename POINT, typename VECTOR>
+bool Transformable<POINT, VECTOR>::setRotations(const float rotationX, const float rotationY, const float rotationZ, const AxisOrder axisOrder)
+{
+    const geometry::Angle angleX(rotationX);
+    const geometry::Angle angleY(rotationY);
+    const geometry::Angle angleZ(rotationZ);
+
+    m_transformNeedUpdate = 
+        (m_rotations.x.wrapUnsigned() != angleX.wrapUnsigned()) or 
+        (m_rotations.y.wrapUnsigned() != angleY.wrapUnsigned()) or
+        (m_rotations.z.wrapUnsigned() != angleZ.wrapUnsigned());
+    
+    m_rotations.axisOrder = axisOrder;
+    m_rotations.x = angleX;
+    m_rotations.y = angleY;
+    m_rotations.z = angleZ;
+
+    return m_transformNeedUpdate;
+}
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR>
@@ -79,9 +107,17 @@ const POINT& Transformable<POINT, VECTOR>::getOrigin() const
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR>
-const Angle& Transformable<POINT, VECTOR>::getRotation(const int) const
+const Angle& Transformable<POINT, VECTOR>::getRotation() const
 {
-    return m_rotation[0];
+    return m_rotations.z;
+}
+
+
+////////////////////////////////////////////////////////////
+template<typename POINT, typename VECTOR>
+const RotationArray& Transformable<POINT, VECTOR>::getRotations() const
+{
+    return m_rotations;
 }
 
 
@@ -129,17 +165,15 @@ const Transform& Transformable<POINT, VECTOR>::getTransform() const
     if (m_transformNeedUpdate)
     {
         const auto positionMatrix = m_transform.getTranslateMatrix(m_position);
-        const auto rotateXMatrix = m_transform.getRotateXMatrix(m_rotation[1]);
-        const auto rotateYMatrix = m_transform.getRotateXMatrix(m_rotation[2]);
-        const auto rotateZMatrix = m_transform.getRotateXMatrix(m_rotation[0]);
+        const auto rotattionMatrix = getRotationMatrix();
         const auto scaleMatrix = m_transform.getScaleMatrix(geometry::vectorToPoint(m_scale));
         const auto originMatrix = m_transform.getOriginMatrix(m_origin);
 
-        m_transform = originMatrix*scaleMatrix*rotateXMatrix*rotateYMatrix*rotateZMatrix*positionMatrix;
-
+        m_transform = positionMatrix*rotattionMatrix*scaleMatrix*originMatrix;
+        // LOG_DEBUG << math::toString(m_transform.getMatrix()) << "X";
         // note: jesli nie zadziała obrót wokół punktu środkowego to trzeba wtedy zaimplementować tx, ty dla origin poniżej:
         /*
-        float angle  = -m_rotation[0].asRadians();
+        float angle  = -m_rotations.x.asRadians();
         float cosine = std::cos(angle);
         float sine   = std::sin(angle);
         float sxc    = m_scale.x * cosine;
@@ -157,6 +191,34 @@ const Transform& Transformable<POINT, VECTOR>::getTransform() const
     }
 
     return m_transform;
+}
+
+////////////////////////////////////////////////////////////
+template<typename POINT, typename VECTOR>
+const Transform Transformable<POINT, VECTOR>::getRotationMatrix() const
+{
+    const auto rotateXMatrix = m_transform.getRotateXMatrix(m_rotations.x);
+    const auto rotateYMatrix = m_transform.getRotateYMatrix(m_rotations.y);
+    const auto rotateZMatrix = m_transform.getRotateZMatrix(m_rotations.z);
+
+    switch (m_rotations.axisOrder)
+    {
+        case AxisOrder::XYZ:
+            return rotateZMatrix * rotateYMatrix * rotateXMatrix;
+        case AxisOrder::XZY:
+            return rotateYMatrix * rotateZMatrix * rotateXMatrix;
+        case AxisOrder::YZX:
+            return rotateXMatrix * rotateZMatrix * rotateYMatrix;
+        case AxisOrder::YXZ:
+            return rotateZMatrix * rotateXMatrix * rotateYMatrix;
+        case AxisOrder::ZYX:
+            return rotateXMatrix * rotateYMatrix * rotateZMatrix;
+        case AxisOrder::ZXY:
+            return rotateYMatrix * rotateXMatrix * rotateZMatrix;
+        default:
+            return rotateZMatrix * rotateYMatrix * rotateXMatrix;
+            break;
+    }
 }
 
 template class Transformable<geometry::Point2Df, geometry::Vector2Df>;

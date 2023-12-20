@@ -28,7 +28,7 @@ public:
 
 friend std::ostream& operator<< (std::ostream& os, const geometry::Vector3d<T>& vector)
 {
-    os << "{" << vector.x << ", " << vector.y < ", " << vector.z << "}";
+    os << "{" << vector.x << ", " << vector.y << ", " << vector.z << "}";
     return os;
 }
 };

@@ -41,7 +41,7 @@ TEST_F(ShapeTests, whenSetRotation_thenGetSameValue)
 {
     createSut();
     he::gfx::geometry::Angle angle(46);
-    sut->setRotation(angle);
+    sut->setRotation(46);
     ASSERT_EQ(sut->getRotation(), angle);
 }
 

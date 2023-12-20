@@ -15,18 +15,23 @@ inline void transformPoint2d(float& x, float& y, const Matrix4x4 matrix)
 {
     if (matrix)
     {
-            x = matrix[0] * x + matrix[4] * y + matrix[12];
-            y = matrix[1] * x + matrix[5] * y + matrix[13];
+            const float pX = x;
+            const float pY = y;
+            x = matrix[0] * pX + matrix[4] * pY + matrix[12];
+            y = matrix[1] * pX + matrix[5] * pY + matrix[13];
     }
 }
 
-inline void transformPoint3d(float& x, float& y, float z, const Matrix4x4 matrix)
+inline void transformPoint3d(float& x, float& y, float& z, const Matrix4x4 matrix)
 {
     if (matrix)
     {
-            x = matrix[0] * x + matrix[4] * y + matrix[8]  * z + matrix[12];
-            y = matrix[1] * x + matrix[5] * y + matrix[9]  * z + matrix[13];
-            z = matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14];
+            const float pX = x;
+            const float pY = y;
+            const float pZ = z;
+            x = matrix[0] * pX + matrix[4] * pY + matrix[8]  * pZ + matrix[12];
+            y = matrix[1] * pX + matrix[5] * pY + matrix[9]  * pZ + matrix[13];
+            z = matrix[2] * pX + matrix[6] * pY + matrix[10] * pZ + matrix[14];
     }
 }
 

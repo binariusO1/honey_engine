@@ -85,8 +85,6 @@ void Render::drawVertex3d(
             he::math::transformPoint3d(vertexArray[i].position.x, vertexArray[i].position.y, vertexArray[i].position.z, transformMatrix.viewMatrix);
             he::math::transformPoint3d(vertexArray[i].position.x, vertexArray[i].position.y, vertexArray[i].position.z, transformMatrix.modelMatrix);
             viewportTransform(vertexArray[i].position.x, vertexArray[i].position.y);
-
-            LOG_DEBUG << vertexArray[i].position;
         }
     }
 

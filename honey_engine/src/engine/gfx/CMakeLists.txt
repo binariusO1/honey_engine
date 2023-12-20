@@ -60,6 +60,7 @@ set(PUBLIC_HEADERS
 	include/gfx/geometry/figures/Polygon.hpp
 	include/gfx/geometry/figures/Rectangle.hpp
 	include/gfx/geometry/figures/StretchedHexagon.hpp
+	include/gfx/geometry/transform/AxisOrder.hpp
 	include/gfx/geometry/transform/ITransformable.hpp
 	include/gfx/geometry/transform/Transform.hpp
 	include/gfx/geometry/transform/Transformable.hpp

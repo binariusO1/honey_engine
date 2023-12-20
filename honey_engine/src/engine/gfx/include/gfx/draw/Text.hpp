@@ -41,12 +41,12 @@ public:
     bool setOrigin(const he::gfx::geometry::Point2Df&) override;
     void setOriginInCenter() override;
     bool setPosition(const he::gfx::geometry::Point2Df&) override;
-    bool setRotation(const he::gfx::geometry::Angle&, const int axis = 0) override;
+    bool setRotation(const float rotationZ) override;
     const he::gfx::Color getColor() const override;
     const std::string getName() const override { return m_context.name; };
     const he::gfx::geometry::Point2Df& getOrigin() const override;
     const he::gfx::geometry::Point2Df& getPosition() const override;
-    const he::gfx::geometry::Angle& getRotation(const int axis = 0) const override;
+    const he::gfx::geometry::Angle& getRotation() const override;
 
     unsigned int getTextureId() const;
     const he::gfx::VertexArray2d& getVertexArray() const override;

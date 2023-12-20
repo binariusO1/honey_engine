@@ -21,12 +21,14 @@ public:
 public:
     void move(const VECTOR& offset) override;
     bool setOrigin(const POINT& origin) override;
-    bool setRotation(const geometry::Angle& angle, const int axis = 0) override;
+    bool setRotation(const float rotationZ) override;
+    bool setRotations(const float rotationX, const float rotationY, const float rotationZ, const AxisOrder) override;
     bool setScale(const VECTOR& factors) override;
     bool setPosition(const POINT& position) override;
 
     const POINT& getOrigin() const override;
-    const geometry::Angle& getRotation(const int axis = 0) const override;
+    const geometry::Angle& getRotation() const override; // TODO : return Angle[3]
+    const RotationArray& getRotations() const override;
     const VECTOR& getScale() const override;
     const POINT& getPosition() const override;
 
@@ -35,12 +37,13 @@ public:
     void transformPoint(POINT& point) override;
     void inverseTransformPoint(geometry::Point2Df& point) override;
 
+private:
+    const Transform getRotationMatrix() const;
 protected:
     VECTOR m_scale;
     POINT m_origin{};
     POINT m_position{};
-    geometry::Angle m_rotation[3]{he::gfx::geometry::Angle(0.0), he::gfx::geometry::Angle(0.0), he::gfx::geometry::Angle(0.0)};
-    //int[3] m_rotation{0,0,0};
+    RotationArray m_rotations;
 
     mutable geometry::transform::Transform m_transform;
     mutable bool m_transformNeedUpdate{true};

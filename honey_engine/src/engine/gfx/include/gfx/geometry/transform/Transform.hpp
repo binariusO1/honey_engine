@@ -41,6 +41,8 @@ public:
     Transform& rotate(geometry::Angle angle, const geometry::Point2Df& center);
     constexpr Transform& scale(const geometry::Vector2Df& factors);
     constexpr Transform& scale(const geometry::Vector2Df& factors, const geometry::Point2Df& center);
+    constexpr Transform& scale(const geometry::Vector3Df& factors);
+    constexpr Transform& scale(const geometry::Vector3Df& factors, const geometry::Point3Df& center);
 
     Transform& perspective(const float fovyInDegrees, const float aspectRatio, const float zNear, const float zFar);
 
@@ -56,6 +58,7 @@ public:
     constexpr const Transform getScaleMatrix(const geometry::Point3Df&) const;
     constexpr const Transform getOriginMatrix(const geometry::Point2Df&) const;
     constexpr const Transform getOriginMatrix(const geometry::Point3Df&) const;
+    constexpr float getDeterminant() const;
 
 private:
     math::Matrix4x4 m_matrix{0.f, 0.f, 0.f, 0.f,
@@ -68,6 +71,7 @@ private:
 constexpr Transform operator*(const Transform& left, const Transform& right);
 constexpr Transform& operator*=(Transform& left, const Transform& right);
 constexpr geometry::Point2Df operator*(const Transform& left, const geometry::Point2Df& right);
+constexpr geometry::Point3Df operator*(const Transform& left, const geometry::Point3Df& right);
 constexpr bool operator==(const Transform& left, const Transform& right);
 constexpr bool operator!=(const Transform& left, const Transform& right);
 

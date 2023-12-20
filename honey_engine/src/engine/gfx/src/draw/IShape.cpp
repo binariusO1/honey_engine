@@ -73,9 +73,18 @@ bool IShape<POINT, VECTOR, VERTEX>::setOrigin(const POINT& point)
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX>
-bool IShape<POINT, VECTOR, VERTEX>::setRotation(const geometry::Angle& angle, const int)
+bool IShape<POINT, VECTOR, VERTEX>::setRotation(const float rotationZ)
 {
-    m_vertexArrayNeedUpdate = TransformableTmpl::setRotation(angle);
+    m_vertexArrayNeedUpdate = TransformableTmpl::setRotation(rotationZ);
+    return m_vertexArrayNeedUpdate;
+}
+
+
+////////////////////////////////////////////////////////////
+template<typename POINT, typename VECTOR, typename VERTEX>
+bool IShape<POINT, VECTOR, VERTEX>::setRotations(const float rotationX, const float rotationY, const float rotationZ, geometry::transform::AxisOrder axisOrder)
+{
+    m_vertexArrayNeedUpdate = TransformableTmpl::setRotations(rotationX, rotationY, rotationZ, axisOrder);
     return m_vertexArrayNeedUpdate;
 }
 
@@ -138,7 +147,7 @@ const POINT& IShape<POINT, VECTOR, VERTEX>::getOrigin() const
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX>
-const geometry::Angle& IShape<POINT, VECTOR, VERTEX>::getRotation(const int) const
+const geometry::Angle& IShape<POINT, VECTOR, VERTEX>::getRotation() const
 {
     return TransformableTmpl::getRotation();
 }
