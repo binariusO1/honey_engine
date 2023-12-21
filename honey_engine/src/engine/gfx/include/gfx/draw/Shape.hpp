@@ -20,7 +20,8 @@ public:
     Shape(const Shape&, const geometry::figures::Figure&);
     ~Shape() override;
 
-public:
+public:   
+    bool setPosition(const POINT& position) override;
     bool setOrigin(const POINT& origin) override;
     void setOriginInCenter() override;
 
@@ -36,7 +37,7 @@ public:
     void openVertexArray();
 
 protected:
-    void updateVertexArray();
+    void updateVertexArray() override;
 
 protected:
     const geometry::figures::Figure& m_figure;

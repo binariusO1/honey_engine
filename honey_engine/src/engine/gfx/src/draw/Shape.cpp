@@ -45,6 +45,24 @@ bool Shape<POINT, VECTOR, VERTEX>::isPointInside(const geometry::Point2Df& point
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR, typename VERTEX>
+bool Shape<POINT, VECTOR, VERTEX>::setPosition(const POINT& position)
+{
+    return IShapeTmpl::setPosition(position);
+}
+
+
+////////////////////////////////////////////////////////////
+template<>
+bool Shape2dFor3d::setPosition(const geometry::Point3Df& position)
+{
+    IShapeTmpl::setOrigin({m_origin.x, m_origin.y, position.z});
+    return IShapeTmpl::setPosition(position);
+}
+
+
+
+////////////////////////////////////////////////////////////
+template<typename POINT, typename VECTOR, typename VERTEX>
 bool Shape<POINT, VECTOR, VERTEX>::setOrigin(const POINT& origin)
 {
     if (origin == geometry::Point2Df{})
@@ -68,7 +86,7 @@ bool Shape<POINT, VECTOR, VERTEX>::setOrigin(const POINT& origin)
 template<>
 bool Shape2dFor3d::setOrigin(const geometry::Point3Df& origin)
 {
-    if (origin == geometry::Point3Df{0.0, 0.0, 0.0})
+    if (origin == geometry::Point3Df{0.0, 0.0, m_position.z})
     {
         IShapeTmpl::m_context.originPosition = OriginPosition::leftDown;
     }

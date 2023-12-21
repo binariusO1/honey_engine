@@ -39,6 +39,7 @@ public:
 
 private:
     const Transform getRotationMatrix() const;
+
 protected:
     VECTOR m_scale;
     POINT m_origin{};

@@ -51,6 +51,9 @@ public:
 public:
     void process_event(const he::window::Event&) override;
 
+public:
+    void setProjectionMatrix(const float*);
+
 private:
     void onMouseButtonPressed(const he::window::Event::MouseButtonAction&);
     void onMouseButtonReleased(const he::window::Event::MouseButtonAction&);

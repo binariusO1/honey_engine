@@ -84,8 +84,10 @@ void Render::drawVertex3d(
             he::math::transformPoint3d(vertexArray[i].position.x, vertexArray[i].position.y, vertexArray[i].position.z, transformMatrix.projectionMatrix);
             he::math::transformPoint3d(vertexArray[i].position.x, vertexArray[i].position.y, vertexArray[i].position.z, transformMatrix.viewMatrix);
             he::math::transformPoint3d(vertexArray[i].position.x, vertexArray[i].position.y, vertexArray[i].position.z, transformMatrix.modelMatrix);
+            // LOG_DEBUG << "Model point [" << i << "]: " << vertexArray[i].position; 
             viewportTransform(vertexArray[i].position.x, vertexArray[i].position.y);
         }
+        // LOG_DEBUG << "Model matrix: " << math::toString(transformMatrix.modelMatrix);
     }
 
     auto isPrimitive = not static_cast<bool>(textureId);

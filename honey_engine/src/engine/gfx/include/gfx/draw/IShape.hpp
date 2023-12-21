@@ -44,6 +44,7 @@ public:
     virtual void setOriginInCenter() = 0;
     void setOriginPosition(const OriginPosition& originPosition);
     gfx::OriginPosition getOriginPosition() const;
+    const he::gfx::geometry::transform::Transform& getTransform() const override;
 
 protected:
     virtual void updateVertexArray() = 0;

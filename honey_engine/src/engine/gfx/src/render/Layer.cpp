@@ -258,7 +258,6 @@ he::gfx::render::ButtonList& Layer<POINT, VECTOR, VERTEX>::getButtons()
 
 
 ////////////////////////////////////////////////////////////
-
 template<typename POINT, typename VECTOR, typename VERTEX> 
 void Layer<POINT, VECTOR, VERTEX>::process_event(const he::window::Event& event)
 {
@@ -278,6 +277,15 @@ void Layer<POINT, VECTOR, VERTEX>::process_event(const he::window::Event& event)
         default:
             break;
     }
+}
+
+
+////////////////////////////////////////////////////////////
+template<typename POINT, typename VECTOR, typename VERTEX> 
+void Layer<POINT, VECTOR, VERTEX>::setProjectionMatrix(const float* projectionMatrix)
+{
+    BaseLayerTmpl::m_transformMatrix.projectionMatrix = projectionMatrix;
+    BaseLayerTmpl::m_transformMatrix.isNeedUpdate = true;
 }
 
 

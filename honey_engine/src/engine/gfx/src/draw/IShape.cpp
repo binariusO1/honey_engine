@@ -204,6 +204,16 @@ OriginPosition IShape<POINT, VECTOR, VERTEX>::getOriginPosition() const
     return m_context.originPosition;
 }
 
+
+
+////////////////////////////////////////////////////////////
+template<typename POINT, typename VECTOR, typename VERTEX>
+const he::gfx::geometry::transform::Transform& IShape<POINT, VECTOR, VERTEX>::getTransform() const
+{
+    return TransformableTmpl::getTransform();
+}
+
+     
 template class IShape<geometry::Point2Df, geometry::Vector2Df, VertexArray2d>;
 template class IShape<geometry::Point3Df, geometry::Vector3Df, VertexArray3d>;
 
