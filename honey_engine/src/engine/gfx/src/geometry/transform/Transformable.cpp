@@ -23,7 +23,7 @@ Transformable<POINT, VECTOR>::~Transformable() = default;
 
 ////////////////////////////////////////////////////////////
 template<typename POINT, typename VECTOR>
-void Transformable<POINT, VECTOR>::move(const VECTOR& offset)
+void Transformable<POINT, VECTOR>::move(const VECTOR& offset) // todo : bool
 {
     setPosition(m_position + offset);
 }
@@ -33,7 +33,8 @@ void Transformable<POINT, VECTOR>::move(const VECTOR& offset)
 template<typename POINT, typename VECTOR>
 bool Transformable<POINT, VECTOR>::setPosition(const POINT& position)
 {
-    m_transformNeedUpdate = (m_position != position);
+    //  note: need always recalculate
+    m_transformNeedUpdate = true;
     m_position = position;
     return m_transformNeedUpdate;
 }
@@ -43,7 +44,8 @@ bool Transformable<POINT, VECTOR>::setPosition(const POINT& position)
 template<typename POINT, typename VECTOR>
 bool Transformable<POINT, VECTOR>::setOrigin(const POINT& origin)
 {
-    m_transformNeedUpdate = (m_origin != origin);
+    //  note: need always recalculate
+    m_transformNeedUpdate = true;
     m_origin = origin;
     return m_transformNeedUpdate;
 }

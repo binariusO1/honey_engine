@@ -27,7 +27,7 @@ public:
     bool setPosition(const POINT& position) override;
 
     const POINT& getOrigin() const override;
-    const geometry::Angle& getRotation() const override; // TODO : return Angle[3]
+    const geometry::Angle& getRotation() const override;
     const RotationArray& getRotations() const override;
     const VECTOR& getScale() const override;
     const POINT& getPosition() const override;
