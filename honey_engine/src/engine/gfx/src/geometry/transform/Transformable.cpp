@@ -33,8 +33,7 @@ void Transformable<POINT, VECTOR>::move(const VECTOR& offset) // todo : bool
 template<typename POINT, typename VECTOR>
 bool Transformable<POINT, VECTOR>::setPosition(const POINT& position)
 {
-    //  note: need always recalculate
-    m_transformNeedUpdate = true;
+    m_transformNeedUpdate = m_transformNeedUpdate or (m_position != position);
     m_position = position;
     return m_transformNeedUpdate;
 }
@@ -44,8 +43,7 @@ bool Transformable<POINT, VECTOR>::setPosition(const POINT& position)
 template<typename POINT, typename VECTOR>
 bool Transformable<POINT, VECTOR>::setOrigin(const POINT& origin)
 {
-    //  note: need always recalculate
-    m_transformNeedUpdate = true;
+    m_transformNeedUpdate = m_transformNeedUpdate or (m_origin != origin);
     m_origin = origin;
     return m_transformNeedUpdate;
 }
@@ -55,7 +53,7 @@ bool Transformable<POINT, VECTOR>::setOrigin(const POINT& origin)
 template<typename POINT, typename VECTOR>
 bool Transformable<POINT, VECTOR>::setScale(const VECTOR& factors)
 {
-    m_transformNeedUpdate = (m_scale != factors);
+    m_transformNeedUpdate = m_transformNeedUpdate or (m_scale != factors);
     m_scale = factors;
     return m_transformNeedUpdate;
 }
@@ -67,7 +65,7 @@ bool Transformable<POINT, VECTOR>::setRotation(const float rotationZ)
 {
     const geometry::Angle angleZ(rotationZ);
 
-    m_transformNeedUpdate = (m_rotations.z.wrapUnsigned() != angleZ.wrapUnsigned());
+    m_transformNeedUpdate = m_transformNeedUpdate or (m_rotations.z.wrapUnsigned() != angleZ.wrapUnsigned());
 
     m_rotations.axisOrder = AxisOrder::XYZ;
     m_rotations.x = geometry::Angle(0.f);
@@ -86,7 +84,7 @@ bool Transformable<POINT, VECTOR>::setRotations(const float rotationX, const flo
     const geometry::Angle angleY(rotationY);
     const geometry::Angle angleZ(rotationZ);
 
-    m_transformNeedUpdate = 
+    m_transformNeedUpdate = m_transformNeedUpdate or
         (m_rotations.x.wrapUnsigned() != angleX.wrapUnsigned()) or 
         (m_rotations.y.wrapUnsigned() != angleY.wrapUnsigned()) or
         (m_rotations.z.wrapUnsigned() != angleZ.wrapUnsigned());

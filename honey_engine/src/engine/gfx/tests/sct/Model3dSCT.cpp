@@ -32,13 +32,13 @@ TEST_F(Model3dSCT, screenTest_drawSampleShapeIn3dSpace)
     he::gfx::geometry::figures::Rectangle rectangle({200.0, 200.0});
     std::shared_ptr<he::gfx::draw::Shape2dFor3d> rectangleShape = std::make_shared<he::gfx::draw::Shape2dFor3d>("rectangleShape", rectangle);
     rectangleShape->setRotation(45);
+    rectangleShape->setColor(gfx::Color::Red);
     main3dLayer->addShape(rectangleShape);
 
     std::shared_ptr<he::gfx::draw::Shape2d> rectangleShape2 = std::make_shared<he::gfx::draw::Shape2d>("rectangleShape2", rectangle);
     rectangleShape2->setPosition({400.0, 0.0});
-    rectangleShape2->setOriginInCenter();
     LOG_DEBUG << rectangleShape->getOrigin();
-    rectangleShape2->setRotations(0, 0, 45, geometry::transform::AxisOrder::XYZ);
+    rectangleShape2->setRotations(0, 0, 0, geometry::transform::AxisOrder::XYZ);
     LOG_DEBUG << rectangleShape2->getOrigin();
     LOG_DEBUG << rectangleShape2->getPosition();
     main2dLayer->addShape(rectangleShape2);
