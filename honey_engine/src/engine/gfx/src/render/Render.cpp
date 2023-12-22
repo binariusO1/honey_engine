@@ -59,7 +59,7 @@ void Render::drawVertex2d(
             he::math::transformPoint2d(vertexArray[i].position.x, vertexArray[i].position.y, transformMatrix.projectionMatrix);
             he::math::transformPoint2d(vertexArray[i].position.x, vertexArray[i].position.y, transformMatrix.viewMatrix);
             he::math::transformPoint2d(vertexArray[i].position.x, vertexArray[i].position.y, transformMatrix.modelMatrix);
-            viewportTransform(vertexArray[i].position.x, vertexArray[i].position.y);
+            viewportTransform(vertexArray[i].position.x, vertexArray[i].position.y, 2.f);
         }
     }
 
@@ -84,8 +84,8 @@ void Render::drawVertex3d(
             he::math::transformPoint3d(vertexArray[i].position.x, vertexArray[i].position.y, vertexArray[i].position.z, transformMatrix.projectionMatrix);
             he::math::transformPoint3d(vertexArray[i].position.x, vertexArray[i].position.y, vertexArray[i].position.z, transformMatrix.viewMatrix);
             he::math::transformPoint3d(vertexArray[i].position.x, vertexArray[i].position.y, vertexArray[i].position.z, transformMatrix.modelMatrix);
-            // LOG_DEBUG << "Model point [" << i << "]: " << vertexArray[i].position; 
-            viewportTransform(vertexArray[i].position.x, vertexArray[i].position.y);
+            // LOG_DEBUG << "Model point [" << i << "]: " << vertexArray[i].position;
+            viewportTransform(vertexArray[i].position.x, vertexArray[i].position.y, 1.f, 0.f);
         }
         // LOG_DEBUG << "Model matrix: " << math::toString(transformMatrix.modelMatrix);
     }
@@ -152,15 +152,12 @@ void Render::draw3d(
 
 
 ////////////////////////////////////////////////////////////
-void Render::viewportTransform(float& pX, float& pY)
+void Render::viewportTransform(float& pX, float& pY, const float screenScale, const float offsetOriginScreen)
 {
-    const float SCREEN_SCALE = 2.0f;
-    const float OFFSET_ORIGIN_SCREEN = -1.0f;
-
     if (m_windowSize.width > 0 and m_windowSize.height > 0)
     {
-        float x = (pX / static_cast<float>(m_windowSize.width)*SCREEN_SCALE) + OFFSET_ORIGIN_SCREEN;
-        float y = (pY / static_cast<float>(m_windowSize.height)*SCREEN_SCALE) + OFFSET_ORIGIN_SCREEN;
+        float x = (pX / static_cast<float>(m_windowSize.width)*screenScale) + offsetOriginScreen;
+        float y = (pY / static_cast<float>(m_windowSize.height)*screenScale) + offsetOriginScreen;
         pX = x;
         pY = y;
     }

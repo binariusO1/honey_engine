@@ -59,7 +59,7 @@ private:
         const he::gfx::Color color, 
         const he::gfx::render::RenderSettings& renderSettings,
         const bool isPrimitive = false) const;
-    void viewportTransform(float& pX, float& pY);
+    void viewportTransform(float& pX, float& pY, const float screenScale, const float offsetOriginScreen = -1.f);
 
 private:
     std::unique_ptr<he::libs::gl::IGlWrapper> m_glWrapper{nullptr};
