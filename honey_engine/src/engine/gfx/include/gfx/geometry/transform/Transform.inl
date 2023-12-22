@@ -299,11 +299,22 @@ constexpr geometry::Point2Df Transform::transformPoint(const geometry::Point2Df&
 ////////////////////////////////////////////////////////////
 constexpr geometry::Point3Df Transform::transformPoint(const geometry::Point3Df& point) const
 {
-    return geometry::Point3Df(
+    geometry::Point3Df transformedPoint(
     m_matrix[0] * point.x + m_matrix[4] * point.y + m_matrix[8] * point.z + m_matrix[12],
     m_matrix[1] * point.x + m_matrix[5] * point.y + m_matrix[9] * point.z + m_matrix[13],
     m_matrix[2] * point.x + m_matrix[6] * point.y + m_matrix[10]* point.z + m_matrix[14]
     );
+
+    const float w = m_matrix[3] * point.x + m_matrix[7] * point.y + m_matrix[11] * point.z + m_matrix[15];
+
+    if (w != 1 and w != 0) 
+    {
+        transformedPoint.x /= w; 
+        transformedPoint.y /= w; 
+        transformedPoint.z /= w; 
+    }
+
+    return transformedPoint;
 }
 
 

@@ -26,12 +26,20 @@ inline void transformPoint3d(float& x, float& y, float& z, const Matrix4x4 matri
 {
     if (matrix)
     {
-            const float pX = x;
-            const float pY = y;
-            const float pZ = z;
-            x = matrix[0] * pX + matrix[4] * pY + matrix[8]  * pZ + matrix[12];
-            y = matrix[1] * pX + matrix[5] * pY + matrix[9]  * pZ + matrix[13];
-            z = matrix[2] * pX + matrix[6] * pY + matrix[10] * pZ + matrix[14];
+        const float pX = x;
+        const float pY = y;
+        const float pZ = z;
+                    x = matrix[0] * pX + matrix[4] * pY + matrix[8]  * pZ + matrix[12];
+                    y = matrix[1] * pX + matrix[5] * pY + matrix[9]  * pZ + matrix[13];
+                    z = matrix[2] * pX + matrix[6] * pY + matrix[10] * pZ + matrix[14];
+        const float w = matrix[3] * pX + matrix[7] * pY + matrix[11] * pZ + matrix[15];
+
+        if (w != 1 and w != 0) 
+        {
+            x /= w; 
+            y /= w; 
+            z /= w; 
+        } 
     }
 }
 
@@ -66,6 +74,26 @@ inline const std::string toString(const Matrix4x4 matrix)
                 stringMatrix+=' ';
             }
             stringMatrix+='\n';
+        }
+    }
+    return stringMatrix;
+}
+
+inline const std::string printMatrix(const Matrix4x4 matrix)
+{
+    std::string stringMatrix{};
+
+    if (matrix)
+    {
+        for (std::size_t i = 0 ; i < 16 ; i=i+4)
+        {
+            for (std::size_t j = 0 ; j < 4 ; ++j)
+            {
+                stringMatrix+=std::to_string(matrix[i+j]);
+                stringMatrix+=", ";
+            }
+            LOG_DEBUG << "[" << stringMatrix.substr(0, stringMatrix.length() - 2) << ']';
+            stringMatrix.clear();
         }
     }
     return stringMatrix;
