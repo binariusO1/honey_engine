@@ -91,6 +91,7 @@ void Scene::render(gfx::render::IRender& render)
             layer.second->render(render);
         }
     }
+    render.render();
 }
 
 

@@ -31,6 +31,7 @@ public:
 public:
     void draw(he::gfx::draw::IDrawable&, TransformMatrix&) override;
     void draw(he::gfx::draw::IDrawable&, const he::gfx::render::RenderSettings&, TransformMatrix&) override;
+    void render() override;
 
 public:
     void drawVertex2d(

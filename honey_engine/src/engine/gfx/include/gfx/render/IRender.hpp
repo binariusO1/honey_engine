@@ -23,6 +23,7 @@ public:
 public:
     virtual void draw(he::gfx::draw::IDrawable&, TransformMatrix&) = 0;
     virtual void draw(he::gfx::draw::IDrawable&, const he::gfx::render::RenderSettings&, TransformMatrix&) = 0;
+    virtual void render() = 0;
 };
 } // namespace render
 } // namespace gfx

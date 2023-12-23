@@ -17,6 +17,7 @@ public:
 
     MOCK_METHOD(void, draw, (he::gfx::draw::IDrawable&, TransformMatrix&), (override));
     MOCK_METHOD(void, draw, (he::gfx::draw::IDrawable&, const he::gfx::render::RenderSettings&, TransformMatrix&), (override));
+    MOCK_METHOD(void, render, (), (override));
 };
 } // namespace render
 } // namespace gfx

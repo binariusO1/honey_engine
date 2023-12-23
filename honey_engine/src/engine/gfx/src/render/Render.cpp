@@ -45,6 +45,12 @@ void Render::draw(he::gfx::draw::IDrawable& drawable, const he::gfx::render::Ren
 
 
 ////////////////////////////////////////////////////////////
+void Render::render()
+{
+}
+
+
+////////////////////////////////////////////////////////////
 void Render::drawVertex2d(
         he::gfx::VertexArray2d& vertexArray,
         const unsigned int textureId,
