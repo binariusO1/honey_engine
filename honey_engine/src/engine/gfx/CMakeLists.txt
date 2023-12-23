@@ -84,6 +84,7 @@ set(PUBLIC_HEADERS
     include/gfx/render/SceneStateMachine.hpp
     include/gfx/render/SceneManager.hpp
 	include/gfx/render/UniquePropagationLayer.hpp
+    include/gfx/render/VertexData.hpp
     include/gfx/render/VisibilityState.hpp
     include/gfx/text/Font.hpp
     include/gfx/text/FontHandles.hpp
