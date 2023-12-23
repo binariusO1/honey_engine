@@ -63,8 +63,7 @@ bool Layer<POINT, VECTOR, VERTEX>::setPosition(const POINT& position)
 {
     auto result = BaseLayerTmpl::setPosition(position);
 
-    BaseLayerTmpl::m_transformMatrix.viewMatrix = BaseLayerTmpl::getTransform().getMatrix();
-    BaseLayerTmpl::m_transformMatrix.isNeedUpdate = true;
+    BaseLayerTmpl::m_transformMatrix.setViewTransform(BaseLayerTmpl::getTransform());
 
     return result;
 }
@@ -284,8 +283,7 @@ void Layer<POINT, VECTOR, VERTEX>::process_event(const he::window::Event& event)
 template<typename POINT, typename VECTOR, typename VERTEX> 
 void Layer<POINT, VECTOR, VERTEX>::setProjectionMatrix(const float* projectionMatrix)
 {
-    BaseLayerTmpl::m_transformMatrix.projectionMatrix = projectionMatrix;
-    BaseLayerTmpl::m_transformMatrix.isNeedUpdate = true;
+    BaseLayerTmpl::m_transformMatrix.setProjectionTransform(geometry::transform::Transform(projectionMatrix));
 }
 
 

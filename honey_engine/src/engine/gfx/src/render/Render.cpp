@@ -62,15 +62,13 @@ void Render::drawVertex2d(
     {
         for (std::size_t i = 0 ; i < vertexArray.size() ; ++i)
         {
-            he::math::transformPoint2d(vertexArray[i].position.x, vertexArray[i].position.y, transformMatrix.projectionMatrix);
-            he::math::transformPoint2d(vertexArray[i].position.x, vertexArray[i].position.y, transformMatrix.viewMatrix);
-            he::math::transformPoint2d(vertexArray[i].position.x, vertexArray[i].position.y, transformMatrix.modelMatrix);
+            vertexArray[i].position = transformMatrix.projectionTransform*transformMatrix.viewTransform*transformMatrix.modelTransform*vertexArray[i].position;
+            // LOG_DEBUG << "Model point [" << i << "]: " << vertexArray[i].position;
             viewportTransform(vertexArray[i].position.x, vertexArray[i].position.y, 2.f);
         }
     }
 
-    auto isPrimitive = not static_cast<bool>(textureId);
-    draw2d(vertexArray, textureId, color, renderSettings, isPrimitive);
+    draw2d(vertexArray, textureId, color, renderSettings);
     transformMatrix.isNeedUpdate = false;
 }
 
@@ -87,17 +85,14 @@ void Render::drawVertex3d(
     {
         for (std::size_t i = 0 ; i < vertexArray.size() ; ++i)
         {
-            he::math::transformPoint3d(vertexArray[i].position.x, vertexArray[i].position.y, vertexArray[i].position.z, transformMatrix.projectionMatrix);
-            he::math::transformPoint3d(vertexArray[i].position.x, vertexArray[i].position.y, vertexArray[i].position.z, transformMatrix.viewMatrix);
-            he::math::transformPoint3d(vertexArray[i].position.x, vertexArray[i].position.y, vertexArray[i].position.z, transformMatrix.modelMatrix);
+            vertexArray[i].position = transformMatrix.projectionTransform*transformMatrix.viewTransform*transformMatrix.modelTransform*vertexArray[i].position;
             // LOG_DEBUG << "Model point [" << i << "]: " << vertexArray[i].position;
             viewportTransform(vertexArray[i].position.x, vertexArray[i].position.y, 1.f, 0.f);
         }
         // LOG_DEBUG << "Model matrix: " << math::toString(transformMatrix.modelMatrix);
     }
 
-    auto isPrimitive = not static_cast<bool>(textureId);
-    draw3d(vertexArray, textureId, color, renderSettings, isPrimitive);
+    draw3d(vertexArray, textureId, color, renderSettings);
     transformMatrix.isNeedUpdate = false;
 }
 
@@ -112,9 +107,9 @@ void Render::draw2d(
     const he::gfx::VertexArray2d& vertexArray, 
     const unsigned int textureId,
     const he::gfx::Color color, 
-    const he::gfx::render::RenderSettings& renderSettings,
-    const bool isPrimitive) const
+    const he::gfx::render::RenderSettings& renderSettings) const
 {
+    auto isPrimitive = not static_cast<bool>(textureId);
     auto size = sizeof(he::gfx::Vertex2d);
     const void* dataPointer = static_cast<const void*>(vertexArray.data());
     m_glWrapper->setupDraw(size, vertexArray.size(), dataPointer, renderSettings.drawType);
@@ -136,9 +131,9 @@ void Render::draw3d(
     const he::gfx::VertexArray3d& vertexArray, 
     const unsigned int textureId,
     const he::gfx::Color color, 
-    const he::gfx::render::RenderSettings& renderSettings,
-    const bool isPrimitive) const
+    const he::gfx::render::RenderSettings& renderSettings) const
 {
+    auto isPrimitive = not static_cast<bool>(textureId);
     auto size = sizeof(he::gfx::Vertex3d);
     const void* dataPointer = static_cast<const void*>(vertexArray.data());
     m_glWrapper->setupDraw(size, vertexArray.size(), dataPointer, renderSettings.drawType);

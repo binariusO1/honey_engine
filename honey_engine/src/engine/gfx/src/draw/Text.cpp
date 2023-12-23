@@ -259,18 +259,16 @@ void Text::draw(gfx::render::Render& render, const gfx::render::RenderSettings& 
     if (m_vertexArrayNeedUpdate)
     {
         this->updateVertexArray();
-        transformMatrix.isNeedUpdate = m_vertexArrayNeedUpdate;
+        transformMatrix.setModelTransform(getTransform());
     }
 
     if (m_outlineThickness != 0.0)
     {
-        transformMatrix.modelMatrix = getTransform().getMatrix();
         render.drawVertex2d(m_outlineVertices, getTextureId(), m_context.color, newRenderSettings, transformMatrix);
     }
 
     if (not m_vertexArray.empty())
     {
-        transformMatrix.modelMatrix = getTransform().getMatrix();
         render.drawVertex2d(m_vertexArray, getTextureId(), m_context.color, newRenderSettings, transformMatrix);
     }
 

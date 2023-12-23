@@ -52,14 +52,12 @@ private:
         const he::gfx::VertexArray2d& vertex, 
         const unsigned int textureId,
         const he::gfx::Color color, 
-        const he::gfx::render::RenderSettings& renderSettings,
-        const bool isPrimitive = false) const;
+        const he::gfx::render::RenderSettings& renderSettings) const;
     void draw3d(
         const he::gfx::VertexArray3d& vertex, 
         const unsigned int textureId,
         const he::gfx::Color color, 
-        const he::gfx::render::RenderSettings& renderSettings,
-        const bool isPrimitive = false) const;
+        const he::gfx::render::RenderSettings& renderSettings) const;
     void viewportTransform(float& pX, float& pY, const float screenScale, const float offsetOriginScreen = -1.f);
 
 private:

@@ -192,12 +192,11 @@ void Shape<POINT, VECTOR, VERTEX>::draw(render::Render& render, const render::Re
     if (IShapeTmpl::m_vertexArrayNeedUpdate)
     {
         updateVertexArray();
-        transformMatrix.isNeedUpdate = IShapeTmpl::m_vertexArrayNeedUpdate;
+        transformMatrix.setModelTransform(IShapeTmpl::getTransform());
     }
 
     if (not IShapeTmpl::m_vertexArray.empty())
     {
-        transformMatrix.modelMatrix = IShapeTmpl::getTransform().getMatrix();
         render.drawVertex2d(IShapeTmpl::m_vertexArray, 0, IShapeTmpl::getColor(), renderSettings, transformMatrix);
     }
 
@@ -212,12 +211,11 @@ void Shape2dFor3d::draw(render::Render& render, const render::RenderSettings& re
     if (IShapeTmpl::m_vertexArrayNeedUpdate)
     {
         updateVertexArray();
-        transformMatrix.isNeedUpdate = IShapeTmpl::m_vertexArrayNeedUpdate;
+        transformMatrix.setModelTransform(IShapeTmpl::getTransform());
     }
 
     if (not IShapeTmpl::m_vertexArray.empty())
     {
-        transformMatrix.modelMatrix = IShapeTmpl::getTransform().getMatrix();
         render.drawVertex3d(IShapeTmpl::m_vertexArray, 0, IShapeTmpl::getColor(), renderSettings, transformMatrix);
     }
 

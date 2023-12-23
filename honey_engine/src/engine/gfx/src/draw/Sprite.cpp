@@ -53,13 +53,11 @@ void Sprite::draw(he::gfx::render::Render& render, const he::gfx::render::Render
     {
         updateVertexArray();
         updateTextureCoords();
-        transformMatrix.isNeedUpdate = m_vertexArrayNeedUpdate;
+        transformMatrix.setModelTransform(getTransform());
     }
 
     if (not m_vertexArray.empty())
     {
-        transformMatrix.modelMatrix = getTransform().getMatrix();
-
         if (m_isFilledByColor)
         {
             render.drawVertex2d(m_vertexArray, 0, getColor(), renderSettings, transformMatrix);
