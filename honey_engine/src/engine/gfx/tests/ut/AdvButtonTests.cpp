@@ -19,7 +19,7 @@ class AdvButtonTestsFixture : public text::TextFixture
 public:
     void createSut()
     {
-        sut = std::make_unique<he::gfx::draw::AdvButton>("button1", t_buttonSize);
+        sut = std::make_unique<he::gfx::draw::AdvButton>("button1", texture);
     }
 
     void expectInitCalls()
@@ -50,7 +50,7 @@ public:
         EXPECT_CALL(*fontMock, getCharacterSize()).Times(times*2).WillRepeatedly(Return(t_defaultCharacterSize));
     }
 
-    std::unique_ptr<he::gfx::draw::Button> sut;
+    std::unique_ptr<he::gfx::draw::AdvButton> sut;
     std::shared_ptr<he::gfx::text::FontMock> fontMock = std::make_shared<he::gfx::text::FontMock>();
 
     std::shared_ptr<he::gfx::render::TextureMock> textureMock = std::make_shared<he::gfx::render::TextureMock>();
@@ -68,7 +68,26 @@ public:
 TEST_F(AdvButtonTests, construction_whenCreate_shouldCreateWithoutError)
 {
     expectInitCalls();
+    createSut();
+}
+
+TEST_F(AdvButtonTests, onMouseCursorMoved_whenButonIsOnClickedStateAndMouseCursorIsMoved_shouldNotTriggerCallbackIfNotSet)
+{
+    expectInitCalls();
+    he::window::Event::MouseButtonAction mouseButtonAction{he::window::Mouse::Button::Left, 50, 50};
+    he::window::Event::MouseMoveEvent mouseMoveEvent1{50, 50};
+    he::window::Event::MouseMoveEvent mouseMoveEvent2{52, 52};
 
     createSut();
+    int callbackTrigger{0};
+    he::gfx::draw::ButtonCallback callbackTouchedClicked = [this, &callbackTrigger](){
+        callbackTrigger++;
+    };
+    sut->setCallback(callbackTouchedClicked, {ButtonState::Touched, ButtonState::Clicked});
+    sut->onMouseCursorMoved(mouseMoveEvent1);
+    sut->onMouseButtonPressed(mouseButtonAction);
+    sut->onMouseCursorMoved(mouseMoveEvent2);
+
+    ASSERT_EQ(callbackTrigger, 1);
 }
 } // namespace he::gfx::draw

@@ -9,6 +9,12 @@ namespace gfx
 namespace draw
 {
 ////////////////////////////////////////////////////////////
+AdvButton::AdvButton(const std::string& name, const std::shared_ptr<he::gfx::render::ITexture>& texture) : Button(name, texture)
+{
+}
+
+
+////////////////////////////////////////////////////////////
 AdvButton::AdvButton(const std::string& name, const geometry::Size2Dpxl& size) : Button(name, size)
 {
 }
@@ -74,27 +80,33 @@ bool AdvButton::onMouseCursorMoved(const he::window::Event::MouseMoveEvent& mous
 ////////////////////////////////////////////////////////////
 bool AdvButton::isStateChanged(const window::Event& event)
 {
+    auto shouldRunCallback{false};
+
     switch (this->m_buttonTransition.getCurrentState())
     {
         case ButtonState::Idle:
-            handleStateIdle(event);
+            shouldRunCallback = handleStateIdle(event);
             break;
         case ButtonState::Touched:  
-            handleStateTouched(event);
+            shouldRunCallback = handleStateTouched(event);
             break;
         case ButtonState::Clicked:  
-            handleStateClicked(event);
+            shouldRunCallback = handleStateClicked(event);
             break;
         default:
             break;
     }
 
-    return this->runCallback();
+    if (shouldRunCallback)
+    {
+        return this->runCallback();
+    }
+    return false;
 }
 
 
 ////////////////////////////////////////////////////////////
-void AdvButton::handleStateIdle(const window::Event& event)
+bool AdvButton::handleStateIdle(const window::Event& event)
 {
     switch (event.type)
     {
@@ -103,18 +115,19 @@ void AdvButton::handleStateIdle(const window::Event& event)
             if (isPointInside({static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)}))
             {
                 this->setState(ButtonState::Touched);
+                return true;
             }
         }
-        return;
+        return false;
 
         default:
-            return;
+            return false;
     }
 }
 
 
 ////////////////////////////////////////////////////////////
-void AdvButton::handleStateTouched(const window::Event& event)
+bool AdvButton::handleStateTouched(const window::Event& event)
 {
     switch (event.type)
     {
@@ -123,24 +136,26 @@ void AdvButton::handleStateTouched(const window::Event& event)
             if (not isPointInside({static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)}))
             {
                 this->setState(ButtonState::Idle);
+                return true;
             }
         }
-        return;
+        return false;
 
         case window::Event::mouseButtonPressed:
         {
             this->setState(ButtonState::Clicked);
+            return true;
         }
-        return;
+        return false;
 
         default:
-            return;
+            return false;
     }
 }
 
 
 ////////////////////////////////////////////////////////////
-void AdvButton::handleStateClicked(const window::Event& event)
+bool AdvButton::handleStateClicked(const window::Event& event)
 {
     switch (event.type)
     {
@@ -151,16 +166,18 @@ void AdvButton::handleStateClicked(const window::Event& event)
             if (isPointInside)
             {
                 this->setState(ButtonState::Touched);
+                return true;
             }
             else if (not isPointInside)
             {
                 this->setState(ButtonState::Idle);
+            return true;
             }
         }
-        return;
+        return false;
 
         default:
-            return;
+            return false;
     }
 }
 

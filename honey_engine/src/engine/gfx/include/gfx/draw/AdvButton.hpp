@@ -17,6 +17,7 @@ class AdvButton : public draw::Button
 {
 public:
     AdvButton() = delete;
+    AdvButton(const std::string&, const std::shared_ptr<he::gfx::render::ITexture>& texture);
     AdvButton(const std::string&, const geometry::Size2Dpxl& size);
     AdvButton(const AdvButton&);
     ~AdvButton() = default;
@@ -38,9 +39,9 @@ private:
     void setState(const ButtonState);
     bool isStateChanged(const window::Event& event);
     bool runCallback();
-    void handleStateIdle(const window::Event& event);
-    void handleStateTouched(const window::Event& event);
-    void handleStateClicked(const window::Event& event);
+    bool handleStateIdle(const window::Event& event);
+    bool handleStateTouched(const window::Event& event);
+    bool handleStateClicked(const window::Event& event);
 
 private:
     ButtonTransition m_buttonTransition;
